@@ -1,4 +1,16 @@
-- name: Install packages
+- name: Update repositories cache
+  become: true 
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Update all packages to their latest version
+  become: true 
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+
+- name: Install some default packages
+  become: true 
   ansible.builtin.apt:
    pkg:
     - vim
