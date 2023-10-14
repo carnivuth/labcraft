@@ -1,0 +1,12 @@
+- hosts: all
+  roles:
+    - common
+
+- hosts: LDAP_server
+  roles:
+    - LDAP_server_installation
+    - LDAP_server_users_setup
+
+- hosts: LDAP_clients
+  roles:
+    - LDAP_login_setup
