@@ -1,0 +1,4 @@
+dn: "ou=People,dc={{ LDAP-server.dc }}"
+objectClass: organizationalunit
+ou: People
+description: system users

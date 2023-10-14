@@ -1,0 +1,29 @@
+- name: "Slapd configuration"
+  become: true
+  ansible.builtin.debconf:
+    name: slapd
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  loop: "{{ debconf }}"
+  notify: Restart Slapd
+
+- name: "Ldap installation"
+  become: true
+  ansible.builtin.apt:
+    name:
+      - slapd
+    update_cache: true
+
+- name: istall ldap-utils
+  become: true
+  ansible.builtin.apt:
+    name: ldap-utils
+    update_cache: true
+
+- name: Install some ansible python dependencies
+  become: true
+  ansible.builtin.apt:
+    name: python3-ldap
+    update_cache: true
+
