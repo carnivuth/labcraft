@@ -1,0 +1,8 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bookworm64"
+  config.vm.hostname = "wailhost"
+  #fixed ssh port for staging inventory
+  config.vm.network "forwarded_port", id: "ssh", host: 2224, guest: 22
+  config.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.4"
+
+end
