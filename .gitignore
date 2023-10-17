@@ -1,3 +1,4 @@
 .vscode
 .vagrant
 /roles/LDAP_server_users_setup/vars/main.yaml
+notes/.obsidian/workspace.json
