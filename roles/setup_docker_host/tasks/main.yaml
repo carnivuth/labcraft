@@ -3,6 +3,11 @@
   ansible.builtin.apt:
     name: docker.io
     state: present
+- name: Install docker compose
+  become: true
+  ansible.builtin.apt:
+    name: docker-compose
+    state: present
 
 - name: Add user to docker group
   become: true
