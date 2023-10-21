@@ -1,0 +1,13 @@
+{
+	"nodes":[
+		{"id":"2aaf87fd4417b943","type":"text","text":"# HOMELAB PROJECT\n- ansible structure for homelab infrastructure","x":-580,"y":-560,"width":250,"height":60},
+		{"id":"0691cd3b6bfea902","x":-504,"y":-313,"width":250,"height":60,"type":"text","text":"# INVENTORIES"},
+		{"id":"20fef751d7bdb93a","type":"file","file":"pages/STAGING INFRASTRUCTURE.md","x":-1140,"y":-382,"width":358,"height":99},
+		{"id":"7365ae3db7a15bf6","x":-183,"y":-387,"width":250,"height":60,"type":"text","text":"# ANSIBLE_ROLES"}
+	],
+	"edges":[
+		{"id":"e7153b9d00c90706","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"20fef751d7bdb93a","toSide":"top"},
+		{"id":"8532ea660b80180f","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"0691cd3b6bfea902","toSide":"top"},
+		{"id":"ac614e724d044fd4","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"7365ae3db7a15bf6","toSide":"top"}
+	]
+}
