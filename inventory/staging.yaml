@@ -26,10 +26,12 @@ LDAP_clients:
       pwd: pippo  
 
 docker_host:
-  wailhost:
+  hosts:
+    wailhost:
 
 nas_server:
-  storax:
+  hosts:
+    storax:
   
 all:
   hosts:
