@@ -1,0 +1,12 @@
+- name: Install docker runtime
+  become: true
+  ansible.builtin.apt:
+    name: docker.io
+    state: present
+
+- name: Add user to docker group
+  become: true
+  ansible.builtin.user:
+    name: '{{ docker_user }}'
+    groups: docker
+    append: yes
