@@ -6,6 +6,7 @@ kanban-plugin: basic
 
 ## BUGS
 
+- [ ] fix ldap installation, check for debconf parameters
 
 
 ## FEATURES
