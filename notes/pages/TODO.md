@@ -14,13 +14,13 @@ kanban-plugin: basic
 
 - [ ] ansible nas host provision
 - [ ] networking provision?
-- [ ] homer dashboard
 
 
 ## COMPLETED
 
 **Complete**
 - [x] ansible docker host provision
+- [x] homer dashboard
 - [x] add portainer installation on docker host
 
 
