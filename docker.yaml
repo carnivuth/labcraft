@@ -1,4 +1,5 @@
 -   hosts: docker_host
-    roles: 
-    - role: setup_docker_host
-      docker_user: vagrant
+    roles:
+      - common 
+      - role: setup_docker_host
+        docker_user: vagrant
