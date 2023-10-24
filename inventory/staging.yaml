@@ -2,7 +2,7 @@ LDAP_server:
   hosts: 
     castleterra:
           address: 192.168.0.2
-          dc: homelab
+          dc: homelab.local
           pwd: pippo  
 
 LDAP_clients:
@@ -10,22 +10,26 @@ LDAP_clients:
     castleterra:
       #ldap server parameters
       address: 192.168.0.2
-      dc: homelab
+      dc: homelab.local
       pwd: pippo  
 
     wailhost:
       #ldap server parameters
       address: 192.168.0.2
-      dc: homelab
+      dc: homelab.local
       pwd: pippo  
 
     storax:
       #ldap server parameters
       address: 192.168.0.2
-      dc: homelab
+      dc: homelab.local
       pwd: pippo  
 
 docker_host:
+  hosts:
+    wailhost:
+
+dashboard_host:
   hosts:
     wailhost:
 
