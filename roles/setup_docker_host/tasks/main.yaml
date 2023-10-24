@@ -50,6 +50,7 @@
   community.docker.docker_container:
     name: portainer
     restart: true
+    restart_policy: always
     ports:
       - "9000:9000"
       - "9443:9443"
