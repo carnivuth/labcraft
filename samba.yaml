@@ -1,0 +1,4 @@
+- hosts: nas_server
+  roles:
+  - install_samba
+

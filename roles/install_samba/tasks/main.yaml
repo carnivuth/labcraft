@@ -1,0 +1,27 @@
+- name: Install packages
+  become: true
+  apt:
+    name:
+    - samba
+    state: latest
+    update_cache: true
+
+- name: Create samba public folder
+  become: true
+  file:
+    path: '{{ public_folder_path }}'
+    state: directory
+    mode: 775
+
+- name: Ensure group "somegroup" exists\
+  become: true
+  ansible.builtin.group:
+    name: '{{ public_group }}'
+    state: present
+
+- name: Copy samba config file
+  become: true
+  template:
+    src: smb.j2
+    dest: /etc/samba/smb.conf
+  notify: Restart samba

@@ -50,6 +50,14 @@ dashboard_host:
 nas_server:
   hosts:
     storax:
+      # public share folder path
+      public_folder_path: /home/shares/public
+      # workgroup
+      samba_workgroup: homelab
+      # force group parameter
+      public_group: public
+      # samba configuration block name
+      public_folder: public
   
 all:
   hosts:
