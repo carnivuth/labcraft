@@ -19,21 +19,15 @@ LDAP_clients:
 		.........
   
 ## MACHINES WITH DOCKER RUNTIME SUPPORT
-
 docker_hosts:
 	hosts:
 		wailhost:
 		storax:
 
-  
-
 ## MACHINES WITH PORTAINER
-
 portainer_dashboard_host:
 	hosts:
 		wailhost:
-
-  
 
 portainer_agent_hosts:
 	hosts:
@@ -49,7 +43,6 @@ dashboard_host:
   
 
 # NAS SERVER HOST
-
 nas_server:
 	hosts:
 		storax:
