@@ -1,5 +1,5 @@
--   hosts: docker_host
+-   hosts: docker_hosts
     roles:
       - common 
       - role: setup_docker_host
-        docker_user: vagrant
+        docker_user: '{{ docker_user }}'

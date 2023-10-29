@@ -1,0 +1,14 @@
+- name: install portainer server
+  become: true
+  community.docker.docker_container:
+    name: portainer
+    restart: true
+    restart_policy: always
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+      - "8000:8000"
+    image: portainer/portainer-ce:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data

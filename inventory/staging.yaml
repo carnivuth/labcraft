@@ -25,14 +25,28 @@ LDAP_clients:
       dc: homelab.local
       pwd: pippo  
 
-docker_host:
+
+## MACHINES WITH DOCKER RUNTIME SUPPORT 
+docker_hosts:
   hosts:
     wailhost:
+    storax:
 
+## MACHINES WITH PORTAINER 
+portainer_dashboard_host:
+  hosts: 
+    wailhost:
+
+portainer_agent_hosts:
+  hosts: 
+    storax:
+
+# MACHINE WITH HOMER DASHBOARD
 dashboard_host:
   hosts:
     wailhost:
 
+# NAS SERVER HOST
 nas_server:
   hosts:
     storax:

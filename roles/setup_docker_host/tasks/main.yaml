@@ -1,32 +1,8 @@
-- name: Install required packages
-  become: true
-  apt:
-    name:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg2
-      - software-properties-common
-
-- name: Add Docker GPG key
-  become: true
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
-
-- name: Add Docker repository
-  become: true
-  apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable
-    state: present
-
 - name: Install Docker Engine
   become: true
   apt:
     name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
+      - docker.io
  
 - name: Install docker compose
   become: true
@@ -45,17 +21,3 @@
   become: true
   reboot:
 
-- name: install portainer server
-  become: true
-  community.docker.docker_container:
-    name: portainer
-    restart: true
-    restart_policy: always
-    ports:
-      - "9000:9000"
-      - "9443:9443"
-      - "8000:8000"
-    image: portainer/portainer-ce:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
