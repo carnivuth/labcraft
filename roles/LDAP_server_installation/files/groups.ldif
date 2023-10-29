@@ -1,4 +1,0 @@
-dn: "ou=Groups,dc={{ LDAP-server.dc }}"
-objectClass: organizationalunit
-ou: Groups
-description: system groups

@@ -3,13 +3,13 @@
       value: true 
       vtype: select
     - question: "shared/organization"
-      value: "Unibo" 
+      value: "{{ organization }}" 
       vtype: string
     - question: "slapd/no_configuration" 
       value: false
       vtype: boolean
     - question: "slapd/domain"
-      value: "dc={{ dc }}" 
+      value: "{{ dc }}" 
       vtype: string
     - question: "slapd/purge_database"
       value: true

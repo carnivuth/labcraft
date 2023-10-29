@@ -1,29 +1,26 @@
 LDAP_server:
   hosts: 
     castleterra:
+          # ldap server address 
           address: 192.168.0.2
-          dc: homelab.local
+          # ldap organization
+          organization: homelab
+          # ldap dc
+          dc: homelab
+          # ldap password
           pwd: pippo  
 
 LDAP_clients:
   hosts:
     castleterra:
-      #ldap server parameters
-      address: 192.168.0.2
-      dc: homelab.local
-      pwd: pippo  
-
     wailhost:
-      #ldap server parameters
-      address: 192.168.0.2
-      dc: homelab.local
-      pwd: pippo  
-
     storax:
-      #ldap server parameters
-      address: 192.168.0.2
-      dc: homelab.local
-      pwd: pippo  
+  vars:
+    #ldap server parameters
+    address: 192.168.0.2
+    dc: homelab
+    pwd: pippo  
+
 
 
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 

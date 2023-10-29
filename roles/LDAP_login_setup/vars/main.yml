@@ -1,6 +1,6 @@
 libnss_ldap:
     - question: "shared/ldapns/base-dn"
-      value: dc="{{ dc }}"
+      value: "{{ dc }}"
       vtype: string
     - question: "libnss-ldap/rootbinddn"
       value: cn=admin,dc="{{ dc }}"
@@ -61,11 +61,3 @@ libpam_ldap_password:
     - question: "libpam-ldap/rootbindpw"
       value: "{{ pwd }}"
       vtype: "password"
-
-files:
-    - src: "../files/nsswitch.conf"
-      dest: "/etc/nsswitch.conf"
-    - src: "../files/ldap.conf"
-      dest: "/etc/ldap/ldap.conf"
-
-      
