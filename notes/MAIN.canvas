@@ -8,7 +8,7 @@
 		{"id":"5d734b27e44f06a7","type":"file","file":"pages/INSTALL PORTAINER DASHBOARD.md","x":-1513,"y":540,"width":333,"height":230},
 		{"id":"a8a9b7e9765adddc","type":"file","file":"pages/INSTALL PORTAINER AGENT.md","x":-930,"y":540,"width":250,"height":205},
 		{"id":"ef4242066e1e0984","type":"file","file":"pages/HOMER.md","x":-850,"y":-122,"width":250,"height":386},
-		{"id":"7aa1a1e5da09d30f","type":"file","file":"pages/INSTALL SAMBA.md","x":-498,"y":-122,"width":296,"height":295}
+		{"id":"7aa1a1e5da09d30f","type":"file","file":"pages/INSTALL SAMBA.md","x":-391,"y":-122,"width":296,"height":295}
 	],
 	"edges":[
 		{"id":"e7153b9d00c90706","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"20fef751d7bdb93a","toSide":"top"},
