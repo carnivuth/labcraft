@@ -18,18 +18,38 @@ LDAP_clients:
 		pwd: pippo
 		.........
   
-## section for docker installation target
-docker_host:
+## MACHINES WITH DOCKER RUNTIME SUPPORT
+
+docker_hosts:
+	hosts:
+		wailhost:
+		storax:
+
+  
+
+## MACHINES WITH PORTAINER
+
+portainer_dashboard_host:
 	hosts:
 		wailhost:
 
-## section for dashboard installation target
+  
+
+portainer_agent_hosts:
+	hosts:
+		storax:
+
+  
+
+# MACHINE WITH HOMER DASHBOARD
 dashboard_host:
 	hosts:
 		wailhost:
-		
-## section
-for docker installation target
+
+  
+
+# NAS SERVER HOST
+
 nas_server:
 	hosts:
 		storax:

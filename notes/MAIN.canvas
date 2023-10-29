@@ -1,18 +1,23 @@
 {
 	"nodes":[
-		{"id":"eac6833697960982","x":-1087,"y":-141,"width":250,"height":60,"type":"file","file":"pages/INVENTORY STRUCTURE.md"},
+		{"id":"eac6833697960982","type":"file","file":"pages/INVENTORY STRUCTURE.md","x":-1087,"y":-141,"width":250,"height":101},
 		{"id":"ef4242066e1e0984","type":"file","file":"pages/HOMER.md","x":115,"y":-168,"width":250,"height":386},
 		{"id":"e38e8283a4eeec17","type":"file","file":"pages/DOCKER SETUP.md","x":-393,"y":-150,"width":250,"height":519},
 		{"id":"20fef751d7bdb93a","type":"file","file":"pages/STAGING INFRASTRUCTURE.md","x":-1140,"y":-382,"width":358,"height":99},
 		{"id":"2aaf87fd4417b943","type":"text","text":"# HOMELAB PROJECT\n- ansible structure for homelab infrastructure","x":-600,"y":-740,"width":250,"height":196},
 		{"id":"7365ae3db7a15bf6","type":"text","text":"# ANSIBLE_ROLES","x":-260,"y":-343,"width":300,"height":41},
-		{"id":"0691cd3b6bfea902","type":"text","text":"# INVENTORIES","x":-740,"y":-332,"width":284,"height":60}
+		{"id":"0691cd3b6bfea902","type":"text","text":"# INVENTORIES","x":-740,"y":-332,"width":284,"height":60},
+		{"id":"5d734b27e44f06a7","type":"file","file":"pages/INSTALL PORTAINER DASHBOARD.md","x":-760,"y":540,"width":333,"height":230},
+		{"id":"a8a9b7e9765adddc","type":"file","file":"pages/INSTALL PORTAINER AGENT.md","x":-143,"y":565,"width":250,"height":205}
 	],
 	"edges":[
 		{"id":"e7153b9d00c90706","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"20fef751d7bdb93a","toSide":"top"},
 		{"id":"8532ea660b80180f","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"0691cd3b6bfea902","toSide":"top"},
 		{"id":"ac614e724d044fd4","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"7365ae3db7a15bf6","toSide":"top"},
 		{"id":"a41f454a75bd3ad7","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"e38e8283a4eeec17","toSide":"top"},
-		{"id":"bbab750704add066","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"ef4242066e1e0984","toSide":"top"}
+		{"id":"bbab750704add066","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"ef4242066e1e0984","toSide":"top"},
+		{"id":"d5489efdd7179462","fromNode":"e38e8283a4eeec17","fromSide":"bottom","toNode":"5d734b27e44f06a7","toSide":"top"},
+		{"id":"bd34546917f82d4d","fromNode":"e38e8283a4eeec17","fromSide":"bottom","toNode":"016027f27c330fe4","toSide":"top"},
+		{"id":"1e348eb4b240cd15","fromNode":"e38e8283a4eeec17","fromSide":"bottom","toNode":"a8a9b7e9765adddc","toSide":"top"}
 	]
 }
