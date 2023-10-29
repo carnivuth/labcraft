@@ -8,7 +8,10 @@
 		{"id":"5d734b27e44f06a7","type":"file","file":"pages/INSTALL PORTAINER DASHBOARD.md","x":-1513,"y":540,"width":333,"height":230},
 		{"id":"a8a9b7e9765adddc","type":"file","file":"pages/INSTALL PORTAINER AGENT.md","x":-930,"y":540,"width":250,"height":205},
 		{"id":"ef4242066e1e0984","type":"file","file":"pages/HOMER.md","x":-850,"y":-122,"width":250,"height":386},
-		{"id":"7aa1a1e5da09d30f","type":"file","file":"pages/INSTALL SAMBA.md","x":-391,"y":-122,"width":296,"height":295}
+		{"id":"7aa1a1e5da09d30f","type":"file","file":"pages/INSTALL SAMBA.md","x":-391,"y":-122,"width":296,"height":295},
+		{"id":"8879456ce6cc13d4","type":"text","text":"# LDAP CONFIGURATION","x":-52,"y":-128,"width":332,"height":84},
+		{"id":"40298ee00d29ef62","type":"file","file":"pages/LDAP SERVER INSTALLATION.md","x":-18,"y":185,"width":309,"height":79},
+		{"id":"b6af7069fe901179","x":379,"y":146,"width":281,"height":118,"type":"file","file":"pages/LDAP SERVER USERS SETUP.md"}
 	],
 	"edges":[
 		{"id":"e7153b9d00c90706","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"20fef751d7bdb93a","toSide":"top"},
@@ -18,6 +21,9 @@
 		{"id":"d5489efdd7179462","fromNode":"e38e8283a4eeec17","fromSide":"bottom","toNode":"5d734b27e44f06a7","toSide":"top"},
 		{"id":"1e348eb4b240cd15","fromNode":"e38e8283a4eeec17","fromSide":"bottom","toNode":"a8a9b7e9765adddc","toSide":"top"},
 		{"id":"ce10b1c2db4b7787","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"7aa1a1e5da09d30f","toSide":"top"},
-		{"id":"0554d187fd8feee9","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"eac6833697960982","toSide":"top"}
+		{"id":"0554d187fd8feee9","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"eac6833697960982","toSide":"top"},
+		{"id":"1aa8769c0bbdeb7f","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"8879456ce6cc13d4","toSide":"top"},
+		{"id":"74b3b92e83b4fda2","fromNode":"8879456ce6cc13d4","fromSide":"bottom","toNode":"40298ee00d29ef62","toSide":"top"},
+		{"id":"457c250b69e4f39e","fromNode":"8879456ce6cc13d4","fromSide":"bottom","toNode":"b6af7069fe901179","toSide":"top"}
 	]
 }

@@ -6,20 +6,24 @@ kanban-plugin: basic
 
 ## BUGS
 
-- [ ] fix ldap installation, check for debconf parameters
 
 
 ## FEATURES
 
-- [ ] ansible nas host provision
 - [ ] networking provision?
 - [ ] refactor LDAP roles variables
-- [ ] check how to parametrize configuration files templates?
+- [ ] configure ftp in nas server
+- [ ] add dashboard on nas server for samba configurations
+- [ ] add LDAP roles documentation
+- [ ] configure minecraft server deployment
 
 
 ## COMPLETED
 
 **Complete**
+- [x] ansible nas host provision
+- [x] fix ldap installation, check for debconf parameters
+- [x] check how to parametrize configuration files templates?
 - [x] check docker configuration on empty machines
 - [x] ansible docker host provision
 - [x] homer dashboard
