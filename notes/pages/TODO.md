@@ -10,17 +10,17 @@ kanban-plugin: basic
 
 ## FEATURES
 
-- [ ] networking provision?
-- [ ] refactor LDAP roles variables
+- [ ] add LDAP roles documentation
 - [ ] configure ftp in nas server
 - [ ] add dashboard on nas server for samba configurations
-- [ ] add LDAP roles documentation
 - [ ] configure minecraft server deployment
+- [ ] networking provision?
 
 
 ## COMPLETED
 
 **Complete**
+- [x] refactor LDAP roles variables
 - [x] ansible nas host provision
 - [x] fix ldap installation, check for debconf parameters
 - [x] check how to parametrize configuration files templates?
