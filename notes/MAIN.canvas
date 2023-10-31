@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"64169b065d09dd8c","x":880,"y":165,"width":250,"height":60,"type":"file","file":"pages/LDAP LOGIN SETUP.md"},
+		{"id":"64169b065d09dd8c","type":"file","file":"pages/LDAP LOGIN SETUP.md","x":880,"y":165,"width":250,"height":60},
 		{"id":"20fef751d7bdb93a","type":"file","file":"pages/STAGING INFRASTRUCTURE.md","x":-1140,"y":-382,"width":358,"height":99},
 		{"id":"2aaf87fd4417b943","type":"text","text":"# HOMELAB PROJECT\n- ansible structure for homelab infrastructure","x":-600,"y":-740,"width":250,"height":196},
 		{"id":"7365ae3db7a15bf6","type":"text","text":"# ANSIBLE_ROLES","x":-543,"y":-353,"width":300,"height":41},
@@ -12,7 +12,8 @@
 		{"id":"7aa1a1e5da09d30f","type":"file","file":"pages/INSTALL SAMBA.md","x":-391,"y":-122,"width":296,"height":295},
 		{"id":"8879456ce6cc13d4","type":"text","text":"# LDAP CONFIGURATION","x":440,"y":-164,"width":332,"height":84},
 		{"id":"40298ee00d29ef62","type":"file","file":"pages/LDAP SERVER INSTALLATION.md","x":-48,"y":146,"width":309,"height":79},
-		{"id":"b6af7069fe901179","type":"file","file":"pages/LDAP SERVER USERS SETUP.md","x":491,"y":146,"width":281,"height":118}
+		{"id":"b6af7069fe901179","type":"file","file":"pages/LDAP SERVER USERS SETUP.md","x":491,"y":146,"width":281,"height":118},
+		{"id":"d59181f6973c2adb","x":-350,"y":440,"width":250,"height":60,"type":"file","file":"pages/INSTALL COCKPIT.md"}
 	],
 	"edges":[
 		{"id":"e7153b9d00c90706","fromNode":"2aaf87fd4417b943","fromSide":"bottom","toNode":"20fef751d7bdb93a","toSide":"top"},
@@ -26,6 +27,7 @@
 		{"id":"1aa8769c0bbdeb7f","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"8879456ce6cc13d4","toSide":"top"},
 		{"id":"74b3b92e83b4fda2","fromNode":"8879456ce6cc13d4","fromSide":"bottom","toNode":"40298ee00d29ef62","toSide":"top"},
 		{"id":"457c250b69e4f39e","fromNode":"8879456ce6cc13d4","fromSide":"bottom","toNode":"b6af7069fe901179","toSide":"top"},
-		{"id":"f750579030743fc8","fromNode":"8879456ce6cc13d4","fromSide":"bottom","toNode":"64169b065d09dd8c","toSide":"top"}
+		{"id":"f750579030743fc8","fromNode":"8879456ce6cc13d4","fromSide":"bottom","toNode":"64169b065d09dd8c","toSide":"top"},
+		{"id":"6f48eb1e4c46c0bb","fromNode":"7365ae3db7a15bf6","fromSide":"bottom","toNode":"d59181f6973c2adb","toSide":"top"}
 	]
 }

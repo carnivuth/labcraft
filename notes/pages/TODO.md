@@ -11,14 +11,15 @@ kanban-plugin: basic
 ## FEATURES
 
 - [ ] configure ftp in nas server
-- [ ] add dashboard on nas server for samba configurations
 - [ ] configure minecraft server deployment
 - [ ] networking provision?
+- [ ] add ldap sudo support
 
 
 ## COMPLETED
 
 **Complete**
+- [x] add dashboard on nas server for samba configurations
 - [x] add LDAP roles documentation
 - [x] refactor LDAP roles variables
 - [x] ansible nas host provision
