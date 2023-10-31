@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
   #samba port forwarding
   config.vm.network "forwarded_port", id: "samba", host: 4450, guest: 445
   config.vm.network "forwarded_port", id: "samba", host: 1390, guest: 139
+  config.vm.network "forwarded_port", id: "cockpit", host: 9090, guest: 9090
   
   # private network with other vms
   config.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.3"

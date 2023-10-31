@@ -1,0 +1,5 @@
+- name: Install cockpit
+  become: true
+  apt:
+    name: cockpit
+    state: latest

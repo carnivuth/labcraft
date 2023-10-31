@@ -20,8 +20,13 @@ LDAP_clients:
     address: 192.168.0.2
     dc: homelab
     pwd: pippo  
+    sudo_group: matteo
 
-
+## MACHINES WITH COCKPIT 
+cockpit_hosts:
+  hosts:
+    wailhost:
+    storax:
 
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
 docker_hosts:
