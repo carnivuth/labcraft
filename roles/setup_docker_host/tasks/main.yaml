@@ -13,9 +13,10 @@
 - name: Add user to docker group
   become: true
   ansible.builtin.user:
-    name: '{{ docker_user }}'
+    name: '{{ item }}'
     groups: docker
     append: true
+  loop: '{{  docker_users }}'
 
 - name: reboot machine
   become: true

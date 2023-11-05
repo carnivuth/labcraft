@@ -33,6 +33,9 @@ docker_hosts:
   hosts:
     wailhost:
     storax:
+  vars:
+    docker_users: 
+    - vagrant
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:

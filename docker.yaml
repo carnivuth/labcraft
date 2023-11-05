@@ -1,5 +1,4 @@
 -   hosts: docker_hosts
     roles:
       - common 
-      - role: setup_docker_host
-        docker_user: '{{ docker_user }}'
+      - setup_docker_host
