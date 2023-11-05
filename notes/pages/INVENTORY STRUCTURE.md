@@ -23,6 +23,9 @@ docker_hosts:
 	hosts:
 		wailhost:
 		storax:
+	vars:
+		docker_users:
+		 - #some user that need to run docker commands
 
 ## MACHINES WITH PORTAINER
 portainer_dashboard_host:
