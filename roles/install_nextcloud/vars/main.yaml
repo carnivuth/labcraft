@@ -1,0 +1,7 @@
+docker_secrets_files:
+  - nextcloud_admin_password.txt 
+  - postgres_password.txt
+  - nextcloud_admin_user.txt      
+  - postgres_pasword.txt
+  - postgres_db.txt		      
+  - postgres_user.txt 
