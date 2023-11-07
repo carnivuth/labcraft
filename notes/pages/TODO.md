@@ -14,6 +14,7 @@ kanban-plugin: basic
 - [ ] configure minecraft server deployment
 - [ ] networking provision?
 - [ ] add ldap sudo support
+- [ ] add nextcloud server installation
 
 
 ## COMPLETED
