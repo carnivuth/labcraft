@@ -1,0 +1,33 @@
+- name: load secrets from curiel_bot vault
+  include_vars:
+    file: vaults/curiel_bot-vault.yaml
+    name: vault
+
+- name: Creates curiel_bot data directory
+  become: true
+  file:
+    path: /var/lib/curiel_bot/data
+    state: directory
+
+- name: Creates curiel_bot config file
+  become: true
+  file:
+    path: /var/lib/curiel_bot/conf
+    state: directory
+    
+- name: copy config file
+  become: true
+  template:
+    dest: /var/lib/curiel_bot/conf/.env
+    src: .env.j2
+
+- name: install curiel bot
+  become: true
+  community.docker.docker_container:
+    name: curiel_bot
+    restart: true
+    restart_policy: always
+    image:   carnivuth/curiel_bot:latest
+    volumes:
+      - /var/lib/curiel_bot/data:/usr/src/curiel_bot/data
+      - /var/lib/curiel_bot/conf/.env:/usr/src/curiel_bot/.env

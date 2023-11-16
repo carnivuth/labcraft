@@ -51,6 +51,14 @@ dashboard_host:
   hosts:
     wailhost:
 
+# MACHINE WITH CURIEL_BOT
+curiel_bot_hosts:
+  hosts:
+    wailhost:
+  vars:
+    curiel_bot_admin: carnivuth #telegram username of the admin
+
+
 # NAS SERVER HOST
 nas_server:
   hosts:
