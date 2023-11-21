@@ -1,0 +1,19 @@
+- name: Install dnsmasq
+  become: true
+  apt:
+    name: dnsmasq
+    state: latest
+    update_cache: true
+
+- name: Enable dns service
+  become: true
+  lineinfile:
+    path: /etc/dnsmasq.conf
+    line: 'listen-address=::1,127.0.0.1,{{ dns_server }}'
+
+- name: Add dns entries
+  become: true
+  lineinfile:
+    path: /etc/hosts
+    line: '{{ hostvars[item].ansible_host }} {{ item }}'
+  loop: '{{ groups["all"] }}'

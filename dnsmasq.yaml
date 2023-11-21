@@ -1,0 +1,10 @@
+- hosts: dns_host
+  roles:
+    - install_dnsmasq
+
+- hosts: all
+  tasks:
+    - name: add dns server
+      lineinfile:
+        path: /etc/resolv.conf
+        line: 'nameserver {{ dns_server }}'
