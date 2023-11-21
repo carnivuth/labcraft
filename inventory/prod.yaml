@@ -81,7 +81,7 @@ wireguard_host:
 dns_host:
   hosts:
     nameon:
-    
+
 all:
   hosts:
     castleterra:
@@ -117,4 +117,4 @@ all:
         ansible_port: 22
         ansible_hostname: nameon
   vars:
-    dns_server: 192.168.1.62 #dns server address
+    dns_server: 192.168.1.66 #dns server address

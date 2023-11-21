@@ -17,3 +17,9 @@
     path: /etc/hosts
     line: '{{ hostvars[item].ansible_host }} {{ item }}'
   loop: '{{ groups["all"] }}'
+
+- name: Start dnsmasq
+  become: true
+  service:
+    name: dnsmasq
+    state: restarted
