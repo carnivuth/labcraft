@@ -1,14 +1,16 @@
+
+
 LDAP_server:
   hosts: 
     castleterra:
           # ldap server address 
           address: 192.168.0.2
           # ldap organization
-          organization: homelab
+          organization: pokelab
           # ldap dc
-          dc: homelab
+          dc: pokelab
           # ldap password
-          pwd: '{{ ldap_pwd }}'  
+          pwd:   
 
 LDAP_clients:
   hosts:
@@ -18,8 +20,8 @@ LDAP_clients:
   vars:
     #ldap server parameters
     address: 192.168.0.2
-    dc: homelab
-    pwd: '{{ ldap_pwd }}'  
+    dc: pokelab
+    pwd:   
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
@@ -57,8 +59,6 @@ curiel_bot_hosts:
   vars:
     curiel_bot_admin: carnivuth #telegram username of the admin
 
-# MACHINE WITH WIREGUARD SERVICE
-wireguard_host:
 
 # NAS SERVER HOST
 nas_server:
@@ -72,28 +72,39 @@ nas_server:
       public_group: public
       # samba configuration block name
       public_folder: public
+
+# MACHINE WITH WIREGUARD SERVICE
+wireguard_host:
+  hosts:
+    wirenine:
   
 all:
   hosts:
     castleterra:
-        ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/castleterra/.vagrant/machines/default/virtualbox/private_key
-        ansible_host: 127.0.0.1 
-        ansible_port: 2222
+        ansible_user: root
+        ansible_host: 192.168.1.62 
+        ansible_port: 22
         ansible_hostname: castleterra
+        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
 
     storax:
-        ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/storax/.vagrant/machines/default/virtualbox/private_key
-        ansible_host: 127.0.0.1 
-        ansible_port: 2223
+        ansible_user: root
+        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_host: 192.168.1.64
+        ansible_port: 22
         ansible_hostname: storax
 
     wailhost:
-        ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/wailhost/.vagrant/machines/default/virtualbox/private_key
-        ansible_host: 127.0.0.1 
-        ansible_port: 2224
+        ansible_user: root
+        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_host: 192.168.1.63
+        ansible_port: 22
         ansible_hostname: wailhost
+    wirenine:
+        ansible_user: root
+        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_host: 192.168.1.65
+        ansible_port: 22
+        ansible_hostname: wirenine
   vars:
-    dns_server: 192.168.1.2 #dns server address
+    dns_server: 192.168.1.62 #dns server address
