@@ -1,6 +1,6 @@
 - name: load secrets from curiel_bot vault
   include_vars:
-    file: vaults/curiel_bot-vault.yaml
+    file: vaults/vault.yaml
     name: vault
 
 - name: Creates curiel_bot data directory
@@ -20,6 +20,7 @@
   template:
     dest: /var/lib/curiel_bot/conf/.env
     src: .env.j2
+  no_log: true
 
 - name: install curiel bot
   become: true
