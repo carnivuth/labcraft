@@ -10,6 +10,11 @@
     dest: /var/lib/homer
     src: config.yml
 
+- name: Check if container exists
+  docker_container_info:
+    name: homer
+  register: result
+
 - name: install homer dashboard
   become: true
   community.docker.docker_container:
@@ -17,7 +22,8 @@
     restart: true
     restart_policy: always
     ports:
-      - "8001:8080"
+      - "80:8080"
     image:   b4bz/homer:latest
     volumes:
       - /var/lib/homer:/www/assets
+  when: ! result.exists

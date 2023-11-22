@@ -5,7 +5,7 @@
     restart: true
     restart_policy: always
     ports:
-      - "9000:9000"
+      - "80:9000"
       - "9443:9443"
       - "8000:8000"
     image: portainer/portainer-ce:latest

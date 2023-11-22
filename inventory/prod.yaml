@@ -34,9 +34,10 @@ docker_hosts:
   hosts:
     wailhost:
     storax:
+    hooper:
   vars:
     docker_users: 
-    - vagrant
+    - root
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
@@ -50,7 +51,7 @@ portainer_agent_hosts:
 # MACHINE WITH HOMER DASHBOARD
 dashboard_host:
   hosts:
-    wailhost:
+    hooper:
 
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
@@ -116,5 +117,12 @@ all:
         ansible_host: 192.168.1.66
         ansible_port: 22
         ansible_hostname: nameon
+    hooper:
+        ansible_user: root
+        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_host: 192.168.1.67
+        ansible_port: 22
+        ansible_hostname: hooper
+
   vars:
     dns_server: 192.168.1.66 #dns server address
