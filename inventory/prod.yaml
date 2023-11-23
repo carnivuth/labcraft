@@ -10,7 +10,7 @@ LDAP_server:
           # ldap dc
           dc: pokelab
           # ldap password
-          pwd:   
+          pwd: '{{ ldap_pwd }}'
 
 LDAP_clients:
   hosts:
@@ -21,7 +21,7 @@ LDAP_clients:
     #ldap server parameters
     address: 192.168.0.2
     dc: pokelab
-    pwd:   
+    pwd: '{{ ldap_pwd }}'
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
@@ -46,7 +46,9 @@ portainer_dashboard_host:
 
 portainer_agent_hosts:
   hosts: 
+    wailhost:
     storax:
+    hooper:
 
 # MACHINE WITH HOMER DASHBOARD
 dashboard_host:
@@ -90,36 +92,36 @@ all:
         ansible_host: 192.168.1.62 
         ansible_port: 22
         ansible_hostname: castleterra
-        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_ssh_private_key_file: vaults/id_rsa
 
     storax:
         ansible_user: root
-        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.64
         ansible_port: 22
         ansible_hostname: storax
 
     wailhost:
         ansible_user: root
-        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.63
         ansible_port: 22
         ansible_hostname: wailhost
     wirenine:
         ansible_user: root
-        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.65
         ansible_port: 22
         ansible_hostname: wirenine
     nameon:
         ansible_user: root
-        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.66
         ansible_port: 22
         ansible_hostname: nameon
     hooper:
         ansible_user: root
-        ansible_ssh_private_key_file: /home/matteo/.ssh/id_rsa
+        ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.67
         ansible_port: 22
         ansible_hostname: hooper
