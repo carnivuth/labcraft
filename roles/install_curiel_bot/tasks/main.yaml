@@ -1,4 +1,4 @@
-- name: load secrets from curiel_bot vault
+- name: Include secrets 
   include_vars:
     file: vaults/vault.yaml
     name: vault
