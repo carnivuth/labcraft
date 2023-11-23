@@ -66,6 +66,11 @@ curiel_bot_hosts:
 wireguard_host:
   wirenine:
 
+# MACHINE WITH DNS SERVICE
+dns_host:
+  hosts:
+    nameon:
+
 # NAS SERVER HOST
 nas_server:
   hosts:
@@ -123,4 +128,4 @@ all:
         ansible_port: 2227
         ansible_hostname: hooper
   vars:
-    dns_server: 192.168.1.2 #dns server address
+    dns_server: 192.168.0.6 #dns server address
