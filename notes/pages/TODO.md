@@ -10,16 +10,16 @@ kanban-plugin: basic
 
 ## FEATURES
 
-- [ ] configure ftp in nas server
-- [ ] configure minecraft server deployment
 - [ ] networking provision?
 - [ ] add ldap sudo support
-- [ ] add nextcloud server installation
+- [ ] add proxmox machine creation
+- [ ] complete wireguard role
 
 
 ## COMPLETED
 
 **Complete**
+- [x] add nextcloud server installation
 - [x] add dashboard on nas server for samba configurations
 - [x] add LDAP roles documentation
 - [x] refactor LDAP roles variables

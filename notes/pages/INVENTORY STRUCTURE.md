@@ -1,23 +1,19 @@
-```yaml
-## section for ldap server machine
-LDAP_server:
-	hosts:
-		castleterra:
-			# ldap server parameters
-			address: 192.168.0.2 
-			dc: homelab.local
-			pwd: pippo
+an example of inventory can be found [here](https://github.com/carnivuth/homelab/blob/main/inventory/staging.yaml)
 
-## section for ldap client machines
-LDAP_clients:
-	hosts:
-		castleterra:
-		#ldap server parameters
-		address: 192.168.0.2
-		dc: homelab.local
-		pwd: pippo
-		.........
-  
+the project is develop with the idea that the only file you have to edit to use the playbooks it's the inventory, setting hosts in groups as you like 
+
+each playbook run task against a specific group of hosts for example:
+
+```yaml
+- hosts: docker_hosts
+  roles:
+	- common
+	- setup_docker_host
+```
+
+will match the hosts you put in:
+
+```yaml
 ## MACHINES WITH DOCKER RUNTIME SUPPORT
 docker_hosts:
 	hosts:
@@ -27,66 +23,5 @@ docker_hosts:
 		docker_users:
 		 - #some user that need to run docker commands
 
-## MACHINES WITH PORTAINER
-portainer_dashboard_host:
-	hosts:
-		wailhost:
-
-portainer_agent_hosts:
-	hosts:
-		storax:
-
-  
-
-# MACHINE WITH HOMER DASHBOARD
-dashboard_host:
-	hosts:
-		wailhost:
-
-  
-
-# NAS SERVER HOST
-nas_server:
-	hosts:
-		storax:
-
-all:
-	hosts:
-		castleterra:
-			ansible_user: vagrant
-					ansible_ssh_private_key_file: staging/castleterra/.vagrant/machines/default/virtualbox/private_key
-
-			ansible_host: 127.0.0.1
-			
-			ansible_port: 2222
-
-			ansible_hostname: castleterra
-
-  
-
-		storax:
-
-			ansible_user: vagrant
-			
-			ansible_ssh_private_key_file: staging/storax/.vagrant/machines/default/virtualbox/private_key
-			
-			ansible_host: 127.0.0.1
-			
-			ansible_port: 2223
-			
-			ansible_hostname: storax
-			
-  
-
-		wailhost:
-
-			ansible_user: vagrant
-			
-			ansible_ssh_private_key_file: staging/wailhost/.vagrant/machines/default/virtualbox/private_key
-			
-			ansible_host: 127.0.0.1
-			
-			ansible_port: 2224
-			
-			ansible_hostname: wailhost
 ```
+
