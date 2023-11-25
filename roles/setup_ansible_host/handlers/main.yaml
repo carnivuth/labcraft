@@ -1,5 +1,5 @@
-- name: Restart dnsmasq
+- name: Restart crond
   become: true
   service:
-    name: dnsmasq
+    name: crond
     state: restarted
