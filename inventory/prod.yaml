@@ -46,7 +46,6 @@ portainer_dashboard_host:
 
 portainer_agent_hosts:
   hosts: 
-    wailhost:
     storax:
     hooper:
 
