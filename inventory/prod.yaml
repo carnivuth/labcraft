@@ -125,6 +125,12 @@ all:
         ansible_host: 192.168.1.67
         ansible_port: 22
         ansible_hostname: hooper
+    arcible:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.68
+        ansible_port: 22
+        ansible_hostname: arcible
 
   vars:
     dns_server: 192.168.1.66 #dns server address
