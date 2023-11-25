@@ -55,6 +55,11 @@ dashboard_host:
   hosts:
     hooper:
 
+# PROVISION MACHINE 
+ansible_host:
+  hosts:
+    arcible:
+
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
   hosts:

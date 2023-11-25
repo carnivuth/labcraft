@@ -1,0 +1,14 @@
+- name: install packages
+  become: true
+  apt:
+    name:
+      - git
+      - ansible
+    state: latest
+    update_cache: true
+
+- name: clone homelab repo
+  become: true
+  git:
+    repo: https://github.com/carnivuth/homelab
+    dest: /usr/local/homelab
