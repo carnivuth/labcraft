@@ -10,9 +10,11 @@
       lineinfile:
         path: /etc/resolv.conf
         line: 'option rotate'
+        insertbefore: BOF
 
     - name: Add dns server
       become: true
       lineinfile:
         path: /etc/resolv.conf
         line: 'nameserver {{ dns_server }}'
+        insertbefore: BOF
