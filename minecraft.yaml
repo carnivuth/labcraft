@@ -1,0 +1,3 @@
+- hosts: minecraft_host
+  roles:
+    - install_minecraft

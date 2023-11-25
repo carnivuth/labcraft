@@ -1,0 +1,42 @@
+ 
+- name: Create server directory
+  become: true
+  file:
+    path: /usr/local/minecraft
+    state: directory
+
+- name: Install java
+  become: true
+  apt:
+    name: openjdk-17-jdk
+    state: latest
+    update_cache: true
+
+- name: Download minecraft jar
+  become: true
+  get_url:
+    url: https://piston-data.mojang.com/v1/objects/5b868151bd02b41319f54c8d4061b8cae84e665c/server.jar
+    dest: /usr/local/minecraft/server.jar
+
+- name: Accept eula
+  become: true
+  lineinfile:
+    create: true
+    path: /usr/local/minecraft/eula.txt
+    line: 'eula=true'
+
+- name: Copy start script
+  become: true
+  copy:
+    src: start.sh
+    dest: /usr/local/minecraft/start.sh
+    mode: 700
+
+- name: Start server
+  become: true
+  command:
+    cmd: /usr/local/minecraft/start.sh
+    chdir: /usr/local/minecraft
+
+
+
