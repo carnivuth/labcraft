@@ -84,10 +84,16 @@ nas_server:
 wireguard_host:
   hosts:
     wirenine:
+
 # MACHINE WITH DNS SERVICE
 dns_host:
   hosts:
     nameon:
+
+# MACHINE WITH MINCRAFT SERVER
+minecraft_host:
+  hosts:
+    hydrame:
 
 all:
   hosts:
@@ -135,6 +141,12 @@ all:
         ansible_host: 192.168.1.68
         ansible_port: 22
         ansible_hostname: arcible
+    hydrame:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.69
+        ansible_port: 22
+        ansible_hostname: hydrame
 
   vars:
     dns_server: 192.168.1.66 #dns server address
