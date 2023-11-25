@@ -1,15 +1,14 @@
+- name: Include secrets 
+  include_vars:
+    file: vaults/vault.yaml
+    name: vault
+  no_log: true
+
 - name: Copy nextcloud compose file
   become: true
-  copy:
-    src: nextcloud.yaml
-    dest: /var/lib/docker-compose-files/
-
-- name: Copy docker secrets
-  become: true
-  copy:
-    src: '{{ item }}'
-    dest: /var/lib/docker-compose-files/
-  loop: '{{ docker_secrets_files }}'
+  template:
+    src: nextcloud.yaml.j2
+    dest: /var/lib/docker-compose-files/nextcloud.yaml
 
 - name: Start nextcloud container
   become: true
