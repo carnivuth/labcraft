@@ -3,10 +3,4 @@
 /roles/LDAP_server_users_setup/vars/main.yaml
 notes/.obsidian/workspace.json
 roles/gpu-passtrough
-nextcloud_admin_password.txt
-postgres_db.txt
-postgres_pasword.txt
-nextcloud_admin_user.txt      
-postgres_password.txt  
-postgres_user.txt
 vaults
