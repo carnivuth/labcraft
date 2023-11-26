@@ -17,16 +17,7 @@
   become: true
   ansible.builtin.cron:
     name: "update homelab repo"
-    minute: "*/2"
-    user: root
-    job: "cd /usr/local/homelab && git pull"
-  notify: Restart crond
-
-- name: Add cron job to update dns every 30 minutes
-  become: true
-  ansible.builtin.cron:
-    name: "update dns"
     minute: "*/30"
     user: root
-    job: "cd /usr/local/homelab && ansible-playbook -i /usr/local/homelab/inventory/prod.yaml /usr/local/homelab/dnsmasq.yaml "
+    job: "cd /usr/local/homelab && git pull"
   notify: Restart crond
