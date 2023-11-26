@@ -19,6 +19,7 @@ secrets are managed trough a script called `create-vault.sh`, you need to [run i
 - [nextcloud setup](notes/pages/INSTALL%20NEXTCLOUD.md)
 - [portainer dashboard setup](notes/pages/INSTALL%20PORTAINER%20DASHBOARD.md)
 - [portainer agent setup](notes/pages/INSTALL%20PORTAINER%20AGENT.md)
+- [install minecraft](notes/pages/INSTALL%20MINECRAFT.md)
 
 ## USAGE
 
