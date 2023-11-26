@@ -12,6 +12,12 @@
     state: latest
     update_cache: true
 
+- name: Create minecraft user 
+  become: true
+  user:
+    name: minecraft
+    home: /usr/local/minecraft
+
 - name: Download minecraft jar
   become: true
   get_url:
@@ -25,18 +31,18 @@
     path: /usr/local/minecraft/eula.txt
     line: 'eula=true'
 
-- name: Copy start script
+- name: Copy systemd unit file
   become: true
   copy:
-    src: start.sh
-    dest: /usr/local/minecraft/start.sh
-    mode: 700
+    src: minecraft.service
+    dest: /etc/systemd/system/minecraft.service
 
 - name: Start server
   become: true
-  command:
-    cmd: /usr/local/minecraft/start.sh
-    chdir: /usr/local/minecraft
+  service:
+    name: minecraft
+    enabled: true
+    state: started
 
 
 
