@@ -1,9 +1,10 @@
- 
-- name: Create server directory
+
+- name: Create minecraft user 
   become: true
-  file:
-    path: /usr/local/minecraft
-    state: directory
+  user:
+    name: minecraft
+    home: /usr/local/minecraft
+    create: true 
 
 - name: Install java
   become: true
@@ -12,17 +13,12 @@
     state: latest
     update_cache: true
 
-- name: Create minecraft user 
-  become: true
-  user:
-    name: minecraft
-    home: /usr/local/minecraft
-
 - name: Download minecraft jar
   become: true
   get_url:
     url: https://piston-data.mojang.com/v1/objects/5b868151bd02b41319f54c8d4061b8cae84e665c/server.jar
     dest: /usr/local/minecraft/server.jar
+    owner: minecraft
 
 - name: Accept eula
   become: true
@@ -30,6 +26,7 @@
     create: true
     path: /usr/local/minecraft/eula.txt
     line: 'eula=true'
+    owner: minecraft
 
 - name: Copy systemd unit file
   become: true
