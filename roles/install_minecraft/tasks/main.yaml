@@ -4,7 +4,7 @@
   user:
     name: minecraft
     home: /usr/local/minecraft
-    create: true 
+    create_home: true 
 
 - name: Install java
   become: true
