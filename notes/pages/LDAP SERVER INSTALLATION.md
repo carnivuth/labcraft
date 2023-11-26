@@ -1,9 +1,17 @@
 role for LDAP server installation and configuration
 
-- configure slapd packet with debconf
+the role installs slapd daemon and configure it with debconf
 
-the configuration is done trugh some role variables
+## CONFIGURATION
 
-- install `slapd` packet
-- install `ldap-utils` packet
-- install python dependencies
+ldap domain, password and organization can be set trough variables
+in the [inventory](INVENTORY%20STRUCTURE.md) 
+
+```yaml
+address: # ldap server address
+organization: # ldap organization
+dc: # ldap dc
+pwd: # ldap password
+```
+
+there is also an [ansible role](LDAP%20SERVER%20USERS%20SETUP.md) to add users and groups to the server
