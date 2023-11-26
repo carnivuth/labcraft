@@ -14,6 +14,9 @@ Vagrant.configure("2") do |config|
   #minecraft port
   config.vm.network "forwarded_port", id: "minecraft", host: 7878, guest: 25565
   
+  #minecraft port
+  config.vm.network "forwarded_port", id: "xonotic", host: 7879, guest: 26000
+  
   # private network with other vms
   config.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.3"
   config.vm.provider "virtualbox" do |v|
