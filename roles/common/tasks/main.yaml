@@ -10,3 +10,9 @@
   ansible.builtin.apt:
    pkg:
     - vim
+
+- name: Copy default vim configuration
+  become: true 
+  ansible.builtin.copy:
+   src: .vimrc
+   dest: /root/.vimrc
