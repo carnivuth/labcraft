@@ -76,6 +76,11 @@ minecraft_host:
   hosts:
     storax:
 
+# MACHINE WITH MINECRAFT SERVER
+xonotic_host:
+  hosts:
+    storax:
+
 # NAS SERVER HOST
 nas_server:
   hosts:
@@ -134,3 +139,5 @@ all:
         ansible_hostname: hooper
   vars:
     dns_server: 192.168.0.6 #dns server address
+    dns_domain_name: pokelab
+

@@ -15,7 +15,7 @@
   become: true
   lineinfile:
     path: /etc/hosts
-    line: '{{ hostvars[item].ansible_host }} {{ item }}'
+    line: '{{ hostvars[item].ansible_host }} {{ item }}.{{ dns_domain_name }} {{ item }}'
   loop: '{{ groups["all"] }}'
 
 - name: Start dnsmasq

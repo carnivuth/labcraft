@@ -18,3 +18,11 @@
         path: /etc/resolv.conf
         line: 'nameserver {{ dns_server }}'
         insertbefore: BOF
+        
+    - name: Add dns search parameter
+      become: true
+      lineinfile:
+        path: /etc/resolv.conf
+        regexp: 'search .*'
+        line: 'search {{ dns_server }}'
+        insertbefore: BOF
