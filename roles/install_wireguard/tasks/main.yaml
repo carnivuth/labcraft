@@ -2,6 +2,7 @@
   include_vars:
     file: vaults/vault.yaml
     name: vault
+  no_log: true
      
 - name: Install wireguard
   become: true
@@ -35,7 +36,8 @@
   become: true
   command:
     cmd: 'ufw allow {{ vault.wireguard_server_port }}/udp'
-    
+  no_log: true
+  
 - name: Open ssh port
   become: true
   command:
@@ -62,3 +64,4 @@
   become: true
   command:
     cmd: 'wg set wg0 peer {{ vault.wireguard_peer_public_key }} allowed-ips {{ vault.wireguard_peer_address }}'
+  no_log: true
