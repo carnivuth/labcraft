@@ -1,4 +1,4 @@
-an example of inventory can be found [here](https://github.com/carnivuth/homelab/blob/main/inventory/staging.yaml)
+an example of inventory can be found [here](https://github.com/carnivuth/homelab/blob/main/inventory/testing.yaml)
 
 the project is develop with the idea that the only file you have to edit to use the playbooks it's the inventory, setting hosts in groups as you like 
 

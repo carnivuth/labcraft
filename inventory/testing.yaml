@@ -64,7 +64,8 @@ curiel_bot_hosts:
 
 # MACHINE WITH WIREGUARD SERVICE
 wireguard_host:
-  wirenine:
+  hosts:
+    wirenine:
 
 # MACHINE WITH DNS SERVICE
 dns_host:
