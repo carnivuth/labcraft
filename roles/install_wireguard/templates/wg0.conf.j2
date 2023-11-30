@@ -1,0 +1,12 @@
+[Interface]
+PrivateKey = {{ vault.wireguard_server_private_key }}
+Address = {{ vault.wireguard_server_address }}
+ListenPort =  {{ vault.wireguard_server_port }}
+SaveConfig = true
+
+PostUp = ufw route allow in on wg0 out on {{ ansible_default_ipv4.interface }}
+PostUp = iptables -t nat -I POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PostUp = ip6tables -t nat -I POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PreDown = ufw route delete allow in on wg0 out on {{ ansible_default_ipv4.interface }}
+PreDown = iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PreDown = ip6tables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE

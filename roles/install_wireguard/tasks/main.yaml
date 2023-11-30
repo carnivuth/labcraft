@@ -1,0 +1,64 @@
+- name: Include secrets 
+  include_vars:
+    file: vaults/vault.yaml
+    name: vault
+     
+- name: Install wireguard
+  become: true
+  apt:
+    name: wireguard
+    state: latest
+    update_cache: true
+
+- name: Install ufw
+  become: true
+  apt:
+    name: ufw
+    state: latest
+    update_cache: true
+
+- name: Copy wireguard configuration file
+  become: true
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+  no_log: true
+
+- name: Enable ip forwarding
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+
+- name: Open wireguard port
+  become: true
+  command:
+    cmd: 'ufw allow {{ vault.wireguard_server_port }}/udp'
+    
+- name: Open ssh port
+  become: true
+  command:
+    cmd: ufw allow OpenSSH
+
+- name: Stop ufw
+  become: true
+  command:
+    cmd: ufw disable
+    
+- name: Start ufw
+  become: true
+  command:
+    cmd: ufw --force enable
+
+- name: Start wireguard service
+  become: true
+  service:
+    enabled: true
+    name: wg-quick@wg0
+    state: restarted
+
+- name: Add peer's public key
+  become: true
+  command:
+    cmd: 'wg set wg0 peer {{ vault.wireguard_peer_public_key }} allowed-ips {{ vault.wireguard_peer_address }}'
