@@ -16,3 +16,9 @@
   ansible.builtin.copy:
    src: .vimrc
    dest: /root/.vimrc
+
+- name: Copy default bash aliases
+  become: true 
+  ansible.builtin.copy:
+   src: .bash_aliases
+   dest: /root/.bash_aliases
