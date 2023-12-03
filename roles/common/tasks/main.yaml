@@ -22,3 +22,10 @@
   ansible.builtin.copy:
    src: .bash_aliases
    dest: /root/.bash_aliases
+
+- name: Copy motd file
+  become: true 
+  ansible.builtin.copy:
+   src: '{{ ansible_hostname }}-motd'
+   dest: /etc/motd
+  ignore_errors: true
