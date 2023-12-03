@@ -25,6 +25,20 @@
     dest: /etc/wireguard/wg0.conf
   no_log: true
 
+- name: Copy wireguard routes startup script
+  become: true
+  template:
+    src: add-nat-routing.sh.j2
+    dest: /etc/wireguard/add-nat-routing.sh
+  no_log: true
+
+- name: Copy wireguard routes shutdown script
+  become: true
+  template:
+    src: remove-nat-routing.sh.j2
+    dest: /etc/wireguard/remove-nat-routing.sh
+  no_log: true
+
 - name: Enable ip forwarding
   become: true
   ansible.posix.sysctl:
