@@ -1,0 +1,9 @@
+- name: Create user
+  become: true
+  user:
+    name: '{{ admin_user  }}'
+    shell: bash
+    create_home: true
+    home: '{{ admin_home }}'
+    comment: '{{ admin_comment }}'
+    pasword: '{{ admin_password }}'
