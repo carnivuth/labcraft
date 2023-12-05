@@ -1,0 +1,6 @@
+- name: Restart crond
+  become: true
+  service:
+    enabled: true
+    name: crond
+    state: restarted
