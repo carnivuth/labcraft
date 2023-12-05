@@ -1,4 +1,4 @@
-- name: Install packages
+- name: Install samba
   become: true
   apt:
     name:
@@ -6,6 +6,14 @@
     state: latest
     update_cache: true
 
+- name: Install avahi
+  become: true
+  apt:
+    name:
+    - avahi-daemon
+    state: latest
+    update_cache: true
+    
 - name: Create samba public folder
   become: true
   file:
