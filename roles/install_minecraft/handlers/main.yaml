@@ -2,5 +2,5 @@
   become: true
   service:
     enabled: true
-    name: crond
+    name: cron
     state: restarted

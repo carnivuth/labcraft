@@ -1,5 +1,5 @@
 - name: Restart crond
   become: true
   service:
-    name: crond
+    name: cron
     state: restarted
