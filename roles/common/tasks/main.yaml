@@ -3,13 +3,15 @@
   ansible.builtin.apt:
     name: "*"
     state: latest
-    update_cache: yes
+    update_cache: true
     
 - name: Install some default packages
   become: true 
   ansible.builtin.apt:
    pkg:
     - vim
+    - sudo
+   state: latest
 
 - name: Copy default vim configuration
   become: true 
@@ -29,3 +31,5 @@
    src: '{{ ansible_hostname }}-motd'
    dest: /etc/motd
   ignore_errors: true
+
+#include_tasks: create_admin_user.yaml
