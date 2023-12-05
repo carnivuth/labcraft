@@ -13,7 +13,7 @@
     repo: https://github.com/carnivuth/homelab
     dest: /usr/local/homelab
 
-- name: Add cron job to update repo every 5 minutes
+- name: Add cron job to update repo every 30 minutes
   become: true
   ansible.builtin.cron:
     name: "update homelab repo"
