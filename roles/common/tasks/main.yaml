@@ -13,18 +13,6 @@
     - sudo
    state: latest
 
-- name: Copy default vim configuration
-  become: true 
-  ansible.builtin.copy:
-   src: .vimrc
-   dest: /root/.vimrc
-
-- name: Copy default bash aliases
-  become: true 
-  ansible.builtin.copy:
-   src: .bash_aliases
-   dest: /root/.bash_aliases
-
 - name: Copy motd file
   become: true 
   ansible.builtin.copy:
@@ -32,4 +20,22 @@
    dest: /etc/motd
   ignore_errors: true
 
-#include_tasks: create_admin_user.yaml
+- include_tasks: create_admin_user.yaml
+
+- name: Copy default vim configuration
+  become: true 
+  ansible.builtin.copy:
+   src: .vimrc
+   dest: '{{ item }}/.vimrc'
+  with_items: 
+    - /root
+    - '{{ admin_home }}'
+
+- name: Copy default bash aliases
+  become: true 
+  ansible.builtin.copy:
+   src: .bash_aliases
+   dest: '{{ item }}/.bash_aliases'
+  with_items: 
+    - /root
+    - '{{ admin_home }}'

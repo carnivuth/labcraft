@@ -1,9 +1,33 @@
-- name: Create user
+
+
+- name: Create admin user
   become: true
   user:
-    name: '{{ admin_user  }}'
-    shell: bash
+    name: '{{ admin_user }}'
+    shell: /bin/bash
     create_home: true
     home: '{{ admin_home }}'
     comment: '{{ admin_comment }}'
-    pasword: '{{ admin_password }}'
+    state: present
+
+- name: Add admin to sudoers
+  become: true
+  community.general.sudoers:
+    name: admin 
+    state: present
+    user: '{{ admin_user }}'
+    commands: ALL
+
+- name: Create ssh directory
+  become: true
+  file:
+    path: '{{ admin_home }}/.ssh'
+    owner: '{{ admin_user }}'
+    state: directory
+
+- name: Copy ssh keys
+  become: true
+  copy:
+    src: vaults/id_rsa.pub
+    dest: '{{ admin_home }}/.ssh/authorized_keys'
+    owner: '{{ admin_user }}'

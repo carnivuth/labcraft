@@ -94,6 +94,7 @@ nas_server:
       public_group: public
       # samba configuration block name
       public_folder: public
+ 
   
 all:
   hosts:
@@ -139,6 +140,13 @@ all:
         ansible_port: 2227
         ansible_hostname: hooper
   vars:
-    dns_server: 192.168.0.6 #dns server address
+    #dns server parameter
+    dns_server: 192.168.0.6 
     dns_domain_name: pokelab
+    
+    #default user parameter
+    admin_comment: admin user
+    admin_home: /home/admin
+    admin_user: admin
+    
 
