@@ -20,43 +20,47 @@ for playbooks that use secrets you need to run them with `--ask-vault-pass` para
 
 ## FEATURES 
 
-- ### [LDAP server setup](notes/pages/LDAP%20SERVER%20INSTALLATION.md)
+- ### [LDAP server setup](notes/pages/roles/LDAP%20SERVER%20INSTALLATION.md)
 
     LDAP server installation and configuration
 
-- ### [LDAP client setup](notes/pages/LDAP%20LOGIN%20SETUP.md)
+- ### [LDAP client setup](notes/pages/roles/LDAP%20LOGIN%20SETUP.md)
 
     LDAP client configuration for login
 
-- ### [dnsmasq setup](notes/pages/DNSMASQ.md)
+- ### [install dnsmasq](notes/pages/roles/INSTALL_DNSMASQ.md)
 
     DNSMASQ host setup
 
-- ### [homer setup](notes/pages/HOMER.md)
+- ### [install homer dashboard](notes/pages/roles/INSTALL_HOMER_DASHBOARD.md)
 
     homer dashboard installation and configuration
 
-- ### [nextcloud setup](notes/pages/INSTALL%20NEXTCLOUD.md)
+- ### [install nextcloud](notes/pages/roles/INSTALL_NEXTCLOUD.md)
 
     nextcloud installation and configuration
 
-- ### [portainer dashboard setup](notes/pages/INSTALL%20PORTAINER%20DASHBOARD.md)
+- ### [install docker](notes/pages/roles/INSTALL_DOCKER.md)
+
+    docker installation and configuration
+
+- ### [install portainer dashboard](notes/pages/roles/INSTALL_PORTAINER_DASHBOARD.md)
 
     portainer-ce dashboard installation and configuration
 
-- ### [portainer agent setup](notes/pages/INSTALL%20PORTAINER%20AGENT.md)
+- ### [install portainer agent](notes/pages/roles/INSTALL_PORTAINER_AGENT.md)
 
     portainer-agent installation and configuration
 
-- ### [install minecraft](notes/pages/INSTALL_MINECRAFT.md)
+- ### [install minecraft](notes/pages/roles/INSTALL_MINECRAFT.md)
 
     minecraft server installation and configuration
 
-- ### [install xonotic](notes/pages/INSTALL_XONOTIC.md)
+- ### [install xonotic](notes/pages/roles/INSTALL_XONOTIC.md)
 
     xonotic server installation and configuration
 
-- ### [install wireguard](notes/pages/INSTALL%20WIREGUARD.md)
+- ### [install wireguard](notes/pages/roles/INSTALL_WIREGUARD.md)
 
     wireguard vpn installation and configuration
 

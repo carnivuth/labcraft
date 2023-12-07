@@ -35,7 +35,8 @@ docker_hosts:
     hooper:
   vars:
     docker_users: 
-    - root
+    - '{{ admin_user }}'
+    
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
@@ -91,7 +92,7 @@ dns_host:
 xonotic_host:
   hosts:
     hydrame:
-    
+
 # MACHINE WITH MINCRAFT SERVER
 minecraft_host:
   hosts:
