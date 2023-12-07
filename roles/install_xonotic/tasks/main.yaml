@@ -1,0 +1,51 @@
+- name: Install some tools
+  become: true
+  apt:
+    name: unzip
+    state: latest
+    update_cache: true
+
+- name: Create Xonotic user
+  become: true
+  user:
+    name: xonotic
+    home: /usr/local/Xonotic
+    shell: /bin/bash
+
+- name: Download xonotic 
+  become: true
+  get_url:
+    url: https://dl.xonotic.org/xonotic-0.8.6.zip
+    dest: /tmp/xonotic-0.8.6.zip
+
+- name: Unzip folder
+  become: true
+  unarchive:
+    src: /tmp/xonotic-0.8.6.zip
+    dest: /usr/local
+    remote_src: true
+    owner: xonotic
+    group: xonotic
+    creates: /usr/local/Xonotic
+
+
+- name: Copy server configuration
+  become: true
+  copy:
+    src: server.cfg
+    dest: /usr/local/Xonotic/data/server.cfg
+    group: xonotic
+    owner: xonotic
+
+- name: Copy systemd unit
+  become: true
+  copy:
+    src: xonotic.service
+    dest: /etc/systemd/system/xonotic.service
+
+- name: Start server
+  become: true
+  service:
+    name: xonotic.service
+    enabled: true
+    state: restarted

@@ -87,7 +87,11 @@ wireguard_host:
 dns_host:
   hosts:
     nameon:
-
+# MACHINE WITH XONOTIC SERVER
+xonotic_host:
+  hosts:
+    hydrame:
+    
 # MACHINE WITH MINCRAFT SERVER
 minecraft_host:
   hosts:

@@ -77,7 +77,7 @@ minecraft_host:
   hosts:
     storax:
 
-# MACHINE WITH MINECRAFT SERVER
+# MACHINE WITH XONOTIC SERVER
 xonotic_host:
   hosts:
     storax:
