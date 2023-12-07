@@ -48,13 +48,18 @@ for playbooks that use secrets you need to run them with `--ask-vault-pass` para
 
     portainer-agent installation and configuration
 
-- ### [install minecraft](notes/pages/INSTALL%20MINECRAFT.md)
+- ### [install minecraft](notes/pages/INSTALL_MINECRAFT.md)
 
     minecraft server installation and configuration
+
+- ### [install xonotic](notes/pages/INSTALL_XONOTIC.md)
+
+    xonotic server installation and configuration
 
 - ### [install wireguard](notes/pages/INSTALL%20WIREGUARD.md)
 
     wireguard vpn installation and configuration
+
 - ### [configure provisioner](notes/pages/CONFIGURE_PROVISIONER.md)
 
     provisioner machine configuration
