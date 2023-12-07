@@ -46,7 +46,7 @@
     src: check_updates.sh
     dest: /usr/local/minecraft/check_updates.sh
     owner: root
-    mode: 700
+    mode: '700'
 
 - name: Copy update script
   become: true
@@ -54,7 +54,7 @@
     src: update.sh
     dest: /usr/local/minecraft/update.sh
     owner: root
-    mode: 700
+    mode: '700'
 
 - name: Copy systemd unit file
   become: true
