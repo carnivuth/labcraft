@@ -55,6 +55,9 @@ for playbooks that use secrets you need to run them with `--ask-vault-pass` para
 - ### [install wireguard](notes/pages/INSTALL%20WIREGUARD.md)
 
     wireguard vpn installation and configuration
+- ### [configure provisioner](notes/pages/CONFIGURE_PROVISIONER.md)
+
+    provisioner machine configuration
 
 ## USAGE
 
