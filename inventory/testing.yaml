@@ -39,6 +39,7 @@ docker_hosts:
   vars:
     docker_users: 
     - vagrant
+    - '{{ admin_user }}'
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
