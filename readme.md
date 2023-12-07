@@ -40,6 +40,10 @@ for playbooks that use secrets you need to run them with `--ask-vault-pass` para
 
     nextcloud installation and configuration
 
+- ### [install docker](notes/pages/INSTALL_DOCKER.md)
+
+    docker installation and configuration
+
 - ### [portainer dashboard setup](notes/pages/INSTALL%20PORTAINER%20DASHBOARD.md)
 
     portainer-ce dashboard installation and configuration
