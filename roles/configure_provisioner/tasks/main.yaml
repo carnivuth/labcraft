@@ -4,6 +4,7 @@
     name:
       - git
       - ansible
+      - python3-passlib
     state: latest
     update_cache: true
 
@@ -28,5 +29,5 @@
     name: "run homelab common playbook"
     minute: "*/{{ common_runner_period }}"
     user: root
-    job: "cd /usr/local/homelab && ansible-playbook -i inventory/prod.yaml common.yaml | logger -t 'common_playbook_runner' -p 'info' "
+    job: "cd /usr/local/homelab && ansible-playbook -i inventory/prod.yaml common.yaml  --vault-password-file vaults/vault_pass_file -e @vaults/vault.yaml  | logger -t 'common_playbook_runner' -p 'info' "
   notify: Restart crond
