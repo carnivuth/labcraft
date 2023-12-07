@@ -82,6 +82,11 @@ xonotic_host:
   hosts:
     storax:
 
+# PROVISION MACHINE 
+ansible_host:
+  hosts:
+    storax:
+
 # NAS SERVER HOST
 nas_server:
   hosts:
@@ -148,5 +153,6 @@ all:
     admin_comment: admin user
     admin_home: /home/admin
     admin_user: admin
+    admin_password: '{{ common_admin_password }}'
     
 
