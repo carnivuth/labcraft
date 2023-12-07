@@ -155,3 +155,4 @@ all:
     admin_comment: admin user
     admin_home: /home/matteo
     admin_user: matteo
+    admin_password: '{{ common_admin_password }}'

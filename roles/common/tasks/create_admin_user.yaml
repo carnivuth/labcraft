@@ -1,5 +1,3 @@
-
-
 - name: Create admin user
   become: true
   user:
@@ -7,9 +5,11 @@
     shell: /bin/bash
     create_home: true
     home: '{{ admin_home }}'
+    password: '{{ admin_password | password_hash("sha512") }}'
     comment: '{{ admin_comment }}'
     state: present
-
+  no_log: true
+  
 - name: Add admin to sudoers
   become: true
   community.general.sudoers:
