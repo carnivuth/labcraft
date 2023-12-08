@@ -28,6 +28,12 @@
     group: xonotic
     creates: /usr/local/Xonotic
 
+- name: Create data directory
+  become: true
+  file:
+    path: /usr/local/Xonotic/data
+    group: xonotic
+    owner: xonotic
 
 - name: Copy server configuration
   become: true
