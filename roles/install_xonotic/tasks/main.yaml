@@ -34,6 +34,7 @@
     path: /usr/local/Xonotic/data
     group: xonotic
     owner: xonotic
+    state: directory
 
 - name: Copy server configuration
   become: true
