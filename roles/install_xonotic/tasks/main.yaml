@@ -11,6 +11,7 @@
     name: xonotic
     home: /usr/local/Xonotic
     shell: /bin/bash
+    create_home: false
 
 - name: Download xonotic 
   become: true
@@ -26,7 +27,7 @@
     remote_src: true
     owner: xonotic
     group: xonotic
-    creates: /usr/local/Xonotic
+    creates: /usr/local/Xonotic/xonotic-linux-dedicated.sh
 
 - name: Create data directory
   become: true
