@@ -71,13 +71,17 @@ nas_server:
   hosts:
     storax:
       # public share folder path
-      public_folder_path: /home/shares/public
+      public_folder_path: /mnt/storage
       # workgroup
       samba_workgroup: homelab
       # force group parameter
       public_group: public
       # samba configuration block name
       public_folder: public
+      # samba authorized users
+      samba_users:
+        - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
+
 
 # MACHINE WITH WIREGUARD SERVICE
 wireguard_host:
