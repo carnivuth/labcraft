@@ -18,30 +18,6 @@
     state: latest
     update_cache: true
 
-- name: Install java
-  become: true
-  apt:
-    name: openjdk-17-jdk
-    state: latest
-    update_cache: true
-
-- name: Download minecraft jar
-  become: true
-  get_url:
-    url: https://piston-data.mojang.com/v1/objects/5b868151bd02b41319f54c8d4061b8cae84e665c/server.jar
-    dest: /usr/local/minecraft/server.jar
-    owner: minecraft
-    creates: /usr/local/minecraft/server.jar
-
-
-- name: Accept eula
-  become: true
-  lineinfile:
-    create: true
-    path: /usr/local/minecraft/eula.txt
-    line: 'eula=true'
-    owner: minecraft
-
 - name: Copy check_updates script
   become: true
   copy:
@@ -57,6 +33,42 @@
     dest: /usr/local/minecraft/update.sh
     owner: root
     mode: '700'
+
+- name: Get latest minecraft version
+  become: true
+  ansible.builtin.shell: >
+    curl -s $(curl -s 'https://launchermeta.mojang.com/mc/game/version_manifest.json' | jq -r  '.versions[0].url') | jq -r  '.downloads.server.url'
+  args:
+    executable: /bin/bash
+  register: latest_version_url
+
+- name: Debug
+  debug:
+    msg: '{{ latest_version_url }}'
+
+- name: Install java
+  become: true
+  apt:
+    name: openjdk-17-jdk
+    state: latest
+    update_cache: true
+
+- name: Download minecraft jar
+  become: true
+  get_url:
+    url: '{{ latest_version_url }}'
+    dest: /usr/local/minecraft/server.jar
+    owner: minecraft
+    creates: /usr/local/minecraft/server.jar
+
+
+- name: Accept eula
+  become: true
+  lineinfile:
+    create: true
+    path: /usr/local/minecraft/eula.txt
+    line: 'eula=true'
+    owner: minecraft
 
 - name: Copy systemd unit file
   become: true
