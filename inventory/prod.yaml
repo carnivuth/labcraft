@@ -71,7 +71,7 @@ nas_server:
   hosts:
     storax:
       # public share folder path
-      public_folder_path: /mnt/storage
+      public_folder_path: /mnt/storage/share
       # workgroup
       samba_workgroup: homelab
       # force group parameter
