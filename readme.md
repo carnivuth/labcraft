@@ -1,6 +1,7 @@
 # HOMELAB
 
-personal ansible playbooks for homelab provisioning
+
+![](./images/homelab.png)
 
 this repository contains the configuration and setups for my personal homelab equipment, it's meant to be runned on a proxmox cluster but it can provision other sistem with the right inventory ;)
 
