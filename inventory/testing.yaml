@@ -73,6 +73,16 @@ dns_host:
   hosts:
     nameon:
 
+## MACHINES WITH JENKINS
+jenkins_host:
+  hosts:
+    storax:
+
+## MACHINES WITH JENKINS AGENT
+jenkins_agent_hosts:
+  hosts:
+    wailhost:
+
 # MACHINE WITH MINECRAFT SERVER
 minecraft_host:
   hosts:
