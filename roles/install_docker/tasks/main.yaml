@@ -3,6 +3,7 @@
   apt:
     name:
       - docker.io
+    update_cache: true
  
 - name: Install docker compose
   become: true

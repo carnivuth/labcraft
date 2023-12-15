@@ -1,4 +1,4 @@
-- name: Install packages
+- name: Install samba
   become: true
   apt:
     name:
@@ -6,6 +6,14 @@
     state: latest
     update_cache: true
 
+- name: Install avahi
+  become: true
+  apt:
+    name:
+    - avahi-daemon
+    state: latest
+    update_cache: true
+    
 - name: Create samba public folder
   become: true
   file:
@@ -13,15 +21,44 @@
     state: directory
     mode: 775
 
-- name: Ensure group "somegroup" exists\
+- name: Create samba public group
   become: true
   ansible.builtin.group:
     name: '{{ public_group }}'
     state: present
 
+- name: shell - create samba users
+  become: true
+  ansible.builtin.shell: >
+    set -e -o pipefail
+    && (pdbedit --user={{ item.username }} 2>&1 > /dev/null)
+    || (echo '{{ item.password }}'; echo '{{ item.password }}')
+    | smbpasswd -s -a {{ item.username }}
+  args:
+    executable: /bin/bash
+  register: samba_create_users
+  changed_when: "'Added user' in samba_create_users.stdout"
+  no_log: true
+  loop: "{{ samba_users }}"
+
+- name: shell - set samba passwords correctly
+  become: true
+  ansible.builtin.shell: >
+    set -e -o pipefail
+    && (smbclient -U {{ item.username }}%{{ item.password }} -L 127.0.0.1 2>&1 > /dev/null)
+    || (echo '{{ item.password }}'; echo '{{ item.password }}')
+    | smbpasswd {{ item.username }}
+  args:
+    executable: /bin/bash
+  register: samba_verify_users
+  changed_when: "'New SMB password' in samba_verify_users.stdout"
+  no_log: true
+  loop: "{{ samba_users }}"
+
+
 - name: Copy samba config file
   become: true
   template:
-    src: smb.j2
+    src: smb.conf.j2
     dest: /etc/samba/smb.conf
   notify: Restart samba

@@ -1,5 +1,3 @@
-
-
 LDAP_server:
   hosts: 
     castleterra:
@@ -37,7 +35,8 @@ docker_hosts:
     hooper:
   vars:
     docker_users: 
-    - root
+    - '{{ admin_user }}'
+    
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
@@ -72,13 +71,17 @@ nas_server:
   hosts:
     storax:
       # public share folder path
-      public_folder_path: /home/shares/public
+      public_folder_path: /mnt/storage/share
       # workgroup
       samba_workgroup: homelab
       # force group parameter
       public_group: public
       # samba configuration block name
       public_folder: public
+      # samba authorized users
+      samba_users:
+        - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
+
 
 # MACHINE WITH WIREGUARD SERVICE
 wireguard_host:
@@ -89,6 +92,10 @@ wireguard_host:
 dns_host:
   hosts:
     nameon:
+# MACHINE WITH XONOTIC SERVER
+xonotic_host:
+  hosts:
+    hydrame:
 
 # MACHINE WITH MINCRAFT SERVER
 minecraft_host:
@@ -149,5 +156,12 @@ all:
         ansible_hostname: hydrame
 
   vars:
-    dns_server: 192.168.1.66 #dns server address
+    #dns server parameter
+    dns_server: 192.168.0.6 
     dns_domain_name: pokelab
+    
+    #default user parameter
+    admin_comment: admin user
+    admin_home: /home/matteo
+    admin_user: matteo
+    admin_password: '{{ common_admin_password }}'

@@ -6,6 +6,46 @@
     home: /usr/local/minecraft
     create_home: true 
 
+- name: Install some script utilities
+  become: true
+  apt:
+    name: 
+      - jq
+      - tar
+      - curl
+      - cron
+      - mailutils
+    state: latest
+    update_cache: true
+
+- name: Copy check_updates script
+  become: true
+  copy:
+    src: check_updates.sh
+    dest: /usr/local/minecraft/check_updates.sh
+    owner: root
+    mode: '700'
+
+- name: Copy update script
+  become: true
+  copy:
+    src: update.sh
+    dest: /usr/local/minecraft/update.sh
+    owner: root
+    mode: '700'
+
+- name: Get latest minecraft version
+  become: true
+  ansible.builtin.shell: >
+    curl -s $(curl -s 'https://launchermeta.mojang.com/mc/game/version_manifest.json' | jq -r  '.versions[0].url') | jq -r  '.downloads.server.url'
+  args:
+    executable: /bin/bash
+  register: latest_version_url
+
+- name: Debug
+  debug:
+    msg: '{{ latest_version_url }}'
+
 - name: Install java
   become: true
   apt:
@@ -16,9 +56,11 @@
 - name: Download minecraft jar
   become: true
   get_url:
-    url: https://piston-data.mojang.com/v1/objects/5b868151bd02b41319f54c8d4061b8cae84e665c/server.jar
+    url: '{{ latest_version_url }}'
     dest: /usr/local/minecraft/server.jar
     owner: minecraft
+    creates: /usr/local/minecraft/server.jar
+
 
 - name: Accept eula
   become: true
@@ -33,6 +75,15 @@
   copy:
     src: minecraft.service
     dest: /etc/systemd/system/minecraft.service
+
+- name: Add cron job to check for updates every 5 minutes
+  become: true
+  ansible.builtin.cron:
+    name: "check for minecraft server updates"
+    minute: "*/5"
+    user: root
+    job: " /usr/local/minecraft/check_updates.sh"
+  notify: Restart crond
 
 - name: Start server
   become: true

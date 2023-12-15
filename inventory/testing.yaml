@@ -39,6 +39,7 @@ docker_hosts:
   vars:
     docker_users: 
     - vagrant
+    - '{{ admin_user }}'
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
@@ -77,8 +78,13 @@ minecraft_host:
   hosts:
     storax:
 
-# MACHINE WITH MINECRAFT SERVER
+# MACHINE WITH XONOTIC SERVER
 xonotic_host:
+  hosts:
+    storax:
+
+# PROVISION MACHINE 
+ansible_host:
   hosts:
     storax:
 
@@ -94,6 +100,11 @@ nas_server:
       public_group: public
       # samba configuration block name
       public_folder: public
+      # samba authorized users
+      samba_users:
+        - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
+        
+ 
   
 all:
   hosts:
@@ -139,6 +150,14 @@ all:
         ansible_port: 2227
         ansible_hostname: hooper
   vars:
-    dns_server: 192.168.0.6 #dns server address
+    #dns server parameter
+    dns_server: 192.168.1.66 
     dns_domain_name: pokelab
+    
+    #default user parameter
+    admin_comment: admin user
+    admin_home: /home/admin
+    admin_user: admin
+    admin_password: '{{ common_admin_password }}'
+    
 
