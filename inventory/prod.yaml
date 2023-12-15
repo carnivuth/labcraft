@@ -21,6 +21,10 @@ LDAP_clients:
     dc: pokelab
     pwd: '{{ ldap_pwd }}'
 
+## MACHINES WITH JENKINS
+jenkins_host:
+  hosts:
+    arcible:
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
   hosts:
