@@ -1,0 +1,27 @@
+- name: install java 17
+  become: true
+  apt:
+    name: openjdk-17-jdk
+    update_cache: true
+    state: latest
+
+- name: add apt repository 
+  block:
+    - name: download key
+      become: true
+      ansible.builtin.get_url:
+        url:  'https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key'
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+    
+    - name: add repo
+      become: true
+      ansible.builtin.apt_repository:
+        repo: " deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+        state: present
+- name: install jenkins
+  become: true
+  apt:
+    name: jenkins
+    update_cache: true
+    state: latest
+
