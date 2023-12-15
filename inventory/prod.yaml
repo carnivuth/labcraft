@@ -25,6 +25,12 @@ LDAP_clients:
 jenkins_host:
   hosts:
     arcible:
+
+## MACHINES WITH JENKINS AGENT
+jenkins_agent_hosts:
+  hosts:
+    wailhost:
+
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
   hosts:
