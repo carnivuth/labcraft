@@ -29,7 +29,6 @@ jenkins_host:
 ## MACHINES WITH JENKINS AGENT
 jenkins_agent_hosts:
   hosts:
-    wailhost:
     hooper:
 
 ## MACHINES WITH COCKPIT 
