@@ -18,6 +18,7 @@
       ansible.builtin.apt_repository:
         repo: " deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
         state: present
+
 - name: install jenkins
   become: true
   apt:
