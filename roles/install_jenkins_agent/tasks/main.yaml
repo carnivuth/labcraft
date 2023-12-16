@@ -1,12 +1,32 @@
-- name: Install jenkins agent
+#- name: Install jenkins agent
+#  become: true
+#  community.docker.docker_container:
+#    name: jenkins_agent
+#    restart: true
+#    restart_policy: always
+#    ports:
+#      - "2222:22"
+#    image:  jenkins/ssh-agent:alpine-jdk17
+#    env:
+#      JENKINS_AGENT_SSH_PUBKEY: "{{ lookup('ansible.builtin.file', 'vaults/jenkins_key.pub') }}"
+#  no_log: true
+- name: Create jenkins agent
   become: true
-  community.docker.docker_container:
-    name: jenkins_agent
-    restart: true
-    restart_policy: always
-    ports:
-      - "2222:22"
-    image:  jenkins/ssh-agent:alpine-jdk17
-    env:
-      JENKINS_AGENT_SSH_PUBKEY: "{{ lookup('ansible.builtin.file', 'vaults/jenkins_key.pub') }}"
-  no_log: true
+  user:
+    name: jenkins
+    home: /usr/local/jenkins
+    create_home: true
+
+- name : Create ssh folder
+  become: true
+  file:
+    path: /usr/local/jenkins/.ssh
+    owner: jenkins
+    state: directory
+
+- name : Add jenkins host ssh key
+  become: true
+  copy:
+    dest: /usr/local/jenkins/.ssh/authorized_keys
+    src: 'vaults/jenkins_key.pub'
+ 
