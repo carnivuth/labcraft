@@ -29,4 +29,10 @@
   copy:
     dest: /usr/local/jenkins/.ssh/authorized_keys
     src: 'vaults/jenkins_key.pub'
- 
+
+- name: install java 17
+  become: true
+  apt:
+    name: openjdk-17-jdk
+    update_cache: true
+    state: latest

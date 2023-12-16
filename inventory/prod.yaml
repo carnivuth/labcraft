@@ -30,6 +30,7 @@ jenkins_host:
 jenkins_agent_hosts:
   hosts:
     wailhost:
+    hooper:
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
