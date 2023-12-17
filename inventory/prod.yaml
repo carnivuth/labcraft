@@ -2,7 +2,7 @@ LDAP_server:
   hosts: 
     castleterra:
           # ldap server address 
-          address: 192.168.0.2
+          address: castleterra
           # ldap organization
           organization: pokelab
           # ldap dc
@@ -17,7 +17,7 @@ LDAP_clients:
     storax:
   vars:
     #ldap server parameters
-    address: 192.168.0.2
+    address: castleterra
     dc: pokelab
     pwd: '{{ ldap_pwd }}'
 
