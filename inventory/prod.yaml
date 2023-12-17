@@ -15,6 +15,7 @@ LDAP_clients:
     castleterra:
     wailhost:
     storax:
+    palkins:
   vars:
     #ldap server parameters
     address: castleterra
@@ -30,6 +31,7 @@ jenkins_host:
 jenkins_agent_hosts:
   hosts:
     hooper:
+    palkins:
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
@@ -43,6 +45,7 @@ docker_hosts:
     wailhost:
     storax:
     hooper:
+    palkins:
   vars:
     docker_users: 
     - '{{ admin_user }}'
@@ -53,6 +56,7 @@ portainer_dashboard_host:
   hosts: 
     wailhost:
 
+## MACHINES WITH PORTAINER AGENT
 portainer_agent_hosts:
   hosts: 
     storax:
@@ -102,6 +106,7 @@ wireguard_host:
 dns_host:
   hosts:
     nameon:
+
 # MACHINE WITH XONOTIC SERVER
 xonotic_host:
   hosts:
@@ -164,6 +169,12 @@ all:
         ansible_host: 192.168.1.69
         ansible_port: 22
         ansible_hostname: hydrame
+    palkins:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.70
+        ansible_port: 22
+        ansible_hostname: palkins
 
   vars:
     #dns server parameter
