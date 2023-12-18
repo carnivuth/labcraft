@@ -179,6 +179,7 @@ all:
   vars:
     #dns server parameter
     dns_server: 192.168.1.66 
+    external_dns_server: 192.168.1.1 
     dns_domain_name: pokelab
     
     #default user parameter
