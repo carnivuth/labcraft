@@ -191,7 +191,7 @@ all:
         ansible_hostname: palkins
   vars:
     #dns server parameter
-    dns_server: 192.168.1.66 
+    dns_server: 192.168.0.6 
     dns_domain_name: pokelab
     
     #default user parameter
