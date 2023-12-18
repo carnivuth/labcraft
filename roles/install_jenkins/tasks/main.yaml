@@ -19,10 +19,10 @@
         repo: " deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
         state: present
 
-- name: install jenkins
+- name: Remove executors on controller node
   become: true
-  apt:
-    name: jenkins
-    update_cache: true
-    state: latest
+  lineinfile:
+    path: '/var/lib/jenkins/config.xml'
+    regexp: '<numExecutors>[0-9]*</numExecutors>'
+    line: '<numExecutors>0</numExecutors>'
 

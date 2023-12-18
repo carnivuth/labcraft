@@ -50,11 +50,6 @@ portainer_dashboard_host:
 portainer_agent_hosts:
   hosts: 
     hooper:
-      name: hooper # agent name
-      description: hooper  node
-      executors: 2
-      host: 192.168.0.7
-      port: 22
 
 
 
@@ -83,12 +78,17 @@ dns_host:
 ## MACHINES WITH JENKINS
 jenkins_host:
   hosts:
-    storax:
+    arcible:
 
 ## MACHINES WITH JENKINS AGENT
 jenkins_agent_hosts:
   hosts:
-    wailhost:
+    hooper:
+      name: hooper # agent name
+      description: hooper  node
+      executors: 2
+      host: 192.168.0.7
+      port: 22
 
 # MACHINE WITH MINECRAFT SERVER
 minecraft_host:
