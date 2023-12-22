@@ -1,0 +1,20 @@
+- name: Debug
+  debug:
+    msg: '{{ hostvars[item] }}'
+  loop: '{{ groups["jenkins_agent_hosts" ] }}'
+
+- name: Create node folder configuration
+  become: true
+  file:
+    path: '/var/lib/jenkins/nodes/{{ hostvars[item].name }}'
+    owner: jenkins
+    state: directory
+  loop: '{{ groups["jenkins_agent_hosts" ] }}'
+
+- name: Create configuration file
+  become: true
+  template:
+    src: 'config.xml.j2'
+    owner: jenkins
+    dest: /var/lib/jenkins/nodes/{{ hostvars[item].name }}/config.xml
+  loop: '{{ groups["jenkins_agent_hosts" ] }}'

@@ -26,12 +26,22 @@ LDAP_clients:
 jenkins_host:
   hosts:
     arcible:
-
+    
 ## MACHINES WITH JENKINS AGENT
 jenkins_agent_hosts:
   hosts:
     hooper:
+      name: hooper # agent name
+      description: hooper  node
+      executors: 2
+      host: 192.168.1.67
+      port: 22
     palkins:
+      name: palkins # agent name
+      description: palkins  node
+      executors: 2
+      host: 192.168.1.70
+      port: 22
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
@@ -183,7 +193,8 @@ all:
 
   vars:
     #dns server parameter
-    dns_server: 192.168.0.6 
+    dns_server: 192.168.1.66 
+    external_dns_server: 192.168.1.1 
     dns_domain_name: pokelab
     
     #default user parameter
