@@ -5,9 +5,7 @@
     home: /usr/local/jenkins
     create_home: true
     append: true
-    groups:
-     - docker 
-
+    
 - name : Create ssh folder
   become: true
   file:
