@@ -42,10 +42,6 @@
     executable: /bin/bash
   register: latest_version_url
 
-- name: Debug
-  debug:
-    msg: '{{ latest_version_url }}'
-
 - name: Install java
   become: true
   apt:
@@ -59,7 +55,6 @@
     url: '{{ latest_version_url }}'
     dest: /usr/local/minecraft/server.jar
     owner: minecraft
-    creates: /usr/local/minecraft/server.jar
 
 
 - name: Accept eula
