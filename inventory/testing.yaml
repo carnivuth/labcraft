@@ -121,7 +121,10 @@ nas_server:
       samba_users:
         - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
         
- 
+nginx_hosts:
+  hosts:
+    starweb:
+      web_server_root: /mnt/storage/web
   
 all:
   hosts:
@@ -189,6 +192,13 @@ all:
         ansible_host: 127.0.0.1 
         ansible_port: 2230
         ansible_hostname: palkins
+
+    starweb:
+        ansible_user: vagrant
+        ansible_ssh_private_key_file: testing/.vagrant/machines/starweb/virtualbox/private_key
+        ansible_host: 127.0.0.1 
+        ansible_port: 2231
+        ansible_hostname: starweb
   vars:
     #dns server parameter
     dns_server: 192.168.0.6 
