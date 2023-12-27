@@ -185,10 +185,15 @@ all:
         ansible_host: 192.168.1.70
         ansible_port: 22
         ansible_hostname: palkins
-    delifx:
+    delifix:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.71
+        ansible_port: 22
+    starweb:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.73
         ansible_port: 22
 
   vars:
