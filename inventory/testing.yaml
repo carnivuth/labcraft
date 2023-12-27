@@ -120,7 +120,8 @@ nas_server:
       # samba authorized users
       samba_users:
         - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
-        
+
+# ngnix_host        
 nginx_hosts:
   hosts:
     starweb:
