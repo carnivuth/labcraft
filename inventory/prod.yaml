@@ -131,6 +131,8 @@ nginx_hosts:
   hosts:
     starweb:
       web_server_root: /mnt/storage/web
+    storax:
+      web_server_root: /mnt/storage/web
 
 all:
   hosts:
