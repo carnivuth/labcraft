@@ -197,10 +197,10 @@ all:
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.71
         ansible_port: 22
-    starweb:
+    dittup:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
-        ansible_host: 192.168.1.73
+        ansible_host: 192.168.1.74
         ansible_port: 22
 
   vars:
