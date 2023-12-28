@@ -134,6 +134,7 @@ nginx_hosts:
 
 all:
   hosts:
+    
     castleterra:
         ansible_user: root
         ansible_host: 192.168.1.62 
@@ -154,52 +155,62 @@ all:
         ansible_host: 192.168.1.63
         ansible_port: 22
         ansible_hostname: wailhost
+    
     wirenine:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.65
         ansible_port: 22
         ansible_hostname: wirenine
+    
     nameon:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.66
         ansible_port: 22
         ansible_hostname: nameon
+    
     hooper:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.67
         ansible_port: 22
         ansible_hostname: hooper
+    
     arcible:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.68
         ansible_port: 22
         ansible_hostname: arcible
+    
     hydrame:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.69
         ansible_port: 22
         ansible_hostname: hydrame
+    
     palkins:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.70
         ansible_port: 22
         ansible_hostname: palkins
+    
     delifix:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.71
         ansible_port: 22
+        ansible_hostname: delifix
+    
     dittup:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.74
         ansible_port: 22
+        ansible_hostname: dittup
 
   vars:
     #dns server parameter
