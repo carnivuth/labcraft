@@ -142,13 +142,6 @@ all:
         ansible_hostname: castleterra
         ansible_ssh_private_key_file: vaults/id_rsa
 
-    storax:
-        ansible_user: root
-        ansible_ssh_private_key_file: vaults/id_rsa
-        ansible_host: 192.168.1.64
-        ansible_port: 22
-        ansible_hostname: storax
-
     wailhost:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
@@ -156,6 +149,13 @@ all:
         ansible_port: 22
         ansible_hostname: wailhost
     
+    storax:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.64
+        ansible_port: 22
+        ansible_hostname: storax
+
     wirenine:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
@@ -204,14 +204,22 @@ all:
         ansible_host: 192.168.1.71
         ansible_port: 22
         ansible_hostname: delifix
-    
+
+    starweb:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.72
+        ansible_port: 22
+        ansible_hostname: starweb
+
     dittup:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.74
         ansible_port: 22
         ansible_hostname: dittup
-
+    
+    
   vars:
     #dns server parameter
     dns_server: 192.168.1.66 
