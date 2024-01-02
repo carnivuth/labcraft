@@ -93,6 +93,7 @@ curiel_bot_hosts:
 # NAS SERVER HOST
 nas_server:
   hosts:
+    hooper:
     storax:
       # public share folder path
       public_folder_path: /mnt/storage/share
