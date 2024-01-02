@@ -4,12 +4,27 @@
     name: vault
   no_log: true
 
+- name: Create directory
+  become: true
+  file:
+    path: '{{ item }}'
+    state: directory
+  loop: '{{ directories }}'
+
+- name: Copy nginx configuration
+  become: true
+  template:
+    src: 'nginx.conf.j2'
+    dest: '{{ nginx_conf_directory }}/nginx.conf'
+  #no_log: true
+
 - name: Copy nextcloud compose file
   become: true
   template:
-    src: nextcloud.yaml.j2
-    dest: /var/lib/docker-compose-files/nextcloud.yaml
+    src: 'nextcloud-fpm.yaml.j2'
+    dest: '{{ nextcloud_install_dir }}/nextcloud.yaml'
+  #no_log: true
 
 - name: Start nextcloud container
   become: true
-  command: docker-compose  -f /var/lib/docker-compose-files/nextcloud.yaml up -d
+  command: 'docker-compose  -f {{ nextcloud_install_dir }}/nextcloud.yaml up -d'
