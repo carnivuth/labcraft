@@ -127,9 +127,12 @@ minecraft_host:
   hosts:
     hydrame:
 
+# MACHINES WITH NGINX SERVER
 nginx_hosts:
   hosts:
     storax:
+      web_server_root: /mnt/storage/web
+    starweb:
       web_server_root: /mnt/storage/web
 
 all:
