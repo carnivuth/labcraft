@@ -6,19 +6,19 @@
 - name: Creates curiel_bot data directory
   become: true
   file:
-    path: /var/lib/curiel_bot/data
+    path: /mnt/storage/curiel_bot
     state: directory
 
 - name: Creates curiel_bot config file
   become: true
   file:
-    path: /var/lib/curiel_bot/conf
+    path: /etc/curiel_bot
     state: directory
     
 - name: copy config file
   become: true
   template:
-    dest: /var/lib/curiel_bot/conf/.env
+    dest: /etc/curiel_bot/.env
     src: .env.j2
   no_log: true
 
@@ -30,5 +30,5 @@
     restart_policy: always
     image:   carnivuth/curiel_bot:latest
     volumes:
-      - /var/lib/curiel_bot/data:/usr/src/curiel_bot/data
-      - /var/lib/curiel_bot/conf/.env:/usr/src/curiel_bot/.env
+      - /mnt/storage/curiel_bot:/usr/src/curiel_bot/data
+      - /etc/curiel_bot/.env:/usr/src/curiel_bot/.env
