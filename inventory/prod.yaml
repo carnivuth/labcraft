@@ -52,7 +52,7 @@ cockpit_hosts:
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
 docker_hosts:
   hosts:
-    wailhost:
+    castleterra:
     storax:
     hooper:
     palkins:
@@ -85,7 +85,7 @@ ansible_host:
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
   hosts:
-    wailhost:
+    castleterra:
   vars:
     curiel_bot_admin: carnivuth #telegram username of the admin
 
