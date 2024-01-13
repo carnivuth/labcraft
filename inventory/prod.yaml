@@ -64,7 +64,7 @@ docker_hosts:
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
   hosts: 
-    wailhost:
+    castleterra:
 
 ## MACHINES WITH PORTAINER AGENT
 portainer_agent_hosts:
