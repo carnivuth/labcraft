@@ -18,6 +18,19 @@
       ansible.builtin.apt_repository:
         repo: " deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
         state: present
+    
+- name: Install jenkins
+  become: true
+  ansible.builtin.apt:
+    name: jenkins
+    state: latest
+    update_cache: true
+
+- name: Check if config file exist
+  become: true
+  stat:
+    path: '/var/lib/jenkins/config.xml'
+  register: config_file
 
 - name: Remove executors on controller node
   become: true
@@ -25,4 +38,5 @@
     path: '/var/lib/jenkins/config.xml'
     regexp: '<numExecutors>[0-9]*</numExecutors>'
     line: '<numExecutors>0</numExecutors>'
+  when: config_file.stat.exists
 
