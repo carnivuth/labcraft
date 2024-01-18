@@ -1,6 +1,6 @@
 .vscode
 .vagrant
-/roles/LDAP_server_users_setup/vars/main.yaml
+/roles/configure_LDAP_server/vars/main.yaml
 notes/.obsidian/workspace.json
 roles/gpu-passtrough
 vaults

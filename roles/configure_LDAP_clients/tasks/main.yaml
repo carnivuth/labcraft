@@ -1,9 +1,12 @@
-- name: Install ldap utils
+- name: Install debconf and ldap-utils
   become: true
   ansible.builtin.apt:
-   name: ldap-utils
-   state: present
-   update_cache: yes   
+    name: 
+      - ldap-utils
+      - debconf
+      - debconf-utils
+    state: latest
+    update_cache: true 
 
 - name: Configure libnss-ldap
   become: true
