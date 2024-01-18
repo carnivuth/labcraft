@@ -1,31 +1,9 @@
-- name: Copy sudo ldap schema
-  become: true
-  copy:
-    src: sudo.schema
-    dest: /etc/ldap/schema/sudo.schema
-
-- name: Add password for ldap root
-  become: true
-  blockinfile:
-    path: '/etc/ldap/slapd.d/cn=config/olcDatabase={0}config.ldif'
-    block: |
-       olcRootPW: {{ pwd }}
       
 - name: Restart slapd daemon
   become: true
   service:
     name: slapd
     state: restarted
-
-- name: Add ldap schema 
-  become: true
-  command:
-    cmd: ldapadd -H ldap://localhost/ -D "cn=admin,cn=config" -x -w "{{ pwd }}" -f /etc/ldap/schema/sudo.schema
-  register: result
-  failed_when: 
-     - result.rc != 0 
-     - "'Duplicate attributeType' not in result.stderr" 
-  #no_log: true
 
 - name: Insert ldap People entry
   community.general.ldap_entry:
@@ -48,18 +26,6 @@
     attributes:
       description: System Groups
       ou: Groups
-
-- name: Insert ldap SUDOers entry
-  community.general.ldap_entry:
-    dn: ou=SUDOers,ou=People,dc="{{ dc }}"
-    objectClass: 
-      - top
-      - organizationalunit 
-    server_uri: ldap://localhost/
-    bind_dn: cn=admin,dc="{{ dc }}"
-    bind_pw: "{{ pwd }}"
-    attributes:
-      description: Sudo user 
 
 ### LDAP USERS
 - name: Insert ldap users
