@@ -1,3 +1,0 @@
-- hosts: dashboard_host
-  roles:
-    - install_homer_dashboard

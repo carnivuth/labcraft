@@ -1,4 +1,0 @@
-- hosts: nas_server
-  roles:
-    - install_docker 
-    - install_nextcloud

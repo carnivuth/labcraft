@@ -1,0 +1,8 @@
+- hosts: jenkins_agent_hosts
+  roles:
+    - install_docker
+    - install_jenkins_agent
+
+- hosts: jenkins_host
+  roles:
+  - add_jenkins_agent

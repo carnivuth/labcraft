@@ -1,3 +1,0 @@
-- hosts: wireguard_host
-  roles:
-    - install_wireguard

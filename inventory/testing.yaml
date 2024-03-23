@@ -14,7 +14,6 @@ LDAP_server:
 LDAP_clients:
   hosts:
     castleterra:
-    wailhost:
     storax:
     hooper:
     wirenine:
@@ -28,13 +27,11 @@ LDAP_clients:
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
   hosts:
-    wailhost:
     storax:
 
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
 docker_hosts:
   hosts:
-    wailhost:
     storax:
     hooper:
   vars:
@@ -45,7 +42,6 @@ docker_hosts:
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
   hosts: 
-    wailhost:
 
 portainer_agent_hosts:
   hosts: 
@@ -61,7 +57,6 @@ dashboard_host:
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
   hosts:
-    wailhost:
   vars:
     curiel_bot_admin: carnivuth #telegram username of the admin
 
@@ -126,6 +121,10 @@ nginx_hosts:
   hosts:
     starweb:
       web_server_root: /mnt/storage/web
+
+# youcook_host        
+youcook_hosts:
+  hosts:
   
 all:
   hosts:
@@ -143,13 +142,6 @@ all:
         ansible_host: 127.0.0.1 
         ansible_port: 2224
         ansible_hostname: storax
-
-    wailhost:
-        ansible_user: vagrant
-        ansible_ssh_private_key_file: testing/.vagrant/machines/wailhost/virtualbox/private_key
-        ansible_host: 127.0.0.1 
-        ansible_port: 2225
-        ansible_hostname: wailhost
 
     wirenine:
         ansible_user: vagrant

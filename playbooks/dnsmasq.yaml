@@ -1,0 +1,42 @@
+- hosts: dns_host
+  roles:
+    - install_dnsmasq
+
+- hosts: all
+  tasks:
+    - name: Remove dns servers
+      become: true
+      lineinfile:
+        path: /etc/resolv.conf
+        regexp: 'nameserver .*'
+        state: absent
+    
+    - name: Add dns server
+      become: true
+      lineinfile:
+        path: /etc/resolv.conf
+        line: 'nameserver {{ dns_server }}'
+        insertbefore: BOF
+    
+    - name: Add external dns to dns server
+      become: true
+      lineinfile:
+        path: /etc/resolv.conf
+        line: 'nameserver {{ external_dns_server }}'
+        insertbefore: BOF
+      when: '"dns_host" is in group_names'        
+    
+    - name: Add dns search parameter
+      become: true
+      lineinfile:
+        path: /etc/resolv.conf
+        regexp: 'search .*'
+        line: 'search {{ dns_domain_name }}'
+        insertbefore: BOF
+    
+    - name: Add rotate option
+      become: true
+      lineinfile:
+        path: /etc/resolv.conf
+        line: 'option rotate'
+        insertbefore: BOF
