@@ -1,41 +1,45 @@
 - name: Update all packages to their latest version
-  become: true 
+  become: true
   ansible.builtin.apt:
-    name: "*"
-    state: latest
+    upgrade: true
     update_cache: true
-    
+
 - name: Install some default packages
-  become: true 
+  become: true
   ansible.builtin.apt:
-   pkg:
-    - vim
-    - sudo
-   state: latest
+    pkg:
+      - vim
+      - sudo
+    state: present
 
 - name: Copy motd file
-  become: true 
+  become: true
   ansible.builtin.copy:
-   src: '{{ ansible_hostname }}-motd'
-   dest: /etc/motd
+    src: '{{ ansible_hostname }}-motd'
+    dest: /etc/motd
+    mode: '644'
   ignore_errors: true
 
-- include_tasks: create_admin_user.yaml
+- name: Run create admin task
+  ansible.builtin.include_tasks:
+    file: create_admin_user.yaml
 
 - name: Copy default vim configuration
-  become: true 
+  become: true
   ansible.builtin.copy:
-   src: .vimrc
-   dest: '{{ item }}/.vimrc'
-  with_items: 
+    src: .vimrc
+    dest: '{{ item }}/.vimrc'
+    mode: '600'
+  with_items:
     - /root
     - '{{ admin_home }}'
 
 - name: Copy default bash aliases
-  become: true 
+  become: true
   ansible.builtin.copy:
-   src: .bash_aliases
-   dest: '{{ item }}/.bash_aliases'
-  with_items: 
+    src: .bash_aliases
+    dest: '{{ item }}/.bash_aliases'
+    mode: '700'
+  with_items:
     - /root
     - '{{ admin_home }}'

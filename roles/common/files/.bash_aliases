@@ -1,8 +1,8 @@
 
 #ls aliases
-alias ls='ls --color=auto '
-alias ll='ls --color=auto -pl'
-alias la='ls --color=auto -pa'
+alias ls='ls --color=auto'
+alias ll='ls --color=auto -l'
+alias la='ls --color=auto -a'
 #set color output
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

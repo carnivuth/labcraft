@@ -1,6 +1,6 @@
 - name: Create admin user
   become: true
-  user:
+  ansible.builtin.user:
     name: '{{ admin_user }}'
     shell: /bin/bash
     create_home: true
@@ -9,25 +9,27 @@
     comment: '{{ admin_comment }}'
     state: present
   no_log: true
-  
+
 - name: Add admin to sudoers
   become: true
   community.general.sudoers:
-    name: admin 
+    name: admin
     state: present
     user: '{{ admin_user }}'
     commands: ALL
 
 - name: Create ssh directory
   become: true
-  file:
+  ansible.builtin.file:
     path: '{{ admin_home }}/.ssh'
     owner: '{{ admin_user }}'
+    mode: '700'
     state: directory
 
 - name: Copy ssh keys
   become: true
-  copy:
-    src: vaults/id_rsa.pub
+  ansible.builtin.copy:
+    src: ../../../vaults/id_rsa.pub
     dest: '{{ admin_home }}/.ssh/authorized_keys'
     owner: '{{ admin_user }}'
+    mode: '600'
