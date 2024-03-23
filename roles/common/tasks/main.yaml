@@ -54,3 +54,14 @@
   with_items:
     - /root
     - '{{ admin_home }}'
+
+- name: Export TERM variable
+  become: true
+  ansible.builtin.lineinfile:
+    path: '{{ item }}/.bashrc'
+    regexp: ^export TERM=linux
+    line: export TERM=linux
+    state: present
+  with_items:
+    - /root
+    - '{{ admin_home }}'
