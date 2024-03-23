@@ -43,3 +43,14 @@
   with_items:
     - /root
     - '{{ admin_home }}'
+
+- name: Include bash aliases in bashrc
+  become: true
+  ansible.builtin.lineinfile:
+    path: '{{ item }}/.bashrc'
+    regexp: ^source ~/.bash_aliases
+    line: source ~/.bash_aliases
+    state: present
+  with_items:
+    - /root
+    - '{{ admin_home }}'
