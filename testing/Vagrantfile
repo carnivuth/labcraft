@@ -1,0 +1,93 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "debian/bookworm64"
+
+   config.vm.provider "virtualbox" do |vb|
+        vb.linked_clone = true
+  end
+
+  config.vm.define "castleterra" do |machine|
+    machine.vm.hostname = "castleterra"
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2222, guest: 22
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.2"
+  
+  end
+  config.vm.define "storax" do |machine|
+    machine.vm.hostname = "storax"
+    
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2224, guest: 22
+    
+    # nextcloud port forwarding
+    machine.vm.network "forwarded_port", id: "nextcloud", host: 8080, guest: 80
+    machine.vm.network "forwarded_port", id: "nextcloud", host: 4430, guest: 443
+    
+    #samba port forwarding
+    machine.vm.network "forwarded_port", id: "samba", host: 4450, guest: 445
+    machine.vm.network "forwarded_port", id: "samba", host: 1390, guest: 139
+    
+    # private network with other vms
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.4"
+    
+    #HW configuration
+    machine.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 4
+    end
+  end
+
+  config.vm.define "wirenine" do |machine|
+    machine.vm.hostname = "wirenine"
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2225, guest: 22
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.5"
+  end
+
+  config.vm.define "nameon" do |machine|
+    machine.vm.hostname = "nameon"
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2226, guest: 22
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.6"
+  end
+
+  config.vm.define "hooper" do |machine|
+    machine.vm.hostname = "hooper"
+
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2227, guest: 22
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.7"
+  end
+  
+  config.vm.define "arcible" do |machine|
+    machine.vm.hostname = "arcible"
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2228, guest: 22
+    machine.vm.network "forwarded_port", id: "jenkins", host: 8088, guest: 8080
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.8"
+  end
+  
+  config.vm.define "hydrame" do |machine|
+    machine.vm.hostname = "hydrame"
+    
+    #minecraft port
+    machine.vm.network "forwarded_port", id: "minecraft", host: 7878, guest: 25565
+    
+    #xonotic port
+    machine.vm.network "forwarded_port", id: "xonotic", host: 7879, guest: 26000 ,protocol:"udp"
+
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2229, guest: 22
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.9"
+
+    
+  end
+  
+  config.vm.define "palkins" do |machine|
+    machine.vm.hostname = "palkins"
+
+    #fixed ssh port for staging inventory
+    machine.vm.network "forwarded_port", id: "ssh", host: 2230, guest: 22
+    machine.vm.network "private_network", virtualbox__intnet: "homelab-staging",ip: "192.168.0.10"
+  end
+  
+end
