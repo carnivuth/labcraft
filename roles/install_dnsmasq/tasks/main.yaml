@@ -1,25 +1,25 @@
 - name: Install dnsmasq
   become: true
-  apt:
+  ansible.builtin.apt:
     name: dnsmasq
-    state: latest
+    state: present
     update_cache: true
 
 - name: Enable dns service
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/dnsmasq.conf
     line: 'listen-address=::1,127.0.0.1,{{ dns_server }}'
 
 - name: Add dns server entry in the {{ hostvars[item].ansible_host }}
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/hosts
     line: '{{ hostvars[item].ansible_host }} {{ item }}.{{ dns_domain_name }} {{ item }}'
   loop: '{{ groups["all"] }}'
 
 - name: Start dnsmasq
   become: true
-  service:
+  ansible.builtin.service:
     name: dnsmasq
     state: restarted
