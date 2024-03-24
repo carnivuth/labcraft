@@ -1,16 +1,16 @@
 - name: Install Docker Engine
   become: true
-  apt:
+  ansible.builtin.apt:
     name:
       - docker.io
     update_cache: true
- 
+
 - name: Install docker compose
   become: true
   ansible.builtin.apt:
     name: docker-compose
     state: present
-    
+
 - name: Add user to docker group
   become: true
   ansible.builtin.user:
@@ -19,7 +19,6 @@
     append: true
   loop: '{{  docker_users }}'
 
-- name: reboot machine
+- name: Reboot machine
   become: true
-  reboot:
-
+  ansible.builtin.reboot:

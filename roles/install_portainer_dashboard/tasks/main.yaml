@@ -1,10 +1,10 @@
 - name: Create portainer data folder
   become: true
-  file:
+  ansible.builtin.file:
     path: /mnt/storage/portainer_data
     state: directory
-    
-- name: install portainer server
+
+- name: Install portainer server
   become: true
   community.docker.docker_container:
     name: portainer

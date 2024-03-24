@@ -1,40 +1,40 @@
-- name: Include secrets 
-  include_vars:
+- name: Include secrets
+  ansible.builtin.include_vars:
     file: vaults/vault.yaml
     name: vault
   no_log: true
-     
+
 - name: Install wireguard
   become: true
-  apt:
+  ansible.builtin.apt:
     name: wireguard
-    state: latest
+    state: present
     update_cache: true
 
 - name: Install ufw
   become: true
-  apt:
+  ansible.builtin.apt:
     name: ufw
-    state: latest
+    state: present
     update_cache: true
 
 - name: Copy wireguard configuration file
   become: true
-  template:
+  ansible.builtin.template:
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
   no_log: true
 
 - name: Copy wireguard routes startup script
   become: true
-  template:
+  ansible.builtin.template:
     src: add-nat-routing.sh.j2
     dest: /etc/wireguard/add-nat-routing.sh
   no_log: true
 
 - name: Copy wireguard routes shutdown script
   become: true
-  template:
+  ansible.builtin.template:
     src: remove-nat-routing.sh.j2
     dest: /etc/wireguard/remove-nat-routing.sh
   no_log: true
@@ -48,34 +48,34 @@
 
 - name: Open wireguard port
   become: true
-  command:
+  ansible.builtin.command:
     cmd: 'ufw allow {{ vault.wireguard_server_port }}/udp'
   no_log: true
-  
+
 - name: Open ssh port
   become: true
-  command:
+  ansible.builtin.command:
     cmd: ufw allow OpenSSH
 
 - name: Stop ufw
   become: true
-  command:
+  ansible.builtin.command:
     cmd: ufw disable
-    
+
 - name: Start ufw
   become: true
-  command:
+  ansible.builtin.command:
     cmd: ufw --force enable
 
 - name: Start wireguard service
   become: true
-  service:
+  ansible.builtin.service:
     enabled: true
     name: wg-quick@wg0
     state: restarted
 
 - name: Add peer's public key
   become: true
-  command:
+  ansible.builtin.command:
     cmd: 'wg set wg0 peer {{ vault.wireguard_peer_public_key }} allowed-ips {{ vault.wireguard_peer_address }}'
   no_log: true

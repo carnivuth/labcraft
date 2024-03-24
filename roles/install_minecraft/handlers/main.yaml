@@ -1,6 +1,6 @@
 - name: Restart crond
   become: true
-  service:
+  ansible.builtin.service:
     enabled: true
     name: cron
     state: restarted

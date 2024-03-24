@@ -1,20 +1,22 @@
 - name: Debug
-  debug:
+  ansible.builtin.debug:
     msg: '{{ hostvars[item] }}'
-  loop: '{{ groups["jenkins_agent_hosts" ] }}'
+  loop: '{{ groups["jenkins_agent_hosts"] }}'
 
 - name: Create node folder configuration
   become: true
-  file:
+  ansible.builtin.file:
     path: '/var/lib/jenkins/nodes/{{ hostvars[item].name }}'
     owner: jenkins
+    mode: '700'
     state: directory
-  loop: '{{ groups["jenkins_agent_hosts" ] }}'
+  loop: '{{ groups["jenkins_agent_hosts"] }}'
 
 - name: Create configuration file
   become: true
-  template:
+  ansible.builtin.template:
     src: 'config.xml.j2'
     owner: jenkins
+    mode: '700'
     dest: /var/lib/jenkins/nodes/{{ hostvars[item].name }}/config.xml
-  loop: '{{ groups["jenkins_agent_hosts" ] }}'
+  loop: '{{ groups["jenkins_agent_hosts"] }}'
