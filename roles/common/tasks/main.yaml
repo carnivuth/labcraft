@@ -28,40 +28,34 @@
   become: true
   ansible.builtin.copy:
     src: .vimrc
-    dest: '{{ item }}/.vimrc'
+    dest: '{{ item.home }}/.vimrc'
     mode: '600'
-  with_items:
-    - /root
-    - '{{ admin_home }}'
+    owner: '{{ item.owner }}'
+  loop: '{{ users }}'
 
 - name: Copy default bash aliases
   become: true
   ansible.builtin.copy:
     src: .bash_aliases
-    dest: '{{ item }}/.bash_aliases'
+    dest: '{{ item.home }}/.bash_aliases'
     mode: '700'
-  with_items:
-    - /root
-    - '{{ admin_home }}'
+    owner: '{{ item.owner }}'
+  loop: '{{ users }}'
 
 - name: Include bash aliases in bashrc
   become: true
   ansible.builtin.lineinfile:
-    path: '{{ item }}/.bashrc'
+    path: '{{ item.home }}/.bashrc'
     regexp: ^source ~/.bash_aliases
     line: source ~/.bash_aliases
     state: present
-  with_items:
-    - /root
-    - '{{ admin_home }}'
+  loop: '{{ users }}'
 
 - name: Export TERM variable
   become: true
   ansible.builtin.lineinfile:
-    path: '{{ item }}/.bashrc'
+    path: '{{ item.home }}/.bashrc'
     regexp: ^export TERM=linux
     line: export TERM=linux
     state: present
-  with_items:
-    - /root
-    - '{{ admin_home }}'
+  loop: '{{ users }}'
