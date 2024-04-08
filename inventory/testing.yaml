@@ -4,7 +4,8 @@ LDAP_server:
           # ldap server address 
           address: 192.168.0.2
           # ldap organization
-          organization: homelab
+          organization: homelab                                                                                         
+
           # ldap dc
           dc: homelab
           # ldap password
@@ -13,7 +14,6 @@ LDAP_server:
 LDAP_clients:
   hosts:
     castleterra:
-    wailhost:
     storax:
     hooper:
     wirenine:
@@ -27,28 +27,27 @@ LDAP_clients:
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
   hosts:
-    wailhost:
     storax:
 
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
 docker_hosts:
   hosts:
-    wailhost:
     storax:
     hooper:
   vars:
     docker_users: 
     - vagrant
+    - '{{ admin_user }}'
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
   hosts: 
-    wailhost:
 
 portainer_agent_hosts:
   hosts: 
-    storax:
     hooper:
+
+
 
 # MACHINE WITH HOMER DASHBOARD
 dashboard_host:
@@ -58,7 +57,6 @@ dashboard_host:
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
   hosts:
-    wailhost:
   vars:
     curiel_bot_admin: carnivuth #telegram username of the admin
 
@@ -72,15 +70,35 @@ dns_host:
   hosts:
     nameon:
 
+## MACHINES WITH JENKINS
+jenkins_host:
+  hosts:
+    arcible:
+
+## MACHINES WITH JENKINS AGENT
+jenkins_agent_hosts:
+  hosts:
+    hooper:
+      name: hooper # agent name
+      description: hooper  node
+      executors: 2
+      host: 192.168.0.7
+      port: 22
+
 # MACHINE WITH MINECRAFT SERVER
 minecraft_host:
   hosts:
-    storax:
+    hydrame:
 
-# MACHINE WITH MINECRAFT SERVER
+# MACHINE WITH XONOTIC SERVER
 xonotic_host:
   hosts:
-    storax:
+    hydrame:
+
+# PROVISION MACHINE 
+ansible_host:
+  hosts:
+    arcible:
 
 # NAS SERVER HOST
 nas_server:
@@ -94,59 +112,96 @@ nas_server:
       public_group: public
       # samba configuration block name
       public_folder: public
- 
+      # samba authorized users
+      samba_users:
+        - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
+
+# ngnix_host        
+nginx_hosts:
+  hosts:
+    starweb:
+      web_server_root: /mnt/storage/web
+
+# youcook_host        
+youcook_hosts:
+  hosts:
   
 all:
   hosts:
 
     castleterra:
         ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/castleterra/.vagrant/machines/default/virtualbox/private_key
+        ansible_ssh_private_key_file: testing/.vagrant/machines/castleterra/virtualbox/private_key
         ansible_host: 127.0.0.1 
         ansible_port: 2222
         ansible_hostname: castleterra
 
     storax:
         ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/storax/.vagrant/machines/default/virtualbox/private_key
-        ansible_host: 127.0.0.1 
-        ansible_port: 2223
-        ansible_hostname: storax
-
-    wailhost:
-        ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/wailhost/.vagrant/machines/default/virtualbox/private_key
+        ansible_ssh_private_key_file: testing/.vagrant/machines/storax/virtualbox/private_key
         ansible_host: 127.0.0.1 
         ansible_port: 2224
-        ansible_hostname: wailhost
+        ansible_hostname: storax
 
     wirenine:
         ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/wirenine/.vagrant/machines/default/virtualbox/private_key
+        ansible_ssh_private_key_file: testing/.vagrant/machines/wirenine/virtualbox/private_key
         ansible_host: 127.0.0.1 
         ansible_port: 2225
         ansible_hostname: wirenine
 
     nameon:
         ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/nameon/.vagrant/machines/default/virtualbox/private_key
+        ansible_ssh_private_key_file: testing/.vagrant/machines/nameon/virtualbox/private_key
         ansible_host: 127.0.0.1 
         ansible_port: 2226
         ansible_hostname: nameon
+
     hooper:
         ansible_user: vagrant
-        ansible_ssh_private_key_file: staging/hooper/.vagrant/machines/default/virtualbox/private_key
+
+        ansible_ssh_private_key_file: testing/.vagrant/machines/hooper/virtualbox/private_key
         ansible_host: 127.0.0.1 
         ansible_port: 2227
         ansible_hostname: hooper
+    
+    arcible:
+        ansible_user: vagrant
+        ansible_ssh_private_key_file: testing/.vagrant/machines/arcible/virtualbox/private_key
+        ansible_host: 127.0.0.1 
+        ansible_port: 2228
+        ansible_hostname: arcible
+    
+    hydrame:
+        ansible_user: vagrant
+        ansible_ssh_private_key_file: testing/.vagrant/machines/hydrame/virtualbox/private_key
+        ansible_host: 127.0.0.1 
+        ansible_port: 2229
+        ansible_hostname: hydrame
+    
+    palkins:
+        ansible_user: vagrant
+        ansible_ssh_private_key_file: testing/.vagrant/machines/palkins/virtualbox/private_key
+        ansible_host: 127.0.0.1 
+        ansible_port: 2230
+        ansible_hostname: palkins
+
+    starweb:
+        ansible_user: vagrant
+        ansible_ssh_private_key_file: testing/.vagrant/machines/starweb/virtualbox/private_key
+        ansible_host: 127.0.0.1 
+        ansible_port: 2231
+        ansible_hostname: starweb
   vars:
     #dns server parameter
     dns_server: 192.168.0.6 
+    external_dns_server: 192.168.0.1 
     dns_domain_name: pokelab
     
     #default user parameter
     admin_comment: admin user
     admin_home: /home/admin
     admin_user: admin
+    admin_password: '{{ common_admin_password }}'
     
 

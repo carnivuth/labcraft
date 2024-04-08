@@ -1,3 +1,0 @@
-- hosts: ansible_host
-  roles:
-    - setup_ansible_host

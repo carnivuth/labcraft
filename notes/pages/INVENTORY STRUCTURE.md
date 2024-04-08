@@ -8,7 +8,7 @@ each playbook run task against a specific group of hosts for example:
 - hosts: docker_hosts
   roles:
 	- common
-	- setup_docker_host
+	- install_docker
 ```
 
 will match the hosts you put in:

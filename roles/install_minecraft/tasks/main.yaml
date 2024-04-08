@@ -1,28 +1,64 @@
-
-- name: Create minecraft user 
+- name: Create minecraft user
   become: true
-  user:
+  ansible.builtin.user:
     name: minecraft
     home: /usr/local/minecraft
-    create_home: true 
+    create_home: true
+
+- name: Install some script utilities
+  become: true
+  ansible.builtin.apt:
+    name:
+      - jq
+      - tar
+      - curl
+      - cron
+      - mailutils
+    state: present
+    update_cache: true
+
+- name: Copy check_updates script
+  become: true
+  ansible.builtin.copy:
+    src: check_updates.sh
+    dest: /usr/local/minecraft/check_updates.sh
+    owner: root
+    mode: '700'
+
+- name: Copy update script
+  become: true
+  ansible.builtin.copy:
+    src: update.sh
+    dest: /usr/local/minecraft/update.sh
+    owner: root
+    mode: '700'
+
+- name: Get latest minecraft version
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      curl -s $(curl -s 'https://launchermeta.mojang.com/mc/game/version_manifest.json' | jq -r  '.versions[0].url') | jq -r  '.downloads.server.url'
+    executable: /bin/bash
+  register: latest_version_url
 
 - name: Install java
   become: true
-  apt:
+  ansible.builtin.apt:
     name: openjdk-17-jdk
-    state: latest
+    state: present
     update_cache: true
 
 - name: Download minecraft jar
   become: true
-  get_url:
-    url: https://piston-data.mojang.com/v1/objects/5b868151bd02b41319f54c8d4061b8cae84e665c/server.jar
+  ansible.builtin.get_url:
+    url: '{{ latest_version_url }}'
     dest: /usr/local/minecraft/server.jar
     owner: minecraft
+    mode: '700'
 
 - name: Accept eula
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     create: true
     path: /usr/local/minecraft/eula.txt
     line: 'eula=true'
@@ -30,16 +66,25 @@
 
 - name: Copy systemd unit file
   become: true
-  copy:
+  ansible.builtin.copy:
     src: minecraft.service
     dest: /etc/systemd/system/minecraft.service
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Add cron job to check for updates every 5 minutes
+  become: true
+  ansible.builtin.cron:
+    name: "check for minecraft server updates"
+    minute: "*/5"
+    user: root
+    job: " /usr/local/minecraft/check_updates.sh"
+  notify: Restart crond
 
 - name: Start server
   become: true
-  service:
+  ansible.builtin.service:
     name: minecraft
     enabled: true
     state: started
-
-
-

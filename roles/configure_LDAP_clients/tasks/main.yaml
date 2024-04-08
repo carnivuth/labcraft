@@ -1,0 +1,72 @@
+- name: Install debconf and ldap-utils
+  become: true
+  ansible.builtin.apt:
+    name: 
+      - ldap-utils
+      - debconf
+      - debconf-utils
+    state: latest
+    update_cache: true 
+
+- name: Configure libnss-ldap
+  become: true
+  ansible.builtin.debconf:
+    name: "libnss-ldap"
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  loop: "{{ libnss_ldap }}"
+
+- name: Set libnss-ldap password
+  become: true
+  ansible.builtin.debconf:
+    name: libnss-ldap
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "password"
+  loop: "{{ libnss_ldap_password }}"
+  
+
+- name: Configure libpam-ldap
+  become: true
+  ansible.builtin.debconf:
+    name: libpam-ldap
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  loop: "{{ libpam_ldap }}"
+
+- name: "libpam-ldap password"
+  become: true
+  ansible.builtin.debconf:
+    name: libpam-ldap
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "password"
+  loop: "{{ libpam_ldap_password }}"
+  
+- name: Create ldap directory
+  become: true
+  ansible.builtin.file:
+   path: "/etc/ldap"
+   state: directory
+
+- name: Copy ldap configuration
+  become: true
+  ansible.builtin.template:
+    src: ldap.j2
+    dest: /etc/ldap/ldap.conf
+
+- name: Copy nsswitch configuration
+  become: true
+  ansible.builtin.copy:
+    src: nsswitch.conf
+    dest: /etc/nsswitch.conf
+
+- name: Ldap installation
+  become: true
+  ansible.builtin.apt:
+    name:
+      - libnss-ldap
+      - libpam-ldap
+    update_cache: yes

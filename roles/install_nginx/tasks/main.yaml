@@ -1,0 +1,36 @@
+- name: Install nginx
+  become: true
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Create web server root folder
+  become: true
+  ansible.builtin.file:
+    path: '{{ web_server_root }}'
+    state: directory
+    mode: '755'
+
+- name: Disable default configuration
+  become: true
+  ansible.builtin.file:
+    path: '/etc/nginx/sites-enabled/default'
+    state: absent
+  notify: Restart nginx
+
+- name: Copy main site configuration
+  become: true
+  ansible.builtin.template:
+    src: 'main.j2'
+    dest: /etc/nginx/sites-available/main
+    mode: '644'
+  notify: Restart nginx
+
+- name: Enaible main configuration
+  become: true
+  ansible.builtin.file:
+    src: '/etc/nginx/sites-available/main'
+    dest: '/etc/nginx/sites-enabled/main'
+    state: link
+  notify: Restart nginx

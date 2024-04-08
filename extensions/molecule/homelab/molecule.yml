@@ -1,0 +1,23 @@
+---
+driver:
+  name: docker
+
+platforms:
+  - name: palkins
+    image: debian:latest
+  - name: hydrame
+    image: debian:latest
+  - name: arcible
+    image: debian:latest
+  - name: hooper
+    image: debian:latest
+  - name: nameon
+    image: debian:latest
+  - name: wirenine
+    image: debian:latest
+  - name: castleterra
+    image: debian:latest
+  - name: delgit
+    image: debian:latest
+  - name: starweb
+    image: debian:latest

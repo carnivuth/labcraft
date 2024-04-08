@@ -2,7 +2,7 @@ LDAP_server:
   hosts: 
     castleterra:
           # ldap server address 
-          address: 192.168.0.2
+          address: castleterra
           # ldap organization
           organization: pokelab
           # ldap dc
@@ -13,35 +13,60 @@ LDAP_server:
 LDAP_clients:
   hosts:
     castleterra:
-    wailhost:
+    :
     storax:
+    palkins:
   vars:
     #ldap server parameters
-    address: 192.168.0.2
+    address: castleterra
     dc: pokelab
     pwd: '{{ ldap_pwd }}'
+
+## MACHINES WITH JENKINS
+jenkins_host:
+  hosts:
+    arcible:
+    
+## MACHINES WITH JENKINS AGENT
+jenkins_agent_hosts:
+  hosts:
+    hooper:
+      name: hooper # agent name
+      description: hooper  node
+      executors: 2
+      host: 192.168.1.67
+      port: 22
+    palkins:
+      name: palkins # agent name
+      description: palkins  node
+      executors: 2
+      host: 192.168.1.70
+      port: 2roles/install_docker/tasks/main.yaml2
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
   hosts:
-    wailhost:
+    :
     storax:
 
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
 docker_hosts:
   hosts:
-    wailhost:
+    castleterra:
     storax:
     hooper:
+    palkins:
   vars:
     docker_users: 
-    - root
+    - '{{ admin_user }}'
+    
 
 ## MACHINES WITH PORTAINER 
 portainer_dashboard_host:
   hosts: 
-    wailhost:
+    castleterra:
 
+## MACHINES WITH PORTAINER AGENT
 portainer_agent_hosts:
   hosts: 
     storax:
@@ -52,6 +77,11 @@ dashboard_host:
   hosts:
     hooper:
 
+# MACHINE WITH GROCY
+grocy_host:
+  hosts:
+    grotun:
+
 # PROVISION MACHINE 
 ansible_host:
   hosts:
@@ -60,7 +90,7 @@ ansible_host:
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
   hosts:
-    wailhost:
+    castleterra:
   vars:
     curiel_bot_admin: carnivuth #telegram username of the admin
 
@@ -68,15 +98,20 @@ curiel_bot_hosts:
 # NAS SERVER HOST
 nas_server:
   hosts:
+    hooper:
     storax:
       # public share folder path
-      public_folder_path: /home/shares/public
+      public_folder_path: /mnt/storage/share
       # workgroup
       samba_workgroup: homelab
       # force group parameter
       public_group: public
       # samba configuration block name
       public_folder: public
+      # samba authorized users
+      samba_users:
+        - {username: '{{ admin_user }}',password: '{{ admin_password }}'}
+
 
 # MACHINE WITH WIREGUARD SERVICE
 wireguard_host:
@@ -88,20 +123,34 @@ dns_host:
   hosts:
     nameon:
 
+# MACHINE WITH XONOTIC SERVER
+xonotic_host:
+  hosts:
+    hydrame:
+
 # MACHINE WITH MINCRAFT SERVER
 minecraft_host:
   hosts:
     hydrame:
 
+# MACHINES WITH NGINX SERVER
+nginx_hosts:
+  hosts:
+    storax:
+      web_server_root: /mnt/storage/web
+    starweb:
+      web_server_root: /mnt/storage/web
+
 all:
   hosts:
+    
     castleterra:
         ansible_user: root
         ansible_host: 192.168.1.62 
         ansible_port: 22
         ansible_hostname: castleterra
         ansible_ssh_private_key_file: vaults/id_rsa
-
+    
     storax:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
@@ -109,49 +158,84 @@ all:
         ansible_port: 22
         ansible_hostname: storax
 
-    wailhost:
-        ansible_user: root
-        ansible_ssh_private_key_file: vaults/id_rsa
-        ansible_host: 192.168.1.63
-        ansible_port: 22
-        ansible_hostname: wailhost
     wirenine:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.65
         ansible_port: 22
         ansible_hostname: wirenine
+    
     nameon:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.66
         ansible_port: 22
         ansible_hostname: nameon
+    
     hooper:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.67
         ansible_port: 22
         ansible_hostname: hooper
+    
     arcible:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.68
         ansible_port: 22
         ansible_hostname: arcible
+    
     hydrame:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
         ansible_host: 192.168.1.69
         ansible_port: 22
         ansible_hostname: hydrame
+    
+    palkins:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.70
+        ansible_port: 22
+        ansible_hostname: palkins
+    
+    delifix:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.71
+        ansible_port: 22
+        ansible_hostname: delifix
 
+    starweb:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.72
+        ansible_port: 22
+        ansible_hostname: starweb
+
+    dittup:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.74
+        ansible_port: 22
+        ansible_hostname: dittup
+    delgit:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.77
+        ansible_port: 22
+        ansible_hostname: delgit
+    
+    
   vars:
     #dns server parameter
-    dns_server: 192.168.0.6 
+    dns_server: 192.168.1.66 
+    external_dns_server: 192.168.1.1 
     dns_domain_name: pokelab
     
     #default user parameter
     admin_comment: admin user
     admin_home: /home/matteo
     admin_user: matteo
+    admin_password: '{{ common_admin_password }}'

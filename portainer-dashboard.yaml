@@ -1,3 +1,0 @@
-- hosts: portainer_dashboard_host
-  roles:
-    - install_portainer_dashboard

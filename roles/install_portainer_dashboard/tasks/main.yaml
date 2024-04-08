@@ -1,4 +1,10 @@
-- name: install portainer server
+- name: Create portainer data folder
+  become: true
+  ansible.builtin.file:
+    path: /mnt/storage/portainer_data
+    state: directory
+
+- name: Install portainer server
   become: true
   community.docker.docker_container:
     name: portainer
@@ -11,4 +17,4 @@
     image: portainer/portainer-ce:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - /mnt/storage/portainer:/data

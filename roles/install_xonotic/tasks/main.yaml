@@ -1,0 +1,65 @@
+- name: Install some tools
+  become: true
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+    update_cache: true
+
+- name: Create Xonotic user
+  become: true
+  ansible.builtin.user:
+    name: xonotic
+    home: /usr/local/Xonotic
+    shell: /bin/bash
+    create_home: false
+
+- name: Download xonotic
+  become: true
+  ansible.builtin.get_url:
+    url: https://dl.xonotic.org/xonotic-0.8.6.zip
+    dest: /tmp/xonotic-0.8.6.zip
+    mode: '700'
+
+- name: Unzip folder
+  become: true
+  ansible.builtin.unarchive:
+    src: /tmp/xonotic-0.8.6.zip
+    dest: /usr/local
+    remote_src: true
+    owner: xonotic
+    group: xonotic
+    creates: /usr/local/Xonotic/xonotic-linux-dedicated.sh
+
+- name: Create data directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/Xonotic/data
+    group: xonotic
+    owner: xonotic
+    mode: '700'
+    state: directory
+
+- name: Copy server configuration
+  become: true
+  ansible.builtin.copy:
+    src: server.cfg
+    dest: /usr/local/Xonotic/data/server.cfg
+    mode: '700'
+    group: xonotic
+    owner: xonotic
+
+- name: Copy systemd unit
+  become: true
+  ansible.builtin.copy:
+    src: xonotic.service
+    dest: /etc/systemd/system/xonotic.service
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Start server
+  become: true
+  ansible.builtin.service:
+    name: xonotic.service
+    enabled: true
+    state: restarted

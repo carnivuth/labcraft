@@ -1,0 +1,71 @@
+      
+- name: Restart slapd daemon
+  become: true
+  service:
+    name: slapd
+    state: restarted
+
+- name: Insert ldap People entry
+  community.general.ldap_entry:
+    dn: ou=People,dc="{{ dc }}"
+    objectClass: organizationalunit
+    server_uri: ldap://localhost/
+    bind_dn: cn=admin,dc="{{ dc }}"
+    bind_pw: "{{ pwd }}"
+    attributes:
+      description: System Users
+      ou: People
+
+- name: Insert ldap Groups entry
+  community.general.ldap_entry:
+    dn: ou=Groups,dc="{{ dc }}"
+    objectClass: organizationalunit
+    server_uri: ldap://localhost/
+    bind_dn: cn=admin,dc="{{ dc }}"
+    bind_pw: "{{ pwd }}"
+    attributes:
+      description: System Groups
+      ou: Groups
+
+### LDAP USERS
+- name: Insert ldap users
+  community.general.ldap_entry:
+    dn: uid="{{ item.uid }}",ou=People,dc="{{ dc }}"
+    objectClass:
+      - top
+      - posixAccount
+      - shadowAccount
+      - inetOrgPerson
+
+    server_uri: ldap://localhost/
+    bind_dn: cn=admin,dc="{{ dc }}"
+    bind_pw: "{{ pwd }}"
+    attributes:
+      givenName: "{{ item.givenName }}"
+      cn: "{{ item.cn }}"
+      sn: "{{ item.sn }}"
+      mail: "{{ item.mail }}"
+      uid: "{{ item.uid }}"
+      uidNumber: "{{ item.uidNumber }}"
+      gidNumber: "{{ item.gidNumber }}"
+      homeDirectory: "{{ item.homeDirectory }}"
+      loginShell: "{{ item.loginShell }}"
+      gecos: "{{ item.gecos }}"
+      userPassword: "{{ item.userPassword }}"
+  loop: "{{ users }}"
+
+### LDAP GROUPS
+- name: Insert ldap Groups
+  community.general.ldap_entry:
+    dn: cn="{{ item.cn }}",ou=Groups,dc="{{ dc }}"
+    objectClass:
+      - top
+      - posixGroup
+    server_uri: ldap://localhost/
+    bind_dn: cn=admin,dc="{{ dc }}"
+    bind_pw: "{{ pwd }}"
+    attributes:
+      cn: "{{ item.cn }}"
+      gidNumber: "{{ item.gidNumber }}"
+  loop: "{{ usergroups }}"
+

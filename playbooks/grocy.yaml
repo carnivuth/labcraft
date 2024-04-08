@@ -1,0 +1,2 @@
+- hosts: grocy_host
+  roles: roles/install_grocy

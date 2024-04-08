@@ -1,0 +1,31 @@
+- name: Create jenkins agent
+  become: true
+  ansible.builtin.user:
+    name: jenkins
+    home: /usr/local/jenkins
+    create_home: true
+    append: true
+    groups: docker
+
+- name: Create ssh folder
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/jenkins/.ssh
+    owner: jenkins
+    mode: '700'
+    state: directory
+
+- name: Add jenkins host ssh key
+  become: true
+  ansible.builtin.copy:
+    dest: /usr/local/jenkins/.ssh/authorized_keys
+    src: 'vaults/jenkins_key.pub'
+    owner: jenkins
+    mode: '700'
+
+- name: Install java 17
+  become: true
+  ansible.builtin.apt:
+    name: openjdk-17-jdk
+    update_cache: true
+    state: present
