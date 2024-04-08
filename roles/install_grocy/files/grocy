@@ -1,0 +1,12 @@
+server{
+    
+    listen 80;
+    root /usr/local/grocy/public;
+    
+    location / {
+    
+        try_files $uri /index.php$is_args$query_string;
+        autoindex on;
+    
+    }
+}

@@ -1,30 +1,31 @@
-- name: Include secrets 
-  include_vars:
+- name: Include secrets
+  ansible.builtin.include_vars:
     file: vaults/vault.yaml
     name: vault
   no_log: true
 
-- name: Create directory
+- name: Create directories
   become: true
-  file:
+  ansible.builtin.file:
     path: '{{ item }}'
     state: directory
   loop: '{{ directories }}'
 
 - name: Copy nginx configuration
   become: true
-  template:
+  ansible.builtin.template:
     src: 'nginx.conf.j2'
     dest: '{{ nginx_conf_directory }}/nginx.conf'
   #no_log: true
 
 - name: Copy nextcloud compose file
   become: true
-  template:
+  ansible.builtin.template:
     src: 'nextcloud-fpm.yaml.j2'
     dest: '{{ nextcloud_install_dir }}/nextcloud.yaml'
   #no_log: true
 
 - name: Start nextcloud container
   become: true
-  command: 'docker-compose  -f {{ nextcloud_install_dir }}/nextcloud.yaml up -d'
+  ansible.builtin.command:
+    cmd: 'docker-compose  -f {{ nextcloud_install_dir }}/nextcloud.yaml up -d'

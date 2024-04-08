@@ -1,0 +1,47 @@
+---
+# tasks file for install_grocy
+- name: Install dependencies
+  become: true
+  ansible.builtin.apt:
+    name:
+      - nginx
+      - php8.2-gd
+      - php8.2-sqlite3
+      - php8.2-intl
+      - php8.2-mbstring
+      - sqlite3
+    state: present
+    update_cache: true
+
+- name: Download latest release
+  ansible.builtin.get_url:
+    url: 'https://releases.grocy.info/latest'
+    dest: /tmp/grocy-latest.zip
+    mode: '755'
+
+- name: Unzip latest release
+  become: true
+  ansible.builtin.unarchive:
+    src: /tmp/grocy-latest.zip
+    dest: /usr/local/grocy
+
+- name: Copy grocy config
+  become: true
+  ansible.builtin.copy:
+    remote_src: true
+    src: /usr/local/grocy/config-dist.php
+    dest: /usr/local/grocy/config.php
+    mode: '644'
+
+- name: Copy nginx config
+  become: true
+  ansible.builtin.copy:
+    src: grocy.conf
+    dest: /etc/nginx/sites-available/grocy
+    mode: '644'
+
+- name: Enable nginx config
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/grocy
+    dest: /etc/nginx/sites-enabled/grocy
+    state: link

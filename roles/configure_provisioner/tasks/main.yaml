@@ -1,33 +1,15 @@
-- name: install packages
+- name: Install packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name:
       - git
       - ansible
       - python3-passlib
-    state: latest
+    state: present
     update_cache: true
 
-- name: clone homelab repo
+- name: Clone homelab repo
   become: true
-  git:
-    repo: https://github.com/carnivuth/homelab
-    dest: /usr/local/homelab
-
-- name: 'Add cron job to update repo every {{ update_repo_period }} minutes'
-  become: true
-  ansible.builtin.cron:
-    name: "update homelab repo"
-    minute: "*/{{ update_repo_period }}"
-    user: root
-    job: "cd /usr/local/homelab && git pull | logger -t 'update_homelab_repo' -p 'info' "
-  notify: Restart crond
-
-- name: 'Add cron job to run homelab common playbook every {{ common_runner_period }} minutes'
-  become: true
-  ansible.builtin.cron:
-    name: "run homelab common playbook"
-    minute: "*/{{ common_runner_period }}"
-    user: root
-    job: "cd /usr/local/homelab && ansible-playbook -i inventory/prod.yaml common.yaml  --vault-password-file vaults/vault_pass_file -e @vaults/vault.yaml  | logger -t 'common_playbook_runner' -p 'info' "
-  notify: Restart crond
+  ansible.builtin.git:
+    repo: https://github.com/carnivuth/labcraft
+    dest: /usr/local/labcraft

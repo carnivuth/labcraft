@@ -1,42 +1,41 @@
-- name: install java 17
+- name: Install java 17
   become: true
-  apt:
+  ansible.builtin.apt:
     name: openjdk-17-jdk
     update_cache: true
-    state: latest
+    state: present
 
-- name: add apt repository 
+- name: Add jenkins apt repository
   block:
-    - name: download key
+    - name: Download key
       become: true
       ansible.builtin.get_url:
-        url:  'https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key'
+        url: 'https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key'
         dest: /usr/share/keyrings/jenkins-keyring.asc
-    
-    - name: add repo
+
+    - name: Add repo
       become: true
       ansible.builtin.apt_repository:
         repo: " deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
         state: present
-    
+
 - name: Install jenkins
   become: true
   ansible.builtin.apt:
     name: jenkins
-    state: latest
+    state: present
     update_cache: true
 
 - name: Check if config file exist
   become: true
-  stat:
+  ansible.builtin.stat:
     path: '/var/lib/jenkins/config.xml'
   register: config_file
 
 - name: Remove executors on controller node
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: '/var/lib/jenkins/config.xml'
     regexp: '<numExecutors>[0-9]*</numExecutors>'
     line: '<numExecutors>0</numExecutors>'
   when: config_file.stat.exists
-
