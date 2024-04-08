@@ -13,7 +13,6 @@ LDAP_server:
 LDAP_clients:
   hosts:
     castleterra:
-    :
     storax:
     palkins:
   vars:
@@ -46,7 +45,6 @@ jenkins_agent_hosts:
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
   hosts:
-    :
     storax:
 
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
@@ -220,6 +218,12 @@ all:
         ansible_host: 192.168.1.74
         ansible_port: 22
         ansible_hostname: dittup
+    grotun:
+        ansible_user: root
+        ansible_ssh_private_key_file: vaults/id_rsa
+        ansible_host: 192.168.1.78
+        ansible_port: 22
+        ansible_hostname: grotun
     delgit:
         ansible_user: root
         ansible_ssh_private_key_file: vaults/id_rsa
