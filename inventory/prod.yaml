@@ -41,7 +41,7 @@ jenkins_agent_hosts:
       description: palkins  node
       executors: 2
       host: 192.168.1.70
-      port: 22
+      port: 2roles/install_docker/tasks/main.yaml2
 
 ## MACHINES WITH COCKPIT 
 cockpit_hosts:
@@ -76,6 +76,11 @@ portainer_agent_hosts:
 dashboard_host:
   hosts:
     hooper:
+
+# MACHINE WITH GROCY
+grocy_host:
+  hosts:
+    grotun:
 
 # PROVISION MACHINE 
 ansible_host:
