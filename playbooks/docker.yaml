@@ -1,3 +1,3 @@
 -   hosts: docker_hosts
     roles:
-      - install_docker
+      - roles/install_docker

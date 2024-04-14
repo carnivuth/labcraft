@@ -1,6 +1,6 @@
 - name: Include secrets
   ansible.builtin.include_vars:
-    file: vaults/vault.yaml
+    file: ../../vaults/vault.yaml
     name: vault
 
 - name: Creates curiel_bot data directory
@@ -15,8 +15,15 @@
     path: /etc/curiel_bot
     state: directory
 
+- name: Check if config file is present
+  become: true
+  ansible.builtin.stat:
+    path: /etc/curiel_bot/.env
+  register: config_file
+
 - name: Copy config file
   become: true
+  when: not config_file.stat.exists
   ansible.builtin.template:
     dest: /etc/curiel_bot/.env
     src: .env.j2
@@ -26,6 +33,8 @@
   become: true
   community.docker.docker_container:
     name: curiel_bot
+    pull: true
+    recreate: true
     restart: true
     restart_policy: always
     image: carnivuth/curiel_bot:latest
