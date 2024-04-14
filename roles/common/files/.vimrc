@@ -14,7 +14,7 @@ filetype indent on
 syntax on
 
 " Add numbers to each line on the left-hand side.
-set number
+set relativenumber
 
 
 " Set shift width to 4 spaces.

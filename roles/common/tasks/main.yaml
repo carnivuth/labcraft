@@ -51,6 +51,24 @@
     state: present
   loop: '{{ users }}'
 
+- name: Export EDITOR variable
+  become: true
+  ansible.builtin.lineinfile:
+    path: '{{ item.home }}/.bashrc'
+    regexp: ^export EDITOR=vim
+    line: export EDITOR=vim
+    state: present
+  loop: '{{ users }}'
+
+- name: Export VISUAL variable
+  become: true
+  ansible.builtin.lineinfile:
+    path: '{{ item.home }}/.bashrc'
+    regexp: ^export VISUAL=vim
+    line: export VISUAL=vim
+    state: present
+  loop: '{{ users }}'
+
 - name: Export TERM variable
   become: true
   ansible.builtin.lineinfile:
