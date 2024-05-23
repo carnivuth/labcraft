@@ -33,7 +33,7 @@ license_file: ''
 
 # A list of tags you want to associate with the collection for indexing/searching. A tag name has the same character
 # requirements as 'namespace' and 'name'
-tags: [ linux]
+tags: [linux]
 
 # Collections that this collection requires to be installed for it to be usable. The key of the dict is the
 # collection label 'namespace.name'. The value is a version range
@@ -42,13 +42,13 @@ tags: [ linux]
 dependencies: {}
 
 # The URL of the originating SCM repository
-repository: http://example.com/repository
+repository: https://github.com/carnivuth/labcraft
 
 # The URL to any online docs
-documentation: http://docs.example.com
+documentation: 
 
 # The URL to the homepage of the collection/project
-homepage: http://example.com
+homepage: https://github.com/carnivuth/labcraft
 
 # The URL to the collection issue tracker
 issues: http://example.com/issue/tracker
@@ -57,7 +57,7 @@ issues: http://example.com/issue/tracker
 # artifact. A pattern is matched from the relative path of the file or directory of the collection directory. This
 # uses 'fnmatch' to match the files or directories. Some directories and files like 'galaxy.yml', '*.pyc', '*.retry',
 # and '.git' are always filtered. Mutually exclusive with 'manifest'
-build_ignore: []
+build_ignore: [ 'extensions',  'notes', 'testing', 'inventory','*env*'  ]
 
 # A dict controlling use of manifest directives used in building the collection artifact. The key 'directives' is a
 # list of MANIFEST.in style
