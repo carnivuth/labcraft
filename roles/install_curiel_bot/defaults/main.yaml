@@ -1,0 +1,3 @@
+conf_dir: /etc
+data_dir: /mnt/storage
+
