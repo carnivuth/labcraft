@@ -1,61 +1,112 @@
+- name: Install some default packages
+  ansible.builtin.apt:
+    pkg:
+      - sudo
+    state: present
+    update_cache: true
+
 - name: Update all packages to their latest version
-  become: true
   ansible.builtin.apt:
     upgrade: true
     update_cache: true
 
-- name: Install some default packages
-  become: true
-  ansible.builtin.apt:
-    pkg:
-      - vim
-      - sudo
-    state: present
+- name: admin user
+  block:
+    - name: Create admin user
+      ansible.builtin.user:
+        name: "{{ admin_user }}"
+        shell: /bin/bash
+        create_home: true
+        home: "{{ admin_home }}"
+        password: "{{ admin_password | password_hash('sha512') }}"
+        comment: "{{ admin_comment }}"
+        state: present
+      no_log: true
 
-- name: Copy motd file
-  become: true
-  ansible.builtin.copy:
-    src: '{{ ansible_hostname }}-motd'
-    dest: /etc/motd
-    mode: '644'
-  ignore_errors: true
+    - name: Add admin to sudoers
+      community.general.sudoers:
+        name: admin
+        state: present
+        user: "{{ admin_user }}"
+        commands: ALL
 
-- name: Run create admin task
-  ansible.builtin.include_tasks:
-    file: create_admin_user.yaml
+    - name: Create ssh directory
+      ansible.builtin.file:
+        path: "{{ admin_home }}/.ssh"
+        owner: "{{ admin_user }}"
+        mode: "700"
+        state: directory
 
-- name: Copy default vim configuration
-  become: true
-  ansible.builtin.copy:
-    src: .vimrc
-    dest: '{{ item.home }}/.vimrc'
-    mode: '600'
-    owner: '{{ item.owner }}'
-  loop: '{{ users }}'
+    - name: Install ssh keys
+      ansible.posix.authorized_key:
+        user: "{{ admin_user }}"
+        state: present
+        key: "{{ lookup('file', '{{admin_key}}') }}"
+
+- name: Configure vim
+  block:
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - git
+          - vim
+          - fzf
+          - make
+        update_cache: true
+
+    - name: Clone vim configuration repo
+      ansible.builtin.git:
+        repo: "https://github.com/carnivuth/vim_cfg"
+        dest: "{{ admin_home }}/vim_cfg"
+
+    - name: Install vim configuration
+      community.general.make:
+        chdir: "{{ admin_home }}/vim_cfg"
+      loop: "{{ users }}"
+
+    - name: Create fzf directory plugin
+      when: ansible_distribution == "Debian"
+      ansible.builtin.file:
+        path: /usr/share/vim/vimfiles/plugin
+        state:  directory
+
+    - name: link fzf plugin
+      when: ansible_distribution == "Debian"
+      ansible.builtin.file:
+        src: /usr/share/doc/fzf/examples/plugin/fzf.vim
+        dest: /usr/share/vim/vimfiles/plugin/fzf.vim
+        state: link
 
 - name: Copy default bash aliases
-  become: true
   ansible.builtin.copy:
     src: .bash_aliases
-    dest: '{{ item.home }}/.bash_aliases'
-    mode: '700'
-    owner: '{{ item.owner }}'
-  loop: '{{ users }}'
+    dest: "{{ item.home }}/.bash_aliases"
+    mode: "700"
+    owner: "{{ item.owner }}"
+  loop: "{{ users }}"
 
 - name: Include bash aliases in bashrc
-  become: true
   ansible.builtin.lineinfile:
-    path: '{{ item.home }}/.bashrc'
+    path: "{{ item.home }}/.bashrc"
     regexp: ^source ~/.bash_aliases
     line: source ~/.bash_aliases
     state: present
-  loop: '{{ users }}'
+  loop: "{{ users }}"
 
-- name: Export TERM variable
+- name: Export EDITOR variable
   become: true
   ansible.builtin.lineinfile:
     path: '{{ item.home }}/.bashrc'
-    regexp: ^export TERM=linux
-    line: export TERM=linux
+    regexp: ^export EDITOR=vim
+    line: export EDITOR=vim
+    state: present
+  loop: '{{ users }}'
+
+- name: Export VISUAL variable
+  become: true
+  ansible.builtin.lineinfile:
+    path: '{{ item.home }}/.bashrc'
+    regexp: ^export VISUAL=vim
+    line: export VISUAL=vim
     state: present
   loop: '{{ users }}'

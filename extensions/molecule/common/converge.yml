@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: run common role
+      ansible.builtin.include_role:
+        name: carnivuth.labcraft.common
+      vars:
+        admin_home: /home/bar
+        admin_password: foo
+        admin_user: bar
+        admin_comment: bar
+        admin_key: ~/.ssh/id_rsa.pub
+

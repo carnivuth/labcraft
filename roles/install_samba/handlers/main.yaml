@@ -1,5 +1,0 @@
-- name: Restart samba
-  become: true
-  ansible.builtin.service:
-    name: nmbd
-    state: restarted

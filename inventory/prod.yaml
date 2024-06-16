@@ -50,7 +50,7 @@ cockpit_hosts:
 ## MACHINES WITH DOCKER RUNTIME SUPPORT 
 docker_hosts:
   hosts:
-    castleterra:
+    wailhost:
     storax:
     hooper:
     palkins:
@@ -88,7 +88,7 @@ ansible_host:
 # MACHINE WITH CURIEL_BOT
 curiel_bot_hosts:
   hosts:
-    castleterra:
+    wailhost:
   vars:
     curiel_bot_admin: carnivuth #telegram username of the admin
 
@@ -147,6 +147,12 @@ all:
         ansible_host: 192.168.1.62 
         ansible_port: 22
         ansible_hostname: castleterra
+          
+    wailhost:
+        ansible_user: root
+        ansible_host: 192.168.1.63 
+        ansible_port: 22
+        ansible_hostname: wailhost
         ansible_ssh_private_key_file: vaults/id_rsa
     
     storax:

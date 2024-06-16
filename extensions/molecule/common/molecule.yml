@@ -1,0 +1,22 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: ubuntu
+    image: ubuntu:jammy
+  - name: debian
+    image: debian:bookworm
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

@@ -1,34 +1,43 @@
-- name: Include secrets
-  ansible.builtin.include_vars:
-    file: vaults/vault.yaml
-    name: vault
+- name: Install docker
+  ansible.builtin.include_role:
+    name: geerlingguy.docker
 
 - name: Creates curiel_bot data directory
-  become: true
   ansible.builtin.file:
-    path: /mnt/storage/curiel_bot
+    path: '{{ data_dir }}/curiel_bot'
     state: directory
 
 - name: Creates curiel_bot config file
-  become: true
   ansible.builtin.file:
-    path: /etc/curiel_bot
+    path: '{{ conf_dir }}/curiel_bot'
     state: directory
 
+- name: Check if config file is present
+  ansible.builtin.stat:
+    path: '{{ conf_dir }}/curiel_bot/.env'
+  register: config_file
+
 - name: Copy config file
-  become: true
+  when: not config_file.stat.exists
   ansible.builtin.template:
-    dest: /etc/curiel_bot/.env
+    dest: '{{ conf_dir }}/curiel_bot/.env'
     src: .env.j2
   no_log: true
 
+- name: Install python dependencies for docker module
+  ansible.builtin.apt:
+    name: python3-requests
+    state: present
+    update_cache: true
+
 - name: Install curiel bot
-  become: true
   community.docker.docker_container:
     name: curiel_bot
+    pull: true
+    recreate: true
     restart: true
     restart_policy: always
     image: carnivuth/curiel_bot:latest
     volumes:
-      - /mnt/storage/curiel_bot:/usr/src/curiel_bot/data
-      - /etc/curiel_bot/.env:/usr/src/curiel_bot/.env
+      - '{{ data_dir }}/curiel_bot:/usr/src/curiel_bot/data'
+      - '{{ conf_dir }}/.env:/usr/src/curiel_bot/.env'
