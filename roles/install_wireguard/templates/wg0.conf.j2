@@ -1,8 +1,0 @@
-[Interface]
-PrivateKey = {{ vault.wireguard_server_private_key }}
-Address = {{ vault.wireguard_server_address }}
-ListenPort =  {{ vault.wireguard_server_port }}
-SaveConfig = true
-
-PostUp = /etc/wireguard/add-nat-routing.sh
-PreDown = /etc/wireguard/remove-nat-routing.sh
