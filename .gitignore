@@ -6,3 +6,4 @@ roles/gpu-passtrough
 vaults
 env
 logs
+ansible.cfg

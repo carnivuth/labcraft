@@ -1,1 +1,0 @@
-role for cockpit installation
