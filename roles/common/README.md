@@ -1,7 +1,7 @@
 carnivuth.labcraft.common
 =========
 
-Run some default configurations
+perform default configuration on machines, setup vim with personal configurations and install some default packages
 
 Requirements
 ------------
@@ -20,7 +20,7 @@ admin_key: admin ssh public key
 Dependencies
 ------------
 
-None
+ansible.community.general
 
 Example Playbook
 ----------------

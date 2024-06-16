@@ -51,6 +51,7 @@
           - git
           - vim
           - fzf
+          - make
         update_cache: true
 
     - name: Clone vim configuration repo
@@ -58,11 +59,9 @@
         repo: "https://github.com/carnivuth/vim_cfg"
         dest: "{{ admin_home }}/vim_cfg"
 
-    - name: Link vim configuration
-      ansible.builtin.file:
-        src: "{{ admin_home }}/vim_cfg"
-        dest: "{{ item.home }}/.vim"
-        state: link
+    - name: Install vim configuration
+      community.general.make:
+        chdir: "{{ admin_home }}/vim_cfg"
       loop: "{{ users }}"
 
     - name: Create fzf directory plugin
@@ -74,7 +73,7 @@
     - name: link fzf plugin
       when: ansible_distribution == "Debian"
       ansible.builtin.file:
-        src: /usr/share/doc/fzf/examples/plugin/fzf.vim 
+        src: /usr/share/doc/fzf/examples/plugin/fzf.vim
         dest: /usr/share/vim/vimfiles/plugin/fzf.vim
         state: link
 
