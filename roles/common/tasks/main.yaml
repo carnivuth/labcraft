@@ -58,8 +58,23 @@
       ansible.builtin.git:
         repo: "https://github.com/carnivuth/vim_cfg"
         dest: "{{ admin_home }}/vim_cfg"
+        force: true
+
+    - name: Remove vimrc configuration
+      ansible.builtin.file:
+        path: "{{ item.home }}/.vim"
+        state: absent
+      loop: "{{ users }}"
+
+    - name: Remove vimrc configuration
+      ansible.builtin.file:
+        path: "{{ item.home }}/.vimrc"
+        state: absent
+      loop: "{{ users }}"
 
     - name: Install vim configuration
+      become: true
+      become_user: "{{ item.owner }}"
       community.general.make:
         chdir: "{{ admin_home }}/vim_cfg"
       loop: "{{ users }}"
