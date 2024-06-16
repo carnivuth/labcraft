@@ -1,3 +1,0 @@
-- hosts: jenkins_host
-  roles:
-    - install_jenkins

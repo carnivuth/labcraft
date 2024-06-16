@@ -1,3 +1,0 @@
-- hosts: portainer_agent_hosts
-  roles:
-    - install_portainer_agent
