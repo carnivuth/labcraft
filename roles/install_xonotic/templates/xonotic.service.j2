@@ -1,0 +1,16 @@
+[Unit]
+Description= free fast-paced crossplatform first-person shooter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=xonotic
+WorkingDirectory={{ xonotic_home }}/Xonotic
+ExecStart=/bin/bash xonotic-linux-dedicated.sh +serverconfig {{ xonotic_conf_dir }}/server.cfg
+Restart=always
+RestartSec=30
+
+StandardInput=null
+
+[Install]
+WantedBy=multi-user.target

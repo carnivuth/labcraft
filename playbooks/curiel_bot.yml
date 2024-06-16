@@ -1,0 +1,3 @@
+- hosts: curiel_bot_hosts
+  roles:
+    - roles/install_curiel_bot
