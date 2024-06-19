@@ -125,3 +125,7 @@
     line: export VISUAL=vim
     state: present
   loop: '{{ users }}'
+
+- name: Set timezone
+  community.general.timezone:
+    name: Europe/Rome
