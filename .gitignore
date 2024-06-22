@@ -7,3 +7,4 @@ vaults
 env
 logs
 ansible.cfg
+*prod*
