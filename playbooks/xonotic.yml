@@ -1,4 +1,4 @@
 - hosts: xonotic_host
   roles:
-    - install_xonotic
+    - carnivuth.labcraft.install_xonotic
     

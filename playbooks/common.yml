@@ -1,4 +1,4 @@
 - name: Run common role on all nodes
   hosts: all
   roles:
-    - roles/common
+    - carnivuth.labcraft.common
