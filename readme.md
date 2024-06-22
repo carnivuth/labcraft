@@ -18,6 +18,7 @@ python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
+link the collection inside `~/.ansible/collections/ansible_collections/`
 
 - create inventory following the template in `inventory/inventory.proxmox.yml`
 
