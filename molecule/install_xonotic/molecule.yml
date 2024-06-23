@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+  provider: 
+    name: virtualbox
+platforms:
+
+  - name: ubuntu
+    box: ubuntu/jammy64
+
+  - name: debian
+    box: debian/bookworm64
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
