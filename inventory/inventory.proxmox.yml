@@ -1,0 +1,36 @@
+plugin: community.general.proxmox
+url:
+user:
+token_id:
+token_secret:
+want_facts: true
+validate_certs: false
+want_proxmox_nodes_ansible_host: true
+compose:
+  ansible_host: proxmox_net0.ip | default(proxmox_agent_interfaces[1].ip_addresses[0]) | ipaddr('address')
+  ansible_port: 22
+  external_dns_server:
+  dns_domain_name:
+  admin_comment:
+  admin_home:
+  admin_comment:
+  admin_key:
+  admin_user:
+  admin_password:
+  dns_server:
+  curiel_bot_admin:
+  ansible_ssh_private_key_file:
+groups:
+  docker_host: "'docker' in (proxmox_tags_parsed|list)"
+  jenkins_host: "'jenkins' in (proxmox_tags_parsed|list)"
+  jenkins_agent_host: "'jenkins_agent' in (proxmox_tags_parsed|list)"
+  cockpit_host: "'cockpit' in (proxmox_tags_parsed|list)"
+  portainer_host: "'portainer' in (proxmox_tags_parsed|list)"
+  portainer_agent_host: "'portainer_agent' in (proxmox_tags_parsed|list)"
+  homer_host: "'homer' in (proxmox_tags_parsed|list)"
+  grocy_host: "'grocy' in (proxmox_tags_parsed|list)"
+  ansible_host: "'ansible' in (proxmox_tags_parsed|list)"
+  curiel_bot_host: "'curiel_bot' in (proxmox_tags_parsed|list)"
+  dns_host: "'dns' in (proxmox_tags_parsed|list)"
+  xonotic_host: "'xonotic' in (proxmox_tags_parsed|list)"
+  minecraft_host: "'minecraft' in (proxmox_tags_parsed|list)"

@@ -1,6 +1,6 @@
-# Ansible Collection - carnivuth.labcraft
+# LABCRAFT
 
-Personal ansible collection for homelab management# HOMELAB
+Personal ansible collection for homelab management
 
 ## INSTALLATION
 
@@ -18,7 +18,13 @@ python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
-- create inventory with vars following the readme of the roles
+link the collection inside `~/.ansible/collections/ansible_collections/`
+
+- create inventory following the template in `inventory/inventory.proxmox.yml`
+
+```bash
+cp inventory/inventory.proxmox.yml inventory/inventory.proxmox.yml
+```
 
 - run playbooks
 

@@ -1,7 +1,7 @@
 - name: Install dnsmasq on the dns server
   hosts: dns_host
   roles:
-    - roles/install_dnsmasq
+    - carnivuth.labcraft.install_dnsmasq
 
 - name: Set nameserver in all other nodes
   hosts: all
