@@ -1,6 +1,6 @@
 # LABCRAFT
 
-Personal ansible collection for homelab management
+Personal ansible collection for homelab management over proxmox virtual environment
 
 ## INSTALLATION
 
