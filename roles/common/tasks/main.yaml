@@ -1,3 +1,4 @@
+---
 - name: Install some default packages
   ansible.builtin.apt:
     pkg:
@@ -83,7 +84,7 @@
       when: ansible_distribution == "Debian"
       ansible.builtin.file:
         path: /usr/share/vim/vimfiles/plugin
-        state:  directory
+        state: directory
 
     - name: link fzf plugin
       when: ansible_distribution == "Debian"
@@ -128,4 +129,5 @@
 
 - name: Set timezone
   community.general.timezone:
-    name: Europe/Rome
+    name: "Europe/Rome"
+  notify: Restart cron
