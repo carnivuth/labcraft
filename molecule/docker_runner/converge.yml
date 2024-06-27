@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: run common role
+      ansible.builtin.include_role:
+        name: carnivuth.labcraft.docker_runner
+      vars:
+        app: navidrome
+        app_uid: 10000
+        navidrome_data: /var/lib/navidrome/data
+        navidrome_collection: /var/lib/navidrome/collection
+        app_ports:
+          - "4533:4533"
+        app_dirs:
+          - "{{ navidrome_data }}"
+          - "{{ navidrome_collection }}"

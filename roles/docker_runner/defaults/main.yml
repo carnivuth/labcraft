@@ -1,0 +1,9 @@
+---
+# defaults file for docker_runner
+app:
+app_uid:
+app_dirs:
+app_home_root: /usr/local
+# NAVIDROME VARS
+navidrome_data: /var/lib/navidrome/data
+navidrome_collection: /var/lib/navidrome/collection

@@ -1,0 +1,36 @@
+---
+# tasks file for docker_runner
+- name: Install docker
+  ansible.builtin.include_role:
+    name: geerlingguy.docker
+  vars:
+    docker_install_compose_plugin: false
+    docker_compose_package: docker-compose-plugin
+    docker_compose_package_state: present
+
+- name: create User
+  ansible.builtin.user:
+    name: "{{ app }}"
+    home: "{{ app_home_root }}/{{ app }}"
+    uid: "{{ app_uid }}"
+    create_home: true
+
+- name: Create directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ app }}"
+  loop: "{{ app_dirs }}"
+
+- name: Download docker compose file
+  ansible.builtin.template:
+    src: "{{ app }}.yml.j2"
+    dest: "{{ app_home_root }}/{{ app }}/docker-compose.yml"
+
+- name: "Start {{ app }}"
+  community.docker.docker_compose_v2:
+    project_src: "{{ app_home_root }}/{{ app }}"
+    state: present
+  register: result
+  retries: 5
+  delay: 1
