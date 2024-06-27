@@ -1,0 +1,12 @@
+- name: Install docker applications
+  hosts: docker_host
+  tasks:
+    - name: Include role for "{{ item.app }}"
+      ansible.builtin.include_role:
+        name: carnivuth.labcraft.docker_runner
+      vars:
+        app: "{{ item.app }}"
+        app_uid: "{{ item.app_uid }}"
+        app_dirs: "{{ item.app_dirs }}"
+        app_ports: "{{ item.app_ports }}"
+      loop: "{{ apps }}"
