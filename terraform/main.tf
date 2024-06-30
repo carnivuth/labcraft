@@ -14,11 +14,13 @@ provider "proxmox" {
   pm_tls_insecure     = var.pm_tls_insecure
 }
 
-
-
+# VIRTUAL MACHINES
 resource "proxmox_vm_qemu" "wailord" {
   name        = "wailord"
-  tags        = "docker"
+  tags        = "service_manager"
+  cores       = 8
+  sockets     = 1
+  memory      = 8192
   target_node = var.proxmox_host
   clone       = "ubuntu-2404-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.94/24"
@@ -46,8 +48,78 @@ resource "proxmox_vm_qemu" "wailord" {
       }
     }
   }
+}
 
+# LXC CONTAINERS
+resource "proxmox_lxc" "arcanine" {
+  target_node     = var.proxmox_host
+  hostname        = "arcanine"
+  ostemplate      = var.prod_ct_template
+  password        = var.guest_password
+  unprivileged    = true
+  ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.nameserver
+  cores           = 1
+  memory          = 1024
 
+  rootfs {
+    storage = var.storage_pool
+    size    = "20G"
+  }
+
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.95/24"
+    gw     = var.guest_gw
+  }
+}
+
+resource "proxmox_lxc" "staraptor" {
+  target_node     = var.proxmox_host
+  hostname        = "staraptor"
+  ostemplate      = var.prod_ct_template
+  password        = var.guest_password
+  unprivileged    = true
+  ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.nameserver
+  cores           = 2
+  memory          = 2048
+
+  rootfs {
+    storage = var.storage_pool
+    size    = "8G"
+  }
+
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.92/24"
+    gw     = var.guest_gw
+  }
+}
+resource "proxmox_lxc" "espeon" {
+  target_node     = var.proxmox_host
+  hostname        = "espeon"
+  ostemplate      = var.prod_ct_template
+  password        = var.guest_password
+  unprivileged    = true
+  ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.nameserver
+  cores           = 1
+  memory          = 1024
+
+  rootfs {
+    storage = var.storage_pool
+    size    = "8G"
+  }
+
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.96/24"
+    gw     = var.guest_gw
+  }
 }
 resource "proxmox_lxc" "dedenne" {
   target_node     = var.proxmox_host
@@ -56,8 +128,10 @@ resource "proxmox_lxc" "dedenne" {
   password        = var.guest_password
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.nameserver
+  cores           = 4
+  memory          = 4096
 
-  // Terraform will crash without rootfs defined
   rootfs {
     storage = var.storage_pool
     size    = "50G"

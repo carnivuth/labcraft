@@ -22,6 +22,7 @@ compose:
   ansible_ssh_private_key_file:
 groups:
   docker_host: "'docker' in (proxmox_tags_parsed|list)"
+  service_manager: "'service_manager' in (proxmox_tags_parsed|list)"
   jenkins_host: "'jenkins' in (proxmox_tags_parsed|list)"
   jenkins_agent_host: "'jenkins_agent' in (proxmox_tags_parsed|list)"
   cockpit_host: "'cockpit' in (proxmox_tags_parsed|list)"
