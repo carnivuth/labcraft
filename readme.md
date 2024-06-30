@@ -18,7 +18,17 @@ python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
-link the collection inside `~/.ansible/collections/ansible_collections/`
+
+- install ansible collections and roles
+
+```bash
+source env/bin/activate
+ansible-galaxy collection install ansible.posix
+ansible-galaxy collection install community.general
+ansible-galaxy role install geerlingguy.docker
+```
+
+- link the collection inside `~/.ansible/collections/ansible_collections/`
 
 - create inventory following the template in `inventory/inventory.proxmox.yml`
 
