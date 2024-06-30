@@ -36,6 +36,12 @@ ansible-galaxy role install geerlingguy.docker
 cp inventory/inventory.proxmox.yml inventory/inventory.proxmox.yml
 ```
 
+- create vars file following the template in `vars/sample.yml`
+
+```bash
+cp vars/sample.yml vars/prod.yml
+```
+
 - run playbooks
 
 ## ROLES

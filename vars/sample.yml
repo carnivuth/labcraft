@@ -1,0 +1,18 @@
+navidrome_data: /var/lib/navidrome/data
+navidrome_collection: /var/lib/navidrome/collection
+nextcloud_data_dir: /var/lib/nextcloud
+nextcloud_apache_port: 11111
+apps:
+  - app: nextcloud
+    app_uid: 10001
+    app_ports: 
+      - "8080:8080"
+    app_dirs:
+      - "{{ nextcloud_data_dir }}"
+  - app: navidrome
+    app_uid: 10000
+    app_ports: 
+      - "4533:4533"
+    app_dirs:
+      - "{{ navidrome_data }}"
+      - "{{ navidrome_collection }}"
