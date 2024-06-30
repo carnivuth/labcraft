@@ -5,6 +5,9 @@ variable "storage_pool" {
   default     = "local-lvm"
   description = "proxmox storage for volumes"
 }
+variable "nameserver" {
+  description = "network nameserver"
+}
 variable "proxmox_host" {
   default     = "pve"
   description = "proxmox host where to store variables"
@@ -22,8 +25,11 @@ variable "pm_tls_insecure" {
   default     = "true"
   description = "verify certificate"
 }
+variable "guest_user" {
+  description = "user for ct/vm"
+}
 variable "guest_password" {
-  description = "password for ct"
+  description = "password for ct/vm"
 }
 variable "guest_gw" {
   default     = "192.168.1.1"

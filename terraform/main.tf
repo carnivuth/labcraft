@@ -16,6 +16,39 @@ provider "proxmox" {
 
 
 
+resource "proxmox_vm_qemu" "wailord" {
+  name        = "wailord"
+  tags        = "docker"
+  target_node = var.proxmox_host
+  clone       = "ubuntu-2404-cloudinit-template"
+  ipconfig0   = "gw=192.168.1.1,ip=192.168.1.94/24"
+  scsihw      = "virtio-scsi-pci"
+  boot        = "order=scsi0;net0"
+  cipassword  = var.guest_password
+  ciuser      = var.guest_user
+  sshkeys     = var.ssh_pub_key
+  nameserver  = var.nameserver
+
+  disks {
+    ide {
+      ide2 {
+        cloudinit {
+          storage = var.storage_pool
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "100G"
+          storage = var.storage_pool
+        }
+      }
+    }
+  }
+
+
+}
 resource "proxmox_lxc" "dedenne" {
   target_node     = var.proxmox_host
   hostname        = "dedenne"
@@ -33,7 +66,7 @@ resource "proxmox_lxc" "dedenne" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "192.168.1.85/24"
+    ip     = "192.168.1.91/24"
     gw     = var.guest_gw
   }
 }
