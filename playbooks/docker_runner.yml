@@ -1,12 +1,24 @@
 - name: Install docker applications
   hosts: docker_host
   tasks:
-    - name: Include role for "{{ item.app }}"
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_install_compose_plugin: false
+        docker_compose_package: docker-compose-plugin
+        docker_compose_package_state: present
+      loop: "{{ apps }}"
+    - name: Include role for "{{ apps[element].app }}"
       ansible.builtin.include_role:
         name: carnivuth.labcraft.docker_runner
       vars:
-        app: "{{ item.app }}"
-        app_uid: "{{ item.app_uid }}"
-        app_dirs: "{{ item.app_dirs }}"
-        app_ports: "{{ item.app_ports }}"
+        app: "{{ apps[element].app }}"
+        app_uid: "{{ apps[element].app_uid }}"
+        app_dirs: "{{ apps[element].app_dirs }}"
+        app_ports: "{{ apps[element].app_ports }}"
       loop: "{{ apps }}"
+      loop_control:
+        index_var: element
+
+
