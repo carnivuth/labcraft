@@ -1,5 +1,5 @@
 - name: Install docker applications
-  hosts: docker_host
+  hosts: service_manager
   tasks:
     - name: Install docker
       ansible.builtin.include_role:
