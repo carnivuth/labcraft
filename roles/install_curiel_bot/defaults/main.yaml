@@ -1,3 +1,4 @@
-conf_dir: /etc
-data_dir: /mnt/storage
-
+curiel_bot_conf_dir: /etc/curiel_bot
+curiel_bot_data_dir: /var/lib/curiel_bot
+curiel_bot_token:
+curiel_bot_admin:
