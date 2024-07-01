@@ -59,8 +59,8 @@ resource "proxmox_lxc" "arcanine" {
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
   nameserver      = var.nameserver
-  cores           = 1
-  memory          = 1024
+  cores           = 2
+  memory          = 2048
   onboot          = true
   start           = true
 
@@ -80,6 +80,7 @@ resource "proxmox_lxc" "arcanine" {
 resource "proxmox_lxc" "staraptor" {
   target_node     = var.proxmox_host
   hostname        = "staraptor"
+  tags            = "reverse_proxy"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
@@ -111,7 +112,7 @@ resource "proxmox_lxc" "espeon" {
   ssh_public_keys = var.ssh_pub_key
   nameserver      = var.nameserver
   cores           = 1
-  memory          = 1024
+  memory          = 512
   onboot          = true
   start           = true
 
