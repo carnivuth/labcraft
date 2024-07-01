@@ -61,6 +61,8 @@ resource "proxmox_lxc" "arcanine" {
   nameserver      = var.nameserver
   cores           = 1
   memory          = 1024
+  onboot          = true
+  start           = true
 
   rootfs {
     storage = var.storage_pool
@@ -85,6 +87,8 @@ resource "proxmox_lxc" "staraptor" {
   nameserver      = var.nameserver
   cores           = 2
   memory          = 2048
+  onboot          = true
+  start           = true
 
   rootfs {
     storage = var.storage_pool
@@ -108,6 +112,8 @@ resource "proxmox_lxc" "espeon" {
   nameserver      = var.nameserver
   cores           = 1
   memory          = 1024
+  onboot          = true
+  start           = true
 
   rootfs {
     storage = var.storage_pool
@@ -131,6 +137,8 @@ resource "proxmox_lxc" "dedenne" {
   nameserver      = var.nameserver
   cores           = 4
   memory          = 4096
+  onboot          = true
+  start           = true
 
   rootfs {
     storage = var.storage_pool
