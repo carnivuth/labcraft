@@ -1,3 +1,4 @@
+---
 - name: Install docker applications
   hosts: service_manager
   tasks:
@@ -8,7 +9,7 @@
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
-      loop: "{{ apps }}"
+
     - name: Include role for "{{ apps[element].app }}"
       ansible.builtin.include_role:
         name: carnivuth.labcraft.docker_runner
@@ -20,5 +21,3 @@
       loop: "{{ apps }}"
       loop_control:
         index_var: element
-
-
