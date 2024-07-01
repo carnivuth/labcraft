@@ -9,6 +9,7 @@ want_proxmox_nodes_ansible_host: true
 compose:
   ansible_host: proxmox_net0.ip | default(proxmox_agent_interfaces[1].ip_addresses[0]) | ipaddr('address')
   ansible_port: 22
+  ansible_user: "'root'"
   external_dns_server:
   dns_domain_name:
   admin_comment:
