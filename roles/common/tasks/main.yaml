@@ -11,39 +11,6 @@
     upgrade: true
     update_cache: true
 
-- name: admin user
-  block:
-    - name: Create admin user
-      ansible.builtin.user:
-        name: "{{ admin_user }}"
-        shell: /bin/bash
-        create_home: true
-        home: "{{ admin_home }}"
-        password: "{{ admin_password | password_hash('sha512') }}"
-        comment: "{{ admin_comment }}"
-        state: present
-      no_log: true
-
-    - name: Add admin to sudoers
-      community.general.sudoers:
-        name: admin
-        state: present
-        user: "{{ admin_user }}"
-        commands: ALL
-
-    - name: Create ssh directory
-      ansible.builtin.file:
-        path: "{{ admin_home }}/.ssh"
-        owner: "{{ admin_user }}"
-        mode: "700"
-        state: directory
-
-    - name: Install ssh keys
-      ansible.posix.authorized_key:
-        user: "{{ admin_user }}"
-        state: present
-        key: "{{ lookup('file', '{{admin_key}}') }}"
-
 - name: Configure vim
   block:
     - name: Install dependencies
@@ -58,27 +25,13 @@
     - name: Clone vim configuration repo
       ansible.builtin.git:
         repo: "https://github.com/carnivuth/vim_cfg"
-        dest: "{{ admin_home }}/vim_cfg"
+        dest: "/root/vim_cfg"
         force: true
 
-    - name: Remove vimrc configuration
-      ansible.builtin.file:
-        path: "{{ item.home }}/.vim"
-        state: absent
-      loop: "{{ users }}"
-
-    - name: Remove vimrc configuration
-      ansible.builtin.file:
-        path: "{{ item.home }}/.vimrc"
-        state: absent
-      loop: "{{ users }}"
-
     - name: Install vim configuration
-      become: true
-      become_user: "{{ item.owner }}"
       community.general.make:
-        chdir: "{{ admin_home }}/vim_cfg"
-      loop: "{{ users }}"
+        chdir: "/root/vim_cfg"
+        target: "install"
 
     - name: Create fzf directory plugin
       when: ansible_distribution == "Debian"
@@ -93,39 +46,17 @@
         dest: /usr/share/vim/vimfiles/plugin/fzf.vim
         state: link
 
-- name: Copy default bash aliases
+- name: Copy bash_aliases
   ansible.builtin.copy:
     src: .bash_aliases
-    dest: "{{ item.home }}/.bash_aliases"
+    dest: "/root/.bash_aliases"
     mode: "700"
-    owner: "{{ item.owner }}"
-  loop: "{{ users }}"
 
-- name: Include bash aliases in bashrc
-  ansible.builtin.lineinfile:
-    path: "{{ item.home }}/.bashrc"
-    regexp: ^source ~/.bash_aliases
-    line: source ~/.bash_aliases
-    state: present
-  loop: "{{ users }}"
-
-- name: Export EDITOR variable
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ item.home }}/.bashrc'
-    regexp: ^export EDITOR=vim
-    line: export EDITOR=vim
-    state: present
-  loop: '{{ users }}'
-
-- name: Export VISUAL variable
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ item.home }}/.bashrc'
-    regexp: ^export VISUAL=vim
-    line: export VISUAL=vim
-    state: present
-  loop: '{{ users }}'
+- name: Copy bashrc
+  ansible.builtin.copy:
+    src: .bashrc
+    dest: "/root/.bashrc"
+    mode: "700"
 
 - name: Set timezone
   community.general.timezone:
