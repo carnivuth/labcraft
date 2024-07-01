@@ -1,3 +1,4 @@
-- hosts: curiel_bot_hosts
+- hosts: curiel_bot_host
+  become: true
   roles:
     - carnivuth.labcraft.install_curiel_bot

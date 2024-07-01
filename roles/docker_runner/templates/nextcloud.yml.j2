@@ -1,0 +1,16 @@
+services:
+  nextcloud-aio-mastercontainer:
+    container_name: nextcloud-aio-mastercontainer
+    image: nextcloud/all-in-one:latest
+    ports: {{ app_ports }}
+    restart: unless-stopped
+    environment:
+      APACHE_PORT: {{ nextcloud_apache_port }}
+      APACHE_IP_BINDING: {{ nextcloud_apache_address }}
+      NEXTCLOUD_DATADIR: {{ nextcloud_data_dir }}
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer

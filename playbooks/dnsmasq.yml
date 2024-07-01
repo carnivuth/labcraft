@@ -1,10 +1,13 @@
+---
 - name: Install dnsmasq on the dns server
+  become: true
   hosts: dns_host
   roles:
     - carnivuth.labcraft.install_dnsmasq
 
 - name: Set nameserver in all other nodes
   hosts: all
+  become: true
   tasks:
     - name: Remove dns servers
       become: true

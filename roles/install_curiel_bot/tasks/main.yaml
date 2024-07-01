@@ -4,23 +4,23 @@
 
 - name: Creates curiel_bot data directory
   ansible.builtin.file:
-    path: '{{ data_dir }}/curiel_bot'
+    path: '{{ curiel_bot_data_dir }}'
     state: directory
 
 - name: Creates curiel_bot config file
   ansible.builtin.file:
-    path: '{{ conf_dir }}/curiel_bot'
+    path: '{{ curiel_bot_conf_dir }}'
     state: directory
 
 - name: Check if config file is present
   ansible.builtin.stat:
-    path: '{{ conf_dir }}/curiel_bot/.env'
+    path: '{{ curiel_bot_conf_dir }}/.env'
   register: config_file
 
 - name: Copy config file
   when: not config_file.stat.exists
   ansible.builtin.template:
-    dest: '{{ conf_dir }}/curiel_bot/.env'
+    dest: '{{ curiel_bot_conf_dir }}/.env'
     src: .env.j2
   no_log: true
 
@@ -39,5 +39,5 @@
     restart_policy: always
     image: carnivuth/curiel_bot:latest
     volumes:
-      - '{{ data_dir }}/curiel_bot:/usr/src/curiel_bot/data'
-      - '{{ conf_dir }}/.env:/usr/src/curiel_bot/.env'
+      - '{{ curiel_bot_data_dir }}:/usr/src/curiel_bot/data'
+      - '{{ curiel_bot_conf_dir }}/.env:/usr/src/curiel_bot/.env'

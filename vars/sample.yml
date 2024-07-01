@@ -1,0 +1,26 @@
+navidrome_data: /var/lib/navidrome/data
+navidrome_collection: /var/lib/navidrome/collection
+nextcloud_data_dir: /var/lib/nextcloud
+curiel_bot_data_dir: /var/lib/curiel_bot
+nextcloud_apache_port: 11111
+curiel_bot_token:
+curiel_bot_admin:
+apps:
+  - app: curiel_bot
+    app_uid: 10002
+    app_ports: []
+    app_dirs:
+      - "{{ curiel_bot_data_dir }}"
+  - app: nextcloud
+    app_uid: 10001
+    app_ports:
+      - "8080:8080"
+    app_dirs:
+      - "{{ nextcloud_data_dir }}"
+  - app: navidrome
+    app_uid: 10000
+    app_ports:
+      - "4533:4533"
+    app_dirs:
+      - "{{ navidrome_data }}"
+      - "{{ navidrome_collection }}"

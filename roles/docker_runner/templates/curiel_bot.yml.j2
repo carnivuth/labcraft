@@ -1,0 +1,11 @@
+services:
+  curiel_bot:
+    image: carnivuth/curiel_bot:latest
+    restart: unless-stopped
+    environment:
+      TOKEN: "{{ curiel_bot_token }}"
+      SETTINGS_FOLDER: settings
+      DATA_FOLDER: data
+      ADMIN: "{{ curiel_bot_admin }}"
+    volumes:
+      - '{{ curiel_bot_data_dir }}:/usr/src/curiel_bot/data'
