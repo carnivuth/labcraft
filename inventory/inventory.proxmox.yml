@@ -22,6 +22,7 @@ compose:
   curiel_bot_admin:
   ansible_ssh_private_key_file:
 groups:
+  reverse_proxy: "'reverse_proxy' in (proxmox_tags_parsed|list)"
   docker_host: "'docker' in (proxmox_tags_parsed|list)"
   service_manager: "'service_manager' in (proxmox_tags_parsed|list)"
   jenkins_host: "'jenkins' in (proxmox_tags_parsed|list)"
