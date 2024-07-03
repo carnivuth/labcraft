@@ -1,0 +1,6 @@
+---
+# handlers file for nginx_reverse_proxy
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
