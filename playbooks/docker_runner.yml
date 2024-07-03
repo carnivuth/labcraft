@@ -16,6 +16,7 @@
       vars:
         app: "{{ apps[element].app }}"
         app_uid: "{{ apps[element].app_uid }}"
+        app_baseurl: "{{ apps[element].app_baseurl }}"
         app_dirs: "{{ apps[element].app_dirs }}"
         app_ports: "{{ apps[element].app_ports }}"
       loop: "{{ apps }}"
