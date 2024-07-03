@@ -10,7 +10,7 @@ services:
       ND_SCANSCHEDULE: 1h
       ND_LOGLEVEL: info
       ND_SESSIONTIMEOUT: 24h
-      ND_BASEURL: ""
+      ND_BASEURL: "{{ app_baseurl }}"
     volumes:
       - "{{ navidrome_data }}:/data"
       - "{{ navidrome_collection }}:/music:ro"
