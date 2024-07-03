@@ -1,0 +1,16 @@
+---
+- hosts: reverse_proxy
+  vars:
+    service_manager_address: wailord
+    app: navidrome
+  tasks:
+    - name: Install reverse proxy for {{ apps[element].app }}
+      when: apps[element].reverse_proxy == true
+      ansible.builtin.include_role:
+        name: carnivuth.labcraft.add_nginx_reverse_proxy
+      vars:
+        app: "{{ apps[element].app }}"
+        exposed_port: "{{ apps[element].exposed_port }}"
+      loop: "{{ apps }}"
+      loop_control:
+        index_var: element
