@@ -26,3 +26,9 @@
   register: result
   retries: 5
   delay: 1
+- name: Change owner of data folder for nextcloud
+  when: app == 'nextcloud'
+  ansible.builtin.file:
+    path: "{{ nextcloud_data_dir }}"
+    state: directory
+    owner: www-data
