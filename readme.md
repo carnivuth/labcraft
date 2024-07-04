@@ -1,6 +1,95 @@
 # LABCRAFT
 
-Personal ansible collection for homelab management over proxmox virtual environment
+Files for homelab provisioning and maintenance operations of my personal proxmox cluster for self-hosted services, application deployment environment and playhouse :)
+
+## ARCHITECTURE
+
+The server is an old PC with the following specs
+
+| CATEGORY | SPECS                               |
+| -------- | ----------------------------------- |
+| MEMORY   | 32 GB ram                           |
+| STORAGE  | 1 TB nvme ssd, 2 TB hard drives X 2 |
+| CPU      | ryzen 5 1600                        |
+
+## ARCHITECTURE
+
+The machine runs proxmox cluster with vm's and container above it
+
+```mermaid
+flowchart LR
+subgraph pokelab
+direction TD
+A[castleterra\n the proxmox host]
+B[wailord\n docker host for self-hosted services]
+C[espeon\n dns server]
+D[umbreon \n second dns server]
+E[staraptor\n web server for external reverse proxy]
+G[arcanine\n wireguard host]
+I[dittup\n pbs host for backups]
+A --> B & C & D & E & G & I
+end
+```
+
+## NETWORKING
+
+some services are exposed to the internet via HTTPS reverse proxy with nginx
+
+```mermaid
+flowchart LR
+A((Internet))
+B{starweb}
+C[nextcloud]
+D[gitlab]
+E[jenkins]
+C & D & E --> B
+B --> A
+```
+
+some other services are exposed through port forwarding on the router
+
+```mermaid
+flowchart LR
+A((Internet))
+B{router\n port forwarding}
+C[minecraft]
+D[xonotic]
+E[wireguard]
+C & D & E --> B
+B --> A
+```
+
+## DISKS MANAGEMENT
+
+Containers and virtual machines's rootfs disk is located in the `local-lvm` volume on the nvme disk. all the volumes are backuped in the other hard drive from pbs
+
+```mermaid
+flowchart
+	subgraph data disks
+		direction TB
+		subgraph nvme
+				A[container rootfs]
+		end
+		subgraph HD1
+			B[container external storage]
+		end
+	end
+	subgraph backupdisks
+		direction TB
+		subgraph HD2
+			direction LR
+			C[backup volume]
+		end
+	end
+	A & B -- backup on --> C
+	A   -- mounted on /mnt/storage --> B
+```
+
+## BACKUPS
+
+Backups are made with the use of PBS in snapshot mode, every night at 21:00 for all containers and virtual machines, one of the 2 hard drives is dedicated to this purpose, only the last 5 backups are maintained
+
+for big containers stop mode is used instead, see [this](https://pve.proxmox.com/wiki/Backup_and_Restore#_backup_modes) for reference
 
 ## INSTALLATION
 
@@ -42,10 +131,16 @@ cp inventory/inventory.proxmox.yml inventory/inventory.proxmox.yml
 cp vars/sample.yml vars/prod.yml
 ```
 
-- run playbooks
+- create terraform vars file following the vars declaration in `terraform/variables.tf`
 
-## ROLES
+- create a proxmox admin token for terraform
 
-- [common configuration for containers and vms](./roles/common/README.md)
-- [dnsmasq configuration](./roles/install_dnsmasq/README.md)
-- [install curiel bot application](./roles/install_curiel_bot/README.md)
+- create templates for vms and containers following [this](./docs/CREATE_VM_TEMPLATE.md)
+
+- run terraform to deploy vms and add one of the dns servers to `/etc/hosts`
+
+- run preflight playbook for provisioning
+
+```bash
+ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight -e @vars/prod.yml
+```
