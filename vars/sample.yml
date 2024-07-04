@@ -8,7 +8,20 @@ domain_name:
 nextcloud_apache_port: 11111
 curiel_bot_token:
 curiel_bot_admin:
+github_sync_healthcheck:
+github_sync_account:
+github_sync_data_dir: /var/lib/github_sync
+github_sync_log_dir: /var/log/github_sync
 apps:
+  - app: github_sync
+    app_uid: 10003
+    app_ports: []
+    exposed_port: ""
+    app_baseurl: ""
+    reverse_proxy: false
+    app_dirs:
+      - "{{ github_sync_data_dir }}"
+      - "{{ github_sync_log_dir }}"
   - app: curiel_bot
     app_uid: 10002
     app_ports: []
