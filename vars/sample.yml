@@ -1,4 +1,7 @@
 ---
+external_dns_server: '192.168.1.1'
+dns_domain_name: 'pokelab'
+dns_server: '192.168.1.96'
 certbot_admin_email:
 navidrome_data: /var/lib/navidrome/data
 navidrome_collection: /var/lib/navidrome/collection
@@ -12,7 +15,9 @@ github_sync_healthcheck:
 github_sync_account:
 github_sync_data_dir: /var/lib/github_sync
 github_sync_log_dir: /var/log/github_sync
+
 apps:
+
   - app: github_sync
     app_uid: 10003
     app_ports: []
@@ -22,6 +27,7 @@ apps:
     app_dirs:
       - "{{ github_sync_data_dir }}"
       - "{{ github_sync_log_dir }}"
+
   - app: curiel_bot
     app_uid: 10002
     app_ports: []
@@ -30,6 +36,7 @@ apps:
     reverse_proxy: false
     app_dirs:
       - "{{ curiel_bot_data_dir }}"
+
   - app: nextcloud
     app_uid: 10001
     exposed_port: "{{ nextcloud_apache_port }}"
@@ -39,6 +46,7 @@ apps:
       - "8080:8080"
     app_dirs:
       - "{{ nextcloud_data_dir }}"
+
   - app: navidrome
     app_uid: 10000
     app_baseurl: "https://{{ domain_name }}/navidrome"

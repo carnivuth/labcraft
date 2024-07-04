@@ -1,0 +1,6 @@
+---
+- name: Setup dns on dns hosts
+  become: true
+  hosts: dns_host
+  roles:
+    - carnivuth.labcraft.dns

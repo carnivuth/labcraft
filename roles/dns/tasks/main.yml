@@ -1,20 +1,31 @@
+---
+- name: set dns ip address
+  ansible.builtin.set_fact:
+    dns_ip: '{{ address | regex_replace( "(.*)/.*", "\1" ) }}'
+
 - name: Install dnsmasq
   ansible.builtin.apt:
     name: dnsmasq
     state: present
     update_cache: true
 
-- name: Enable dns service
-  ansible.builtin.lineinfile:
-    path: /etc/dnsmasq.conf
-    line: 'listen-address=::1,127.0.0.1,{{ dns_server }}'
+- name: Copy dnsmasq configuration
+  ansible.builtin.template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
 
 - name: 'Add dns server entry in the {{ hostvars[item].ansible_host }}'
+  when: hostvars[item].address is defined
   ansible.builtin.lineinfile:
     path: /etc/hosts
     line: '{{ hostvars[item].address | regex_replace( "(.*)/.*", "\1" )}} {{ item }}.{{ dns_domain_name }} {{ item }}'
   loop: '{{ groups["all"] }}'
   ignore_errors: true
+
+- name: Copy /etc/resolv.conf
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
 
 - name: Start dnsmasq
   ansible.builtin.service:
