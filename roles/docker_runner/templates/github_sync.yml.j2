@@ -1,0 +1,10 @@
+services:
+  github_sync:
+    container_name: github_sync
+    image: "carnivuth/github_sync:latest"
+    environment:
+      HEALTHCHECK: "{{ github_sync_healthcheck }}"
+      ACCOUNT: "{{ github_sync_account }}"
+    volumes:
+      - "{{ github_sync_data_dir }}:/var/lib/github_sync"
+      - "{{ github_sync_log_dir }}:/var/log/github_sync"
