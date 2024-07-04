@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "wailord" {
   tags        = "service_manager"
   cores       = 8
   sockets     = 1
-  memory      = 8192
+  memory      = 16384
   target_node = var.proxmox_host
   clone       = "ubuntu-2404-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.94/24"
@@ -30,6 +30,8 @@ resource "proxmox_vm_qemu" "wailord" {
   ciuser      = var.guest_user
   sshkeys     = var.ssh_pub_key
   nameserver  = var.nameserver
+  onboot      = true
+  vm_state    = "running"
 
   disks {
     ide {
@@ -103,9 +105,60 @@ resource "proxmox_lxc" "staraptor" {
     gw     = var.guest_gw
   }
 }
+resource "proxmox_lxc" "ditto" {
+  target_node     = var.proxmox_host
+  hostname        = "ditto"
+  ostemplate      = var.prod_ct_template
+  password        = var.guest_password
+  unprivileged    = true
+  ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.nameserver
+  cores           = 1
+  memory          = 512
+  onboot          = true
+  start           = true
+
+  rootfs {
+    storage = var.storage_pool
+    size    = "100G"
+  }
+
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.93/24"
+    gw     = var.guest_gw
+  }
+}
+resource "proxmox_lxc" "umbreon" {
+  target_node     = var.proxmox_host
+  hostname        = "umbreon"
+  tags            = "dns"
+  ostemplate      = var.prod_ct_template
+  password        = var.guest_password
+  unprivileged    = true
+  ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.nameserver
+  cores           = 1
+  memory          = 512
+  onboot          = true
+  start           = true
+
+  rootfs {
+    storage = var.storage_pool
+    size    = "8G"
+  }
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.97/24"
+    gw     = var.guest_gw
+  }
+}
 resource "proxmox_lxc" "espeon" {
   target_node     = var.proxmox_host
   hostname        = "espeon"
+  tags            = "dns"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
