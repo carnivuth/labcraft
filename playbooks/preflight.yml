@@ -1,0 +1,15 @@
+---
+- name: Configure DNS servers
+  ansible.builtin.import_playbook: dns.yml
+
+- name: Configure DNS on clients
+  ansible.builtin.import_playbook: setup_dns.yml
+
+- name: Deploy docker containers
+  ansible.builtin.import_playbook: docker_runner.yml
+
+- name: Provision reverse proxy server
+  ansible.builtin.import_playbook: install_nginx.yml
+
+- name: configure applications reverse proxies
+  ansible.builtin.import_playbook: configure_reverse_proxy.yml
