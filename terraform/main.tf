@@ -44,7 +44,7 @@ resource "proxmox_vm_qemu" "wailord" {
     scsi {
       scsi0 {
         disk {
-          size    = "100G"
+          size    = "300G"
           storage = var.storage_pool
         }
       }
@@ -138,7 +138,7 @@ resource "proxmox_lxc" "umbreon" {
   password        = var.guest_password
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.nameserver
+  nameserver      = var.external_nameserver
   cores           = 1
   memory          = 512
   onboot          = true
@@ -163,7 +163,7 @@ resource "proxmox_lxc" "espeon" {
   password        = var.guest_password
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.nameserver
+  nameserver      = var.external_nameserver
   cores           = 1
   memory          = 512
   onboot          = true
