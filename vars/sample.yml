@@ -1,22 +1,45 @@
 ---
+# dns config
 external_dns_server: '192.168.1.1'
 dns_domain_name: 'pokelab'
 dns_server: '192.168.1.96'
+
+# reverse proxy cofig
 certbot_admin_email:
+domain_name:
+
+# navidrome
 navidrome_data: /var/lib/navidrome/data
 navidrome_collection: /var/lib/navidrome/collection
+
+#nextcloud
 nextcloud_data_dir: /var/lib/nextcloud
-curiel_bot_data_dir: /var/lib/curiel_bot
-domain_name:
 nextcloud_apache_port: 11111
+
+#portainer
+portainer_web: 9443
+
+# curiel bot
 curiel_bot_token:
 curiel_bot_admin:
+curiel_bot_data_dir: /var/lib/curiel_bot
+
+# github sync
 github_sync_healthcheck:
 github_sync_account:
 github_sync_data_dir: /var/lib/github_sync
-github_sync_log_dir: /var/log/github_sync
 
 apps:
+
+  - app: portainer
+    app_uid: 10004
+    exposed_port: ""
+    app_baseurl: ""
+    reverse_proxy: false
+    app_ports:
+      - "{{ portainer_web }}:{{ portainer_web }}"
+      - "8000:8000"
+    app_dirs: []
 
   - app: github_sync
     app_uid: 10003

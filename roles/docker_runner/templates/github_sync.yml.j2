@@ -7,4 +7,3 @@ services:
       ACCOUNT: "{{ github_sync_account }}"
     volumes:
       - "{{ github_sync_data_dir }}:/var/lib/github_sync"
-      - "{{ github_sync_log_dir }}:/var/log/github_sync"

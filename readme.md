@@ -4,22 +4,12 @@ Files for homelab provisioning and maintenance operations of my personal proxmox
 
 ## ARCHITECTURE
 
-The server is an old PC with the following specs
-
-| CATEGORY | SPECS                               |
-| -------- | ----------------------------------- |
-| MEMORY   | 32 GB ram                           |
-| STORAGE  | 1 TB nvme ssd, 2 TB hard drives X 2 |
-| CPU      | ryzen 5 1600                        |
-
-## ARCHITECTURE
-
 The machine runs proxmox cluster with vm's and container above it
 
 ```mermaid
 flowchart LR
 subgraph pokelab
-direction TD
+direction TB
 A[castleterra\n the proxmox host]
 B[wailord\n docker host for self-hosted services]
 C[espeon\n dns server]

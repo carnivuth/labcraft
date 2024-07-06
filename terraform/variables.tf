@@ -8,6 +8,9 @@ variable "storage_pool" {
 variable "nameserver" {
   description = "network nameserver"
 }
+variable "external_nameserver" {
+  description = "network nameserver"
+}
 variable "proxmox_host" {
   default     = "pve"
   description = "proxmox host where to store variables"

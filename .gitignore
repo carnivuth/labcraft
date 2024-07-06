@@ -8,3 +8,4 @@ env
 logs
 ansible.cfg
 *prod*
+plan
