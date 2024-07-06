@@ -53,58 +53,6 @@ resource "proxmox_vm_qemu" "wailord" {
 }
 
 # LXC CONTAINERS
-resource "proxmox_lxc" "arcanine" {
-  target_node     = var.proxmox_host
-  hostname        = "arcanine"
-  ostemplate      = var.prod_ct_template
-  password        = var.guest_password
-  unprivileged    = true
-  ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.nameserver
-  cores           = 2
-  memory          = 2048
-  onboot          = true
-  start           = true
-
-  rootfs {
-    storage = var.storage_pool
-    size    = "20G"
-  }
-
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.1.95/24"
-    gw     = var.guest_gw
-  }
-}
-
-resource "proxmox_lxc" "staraptor" {
-  target_node     = var.proxmox_host
-  hostname        = "staraptor"
-  tags            = "reverse_proxy"
-  ostemplate      = var.prod_ct_template
-  password        = var.guest_password
-  unprivileged    = true
-  ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.nameserver
-  cores           = 2
-  memory          = 2048
-  onboot          = true
-  start           = true
-
-  rootfs {
-    storage = var.storage_pool
-    size    = "8G"
-  }
-
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.1.92/24"
-    gw     = var.guest_gw
-  }
-}
 resource "proxmox_lxc" "ditto" {
   target_node     = var.proxmox_host
   hostname        = "ditto"
@@ -130,57 +78,7 @@ resource "proxmox_lxc" "ditto" {
     gw     = var.guest_gw
   }
 }
-resource "proxmox_lxc" "umbreon" {
-  target_node     = var.proxmox_host
-  hostname        = "umbreon"
-  tags            = "dns"
-  ostemplate      = var.prod_ct_template
-  password        = var.guest_password
-  unprivileged    = true
-  ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.external_nameserver
-  cores           = 1
-  memory          = 512
-  onboot          = true
-  start           = true
 
-  rootfs {
-    storage = var.storage_pool
-    size    = "8G"
-  }
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.1.97/24"
-    gw     = var.guest_gw
-  }
-}
-resource "proxmox_lxc" "espeon" {
-  target_node     = var.proxmox_host
-  hostname        = "espeon"
-  tags            = "dns"
-  ostemplate      = var.prod_ct_template
-  password        = var.guest_password
-  unprivileged    = true
-  ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.external_nameserver
-  cores           = 1
-  memory          = 512
-  onboot          = true
-  start           = true
-
-  rootfs {
-    storage = var.storage_pool
-    size    = "8G"
-  }
-
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.1.96/24"
-    gw     = var.guest_gw
-  }
-}
 resource "proxmox_lxc" "dedenne" {
   target_node     = var.proxmox_host
   hostname        = "dedenne"
