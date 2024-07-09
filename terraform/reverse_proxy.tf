@@ -13,7 +13,7 @@ resource "proxmox_lxc" "staraptor" {
   start           = true
 
   rootfs {
-    storage = var.storage_pool
+    storage = var.main_pool
     size    = "8G"
   }
 

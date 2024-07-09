@@ -12,7 +12,7 @@ resource "proxmox_lxc" "arcanine" {
   start           = true
 
   rootfs {
-    storage = var.storage_pool
+    storage = var.main_pool
     size    = "20G"
   }
 
