@@ -3,6 +3,7 @@ users:
   - { home: "/root", owner: "root" }
 
 packages:
+  - kitty-terminfo
   - fzf
   - vim
   - make
