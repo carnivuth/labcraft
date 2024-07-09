@@ -1,12 +1,12 @@
-resource "proxmox_vm_qemu" "dedenne" {
-  name        = "dedenne"
-  tags        = "develop"
-  cores       = 8
+resource "proxmox_vm_qemu" "ditto" {
+  name        = "ditto"
+  tags        = "backupper"
+  cores       = 2
   sockets     = 1
-  memory      = 8192
+  memory      = 4096
   target_node = var.proxmox_host
-  clone       = "arch-cloudinit-template"
-  ipconfig0   = "gw=192.168.1.1,ip=192.168.1.91/24"
+  clone       = "ubuntu-2404-cloudinit-template"
+  ipconfig0   = "gw=192.168.1.1,ip=192.168.1.93/24"
   scsihw      = "virtio-scsi-pci"
   boot        = "order=scsi0;net0"
   cipassword  = var.guest_password
@@ -27,7 +27,7 @@ resource "proxmox_vm_qemu" "dedenne" {
     scsi {
       scsi0 {
         disk {
-          size    = "300G"
+          size    = "500G"
           storage = var.main_pool
         }
       }

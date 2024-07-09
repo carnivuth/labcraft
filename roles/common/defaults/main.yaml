@@ -1,3 +1,11 @@
 users:
   - { home: "{{ admin_home }}", owner: "{{ admin_user }}"}
   - { home: "/root", owner: "root" }
+
+packages:
+  - kitty-terminfo
+  - fzf
+  - vim
+  - make
+  - git
+  - tmux

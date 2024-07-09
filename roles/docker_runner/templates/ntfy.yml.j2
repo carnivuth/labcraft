@@ -1,0 +1,16 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy
+    container_name: ntfy
+    command:
+      - serve
+    environment:
+      TZ: UTC+2
+      NTFY_BASE_URL: "{{ app_baseurl }}"
+      NTFY_BEHIND_PROXY: true
+    user: "{{ app_uid }}"
+    volumes:
+      - {{ ntfy_cache_dir }}:/var/cache/ntfy
+      - {{ ntfy_conf_dir }}:/etc/ntfy
+    ports: {{ app_ports }}
+    restart: unless-stopped

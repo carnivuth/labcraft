@@ -13,7 +13,7 @@ resource "proxmox_lxc" "umbreon" {
   start           = true
 
   rootfs {
-    storage = var.storage_pool
+    storage = var.main_pool
     size    = "8G"
   }
   network {
@@ -38,7 +38,7 @@ resource "proxmox_lxc" "espeon" {
   start           = true
 
   rootfs {
-    storage = var.storage_pool
+    storage = var.main_pool
     size    = "8G"
   }
 

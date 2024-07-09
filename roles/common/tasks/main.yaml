@@ -1,27 +1,32 @@
 ---
-- name: Install some default packages
-  ansible.builtin.apt:
-    pkg:
-      - sudo
-    state: present
-    update_cache: true
-
-- name: Update all packages to their latest version
+- name: Update all packages to their latest version (apt distros)
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
   ansible.builtin.apt:
     upgrade: true
     update_cache: true
 
+- name: Update all packages to their latest version (pacman distros)
+  when: ansible_distribution == "Archlinux"
+  community.general.pacman:
+    upgrade: true
+    update_cache: true
+
+- name: Install some default packages (pacman distros)
+  when: ansible_distribution == "Archlinux"
+  community.general.pacman:
+    name: "{{ packages }}"
+    state: present
+
+- name: Install some default packages (apt distros)
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: present
+    update_cache: true
+
+
 - name: Configure vim
   block:
-    - name: Install dependencies
-      ansible.builtin.apt:
-        name:
-          - git
-          - vim
-          - fzf
-          - make
-        update_cache: true
-
     - name: Clone vim configuration repo
       ansible.builtin.git:
         repo: "https://github.com/carnivuth/vim_cfg"
@@ -34,13 +39,13 @@
         target: "install"
 
     - name: Create fzf directory plugin
-      when: ansible_distribution == "Debian"
+      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
       ansible.builtin.file:
         path: /usr/share/vim/vimfiles/plugin
         state: directory
 
     - name: link fzf plugin
-      when: ansible_distribution == "Debian"
+      when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
       ansible.builtin.file:
         src: /usr/share/doc/fzf/examples/plugin/fzf.vim
         dest: /usr/share/vim/vimfiles/plugin/fzf.vim
