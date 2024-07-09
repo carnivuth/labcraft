@@ -23,9 +23,11 @@
   community.docker.docker_compose_v2:
     project_src: "{{ app_home_root }}/{{ app }}"
     state: present
+    pull: always
   register: result
   retries: 5
   delay: 1
+
 - name: Change owner of data folder for nextcloud
   when: app == 'nextcloud'
   ansible.builtin.file:
