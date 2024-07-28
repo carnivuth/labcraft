@@ -2,6 +2,7 @@ services:
   github_sync:
     container_name: github_sync
     image: "carnivuth/github_sync:latest"
+    restart: unless-stopped
     environment:
       HEALTHCHECK: "{{ github_sync_healthcheck }}"
       NTFY: "{{ github_sync_ntfy }}"
