@@ -16,6 +16,16 @@ navidrome_collection: /var/lib/navidrome/collection
 nextcloud_data_dir: /var/lib/nextcloud
 nextcloud_apache_port: 11111
 
+# ntfy
+ntfy_cache_dir: /var/cache/ntfy
+ntfy_data_dir: /var/lib/ntfy
+ntfy_conf_dir: /etc/ntfy
+ntfy_web: 8001
+
+# adguard
+adguard_data_dir: /var/lib/adguard
+adguard_conf_dir: /etc/adguard
+adguard_web: 8081
 #portainer
 portainer_web: 9443
 
@@ -30,6 +40,30 @@ github_sync_account:
 github_sync_data_dir: /var/lib/github_sync
 
 apps:
+
+  - app: adguard
+    app_uid: 10006
+    app_baseurl: "https://{{ domain_name }}"
+    reverse_proxy: false
+    app_ports:
+      - "53:53/udp"
+      - "3000:3000"
+      - "{{ adguard_web }}:80"
+    app_dirs:
+      - "{{ adguard_conf_dir }}"
+      - "{{ adguard_data_dir }}"
+
+  - app: ntfy
+    app_uid: 10005
+    exposed_port: "{{ ntfy_web }}"
+    app_baseurl: "https://{{ domain_name }}"
+    reverse_proxy: true
+    app_ports:
+      - "{{ ntfy_web }}:80"
+    app_dirs:
+      - "{{ ntfy_cache_dir }}"
+      - "{{ ntfy_conf_dir }}"
+      - "{{ ntfy_data_dir }}"
 
   - app: portainer
     app_uid: 10004
