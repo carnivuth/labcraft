@@ -1,6 +1,0 @@
-users:
-  - { home: "/root", owner: "root" }
-
-packages:
-  - kitty-terminfo
-  - git 

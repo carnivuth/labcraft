@@ -2,5 +2,58 @@
 - name: Setup dns on dns hosts
   become: true
   hosts: dns_host
-  roles:
-    - carnivuth.labcraft.dns
+  pre_tasks:
+    - ansible.builtin.include_vars:
+        file: vars/prod.yml
+  tasks:
+
+    - name: Set dns ip address
+      ansible.builtin.set_fact:
+        dns_ip: '{{ address | regex_replace( "(.*)/.*", "\1" ) }}'
+
+    - name: Copy dnsmasq configuration
+      ansible.builtin.template:
+        src: templates/dnsmasq.conf.j2
+        dest: /etc/dnsmasq.conf
+      notify: Restart dnsmasq
+
+    - name: Copy /etc/resolv.conf
+      ansible.builtin.template:
+        src: templates/resolv.conf.j2
+        dest: /etc/resolv.conf
+      notify: Restart dnsmasq
+
+    - name: 'Add dns server entry in the {{ hostvars[item].ansible_host }}'
+      when: hostvars[item].address is defined
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: '{{ hostvars[item].address | regex_replace( "(.*)/.*", "\1" )}} {{ item }}.{{ dns_domain_name }} {{ item }}'
+      loop: '{{ groups["all"] }}'
+      ignore_errors: true
+      notify: Restart dnsmasq
+
+    - name: Install dnsmasq
+      ansible.builtin.apt:
+        name: dnsmasq
+        state: present
+        update_cache: true
+      notify: Restart dnsmasq
+
+  handlers:
+    - name: Restart dnsmasq
+      ansible.builtin.service:
+        name: dnsmasq
+        state: restarted
+        enabled: true
+
+- name: Set nameserver in all other nodes
+  hosts: all:!dns_host
+  become: true
+  pre_tasks:
+    - ansible.builtin.include_vars:
+        file: vars/prod.yml
+  tasks:
+    - name: Copy dnsmasq configuration
+      ansible.builtin.template:
+        src: templates/resolv.conf.j2
+        dest: /etc/resolv.conf

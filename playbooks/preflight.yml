@@ -9,7 +9,7 @@
   ansible.builtin.import_playbook: docker_runner.yml
 
 - name: Provision reverse proxy server
-  ansible.builtin.import_playbook: install_nginx.yml
+  ansible.builtin.import_playbook: reverse_proxy.yml
 
 - name: configure applications reverse proxies
   ansible.builtin.import_playbook: configure_reverse_proxy.yml
