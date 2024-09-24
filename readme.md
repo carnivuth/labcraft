@@ -125,7 +125,7 @@ cp playbooks/vars/sample.yml playbooks/vars/prod.yml
 
 - create a proxmox admin token for terraform
 
-- create templates for vms and containers following [this](./docs/CREATE_VM_TEMPLATE.md)
+- create templates for vms and containers following [this](https://carnivuth.github.io/TIL/pages/CREATE_VM_TEMPLATE)
 
 - run terraform to deploy vms and add one of the dns servers to `/etc/hosts`
 
