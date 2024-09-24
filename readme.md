@@ -118,7 +118,7 @@ cp inventory/inventory.proxmox.yml inventory/inventory.proxmox.yml
 - create vars file following the template in `vars/sample.yml`
 
 ```bash
-cp vars/sample.yml vars/prod.yml
+cp playbooks/vars/sample.yml playbooks/vars/prod.yml
 ```
 
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
@@ -132,5 +132,5 @@ cp vars/sample.yml vars/prod.yml
 - run preflight playbook for provisioning
 
 ```bash
-ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight -e @vars/prod.yml
+ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight
 ```
