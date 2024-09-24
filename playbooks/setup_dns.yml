@@ -1,9 +1,0 @@
----
-- name: Set nameserver in all other nodes
-  hosts: all:!dns_host
-  become: true
-  tasks:
-    - name: Copy dnsmasq configuration
-      ansible.builtin.template:
-        src: resolv.conf.j2
-        dest: /etc/resolv.conf

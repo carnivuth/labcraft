@@ -3,6 +3,7 @@
 external_dns_server: '192.168.1.1'
 dns_domain_name: 'pokelab'
 dns_server: '192.168.1.96'
+dns_server_backup: '192.168.1.97'
 
 # reverse proxy cofig
 certbot_admin_email:

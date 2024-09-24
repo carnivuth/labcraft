@@ -1,7 +1,0 @@
----
-# handlers file for install_grocy
-- name: Restart nginx
-  become: true
-  ansible.builtin.service:
-    name: nginx
-    state: restarted

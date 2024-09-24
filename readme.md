@@ -118,19 +118,19 @@ cp inventory/inventory.proxmox.yml inventory/inventory.proxmox.yml
 - create vars file following the template in `vars/sample.yml`
 
 ```bash
-cp vars/sample.yml vars/prod.yml
+cp playbooks/vars/sample.yml playbooks/vars/prod.yml
 ```
 
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
 
 - create a proxmox admin token for terraform
 
-- create templates for vms and containers following [this](./docs/CREATE_VM_TEMPLATE.md)
+- create templates for vms and containers following [this](https://carnivuth.github.io/TIL/pages/CREATE_VM_TEMPLATE)
 
 - run terraform to deploy vms and add one of the dns servers to `/etc/hosts`
 
 - run preflight playbook for provisioning
 
 ```bash
-ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight -e @vars/prod.yml
+ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight
 ```

@@ -1,8 +1,5 @@
 ---
 - hosts: reverse_proxy
-  vars:
-    service_manager_address: wailord
-    app: navidrome
   tasks:
     - name: Install reverse proxy for {{ apps[element].app }}
       when: apps[element].reverse_proxy == true

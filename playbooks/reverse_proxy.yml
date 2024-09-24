@@ -2,16 +2,11 @@
 - name: Install nginx and certbot on reverse proxies
   hosts: reverse_proxy
   vars:
-    certbot_create_if_missing: true
-    certbot_create_method: webroot
-    certbot_create_standalone_stop_services:
-      - nginx
-    certbot_create_command: "{{ certbot_script }} certonly --nginx --email {{ cert_item.email | default(certbot_admin_email) }} -d {{ cert_item.domains | join(',') }} -n  --agree-tos"
-    certbot_certs:
-      - domains:
-          - pokelab.ddns.net
 
   pre_tasks:
+    - name: Import vars
+      ansible.builtin.include_vars:
+        file: vars/prod.yml
     - name: Install nginx certbot plugin
       ansible.builtin.apt:
         name: python3-certbot-nginx
@@ -37,7 +32,7 @@
     - name: Copy default configuration file
       when: not nginx_conf.stat.exists
       ansible.builtin.template:
-        src: main.j2
+        src: templates/main.j2
         dest: /etc/nginx/sites-available/main
 
     - name: enable default configuration file
