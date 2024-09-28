@@ -9,7 +9,7 @@
 
     - name: Set dns ip address
       ansible.builtin.set_fact:
-        dns_ip: '{{ address | regex_replace( "(.*)/.*", "\1" ) }}'
+        dns_ip: '{{ address | regex_replace( "(.*)/.*", "\1" )}}'
 
     - name: Copy dnsmasq configuration
       ansible.builtin.template:
@@ -19,7 +19,7 @@
 
     - name: Copy /etc/resolv.conf
       ansible.builtin.template:
-        src: templates/resolv.conf.j2
+        src: templates/dns.resolv.conf.j2
         dest: /etc/resolv.conf
       notify: Restart dnsmasq
 
@@ -29,7 +29,6 @@
         path: /etc/hosts
         line: '{{ hostvars[item].address | regex_replace( "(.*)/.*", "\1" )}} {{ item }}.{{ dns_domain_name }} {{ item }}'
       loop: '{{ groups["all"] }}'
-      ignore_errors: true
       notify: Restart dnsmasq
 
     - name: Install dnsmasq
@@ -55,5 +54,5 @@
   tasks:
     - name: Copy dnsmasq configuration
       ansible.builtin.template:
-        src: templates/resolv.conf.j2
+        src: templates/clients.resolv.conf.j2
         dest: /etc/resolv.conf
