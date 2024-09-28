@@ -51,6 +51,10 @@
             method: POST
             body: " update failed on host {{ inventory_hostname }}"
 
+
+- name: Perform some basic configurations
+  hosts: all:!provisioners
+  tasks:
     - name: Copy bash_aliases
       notify: Send ntfy.sh update
       ansible.builtin.copy:
