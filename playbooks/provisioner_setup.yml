@@ -1,6 +1,6 @@
 ---
 - name: Provision ansible node
-  hosts: provisioner
+  hosts: provisioners
   tasks:
 
     - name: Install deps for dev environment
@@ -8,6 +8,7 @@
       community.general.pacman:
         pkg:
           - git
+          - terraform
         state: present
 
     - name: Install personal toolbox
@@ -17,8 +18,10 @@
           ansible.builtin.git:
             repo: https://github.com/carnivuth/toolbox
             dest: /root/toolbox
+          register: repo_status
 
         - name: Install toolbox
+          when: repo_status.changed
           notify: Send ntfy.sh update
           ansible.builtin.command:
             cmd: /root/toolbox/toolbox.sh
