@@ -3,31 +3,35 @@
   become: true
   hosts: dns_host
   pre_tasks:
-    - ansible.builtin.include_vars:
+    - name: Include vars
+      ansible.builtin.include_vars:
         file: vars/prod.yml
   tasks:
 
     - name: Set dns ip address
       ansible.builtin.set_fact:
-        dns_ip: '{{ address | regex_replace( "(.*)/.*", "\1" )}}'
+        dns_ip: '{{ address | regex_replace("(.*)/.*", "\1") }}'
 
     - name: Copy dnsmasq configuration
       ansible.builtin.template:
         src: templates/dnsmasq.conf.j2
         dest: /etc/dnsmasq.conf
+        mode: '644'
       notify: Restart dnsmasq
 
     - name: Copy /etc/resolv.conf
       ansible.builtin.template:
         src: templates/dns.resolv.conf.j2
         dest: /etc/resolv.conf
+        mode: '644'
       notify: Restart dnsmasq
 
     - name: 'Add dns server entry in the {{ hostvars[item].ansible_host }}'
       when: hostvars[item].address is defined
       ansible.builtin.lineinfile:
         path: /etc/hosts
-        line: '{{ hostvars[item].address | regex_replace( "(.*)/.*", "\1" )}} {{ item }}.{{ dns_domain_name }} {{ item }}'
+        line: '{{ hostvars[item].address | regex_replace("(.*)/.*", "\1") }} {{ item }}.{{ dns_domain_name }} {{ item }}'
+        mode: '644'
       loop: '{{ groups["all"] }}'
       notify: Restart dnsmasq
 
@@ -49,10 +53,12 @@
   hosts: all:!dns_host
   become: true
   pre_tasks:
-    - ansible.builtin.include_vars:
+    - name: Include vars
+      ansible.builtin.include_vars:
         file: vars/prod.yml
   tasks:
     - name: Copy dnsmasq configuration
       ansible.builtin.template:
         src: templates/clients.resolv.conf.j2
         dest: /etc/resolv.conf
+        mode: '644'
