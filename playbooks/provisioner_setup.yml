@@ -41,6 +41,14 @@
           ansible.builtin.git:
             repo: https://github.com/carnivuth/labcraft
             dest: /root/labcraft
+          register: repo_status
+
+        - name: Install pip packages in venv
+          when: repo_status.changed
+          notify: Send ntfy.sh update
+          ansible.builtin.pip:
+            requirements: /root/labcraft/requirements.txt
+            virtualenv: /root/labcraft/env
       rescue:
         - name: Send ntfy.sh alert
           notify: Send ntfy.sh update
