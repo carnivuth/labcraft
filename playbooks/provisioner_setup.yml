@@ -1,0 +1,54 @@
+---
+- name: Provision ansible node
+  hosts: provisioner
+  tasks:
+
+    - name: Install deps for dev environment
+      when: ansible_distribution == "Archlinux"
+      community.general.pacman:
+        pkg:
+          - git
+        state: present
+
+    - name: Install personal toolbox
+      block:
+        - name: Clone toolbox repository
+          notify: Send ntfy.sh update
+          ansible.builtin.git:
+            repo: https://github.com/carnivuth/toolbox
+            dest: /root/toolbox
+
+        - name: Install toolbox
+          notify: Send ntfy.sh update
+          ansible.builtin.command:
+            cmd: /root/toolbox/toolbox.sh
+            chdir: /root/toolbox
+      rescue:
+        - name: Send ntfy.sh alert
+          notify: Send ntfy.sh update
+          ansible.builtin.uri:
+            url: "https://pokelab.ddns.net/ntfy/homelab"
+            method: POST
+            body: "toolbox installation on {{ inventory_hostname }} failed"
+
+    - name: Install labcraft repo
+      block:
+        - name: Clone labcraft repository
+          notify: Send ntfy.sh update
+          ansible.builtin.git:
+            repo: https://github.com/carnivuth/labcraft
+            dest: /root/labcraft
+      rescue:
+        - name: Send ntfy.sh alert
+          notify: Send ntfy.sh update
+          ansible.builtin.uri:
+            url: "https://pokelab.ddns.net/ntfy/homelab"
+            method: POST
+            body: "toolbox installation on {{ inventory_hostname }} failed"
+
+  handlers:
+    - name: Send ntfy.sh update
+      ansible.builtin.uri:
+        url: "https://pokelab.ddns.net/ntfy/homelab"
+        method: POST
+        body: "{{ inventory_hostname }} common playbook completed"
