@@ -51,6 +51,13 @@
             method: POST
             body: " update failed on host {{ inventory_hostname }}"
 
+  handlers:
+    - name: Send ntfy.sh update
+      ansible.builtin.uri:
+        url: "https://pokelab.ddns.net/ntfy/homelab"
+        method: POST
+        body: "{{ inventory_hostname }} common playbook completed"
+
 
 - name: Perform some basic configurations
   hosts: all:!provisioners

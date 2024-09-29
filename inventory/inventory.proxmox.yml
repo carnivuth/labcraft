@@ -7,14 +7,19 @@ want_facts: true
 validate_certs: false
 want_proxmox_nodes_ansible_host: true
 compose:
-  ansible_host: proxmox_net0.ip | default(proxmox_agent_interfaces[1].ip_addresses[0]) | ipaddr('address')
+  ansible_host: proxmox_net0.ip | default(proxmox_agent_interfaces[1].ip_addresses[0]) | ansible.utils.ipaddr('address')
   ansible_port: 22
   ansible_user: "'root'"
   ansible_ssh_private_key_file:
   address: "proxmox_net0.ip"
 groups:
+  vms: "'qemu' in (proxmox_vm_type|list)"
+  cts: "'lxc' in (proxmox_vm_type| list)"
   service_manager: "'service_manager' in (proxmox_tags_parsed|list)"
   reverse_proxy: "'reverse_proxy' in (proxmox_tags_parsed|list)"
   dns_host: "'dns' in (proxmox_tags_parsed|list)"
+  vpn_hosts: "'vpn' in (proxmox_tags_parsed|list)"
+  provisioners: "'provisioner' in (proxmox_tags_parsed|list)"
+  grocy_host: "'grocy' in (proxmox_tags_parsed|list)"
   xonotic_host: "'xonotic' in (proxmox_tags_parsed|list)"
   minecraft_host: "'minecraft' in (proxmox_tags_parsed|list)"

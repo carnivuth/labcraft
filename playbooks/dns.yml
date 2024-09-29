@@ -1,7 +1,7 @@
 ---
 - name: Setup dns on dns hosts
   become: true
-  hosts: dns_host
+  hosts: dns_hosts
   pre_tasks:
     - name: Include vars
       ansible.builtin.include_vars:
@@ -30,6 +30,7 @@
       when: hostvars[item].address is defined
       ansible.builtin.lineinfile:
         path: /etc/hosts
+        regex: '.*{{ item }}.*'
         line: '{{ hostvars[item].address | regex_replace("(.*)/.*", "\1") }} {{ item }}.{{ dns_domain_name }} {{ item }}'
         mode: '644'
       loop: '{{ groups["all"] }}'
@@ -50,7 +51,7 @@
         enabled: true
 
 - name: Set nameserver in all other nodes
-  hosts: all:!dns_host
+  hosts: all:!dns_hosts
   become: true
   pre_tasks:
     - name: Include vars
