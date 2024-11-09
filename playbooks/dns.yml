@@ -58,7 +58,7 @@
       ansible.builtin.include_vars:
         file: vars/prod.yml
   tasks:
-    - name: Copy dnsmasq configuration
+    - name: Setup clients dns server
       ansible.builtin.template:
         src: templates/clients.resolv.conf.j2
         dest: /etc/resolv.conf

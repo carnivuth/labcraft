@@ -1,19 +1,23 @@
 ---
-- name: Converge
-  hosts: all
-  gather_facts: true
+- name: Test docker app installation
+  hosts: service_manager
   become: true
+  vars:
+    app_home_root: "/usr/local"
+    app_var_root: "/var/lib"
   tasks:
-    - name: run common role
-      ansible.builtin.include_role:
-        name: carnivuth.labcraft.docker_runner
+    - name: Install docker application
+      ansible.builtin.import_tasks:
+        file: ../../playbooks/install_docker_app.yml
       vars:
         app: navidrome
         app_uid: 10000
         navidrome_data: /var/lib/navidrome/data
         navidrome_collection: /var/lib/navidrome/collection
+        app_baseurl: "localhost:4533"
         app_ports:
           - "4533:4533"
         app_dirs:
           - "{{ navidrome_data }}"
           - "{{ navidrome_collection }}"
+

@@ -9,58 +9,83 @@ dns_server_backup: '192.168.1.97'
 certbot_admin_email:
 domain_name:
 
-# navidrome
-navidrome_data: /var/lib/navidrome/data
-navidrome_collection: /var/lib/navidrome/collection
+# docker
+base_docker_compose: "files/compose"
+app_home_root: "/usr/local"
+app_var_root: "/var/lib"
+app_conf_root: "/etc"
+app_cache_root: "/var/cache"
 
-#nextcloud
-nextcloud_data_dir: /var/lib/nextcloud
 nextcloud_apache_port: 11111
+nextcloud_data_dir: "{{ app_var_root }}/nextcloud"
+nextcloud_apache_address: "0.0.0.0"
 
 # ntfy
-ntfy_cache_dir: /var/cache/ntfy
-ntfy_data_dir: /var/lib/ntfy
-ntfy_conf_dir: /etc/ntfy
-ntfy_web: 8001
+ntfy_cache_dir: "{{ app_cache_root }}/ntfy"
+ntfy_data_dir: "{{ app_var_root }}/ntfy"
+ntfy_conf_dir: "{{ app_conf_root }}/ntfy"
+ntfy_exposed_port: 8001
 
 # adguard
-adguard_data_dir: /var/lib/adguard
-adguard_conf_dir: /etc/adguard
-adguard_web: 8081
-#portainer
-portainer_web: 9443
+adguard_data_dir: "{{ app_var_root }}/adguard"
+adguard_conf_dir: "{{ app_conf_root }}/adguard"
+adguard_exposed_port: 8081
+
+# portainer
+portainer_exposed_port: 9443
 
 # curiel bot
 curiel_bot_token:
 curiel_bot_admin:
-curiel_bot_data_dir: /var/lib/curiel_bot
+curiel_bot_data_dir: "{{ app_var_root }}/curiel_bot"
 
 # github sync
 github_sync_healthcheck:
 github_sync_account:
-github_sync_data_dir: /var/lib/github_sync
+github_sync_data_dir: "{{ app_var_root }}/github_sync"
+
+# taskchampion
+taskchampion_exposed_port: 8082
+taskchampion_data_dir: "{{ app_var_root }}/taskchampion"
+
+# navidrome
+navidrome_data_dir: "{{ app_var_root }}/navidrome"
+navidrome_data: "{{ navidrome_data_dir }}/data"
+navidrome_collection: "{{ navidrome_data_dir }}/collection"
+navidrome_exposed_port: 4533
 
 apps:
 
-  - app: adguard
-    app_uid: 10006
-    app_baseurl: "https://{{ domain_name }}"
-    reverse_proxy: false
+  - app: taskchampion
+    app_uid: 10007
+    app_baseurl: "https://{{ domain_name }}/taskchampion"
+    exposed_port: "{{ taskchampion_exposed_port }}"
+    reverse_proxy: true
     app_ports:
-      - "53:53/udp"
-      - "3000:3000"
-      - "{{ adguard_web }}:80"
+      - "{{ taskchampion_exposed_port }}:8080"
     app_dirs:
-      - "{{ adguard_conf_dir }}"
-      - "{{ adguard_data_dir }}"
+      - "{{ taskchampion_data_dir }}"
+
+  #     bug for dns port already used by systemd process
+  #  - app: adguard
+  #    app_uid: 10006
+  #    app_baseurl: "https://{{ domain_name }}/adguard"
+  #    reverse_proxy: false
+  #    app_ports:
+  #      - "53:53/udp"
+  #      - "3000:3000"
+  #      - "{{ adguard_exposed_port }}:80"
+  #    app_dirs:
+  #      - "{{ adguard_conf_dir }}"
+  #      - "{{ adguard_data_dir }}"
 
   - app: ntfy
     app_uid: 10005
-    exposed_port: "{{ ntfy_web }}"
+    exposed_port: "{{ ntfy_exposed_port }}"
     app_baseurl: "https://{{ domain_name }}"
     reverse_proxy: true
     app_ports:
-      - "{{ ntfy_web }}:80"
+      - "{{ ntfy_exposed_port }}:80"
     app_dirs:
       - "{{ ntfy_cache_dir }}"
       - "{{ ntfy_conf_dir }}"
@@ -72,7 +97,7 @@ apps:
     app_baseurl: ""
     reverse_proxy: false
     app_ports:
-      - "{{ portainer_web }}:{{ portainer_web }}"
+      - "{{ portainer_exposed_port }}:8443"
       - "8000:8000"
     app_dirs: []
 
@@ -84,7 +109,6 @@ apps:
     reverse_proxy: false
     app_dirs:
       - "{{ github_sync_data_dir }}"
-      - "{{ github_sync_log_dir }}"
 
   - app: curiel_bot
     app_uid: 10002
@@ -108,10 +132,10 @@ apps:
   - app: navidrome
     app_uid: 10000
     app_baseurl: "https://{{ domain_name }}/navidrome"
-    exposed_port: 4533
+    exposed_port: "{{ navidrome_exposed_port }}"
     reverse_proxy: true
     app_ports:
-      - "4533:4533"
+      - "{{ navidrome_exposed_port }}:4533"
     app_dirs:
       - "{{ navidrome_data }}"
       - "{{ navidrome_collection }}"

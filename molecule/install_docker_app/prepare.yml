@@ -6,3 +6,6 @@
     - name: Update packages
       ansible.builtin.apt:
         update_cache: true
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: geerlingguy.docker

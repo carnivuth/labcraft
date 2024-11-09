@@ -1,15 +1,13 @@
 ---
 driver:
   name: vagrant
-  provider: 
+  provider:
     name: virtualbox
 platforms:
-
   - name: ubuntu
     box: ubuntu/jammy64
-
-  - name: debian
-    box: debian/bookworm64
+    groups:
+      - service_manager
 
 scenario:
   test_sequence:

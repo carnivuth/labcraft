@@ -1,6 +1,12 @@
 ---
 - name: Install docker applications
   hosts: service_manager
+  become: true
+  pre_tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: "vars/{{ vars_file }}.yml"
+
   tasks:
     - name: Install docker
       ansible.builtin.include_role:
@@ -10,14 +16,14 @@
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
 
-    - name: Include role for "{{ apps[element].app }}"
-      ansible.builtin.include_role:
-        name: carnivuth.labcraft.docker_runner
+    - name: Install reverse proxy for {{ apps[element].app }}
+      ansible.builtin.include_tasks:
+        file: install_docker_app.yml
       vars:
         app: "{{ apps[element].app }}"
         app_uid: "{{ apps[element].app_uid }}"
-        app_baseurl: "{{ apps[element].app_baseurl }}"
         app_dirs: "{{ apps[element].app_dirs }}"
+        app_baseurl: "{{ apps[element].app_baseurl }}"
         app_ports: "{{ apps[element].app_ports }}"
       loop: "{{ apps }}"
       loop_control:

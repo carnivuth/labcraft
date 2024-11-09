@@ -1,8 +1,0 @@
-- name: Prepare
-  hosts: all
-  become: true
-  gather_facts: false
-  tasks:
-    - name: Refresh packages
-      ansible.builtin.apt:
-        update_cache: true

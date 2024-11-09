@@ -1,9 +1,0 @@
----
-- name: Converge
-  hosts: all
-  become: true
-  gather_facts: true
-  tasks:
-    - name: run role
-      ansible.builtin.include_role:
-        name: carnivuth.labcraft.install_xonotic
