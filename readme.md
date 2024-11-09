@@ -4,21 +4,27 @@ Files for homelab provisioning and maintenance operations of my personal proxmox
 
 ## ARCHITECTURE
 
-The machine runs proxmox cluster with vm's and container above it
+
+The machine runs proxmox cluster with vms. The main purpose of the server is to expose web interfaces of docker containers for some services that i use every day
 
 ```mermaid
+---
+title: torterra
+---
 flowchart LR
-subgraph pokelab
+subgraph web_services
 direction TB
-A[castleterra\n the proxmox host]
-B[wailord\n docker host for self-hosted services]
-C[espeon\n dns server]
-D[umbreon \n second dns server]
-E[staraptor\n web server for external reverse proxy]
-G[arcanine\n wireguard host]
-I[dittup\n pbs host for backups]
-A --> B & C & D & E & G & I
+A[(wailord)]
+B{staraptor}
+B --http requests--> A
 end
+subgraph dns_servers
+direction TB
+C[espeon]
+D[umbreon]
+C ~~~ D
+end
+web_services --dns queries--> dns_servers
 ```
 
 ## NETWORKING
@@ -30,9 +36,8 @@ flowchart LR
 A((Internet))
 B{starweb}
 C[nextcloud]
-D[gitlab]
-E[jenkins]
-C & D & E --> B
+D[...]
+C & D --> B
 B --> A
 ```
 
@@ -42,10 +47,8 @@ some other services are exposed through port forwarding on the router
 flowchart LR
 A((Internet))
 B{router\n port forwarding}
-C[minecraft]
-D[xonotic]
-E[wireguard]
-C & D & E --> B
+C[wireguard]
+C --> B
 B --> A
 ```
 
@@ -60,9 +63,6 @@ flowchart
 		subgraph nvme
 				A[container rootfs]
 		end
-		subgraph HD1
-			B[container external storage]
-		end
 	end
 	subgraph backupdisks
 		direction TB
@@ -71,15 +71,12 @@ flowchart
 			C[backup volume]
 		end
 	end
-	A & B -- backup on --> C
-	A   -- mounted on /mnt/storage --> B
+	A -- backup on --> C
 ```
 
 ## BACKUPS
 
-Backups are made with the use of PBS in snapshot mode, every night at 21:00 for all containers and virtual machines, one of the 2 hard drives is dedicated to this purpose, only the last 5 backups are maintained
-
-for big containers stop mode is used instead, see [this](https://pve.proxmox.com/wiki/Backup_and_Restore#_backup_modes) for reference
+Backups are made with the use of PBS in snapshot mode, every night at 21:00 for all containers and virtual machines, one of the 2 hard drives is dedicated to this purpose
 
 ## INSTALLATION
 
@@ -102,12 +99,9 @@ pip install -r requirements.txt
 
 ```bash
 source env/bin/activate
-ansible-galaxy collection install ansible.posix
-ansible-galaxy collection install community.general
-ansible-galaxy role install geerlingguy.docker
+ansible-galaxy collection install -r collections/requirements.yml
+ansible-galaxy role install -r roles/requirements.yml
 ```
-
-- link the collection inside `~/.ansible/collections/ansible_collections/`
 
 - create inventory following the template in `inventory/inventory.proxmox.yml`
 
