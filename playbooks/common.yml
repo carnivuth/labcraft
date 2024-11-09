@@ -9,6 +9,7 @@
     deb_packages:
       - vim
       - tmux
+      - git
       - net-tools
 
   tasks:
