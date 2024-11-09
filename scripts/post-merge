@@ -1,14 +1,16 @@
 #!/bin/bash
 # Redirect output to stderr.
 exec 1>&2
-# check if last commit contains something that has notes in the name
-INCLUDED=playbooks
+
 LOG_DIR="/var/log/ansible"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
-if git diff --name-only HEAD HEAD~1 | grep "$INCLUDED"; then
+# check if last commit contains something that has notes in the name
+PB=playbooks
+if git diff --name-only HEAD HEAD~1 | grep "$PB" || git diff --name-only HEAD HEAD~1 | grep "scripts" ; then
         # do something
         source env/bin/activate
         ansible-playbook -i inventory/prod.proxmox.yaml -e 'vars_file=prod' playbooks/common.yml >> "$LOG_DIR/common.log"
+        ansible-playbook -i inventory/prod.proxmox.yaml -e 'vars_file=prod' playbooks/configure_service_manager.yml >> "$LOG_DIR/configure_service_manager.log"
 else
-        echo "no $INCLUDED modified, nothing to do"
+        echo "no $PB modified, nothing to do"
 fi
