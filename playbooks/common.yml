@@ -4,8 +4,10 @@
   vars:
     arch_packages:
       - vim
+      - tmux
     deb_packages:
       - vim
+      - tmux
 
   tasks:
     - name: Update packages
