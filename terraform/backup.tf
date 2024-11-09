@@ -22,7 +22,7 @@ resource "proxmox_lxc" "ditto" {
     slot    = 0
     storage = var.main_pool
     mp      = "/mnt/datastore/backup"
-    size    = "1G"
+    size    = "10G"
   }
   network {
     name   = "eth0"
