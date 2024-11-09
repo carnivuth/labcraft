@@ -44,7 +44,7 @@ resource "proxmox_vm_qemu" "wailord" {
     scsi {
       scsi0 {
         disk {
-          size    = "300G"
+          size    = "400G"
           storage = var.main_pool
         }
       }
