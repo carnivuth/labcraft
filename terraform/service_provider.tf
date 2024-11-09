@@ -18,6 +18,7 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "wailord" {
   name        = "wailord"
   tags        = "service_manager"
+  pool        = "prod"
   cores       = 8
   sockets     = 1
   memory      = 16384
