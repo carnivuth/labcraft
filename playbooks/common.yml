@@ -5,7 +5,7 @@
     arch_packages:
       - vim
       - tmux
-      - task
+      - net-tools
     deb_packages:
       - vim
       - tmux
