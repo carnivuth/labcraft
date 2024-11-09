@@ -44,7 +44,7 @@ curiel_bot_data_dir: "{{ app_var_root }}/curiel_bot"
 # github sync
 github_sync_healthcheck:
 github_sync_account:
-github_sync_ntfy: 
+github_sync_ntfy:
 github_sync_data_dir: "{{ app_var_root }}/github_sync"
 
 # taskchampion
