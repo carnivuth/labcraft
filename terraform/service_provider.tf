@@ -52,30 +52,3 @@ resource "proxmox_vm_qemu" "wailord" {
     }
   }
 }
-
-# LXC CONTAINERS
-//resource "proxmox_lxc" "dedenne" {
-//  target_node     = var.proxmox_host
-//  hostname        = "dedenne"
-//  ostemplate      = var.dev_ct_template
-//  password        = var.guest_password
-//  unprivileged    = true
-//  ssh_public_keys = var.ssh_pub_key
-//  nameserver      = var.nameserver
-//  cores           = 4
-//  memory          = 4096
-//  onboot          = true
-//  start           = true
-//
-//  rootfs {
-//    storage = var.main_pool
-//    size    = "50G"
-//  }
-//
-//  network {
-//    name   = "eth0"
-//    bridge = "vmbr0"
-//    ip     = "192.168.1.91/24"
-//    gw     = var.guest_gw
-//  }
-//}

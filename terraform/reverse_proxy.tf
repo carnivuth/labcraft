@@ -2,6 +2,7 @@ resource "proxmox_lxc" "staraptor" {
   target_node     = var.proxmox_host
   hostname        = "staraptor"
   tags            = "reverse_proxy"
+  pool            = "prod"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true

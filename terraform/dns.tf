@@ -2,6 +2,7 @@ resource "proxmox_lxc" "umbreon" {
   target_node     = var.proxmox_host
   hostname        = "umbreon"
   tags            = "dns"
+  pool            = "prod"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
@@ -27,6 +28,7 @@ resource "proxmox_lxc" "espeon" {
   target_node     = var.proxmox_host
   hostname        = "espeon"
   tags            = "dns"
+  pool            = "prod"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
