@@ -9,7 +9,7 @@
     deb_packages:
       - vim
       - tmux
-      - task
+      - net-tools
 
   tasks:
     - name: Update packages
