@@ -133,40 +133,17 @@ ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight
 
 To avoid having to run ansible manually every time there is an update do the following
 
-- add a cronjob to do git pull periodically as an example:
-
-```bash
-#!/bin/bash
-NTFY_ADDRESS=address
-cd /usr/local/labcraft
-if ! git pull | grep -E 'Already up to date.'; then
-        curl $NTFY_ADDRESS -d "updated labcraft repo";
-fi
-```
-
-- and add the following chronjob
+- add the `scripts/update_labcraft.sh` to cron:
 
 ```cron
-* * * * * /usr/local/bin/update_labcraft.sh > /dev/null 2>&1
+* * * * * /usr/local/labcraft/update_labcraft.sh > /dev/null 2>&1
 ```
 
-Then setup a git hook (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
+Then link `scripts/post-merge` to the git hooks dir (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
 
 ```bash
-#!/bin/bash
-# Redirect output to stderr.
-exec 1>&2
-# check if last commit contains something that has notes in the name
-INCLUDED=playbooks
-LOG_DIR="/var/log/ansible"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
-
-if git diff --name-only HEAD HEAD~1 | grep "$INCLUDED"; then
-        # do something
-        source env/bin/activate
-        ansible-playbook -i inventory/prod.proxmox.yaml -e 'vars_file=prod' playbooks/common.yml > "$LOG_DIR/common.log"
-else
-        echo "no $INCLUDED modified, nothing to do"
-fi
+cd .git/hooks
+ln -fs ../../scripts/post-merge post-merge
 ```
 
 So every time a commit is pushed to remote cron will pull the repo and the hook will run ansible
