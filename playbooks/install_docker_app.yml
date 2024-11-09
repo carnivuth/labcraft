@@ -42,3 +42,9 @@
         path: "{{ app_var_root }}/{{ app }}"
         state: directory
         owner: www-data
+
+    - name: Send ntfy.sh update
+      ansible.builtin.uri:
+        url: "https://pokelab.ddns.net/ntfy/homelab"
+        method: POST
+        body: "{{ app }} has been provisioned"
