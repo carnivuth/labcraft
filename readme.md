@@ -147,3 +147,21 @@ ln -fs ../../scripts/post-merge post-merge
 ```
 
 So every time a commit is pushed to remote cron will pull the repo and the hook will run ansible
+
+```mermaid
+---
+title: UPDATE WORKFLOW
+---
+sequenceDiagram
+participant dev_machine
+participant github_repo
+participant torterra
+
+dev_machine ->> github_repo: push chainges
+loop every x minutes
+torterra ->> github_repo: fetch changes
+alt changes
+torterra ->> torterra: run ansible
+end
+end
+```
