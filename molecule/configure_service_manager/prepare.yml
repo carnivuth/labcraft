@@ -6,6 +6,3 @@
     - name: Update packages
       ansible.builtin.apt:
         update_cache: true
-    - name: Stop process on port 53
-      ansible.builtin.apt:
-        update_cache: true

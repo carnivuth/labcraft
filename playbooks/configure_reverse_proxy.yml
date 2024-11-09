@@ -1,13 +1,24 @@
 ---
-- hosts: reverse_proxy
+- name: Configure reverse proxy to expose service manager applications
+  become: true
+  hosts: reverse_proxy
+  pre_tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: "vars/{{ vars_file }}.yml"
   tasks:
     - name: Install reverse proxy for {{ apps[element].app }}
-      when: apps[element].reverse_proxy == true
-      ansible.builtin.include_role:
-        name: carnivuth.labcraft.add_nginx_reverse_proxy
+      when: apps[element].reverse_proxy is true
+      ansible.builtin.include_tasks:
+        file: add_nginx_reverse_proxy.yml
       vars:
         app: "{{ apps[element].app }}"
         exposed_port: "{{ apps[element].exposed_port }}"
       loop: "{{ apps }}"
       loop_control:
         index_var: element
+
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

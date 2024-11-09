@@ -1,9 +1,8 @@
 ---
-# tasks file for nginx_reverse_proxy
 - name: Check if configuration is present
   ansible.builtin.lineinfile:
     line: "# {{ app }}"
-    path: "/etc/nginx/sites-available/main"
+    path: "/etc/nginx/sites-enabled/main"
   check_mode: true
   register: config
 
@@ -11,7 +10,6 @@
   when: config.changed
   ansible.builtin.blockinfile:
     insertafter: 'server {'
-    block: "{{ lookup('ansible.builtin.template', app) }}"
-    path: "/etc/nginx/sites-available/main"
-    marker: "# {{ app }}"
-  notify: Restart nginx
+    block: "{{ lookup('ansible.builtin.template', 'templates/reverse_proxy/' ~ app ~ '.j2') }}"
+    path: "/etc/nginx/sites-enabled/main"
+    marker: "# { mark } {{ app }}"

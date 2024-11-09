@@ -4,6 +4,7 @@ external_dns_server: '192.168.1.1'
 dns_domain_name: 'pokelab'
 dns_server: '192.168.1.96'
 dns_server_backup: '192.168.1.97'
+service_manager_address: '192.168.1.94'
 
 # reverse proxy cofig
 certbot_admin_email:
@@ -60,7 +61,7 @@ apps:
     app_uid: 10007
     app_baseurl: "https://{{ domain_name }}/taskchampion"
     exposed_port: "{{ taskchampion_exposed_port }}"
-    reverse_proxy: true
+    reverse_proxy: false
     app_ports:
       - "{{ taskchampion_exposed_port }}:8080"
     app_dirs:

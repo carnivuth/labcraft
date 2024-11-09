@@ -1,0 +1,5 @@
+---
+- name: Import service manager role
+  ansible.builtin.import_playbook: ../../playbooks/configure_reverse_proxy.yml
+  vars:
+    vars_file: sample
