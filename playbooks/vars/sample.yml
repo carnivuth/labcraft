@@ -17,6 +17,7 @@ app_var_root: "/var/lib"
 app_conf_root: "/etc"
 app_cache_root: "/var/cache"
 
+# nextcloud
 nextcloud_apache_port: 11111
 nextcloud_data_dir: "{{ app_var_root }}/nextcloud"
 nextcloud_apache_address: "0.0.0.0"
@@ -43,6 +44,7 @@ curiel_bot_data_dir: "{{ app_var_root }}/curiel_bot"
 # github sync
 github_sync_healthcheck:
 github_sync_account:
+github_sync_ntfy: 
 github_sync_data_dir: "{{ app_var_root }}/github_sync"
 
 # taskchampion
