@@ -1,0 +1,5 @@
+---
+- name: Import service manager role
+  ansible.builtin.import_playbook: ../../playbooks/pbs.yml
+  vars:
+    vars_file: sample

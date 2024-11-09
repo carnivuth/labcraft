@@ -18,6 +18,7 @@ groups:
   service_manager: "'service_manager' in (proxmox_tags_parsed|list)"
   reverse_proxy: "'reverse_proxy' in (proxmox_tags_parsed|list)"
   dns_host: "'dns' in (proxmox_tags_parsed|list)"
+  pbs_host: "'pbs' in (proxmox_tags_parsed|list)"
   vpn_hosts: "'vpn' in (proxmox_tags_parsed|list)"
   provisioners: "'provisioner' in (proxmox_tags_parsed|list)"
   grocy_host: "'grocy' in (proxmox_tags_parsed|list)"

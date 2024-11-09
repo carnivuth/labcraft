@@ -1,0 +1,37 @@
+---
+- name: Install proxmox backup server
+  hosts: pbs_host
+  become: true
+  pre_tasks:
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: "vars/{{ vars_file }}.yml"
+  tasks:
+    - name: Install some packages
+      ansible.builtin.apt:
+        name: curl
+        state: present
+        update_cache: true
+
+    - name: Add proxmox backup server repo key
+      ansible.builtin.command:
+        cmd: curl https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -o /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+
+    - name: Add proxmox backup server repository into sources list
+      ansible.builtin.apt_repository:
+        repo: deb http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription
+        state: present
+
+    - name: Install pbs and update cache
+      notify: Send ntfy.sh update
+      ansible.builtin.apt:
+        name: proxmox-backup-server
+        state: present
+        update_cache: true
+
+  handlers:
+    - name: Send ntfy.sh update
+      ansible.builtin.uri:
+        url: "https://pokelab.ddns.net/ntfy/homelab"
+        method: POST
+        body: "installation of pbs instance on {{ inventory_hostname }} completed"
