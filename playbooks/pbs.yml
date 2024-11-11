@@ -9,13 +9,17 @@
   tasks:
     - name: Install some packages
       ansible.builtin.apt:
-        name: curl
+        name:
+          - curl
+          - rsync
         state: present
         update_cache: true
 
     - name: Add proxmox backup server repo key
-      ansible.builtin.command:
-        cmd: curl https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -o /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+      ansible.builtin.get_url:
+        url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+        dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+        mode: '644'
 
     - name: Add proxmox backup server repository into sources list
       ansible.builtin.apt_repository:
@@ -28,6 +32,21 @@
         name: proxmox-backup-server
         state: present
         update_cache: true
+
+    - name: Copy backup script
+      notify: Send ntfy.sh update
+      ansible.builtin.template:
+        src: templates/sync_with_remote.sh.j2
+        dest: /usr/local/bin/sync_with_remote.sh
+        mode: '755'
+
+    - name: Add backup sync cronjob
+      notify: Send ntfy.sh update
+      ansible.builtin.cron:
+        name: "backup sync"
+        minute: "0"
+        hour: "22"
+        job: "/usr/local/bin/sync_with_remote.sh > /dev/null"
 
   handlers:
     - name: Send ntfy.sh update

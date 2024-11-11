@@ -1,0 +1,16 @@
+#!/bin/bash
+DEPS="rsync"
+DATASTORES=" {{ pbs_datastores }}"
+REMOTE="u425518.your-storagebox.de"
+NTFY_ENDPOINT="https://pokelab.ddns.net/ntfy/homelab"
+HEALTHCHECKS_ENDPOINT="{{ pbs_healthchecks_address }}"
+
+for datastore in $DATASTORES; do
+  if rsync -Pavr "$datastore" "$REMOTE:"; then
+    curl  "$HEALTHCHECKS_ENDPOINT"
+    curl "$NTFY_ENDPOINT" -X POST  -d "done sync from $HOSTNAME to $REMOTE of $datastore"
+  else
+    curl "$NTFY_ENDPOINT" -X POST  -d "BROKEN  sync from $HOSTNAME to $REMOTE of $datastore"
+  fi
+done
+

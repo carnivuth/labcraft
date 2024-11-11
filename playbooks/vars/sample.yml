@@ -1,5 +1,9 @@
 ---
 # dns config
+pbs_datastores: /mnt/datastore/backup
+pbs_healthchecks_address:
+
+# dns config
 external_dns_server: '192.168.1.1'
 dns_domain_name: 'pokelab'
 dns_server: '192.168.1.96'
