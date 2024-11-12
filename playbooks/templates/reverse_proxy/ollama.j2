@@ -1,25 +1,19 @@
 location /openwebui {
-        sub_filter '"/_app/' '"/openwebui/_app/'; # Adding a rewrite rule for /_app/ based links.
-        sub_filter '"/themes/' '"/openwebui/themes/'; # Similar rewrite rule for themes based on console errors.
-        sub_filter_once off;
-        rewrite /openwebui/(.*) /$1 break;
-        proxy_pass http://{{ service_manager_address }}:{{ exposed_port }};
-}
 
-location /openwebui/api {
-    rewrite /openwebui/(.*) /$1 break;
-    proxy_buffering off;
-    proxy_set_header Origin '';
-    proxy_set_header Referer '';
-    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }}/api;
-}
+    # Rewrite the incoming request by removing the /openwebui prefix
+    rewrite ^/openwebui/(.*)$ /$1 break;
 
-location /openwebui/api/v1 {
-    rewrite /openwebui/(.*) /$1 break;
-    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }}/api/v1;
-}
+    # Proxy the modified request to the backend application
+    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }};
 
-location /openwebui/themes {
-    rewrite /openwebui/(.*) /$1 break;
-    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }}/themes;
+    # Optional: Set headers that might be required by the backend or for compliance with CORS, etc.
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    # Handle WebSocket upgrades if your application uses WebSockets
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
 }
