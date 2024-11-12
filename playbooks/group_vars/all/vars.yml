@@ -3,6 +3,7 @@
 proxmox_pools:
   - {"name": "prod", "comment":"production resources"}
   - {"name": "test", "comment":"testing resources"}
+
 # dns config
 pbs_datastores: /mnt/datastore/backup
 pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
@@ -71,15 +72,15 @@ openwebui_exposed_port: 8083
 
 apps:
 
-  - app: ollama
-    app_uid: 10008
-    app_baseurl: "https://{{ domain_name }}/openwebui"
-    exposed_port: "{{ openwebui_exposed_port }}"
-    reverse_proxy: false
-    app_ports:
-      - "{{ openwebui_exposed_port }}:8080"
-    app_dirs:
-      - "{{ openwebui_data_dir }}"
+  #- app: ollama
+  #  app_uid: 10008
+  #  app_baseurl: "https://{{ domain_name }}/openwebui"
+  #  exposed_port: "{{ openwebui_exposed_port }}"
+  #  reverse_proxy: false
+  #  app_ports:
+  #    - "{{ openwebui_exposed_port }}:8080"
+  #  app_dirs:
+  #    - "{{ openwebui_data_dir }}"
 
   - app: taskchampion
     app_uid: 10007
