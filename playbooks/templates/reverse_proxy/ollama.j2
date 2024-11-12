@@ -1,0 +1,25 @@
+location /openwebui {
+        sub_filter '"/_app/' '"/openwebui/_app/'; # Adding a rewrite rule for /_app/ based links.
+        sub_filter '"/themes/' '"/openwebui/themes/'; # Similar rewrite rule for themes based on console errors.
+        sub_filter_once off;
+        rewrite /openwebui/(.*) /$1 break;
+        proxy_pass http://{{ service_manager_address }}:{{ exposed_port }};
+}
+
+location /openwebui/api {
+    rewrite /openwebui/(.*) /$1 break;
+    proxy_buffering off;
+    proxy_set_header Origin '';
+    proxy_set_header Referer '';
+    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }}/api;
+}
+
+location /openwebui/api/v1 {
+    rewrite /openwebui/(.*) /$1 break;
+    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }}/api/v1;
+}
+
+location /openwebui/themes {
+    rewrite /openwebui/(.*) /$1 break;
+    proxy_pass http://{{ service_manager_address }}:{{ exposed_port }}/themes;
+}

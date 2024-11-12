@@ -5,17 +5,25 @@ exec 1>&2
 LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 NTFY_ADDRESS="https://pokelab.ddns.net/ntfy/homelab"
 
+function run_pb(){
+  if [[ ! -f "playbooks/$1.yml" ]]; then
+    echo "no $1 playbook found" >> "$LOG_DIR/common.log"
+  else
+    source env/bin/activate
+    curl "$NTFY_ADDRESS" -d "running $1 playbook"
+    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$1.yml" >> "$LOG_DIR/$1.log"
+  fi
+}
+
 # check if last commit contains something that has notes in the name
 PB=playbooks
 if git diff --name-only HEAD HEAD~1 | grep "$PB" || git diff --name-only HEAD HEAD~1 | grep "scripts" ; then
+
   # run ansible-playbooks
-  source env/bin/activate
-  curl "$NTFY_ADDRESS" -d "running common playbook"
-  ansible-playbook -i inventory/inventory.proxmox.yml playbooks/common.yml >> "$LOG_DIR/common.log"
-  curl "$NTFY_ADDRESS" -d "running pbs playbook"
-  ansible-playbook -i inventory/inventory.proxmox.yml playbooks/pbs.yml >> "$LOG_DIR/pbs.log"
-  curl "$NTFY_ADDRESS" -d "running configure_service manager playbook"
-  ansible-playbook -i inventory/inventory.proxmox.yml playbooks/configure_service_manager.yml >> "$LOG_DIR/configure_service_manager.log"
+  run_pb common
+  run_pb pbs
+  run_pb configure_service_manager
+  run_pb configure_reverse_proxy
 else
   curl "$NTFY_ADDRESS" -d "no $PB modified, nothing to do"
 fi
@@ -23,14 +31,13 @@ fi
 # check if last commit contains something that has notes in the name
 PB=terraform
 if git diff --name-only HEAD HEAD~1 | grep "$PB" || git diff --name-only HEAD HEAD~1 | grep "scripts" ; then
-
   # run terraform
   cd terraform
   timestamp="$(date +%s)"
   terraform plan -out "$LOG_DIR/terraform.$timestamp.plan.log" && terraform apply -auto-approve "$LOG_DIR/terraform.$timestamp.plan.log"
 
-  # sleep to ensure ntfy container is up
-  sleep 2
+  # reconfigure dns
+  run_pb dns
   curl "$NTFY_ADDRESS" -d "labcraft terraform run $timestamp ended"
 else
   curl "$NTFY_ADDRESS" -d "no $PB modified, nothing to do"

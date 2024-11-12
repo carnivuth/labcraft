@@ -124,7 +124,7 @@ Sensitive informations are stored inside an encrypted vault file generated with 
 - create a  sample with the following command:
 
 ```bash
-grep vault_ playbooks/group_vars/all/vars.yml inventory/inventory.proxmox.yml  -h | awk -F' ' '{print $3":"}' > sample.yml
+grep -e 'vault_[a-z_]*' playbooks/group_vars/all/vars.yml inventory/inventory.proxmox.yml  -ho > sample.yml
 ```
 
 - create a file to store the vault password
