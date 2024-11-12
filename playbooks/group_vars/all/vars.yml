@@ -5,7 +5,9 @@ proxmox_pools:
   - {"name": "test", "comment":"testing resources"}
 
 # dns config
-pbs_datastores: /mnt/datastore/backup
+pbs_datastores:
+  - {"name":"backup", "path":"/mnt/datastore/backup"}
+  - {"name":"prova", "path":"/mnt/datastore/prova"}
 pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
 
 # dns config
