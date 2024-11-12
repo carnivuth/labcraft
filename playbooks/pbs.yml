@@ -19,7 +19,8 @@
 
     - name: Add proxmox backup server repository into sources list
       ansible.builtin.apt_repository:
-        repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg] http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription
+        repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg] http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription"
+        filename: proxmox_backup_server
         state: present
 
     - name: Install pbs and update cache
