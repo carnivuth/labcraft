@@ -2,10 +2,6 @@
 - name: Configure reverse proxy to expose service manager applications
   become: true
   hosts: reverse_proxy
-  pre_tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: "vars/{{ vars_file }}.yml"
   tasks:
     - name: Install reverse proxy for {{ apps[element].app }}
       when: apps[element].reverse_proxy is true

@@ -2,10 +2,6 @@
 - name: Setup dns on dns hosts
   become: true
   hosts: dns_hosts
-  pre_tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: vars/prod.yml
   tasks:
 
     - name: Set dns ip address
@@ -54,9 +50,6 @@
   hosts: all:!dns_hosts
   become: true
   pre_tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: vars/prod.yml
   tasks:
     - name: Setup clients dns server
       ansible.builtin.template:

@@ -2,11 +2,6 @@
 - name: Install docker applications
   hosts: service_manager
   become: true
-  pre_tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: "vars/{{ vars_file }}.yml"
-
   tasks:
     - name: Install docker
       ansible.builtin.include_role:

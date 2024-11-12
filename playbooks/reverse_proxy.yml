@@ -1,12 +1,7 @@
 ---
 - name: Install nginx and certbot on reverse proxies
   hosts: reverse_proxy
-  vars:
-
   pre_tasks:
-    - name: Import vars
-      ansible.builtin.include_vars:
-        file: vars/prod.yml
     - name: Install nginx certbot plugin
       ansible.builtin.apt:
         name: python3-certbot-nginx

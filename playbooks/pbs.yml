@@ -2,10 +2,6 @@
 - name: Install proxmox backup server
   hosts: pbs_host
   become: true
-  pre_tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: "vars/{{ vars_file }}.yml"
   tasks:
     - name: Install some packages
       ansible.builtin.apt:

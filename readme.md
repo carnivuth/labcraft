@@ -139,6 +139,20 @@ Sensitive informations are stored inside an encrypted vault file generated with 
 grep vault_ playbooks/group_vars/all/vars.yml inventory/inventory.proxmox.yml  -h | awk -F' ' '{print $3":"}' > sample.yml
 ```
 
+- create a file to store the vault password
+
+```bash
+pwgen -N 1 64 > passfile && chmod 600 passfile
+```
+
+- set vault pass file in `ansible.cfg`
+
+```bash
+[defaults]
+host_key_checking = False
+vault_password_file=/usr/local/labcraft/passfile
+```
+
 - add variables and encrypt the file with ansible vault
 
 ```bash
