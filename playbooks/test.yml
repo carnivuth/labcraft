@@ -1,0 +1,13 @@
+- hosts:
+    - all
+    - localhost
+  tasks:
+    - name: debug
+      ansible.builtin.debug:
+        var: nextcloud_data_dir
+    - name: debug
+      ansible.builtin.debug:
+        var: domain_name
+    - name: debug
+      ansible.builtin.debug:
+        var: vault_proxmox_url

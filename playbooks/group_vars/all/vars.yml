@@ -1,7 +1,7 @@
 ---
 # dns config
 pbs_datastores: /mnt/datastore/backup
-pbs_healthchecks_address:
+pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
 
 # dns config
 external_dns_server: '192.168.1.1'
@@ -11,8 +11,8 @@ dns_server_backup: '192.168.1.97'
 service_manager_address: '192.168.1.94'
 
 # reverse proxy cofig
-certbot_admin_email:
-domain_name:
+certbot_admin_email: '{{ vault_certbot_admin_email }}'
+domain_name: '{{ vault_domain_name }}'
 
 # docker
 base_docker_compose: "files/compose"
@@ -41,14 +41,14 @@ adguard_exposed_port: 8081
 portainer_exposed_port: 9443
 
 # curiel bot
-curiel_bot_token:
-curiel_bot_admin:
+curiel_bot_token: "{{ vault_curiel_bot_token }}"
+curiel_bot_admin: "{{ vault_curiel_bot_admin }}"
 curiel_bot_data_dir: "{{ app_var_root }}/curiel_bot"
 
 # github sync
-github_sync_healthcheck:
-github_sync_account:
-github_sync_ntfy:
+github_sync_healthcheck: '{{ github_sync_healthcheck }}'
+github_sync_account: '{{ github_sync_account }}'
+github_sync_ntfy: '{{ github_sync_ntfy }}'
 github_sync_data_dir: "{{ app_var_root }}/github_sync"
 
 # taskchampion
@@ -61,7 +61,21 @@ navidrome_data: "{{ navidrome_data_dir }}/data"
 navidrome_collection: "{{ navidrome_data_dir }}/collection"
 navidrome_exposed_port: 4533
 
+# openwebui_data_dir
+openwebui_data_dir: "{{ app_var_root }}/openwebui"
+openwebui_exposed_port: 8083
+
 apps:
+
+  - app: ollama
+    app_uid: 10008
+    app_baseurl: "https://{{ domain_name }}/openwebui"
+    exposed_port: "{{ openwebui_exposed_port }}"
+    reverse_proxy: false
+    app_ports:
+      - "{{ openwebui_exposed_port }}:8080"
+    app_dirs:
+      - "{{ openwebui_data_dir }}"
 
   - app: taskchampion
     app_uid: 10007

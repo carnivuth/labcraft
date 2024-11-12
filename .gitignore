@@ -9,6 +9,10 @@ env
 
 # vaults secrets
 vaults
+vault.yml
+vault.yaml
+vault
+
 
 # ansible local configs
 ansible.cfg

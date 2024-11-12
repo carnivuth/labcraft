@@ -129,6 +129,28 @@ cp playbooks/vars/sample.yml playbooks/vars/prod.yml
 ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight
 ```
 
+### HANDLE SECRETS
+
+Sensitive informations are stored inside an encrypted vault file generated with `ansible-vault`, in order to create it do the following:
+
+- create a  sample with the following command:
+
+```bash
+grep vault_ playbooks/group_vars/all/vars.yml inventory/inventory.proxmox.yml  -h | awk -F' ' '{print $3":"}' > sample.yml
+```
+
+- add variables and encrypt the file with ansible vault
+
+```bash
+ansible-vault encrypt sample.yml
+```
+
+- move the file to the `group_vars` folder
+
+```bash
+mv sample.yml playbooks/group_vars/all/vault.yml
+```
+
 ### UPDATE MANAGEMENT
 
 To avoid having to run ansible manually every time there is an update do the following

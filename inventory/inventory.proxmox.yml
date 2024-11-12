@@ -1,8 +1,8 @@
 plugin: community.general.proxmox
-url:
-user:
-token_id:
-token_secret:
+url: '{{ vault_proxmox_url }}'
+user: '{{ vault_proxmox_user }}'
+token_id: '{{ vault_proxmox_token_id }}'
+token_secret: '{{ vault_proxmox_token_secrets }}'
 want_facts: true
 validate_certs: false
 want_proxmox_nodes_ansible_host: true
