@@ -8,7 +8,7 @@ resource "proxmox_lxc" "ditto" {
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
   nameserver      = var.external_nameserver
-  cores           = 4
+  cores           = 6
   memory          = 4096
   onboot          = true
   start           = true
