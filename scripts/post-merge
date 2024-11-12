@@ -11,11 +11,11 @@ if git diff --name-only HEAD HEAD~1 | grep "$PB" || git diff --name-only HEAD HE
   # run ansible-playbooks
   source env/bin/activate
   curl "$NTFY_ADDRESS" -d "running common playbook"
-  ansible-playbook -i inventory/prod.proxmox.yaml -e 'vars_file=prod' playbooks/common.yml >> "$LOG_DIR/common.log"
+  ansible-playbook -i inventory/inventory.proxmox.yaml playbooks/common.yml >> "$LOG_DIR/common.log"
   curl "$NTFY_ADDRESS" -d "running pbs playbook"
-  ansible-playbook -i inventory/prod.proxmox.yaml -e 'vars_file=prod' playbooks/pbs.yml >> "$LOG_DIR/pbs.log"
+  ansible-playbook -i inventory/inventory.proxmox.yaml playbooks/pbs.yml >> "$LOG_DIR/pbs.log"
   curl "$NTFY_ADDRESS" -d "running configure_service manager playbook"
-  ansible-playbook -i inventory/prod.proxmox.yaml -e 'vars_file=prod' playbooks/configure_service_manager.yml >> "$LOG_DIR/configure_service_manager.log"
+  ansible-playbook -i inventory/inventory.proxmox.yaml playbooks/configure_service_manager.yml >> "$LOG_DIR/configure_service_manager.log"
 else
   curl "$NTFY_ADDRESS" -d "no $PB modified, nothing to do"
 fi
