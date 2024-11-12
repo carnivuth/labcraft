@@ -2,10 +2,6 @@
 - name: Prepare
   hosts: all
   become: true
-  pre_tasks:
-    - name: Include vars
-      ansible.builtin.include_vars:
-        file: ../../playbooks/vars/sample.yml
   tasks:
     - name: Update packages
       ansible.builtin.apt:
