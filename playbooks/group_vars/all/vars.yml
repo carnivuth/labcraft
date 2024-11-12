@@ -1,4 +1,8 @@
 ---
+# proxmox pools
+proxmox_pools:
+  - {"name": "prod", "comment":"production resources"}
+  - {"name": "test", "comment":"testing resources"}
 # dns config
 pbs_datastores: /mnt/datastore/backup
 pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
