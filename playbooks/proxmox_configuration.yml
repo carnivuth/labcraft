@@ -5,7 +5,7 @@
     - name: Create pool {{ item.name }}
       community.general.proxmox_pool:
         api_host: pve
-        api_user: "{{ vault_proxmox_token_user }}"
+        api_user: "{{ vault_proxmox_user }}"
         api_token_id: "{{ vault_proxmox_token_id }}"
         api_token_secret: "{{ vault_proxmox_token_secret }}"
         poolid: "{{ item.name }}"
