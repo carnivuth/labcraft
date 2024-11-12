@@ -12,4 +12,4 @@
     insertafter: 'server {'
     block: "{{ lookup('ansible.builtin.template', 'templates/reverse_proxy/' ~ app ~ '.j2') }}"
     path: "/etc/nginx/sites-enabled/main"
-    marker: "{{ app }}"
+    marker: "# {{ app }}"
