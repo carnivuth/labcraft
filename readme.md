@@ -34,7 +34,7 @@ some services are exposed to the internet via HTTPS reverse proxy with nginx
 ```mermaid
 flowchart LR
 A((Internet))
-B{starweb}
+B{staraptor}
 C[nextcloud]
 D[...]
 C & D --> B
