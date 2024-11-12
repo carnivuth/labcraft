@@ -30,6 +30,7 @@ passlib==1.7.4
 pathspec==0.12.1
 platformdirs==4.2.0
 pluggy==1.4.0
+proxmoxer==2.1.0
 pycparser==2.21
 Pygments==2.17.2
 python-vagrant==1.0.0
