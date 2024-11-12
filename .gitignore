@@ -12,6 +12,7 @@ vaults
 vault.yml
 vault.yaml
 vault
+passfile
 
 
 # ansible local configs
