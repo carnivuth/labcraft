@@ -103,18 +103,6 @@ ansible-galaxy collection install -r collections/requirements.yml
 ansible-galaxy role install -r roles/requirements.yml
 ```
 
-- create inventory following the template in `inventory/inventory.proxmox.yml`
-
-```bash
-cp inventory/inventory.proxmox.yml inventory/inventory.proxmox.yml
-```
-
-- create vars file following the template in `vars/sample.yml`
-
-```bash
-cp playbooks/vars/sample.yml playbooks/vars/prod.yml
-```
-
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
 
 - create a proxmox admin token for terraform
