@@ -8,6 +8,7 @@ resource "proxmox_lxc" "ct-test" {
   ssh_public_keys = var.ssh_pub_key
   nameserver      = var.external_nameserver
   cores           = 1
+  pool           = "test"
   memory          = 512
   onboot          = true
   start           = true
