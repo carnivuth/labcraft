@@ -71,7 +71,7 @@ apps:
     app_uid: 10008
     app_baseurl: "https://{{ domain_name }}/openwebui"
     exposed_port: "{{ openwebui_exposed_port }}"
-    reverse_proxy: true
+    reverse_proxy: false
     app_ports:
       - "{{ openwebui_exposed_port }}:8080"
     app_dirs:
