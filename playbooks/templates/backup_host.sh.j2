@@ -1,0 +1,38 @@
+#!/bin/bash
+FOLDERS="{% for p in proxmox_folders_to_backup %} {{ p.path }} {% endfor %}"
+REMOTE="{{ backup_remote }}"
+NTFY_ENDPOINT="{{ ntfy_endpoint }}"
+HEALTHCHECKS_ENDPOINT="{{ proxmox_backup_healthchecks_address }}"
+BORG_REPOSITORY_FOLDER="/var/borg"
+
+function check(){
+  if [[ ! -d "$BORG_REPOSITORY_FOLDER" ]]; then
+    curl "$NTFY_ENDPOINT" -X POST  -d "ALLERT proxmox backup not configured"
+    exit 1
+  fi
+}
+function check_borg_is_running(){
+  if [[ "$(pidof borg)" != "" ]]; then
+    curl "$NTFY_ENDPOINT" -X POST  -d "task $1 could not run cause borg is running"
+    exit 1
+  fi
+}
+
+check
+check_borg_is_running "$0"
+
+# check for borg repo
+for folder in $FOLDERS; do
+  borg create --info --stats --progress "$BORG_REPOSITORY_FOLDER::$(basename $folder)-$(date +%c)" "${folder}"  && BACKUPPED_TARGETS="${folder} $BACKUPPED_TARGETS"
+  if [[ "$BACKUPPED_TARGETS" != "$FOLDERS" ]]; then
+    curl "$NTFY_ENDPOINT" -X POST  -d "done backup of $BACKUPPED_TARGETS in the $BORG_REPOSITORY_FOLDER borg repo"
+    if rsync -Pavr "$datastore" "$REMOTE:"; then
+      curl  "$HEALTHCHECKS_ENDPOINT"
+      curl "$NTFY_ENDPOINT" -X POST  -d "done sync from $HOSTNAME to $REMOTE of $datastore"
+    else
+      curl "$NTFY_ENDPOINT" -X POST  -d "BROKEN  sync from $HOSTNAME to $REMOTE of $datastore"
+    fi
+  else
+    curl "$NTFY_ENDPOINT" -X POST  -d "no backup in $BORG_REPOSITORY_FOLDER borg repo has been made!"
+  fi
+done

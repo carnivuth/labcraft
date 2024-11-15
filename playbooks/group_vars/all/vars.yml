@@ -1,13 +1,27 @@
 ---
+# ntfy endpoint
+ntfy_endpoint: "https://pokelab.ddns.net/ntfy/homelab"
+
+# remote backup host
+backup_remote: "u425518.your-storagebox.de"
+
+# proxmox host folder to backup and send to remote
+proxmox_folders_to_backup:
+  - {"name":"labcraft", "path":"/usr/local/labcraft"}
+
 # proxmox pools
 proxmox_pools:
   - {"name": "prod", "comment":"production resources"}
   - {"name": "test", "comment":"testing resources"}
 
-# dns config
+# proxmox backup job healthceck endpoint
+proxmox_backup_healthchecks_address: '{{ vault_proxmox_backup_healthchecks_address }}'
+
+# proxmox backup server folder to send to remote
 pbs_datastores:
   - {"name":"backup", "path":"/mnt/datastore/backup"}
-  - {"name":"prova", "path":"/mnt/datastore/prova"}
+
+# proxmox backup server healthchecks endpoint
 pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
 
 # dns config
