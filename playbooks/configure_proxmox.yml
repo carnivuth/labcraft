@@ -28,7 +28,7 @@
           ansible.builtin.template:
             src: templates/backup_host.sh.j2
             dest: /usr/local/bin/backup_host.sh
-            mode: '755'
+            mode: '700'
 
         - name: Add backup sync cronjob
           notify: Send ntfy.sh update
