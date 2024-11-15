@@ -7,7 +7,7 @@
         name:
           - curl
           - rsync
-          - borgbackup2
+          - borgbackup
         state: present
         update_cache: true
 
