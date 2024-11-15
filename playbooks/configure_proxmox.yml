@@ -30,6 +30,13 @@
             dest: /usr/local/bin/backup_host.sh
             mode: '700'
 
+        - name: Copy ssh config
+          notify: Send ntfy.sh update
+          ansible.builtin.template:
+            src: templates/proxmox_ssh_config.j2
+            dest: /root/.ssh/config
+            mode: '700'
+
         - name: Add backup sync cronjob
           notify: Send ntfy.sh update
           ansible.builtin.cron:
