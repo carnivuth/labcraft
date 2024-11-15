@@ -27,7 +27,7 @@ for folder in $FOLDERS; do
   borg create --info --stats --progress "$BORG_REPOSITORY_FOLDER::$(basename $folder)-$(date +%c)" "${folder}"  && BACKUPPED_TARGETS="${folder} $BACKUPPED_TARGETS"
   if [[ "$BACKUPPED_TARGETS" != "$FOLDERS" ]]; then
     curl "$NTFY_ENDPOINT" -X POST  -d "done backup of $BACKUPPED_TARGETS in the $BORG_REPOSITORY_FOLDER borg repo"
-    if rsync -Pavr "$datastore" "$REMOTE:"; then
+    if rsync -Pavr "$folder" "$REMOTE:"; then
       curl  "$HEALTHCHECKS_ENDPOINT"
       curl "$NTFY_ENDPOINT" -X POST  -d "done sync from $HOSTNAME to $REMOTE of $datastore"
     else
