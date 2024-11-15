@@ -153,6 +153,10 @@ ansible-vault encrypt sample.yml
 mv sample.yml playbooks/group_vars/all/vault.yml
 ```
 
+### PROXMOX HOST BACKUP
+
+Host backups are done trough the use of borg and a cronjob script, after running the `configure_proxmox.yml` playbook configure ssh authentication to storage box
+
 ### UPDATE MANAGEMENT
 
 To avoid having to run ansible manually every time there is an update do the following
