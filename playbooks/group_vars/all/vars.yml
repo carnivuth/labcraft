@@ -8,7 +8,7 @@ backup_remote: "u425518.your-storagebox.de"
 # proxmox host folder to backup and send to remote
 proxmox_folders_to_backup:
   - {"name":"labcraft", "path":"/usr/local/labcraft"}
-
+proxmox_backup_borg_passphrase: "{{ vault_proxmox_backup_borg_passphrase }}"
 # proxmox pools
 proxmox_pools:
   - {"name": "prod", "comment":"production resources"}

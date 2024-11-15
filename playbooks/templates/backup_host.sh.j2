@@ -4,6 +4,7 @@ REMOTE="{{ backup_remote }}"
 NTFY_ENDPOINT="{{ ntfy_endpoint }}"
 HEALTHCHECKS_ENDPOINT="{{ proxmox_backup_healthchecks_address }}"
 BORG_REPOSITORY_FOLDER="/var/borg"
+export BORG_PASSPHRASE="{{ proxmox_backup_borg_passphrase }}"
 
 function check(){
   if [[ ! -d "$BORG_REPOSITORY_FOLDER" ]]; then
