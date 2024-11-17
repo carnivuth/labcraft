@@ -1,4 +1,12 @@
 ---
+# wireguard
+wireguard_unmanaged_peers:
+  client.example.com:
+    public_key: "{{ vault_wireguard_pub_key }}"
+    allowed_ips: 10.0.8.0/24
+    endpoint: pokelab.ddns.net:51820
+    persistent_keepalive: 0
+
 # ntfy endpoint
 ntfy_endpoint: "https://pokelab.ddns.net/ntfy/homelab"
 

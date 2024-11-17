@@ -1,3 +1,4 @@
 ---
 roles:
   - geerlingguy.docker
+  - githubixx.ansible_role_wireguard

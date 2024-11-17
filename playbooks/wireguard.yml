@@ -1,0 +1,6 @@
+---
+- name: Configure wireguard in vpn endpoint
+  become: true
+  hosts: vpn_host
+  roles:
+    - role: githubixx.ansible_role_wireguard
