@@ -48,3 +48,4 @@
         url: "https://pokelab.ddns.net/ntfy/homelab"
         method: POST
         body: "{{ app }} has been provisioned"
+      ignore_unreachable: true
