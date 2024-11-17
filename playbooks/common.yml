@@ -86,3 +86,4 @@
         url: "https://pokelab.ddns.net/ntfy/homelab"
         method: POST
         body: "{{ inventory_hostname }} common playbook completed"
+      ignore_errors: true
