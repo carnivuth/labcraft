@@ -1,6 +1,7 @@
 ---
 services:
   navidrome:
+    container_name: navidrome
     image: deluan/navidrome:latest
     user: {{ app_uid }}:1000 # should be owner of volumes
     ports: {{ app_ports }}
