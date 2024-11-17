@@ -1,8 +1,7 @@
 #!/bin/bash
-DEPS="rsync"
 DATASTORES="{% for p in pbs_datastores %} {{ p.path }} {% endfor %}"
-REMOTE="u425518.your-storagebox.de"
-NTFY_ENDPOINT="https://pokelab.ddns.net/ntfy/homelab"
+REMOTE="{{ backup_remote }}"
+NTFY_ENDPOINT="{{ ntfy_endpoint }}"
 HEALTHCHECKS_ENDPOINT="{{ pbs_healthchecks_address }}"
 
 for datastore in $DATASTORES; do
