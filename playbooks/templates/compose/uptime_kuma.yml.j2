@@ -1,9 +1,11 @@
 ---
 services:
   uptime_kuma:
-    image: louislam/uptime-kuma:2-rootless
+    image: louislam/uptime-kuma:1
     container_name: uptime-kuma
     user: "{{ app_uid }}"
+    environment:
+      - "PUID={{ app_uid }}"
     volumes:
       - {{ kuma_data_dir }}:/app/data
     ports: {{ app_ports }}
