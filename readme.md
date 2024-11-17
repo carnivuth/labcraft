@@ -80,9 +80,10 @@ Backups are made with the use of PBS in snapshot mode, every night at 21:00 for 
 
 ## INSTALLATION
 
-- clone repository
+- clone repository inside the proxmox host
 
 ```bash
+cd /usr/local
 git clone https://github.com/carnivuth/labcraft
 ```
 
@@ -103,6 +104,7 @@ ansible-galaxy collection install -r collections/requirements.yml
 ansible-galaxy role install -r roles/requirements.yml
 ```
 
+- add secrets folowing this [guide](readme.md#HANDLE%20SECRETS)
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
 
 - create a proxmox admin token for terraform
