@@ -1,6 +1,7 @@
 resource "proxmox_lxc" "arcanine" {
   target_node     = var.proxmox_host
   hostname        = "arcanine"
+  tags        = "vpn"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
