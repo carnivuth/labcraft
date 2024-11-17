@@ -50,19 +50,10 @@ nextcloud_apache_port: 11111
 nextcloud_data_dir: "{{ app_var_root }}/nextcloud"
 nextcloud_apache_address: "0.0.0.0"
 
-# ntfy
-ntfy_cache_dir: "{{ app_cache_root }}/ntfy"
-ntfy_data_dir: "{{ app_var_root }}/ntfy"
-ntfy_conf_dir: "{{ app_conf_root }}/ntfy"
-ntfy_exposed_port: 8001
-
 # adguard
 adguard_data_dir: "{{ app_var_root }}/adguard"
 adguard_conf_dir: "{{ app_conf_root }}/adguard"
 adguard_exposed_port: 8081
-
-# portainer
-portainer_exposed_port: 9443
 
 # curiel bot
 curiel_bot_token: "{{ vault_curiel_bot_token }}"
@@ -79,12 +70,6 @@ github_sync_data_dir: "{{ app_var_root }}/github_sync"
 taskchampion_exposed_port: 8082
 taskchampion_data_dir: "{{ app_var_root }}/taskchampion"
 
-# navidrome
-navidrome_data_dir: "{{ app_var_root }}/navidrome"
-navidrome_data: "{{ navidrome_data_dir }}/data"
-navidrome_collection: "{{ navidrome_data_dir }}/collection"
-navidrome_exposed_port: 4533
-
 # openwebui
 openwebui_data_dir: "{{ app_var_root }}/openwebui"
 openwebui_exposed_port: 8083
@@ -92,6 +77,21 @@ openwebui_exposed_port: 8083
 # uptime kuma
 kuma_data_dir: "{{ app_var_root }}/uptime_kuma"
 kuma_exposed_port: 8084
+
+# navidrome
+navidrome_data_dir: "{{ app_var_root }}/navidrome"
+navidrome_data: "{{ navidrome_data_dir }}/data"
+navidrome_collection: "{{ navidrome_data_dir }}/collection"
+navidrome_exposed_port: 8085
+
+# portainer
+portainer_exposed_port: 8086
+
+# ntfy
+ntfy_cache_dir: "{{ app_cache_root }}/ntfy"
+ntfy_data_dir: "{{ app_var_root }}/ntfy"
+ntfy_conf_dir: "{{ app_conf_root }}/ntfy"
+ntfy_exposed_port: 8087
 
 apps:
 
@@ -156,7 +156,7 @@ apps:
     app_baseurl: ""
     reverse_proxy: false
     app_ports:
-      - "{{ portainer_exposed_port }}:8443"
+      - "{{ portainer_exposed_port }}:9443"
       - "8000:8000"
     app_dirs: []
 
