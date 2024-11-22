@@ -1,13 +1,18 @@
 ---
 - name: Run common role on all nodes
   hosts: all
+  become: true
   vars:
     arch_packages:
       - vim
+      - neofetch
+      - figlet
       - tmux
       - net-tools
     deb_packages:
       - vim
+      - neofetch
+      - figlet
       - tmux
       - net-tools
 
@@ -65,6 +70,7 @@
 
 - name: Perform some basic configurations
   hosts: all:!provisioners
+  become: true
   tasks:
     - name: Copy bash_aliases
       notify: Send ntfy.sh update
@@ -79,6 +85,24 @@
         src: files/.bashrc
         dest: "/root/.bashrc"
         mode: "700"
+
+    - name: Copy motd script
+      notify: Send ntfy.sh update
+      ansible.builtin.copy:
+        src: files/motd.sh
+        dest: "/etc/motd.sh"
+        mode: "700"
+
+    - name: Add motd to /etc/profile
+      ansible.builtin.lineinfile:
+        path: /etc/profile
+        line: "source /etc/motd.sh"
+        insertafter: EOF
+
+    - name: Remove motd file
+      ansible.builtin.file:
+        path: /etc/motd
+        state: absent
 
   handlers:
     - name: Send ntfy.sh update
