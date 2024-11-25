@@ -38,3 +38,30 @@
 //    gw     = var.guest_gw
 //  }
 //}
+resource "proxmox_lxc" "backup-3ds" {
+  target_node     = var.proxmox_host
+  hostname        = "bakcup-3ds"
+  tags            = "test"
+  ostemplate      = var.prod_ct_template
+  password        = var.guest_password
+  unprivileged    = true
+  ssh_public_keys = var.ssh_pub_key
+  nameserver      = var.external_nameserver
+  cores           = 4
+  pool           = "test"
+  memory          = 2084
+  onboot          = true
+  start           = true
+  //hookscript      = "local:snippets/update.sh"
+
+  rootfs {
+    storage = var.main_pool
+    size    = "8G"
+  }
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.150/24"
+    gw     = var.guest_gw
+  }
+}
