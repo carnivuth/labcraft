@@ -1,4 +1,7 @@
 ---
+# 3ds backup job
+port_3ds: 5000
+address_3ds: 192.168.1.28
 # wireguard
 wireguard_unmanaged_peers:
   client.example.com:

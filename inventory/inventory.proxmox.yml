@@ -13,8 +13,7 @@ compose:
   ansible_ssh_private_key_file:
   address: "proxmox_net0.ip"
   allowed_ips: 10.0.8.0/24
-  wireguard_addresses:
-    - "'10.0.8.' ~ (proxmox_net0.ip | split('.')| last | split('/') | first) ~ '/24'"
+  wireguard_address: "'10.0.8.' ~ proxmox_net0.ip | split('.')| last | split('/') | first ~ '/24'"
 groups:
   vms: "'qemu' in (proxmox_vm_type|list)"
   cts: "'lxc' in (proxmox_vm_type| list)"

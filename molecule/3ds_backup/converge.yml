@@ -1,0 +1,4 @@
+---
+- name: Import common playbook
+  ansible.builtin.import_playbook: ../../playbooks/configure_3ds_backup.yml
+
