@@ -22,6 +22,7 @@ groups:
   reverse_proxy: "'reverse_proxy' in (proxmox_tags_parsed|list)"
   dns_host: "'dns' in (proxmox_tags_parsed|list)"
   pbs_host: "'pbs' in (proxmox_tags_parsed|list)"
+  backup_3ds_host: "'backup_3ds' in (proxmox_tags_parsed|list)"
   vpn_host: "'vpn' in (proxmox_tags_parsed|list)"
   provisioners: "'provisioner' in (proxmox_tags_parsed|list)"
   grocy_host: "'grocy' in (proxmox_tags_parsed|list)"

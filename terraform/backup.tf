@@ -2,7 +2,7 @@
 resource "proxmox_lxc" "ditto" {
   target_node     = var.proxmox_host
   hostname        = "ditto"
-  tags            = "pbs"
+  tags            = "pbs;backup_3ds"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
