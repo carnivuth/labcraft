@@ -2,6 +2,7 @@
 # 3ds backup job
 port_3ds: 5000
 address_3ds: 192.168.1.28
+
 # wireguard
 wireguard_unmanaged_peers:
   client.example.com:
@@ -40,6 +41,7 @@ pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
 
 # dns config
 external_dns_server: '192.168.1.1'
+dns_public_domain_name: 'carnivuth.org'
 dns_domain_name: 'pokelab'
 dns_server: '192.168.1.96'
 dns_server_backup: '192.168.1.97'
