@@ -118,7 +118,7 @@ apps:
     app_dirs:
       - "{{ kuma_data_dir }}"
 
-  - app: ollama
+  - app: openwebui
     app_uid: 10008
     app_baseurl: "https://{{ domain_name }}/openwebui"
     exposed_port: "{{ openwebui_exposed_port }}"
