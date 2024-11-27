@@ -24,6 +24,7 @@ if git diff --name-only HEAD HEAD~1 | grep "$PB" || git diff --name-only HEAD HE
   run_pb pbs
   run_pb configure_service_manager
   run_pb configure_reverse_proxy
+  run_pb configure_3ds_backup
 else
   curl "$NTFY_ADDRESS" -d "no $PB modified, nothing to do"
 fi
