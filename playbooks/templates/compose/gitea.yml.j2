@@ -1,0 +1,11 @@
+---
+services:
+  gitea:
+    image: gitea/gitea:latest-rootless
+    restart: always
+    volumes:
+      - {{ gitea_data_dir }}:/var/lib/gitea
+      - {{ gitea_conf_dir }}:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports: {{ app_ports }}

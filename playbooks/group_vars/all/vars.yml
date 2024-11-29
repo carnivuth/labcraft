@@ -102,7 +102,23 @@ ntfy_data_dir: "{{ app_var_root }}/ntfy"
 ntfy_conf_dir: "{{ app_conf_root }}/ntfy"
 ntfy_exposed_port: 8087
 
+# gitea
+gitea_data_dir: "{{ app_var_root }}/gitea"
+gitea_conf_dir: "{{ app_conf_root }}/gitea"
+gitea_exposed_port: 8088
+
 apps:
+
+  - app: gitea
+    app_uid: 10010
+    app_baseurl: "https://{{ domain_name }}/gitea"
+    exposed_port: "{{ gitea_exposed_port }}"
+    reverse_proxy: false
+    app_ports:
+      - "{{ gitea_exposed_port }}:3000"
+    app_dirs:
+      - "{{ gitea_data_dir }}"
+      - "{{ gitea_conf_dir }}"
 
   - app: uptime_kuma
     app_uid: 10009
