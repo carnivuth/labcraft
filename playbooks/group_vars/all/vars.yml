@@ -111,9 +111,9 @@ apps:
 
   - app: gitea
     app_uid: 10010
-    app_baseurl: "https://{{ domain_name }}/gitea"
+    app_baseurl: "https://gitea.{{ domain_name }}"
     exposed_port: "{{ gitea_exposed_port }}"
-    reverse_proxy: false
+    reverse_proxy: false # TODO enable it
     app_ports:
       - "{{ gitea_exposed_port }}:3000"
     app_dirs:
@@ -122,8 +122,6 @@ apps:
 
   - app: uptime_kuma
     app_uid: 10009
-    app_baseurl: "https://{{ domain_name }}/kuma"
-    exposed_port: "{{ kuma_exposed_port }}"
     reverse_proxy: false
     app_ports:
       - "{{ kuma_exposed_port }}:3001"
@@ -132,7 +130,7 @@ apps:
 
   - app: openwebui
     app_uid: 10008
-    app_baseurl: "https://{{ domain_name }}/openwebui"
+    app_baseurl: "https://openwebui.{{ domain_name }}"
     exposed_port: "{{ openwebui_exposed_port }}"
     reverse_proxy: true
     app_ports:
@@ -143,7 +141,7 @@ apps:
   #     bug for dns port already used by systemd process
   #  - app: adguard
   #    app_uid: 10006
-  #    app_baseurl: "https://{{ domain_name }}/adguard"
+  #    app_baseurl: "https://{{ domain_name }}"
   #    reverse_proxy: false
   #    app_ports:
   #      - "53:53/udp"
@@ -156,7 +154,7 @@ apps:
   - app: ntfy
     app_uid: 10005
     exposed_port: "{{ ntfy_exposed_port }}"
-    app_baseurl: "https://{{ domain_name }}"
+    app_baseurl: "https://ntfy.{{ domain_name }}"
     reverse_proxy: true
     app_ports:
       - "{{ ntfy_exposed_port }}:80"
@@ -167,8 +165,6 @@ apps:
 
   - app: portainer
     app_uid: 10004
-    exposed_port: ""
-    app_baseurl: ""
     reverse_proxy: false
     app_ports:
       - "{{ portainer_exposed_port }}:9443"
@@ -178,8 +174,6 @@ apps:
   - app: github_sync
     app_uid: 10003
     app_ports: []
-    exposed_port: ""
-    app_baseurl: ""
     reverse_proxy: false
     app_dirs:
       - "{{ github_sync_data_dir }}"
@@ -187,8 +181,6 @@ apps:
   - app: curiel_bot
     app_uid: 10002
     app_ports: []
-    exposed_port: ""
-    app_baseurl: ""
     reverse_proxy: false
     app_dirs:
       - "{{ curiel_bot_data_dir }}"
@@ -196,7 +188,7 @@ apps:
   - app: nextcloud
     app_uid: 10001
     exposed_port: "{{ nextcloud_apache_port }}"
-    app_baseurl: ""
+    app_baseurl: "https://nextcloud.{{ domain_name }}"
     reverse_proxy: true
     app_ports:
       - "8080:8080"
@@ -205,7 +197,7 @@ apps:
 
   - app: navidrome
     app_uid: 10000
-    app_baseurl: "https://{{ domain_name }}/navidrome"
+    app_baseurl: "https://navidrome.{{ domain_name }}"
     exposed_port: "{{ navidrome_exposed_port }}"
     reverse_proxy: true
     app_ports:
