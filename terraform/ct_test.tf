@@ -69,7 +69,7 @@ resource "proxmox_lxc" "sanet-test" {
   target_node     = var.proxmox_host
   hostname        = "sanet-test"
   tags            = "test"
-  ostemplate      = "local:vztmpl/sanetx86_64-new.tar.zst"
+  ostemplate      = "local:vztmpl/sanet-x86_64-new.tar.zst"
   password        = var.guest_password
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
