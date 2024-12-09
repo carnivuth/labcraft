@@ -33,8 +33,9 @@ proxmox_pools:
 proxmox_backup_healthchecks_address: '{{ vault_proxmox_backup_healthchecks_address }}'
 
 # proxmox backup server folder to send to remote
+pbs_data_folder: /mnt/datastore
 pbs_datastores:
-  - {"name":"backup", "path":"/mnt/datastore/backup"}
+  - {"name":"backup", "path":"{{ pbs_datastore_backup }}/backup"}
 
 # proxmox backup server healthchecks endpoint
 pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'

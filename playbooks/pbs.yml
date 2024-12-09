@@ -36,6 +36,7 @@
         src: templates/sync_with_remote.sh.j2
         dest: /usr/local/bin/sync_with_remote.sh
         mode: '755'
+
     - name: Add datastore
       ansible.builtin.command:
         cmd: "proxmox-backup-manager datastore create {{ item.name }} {{ item.path }}"
