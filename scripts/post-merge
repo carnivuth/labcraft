@@ -3,7 +3,7 @@
 exec 1>&2
 
 LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
-NTFY_ADDRESS="https://pokelab.ddns.net/ntfy/homelab"
+NTFY_ADDRESS="https://ntfy.carnivuth.org/homelab"
 
 function run_pb(){
   if [[ ! -f "playbooks/$1.yml" ]]; then

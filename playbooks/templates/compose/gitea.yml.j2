@@ -3,6 +3,7 @@ services:
   gitea:
     image: gitea/gitea:latest-rootless
     restart: always
+    user: "{{ app_uid }}:{{ app_uid }}"
     volumes:
       - {{ gitea_data_dir }}:/var/lib/gitea
       - {{ gitea_conf_dir }}:/etc/gitea

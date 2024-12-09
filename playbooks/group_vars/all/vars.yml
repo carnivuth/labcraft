@@ -114,7 +114,7 @@ apps:
     app_uid: 10010
     app_baseurl: "https://gitea.{{ domain_name }}"
     exposed_port: "{{ gitea_exposed_port }}"
-    reverse_proxy: false # TODO enable it
+    reverse_proxy: true # TODO enable it
     app_ports:
       - "{{ gitea_exposed_port }}:3000"
     app_dirs:
