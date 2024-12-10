@@ -2,7 +2,7 @@
 resource "proxmox_lxc" "klefky" {
   target_node     = var.proxmox_host
   hostname        = "klefky"
-  tags        = "pw-manager"
+  tags        = "pwmanager"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
