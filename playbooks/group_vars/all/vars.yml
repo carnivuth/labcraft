@@ -3,6 +3,8 @@
 port_3ds: 5000
 address_3ds: 192.168.1.28
 
+pwmanager_pub_key: "{{ vault_pwmanager_pub_key }}"
+
 # wireguard
 wireguard_unmanaged_peers:
   client.example.com:

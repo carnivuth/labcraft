@@ -1,4 +1,3 @@
-
 resource "proxmox_lxc" "klefky" {
   target_node     = var.proxmox_host
   hostname        = "klefky"

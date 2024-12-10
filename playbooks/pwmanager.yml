@@ -1,0 +1,41 @@
+---
+- name: Install pwmanager git support
+  hosts: pwmanager
+  become: true
+  tasks:
+    - name: Install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: true
+
+    - name: Create git user
+      ansible.builtin.user:
+        name: git
+        shell: "/bin/git-shell"
+
+    - name: Create ssh dir
+      ansible.builtin.file:
+        path: /home/git/.ssh
+        state: directory
+        mode: "755"
+
+    - name: Add ssh authorized key
+      ansible.builtin.lineinfile:
+        path: /home/git/.ssh/authorized_keys
+        create: true
+        line: "no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty {{ pwmanager_pub_key }}"
+        mode: "600"
+        state: present
+
+    - name: Create password store directory
+      ansible.builtin.file:
+        path: /srv/git/password-store
+        state: directory
+        mode: "755"
+        owner: git
+
+    - name: Initialize git inside password store dir
+      ansible.builtin.command:
+        cmd: git init --bare
+        creates: "/srv/git/password-store/branches"

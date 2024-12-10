@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+platforms:
+  - name: klefky
+    box: debian/bookworm64
+    groups:
+      - pwmanager
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
