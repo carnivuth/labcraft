@@ -17,12 +17,6 @@
         path: /etc/nginx/sites-enabled/default
         state: absent
 
-    #- name: Copy default configuration file
-    #  ansible.builtin.template:
-    #    src: ../../playbooks/templates/main.j2
-    #    dest: /etc/nginx/sites-available/main
-    #    mode: '755'
-
     - name: Enable default configuration file
       ansible.builtin.file:
         src: /etc/nginx/sites-available/default

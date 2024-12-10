@@ -4,10 +4,10 @@ driver:
   provider:
     name: virtualbox
 platforms:
-  - name: ditto
+  - name: staraptor
     box: debian/bookworm64
     groups:
-      - pbs_host
+      - vpn
 
 scenario:
   test_sequence:

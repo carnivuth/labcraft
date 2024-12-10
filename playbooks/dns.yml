@@ -1,7 +1,7 @@
 ---
 - name: Setup dns on dns hosts
   become: true
-  hosts: dns_hosts
+  hosts: dns
   tasks:
 
     - name: Set dns ip address

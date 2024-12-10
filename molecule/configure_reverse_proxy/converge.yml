@@ -1,3 +1,0 @@
----
-- name: Import configure_reverse_proxy playbook
-  ansible.builtin.import_playbook: ../../playbooks/configure_reverse_proxy.yml

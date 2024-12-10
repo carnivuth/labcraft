@@ -45,7 +45,7 @@
 
     - name: Send ntfy.sh update
       ansible.builtin.uri:
-        url: "https://pokelab.ddns.net/ntfy/homelab"
+        url: "{{ ntfy_endpoint }}"
         method: POST
         body: "{{ app }} has been provisioned"
       ignore_errors: true

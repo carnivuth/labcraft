@@ -1,0 +1,3 @@
+---
+- name: Import wireguard playbook
+  ansible.builtin.import_playbook: ../../playbooks/vpn.yml

@@ -7,7 +7,7 @@ platforms:
   - name: ditto
     box: debian/bookworm64
     groups:
-      - backup_3ds_host
+      - backupper
 
 scenario:
   test_sequence:

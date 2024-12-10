@@ -3,10 +3,7 @@
   ansible.builtin.import_playbook: dns.yml
 
 - name: Deploy docker containers
-  ansible.builtin.import_playbook: configure_service_manager.yml
+  ansible.builtin.import_playbook: service_manager.yml
 
 - name: Provision reverse proxy server
   ansible.builtin.import_playbook: reverse_proxy.yml
-
-- name: configure applications reverse proxies
-  ansible.builtin.import_playbook: configure_reverse_proxy.yml

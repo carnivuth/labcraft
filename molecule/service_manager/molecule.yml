@@ -4,10 +4,10 @@ driver:
   provider:
     name: virtualbox
 platforms:
-  - name: staraptor
-    box: debian/bookworm64
+  - name: wailord
+    box: ubuntu/jammy64
     groups:
-      - vpn_host
+      - service_manager
 
 scenario:
   test_sequence:

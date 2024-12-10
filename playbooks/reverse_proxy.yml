@@ -36,6 +36,17 @@
         dest: /etc/nginx/sites-enabled/main
         state: link
 
+    - name: Install reverse proxy for {{ apps[element].app }}
+      when: apps[element].reverse_proxy is true
+      ansible.builtin.include_tasks:
+        file: install_nginx_conf.yml
+      vars:
+        app: "{{ apps[element].app }}"
+        exposed_port: "{{ apps[element].exposed_port }}"
+      loop: "{{ apps }}"
+      loop_control:
+        index_var: element
+
     - name: Restart nginx
       ansible.builtin.service:
         name: nginx

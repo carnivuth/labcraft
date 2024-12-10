@@ -14,6 +14,9 @@ vault.yaml
 vault
 passfile
 
+# tests
+*.test
+tests
 
 # ansible local configs
 ansible.cfg

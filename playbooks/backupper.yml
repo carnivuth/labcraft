@@ -1,11 +1,13 @@
 ---
 - name: Install proxmox backup server
-  hosts: pbs_host
+  hosts: backupper
   become: true
   tasks:
     - name: Install some packages
       ansible.builtin.apt:
         name:
+          - ftp
+          - netcat-traditional
           - curl
           - rsync
         state: present
@@ -51,9 +53,20 @@
         hour: "22"
         job: "/usr/local/bin/sync_with_remote.sh > /dev/null"
 
+    - name: Copy 3ds backup script
+      ansible.builtin.template:
+        src: templates/backup_3ds.sh.j2
+        dest: /usr/local/bin/backup_3ds.sh
+        mode: '755'
+
+    - name: Add 3ds backup cronjob
+      ansible.builtin.cron:
+        name: "3ds backup"
+        job: "/usr/local/bin/backup_3ds.sh >> /var/log/backup_3ds.log 2>&1"
+
   handlers:
     - name: Send ntfy.sh update
       ansible.builtin.uri:
-        url: "https://pokelab.ddns.net/ntfy/homelab"
+        url: "{{ ntfy_endpoint }}"
         method: POST
         body: "installation of pbs instance on {{ inventory_hostname }} completed"
