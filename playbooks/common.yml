@@ -56,13 +56,13 @@
       rescue:
         - name: Send ntfy.sh notification of failed nodes
           ansible.builtin.uri:
-            url: "https://pokelab.ddns.net/ntfy/homelab"
+            url: "{{ ntfy_endpoint }}"
             method: POST
             body: " update failed on host {{ inventory_hostname }}"
 
   handlers:
     - name: Send ntfy.sh update
       ansible.builtin.uri:
-        url: "https://pokelab.ddns.net/ntfy/homelab"
+        url: "{{ ntfy_endpoint }}"
         method: POST
         body: "{{ inventory_hostname }} common playbook completed"
