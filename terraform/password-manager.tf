@@ -16,6 +16,9 @@ resource "proxmox_lxc" "klefky" {
     storage = var.main_pool
     size    = "15G"
   }
+  features {
+    nesting = true
+  }
 
   network {
     name   = "eth0"
