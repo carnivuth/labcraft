@@ -34,9 +34,6 @@ resource "proxmox_vm_qemu" "wailord" {
   onboot      = true
   vm_state    = "running"
 
-  features {
-    nesting = true
-  }
   disks {
     ide {
       ide2 {
