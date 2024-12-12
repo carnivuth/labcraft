@@ -17,6 +17,9 @@ resource "proxmox_lxc" "umbreon" {
     storage = var.main_pool
     size    = "8G"
   }
+  features {
+    nesting = true
+  }
   network {
     name   = "eth0"
     bridge = "vmbr0"
@@ -44,6 +47,9 @@ resource "proxmox_lxc" "espeon" {
     size    = "8G"
   }
 
+  features {
+    nesting = true
+  }
   network {
     name   = "eth0"
     bridge = "vmbr0"

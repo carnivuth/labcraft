@@ -17,6 +17,10 @@ resource "proxmox_lxc" "arcanine" {
     size    = "20G"
   }
 
+  features {
+    nesting = true
+  }
+
   network {
     name   = "eth0"
     bridge = "vmbr0"

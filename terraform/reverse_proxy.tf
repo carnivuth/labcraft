@@ -13,6 +13,9 @@ resource "proxmox_lxc" "staraptor" {
   onboot          = true
   start           = true
 
+  features {
+    nesting = true
+  }
   rootfs {
     storage = var.main_pool
     size    = "8G"

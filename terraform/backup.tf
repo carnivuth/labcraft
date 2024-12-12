@@ -17,6 +17,9 @@ resource "proxmox_lxc" "ditto" {
     storage = var.main_pool
     size    = "8G"
   }
+  features {
+    nesting = true
+  }
  mountpoint {
     key     = "0"
     slot    = 0
