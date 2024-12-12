@@ -1,13 +1,9 @@
 ---
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: docker
 platforms:
-  - name: staraptor
-    box: debian/bookworm64
-    groups:
-      - reverse_proxy
+  - name: wailord
+    image: debian:bookworm
 
 scenario:
   test_sequence:

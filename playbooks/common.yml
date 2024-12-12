@@ -53,6 +53,19 @@
             name: "{{ deb_packages }}"
             state: present
             update_cache: true
+
+        - name: Copy motd script for presentation
+          ansible.builtin.copy:
+            src: files/motd.sh
+            dest: /etc/motd.sh
+            mode: '755'
+
+        - name: Add motd in /etc/profile
+          ansible.builtin.lineinfile:
+            path: /etc/profile
+            line: source '/etc/motd.sh'
+            state: present
+
       rescue:
         - name: Send ntfy.sh notification of failed nodes
           ansible.builtin.uri:
