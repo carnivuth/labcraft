@@ -1,11 +1,10 @@
 ---
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: docker
+
 platforms:
   - name: klefky
-    box: debian/bookworm64
+    image: debian:bookworm
     groups:
       - pwmanager
 
