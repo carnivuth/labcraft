@@ -38,4 +38,5 @@
     - name: Initialize git inside password store dir
       ansible.builtin.command:
         cmd: git init --bare
+        chdir: /srv/git/password-store
         creates: "/srv/git/password-store/branches"
