@@ -47,7 +47,7 @@
         enabled: true
 
 - name: Set nameserver in all other nodes
-  hosts: all:!dns_hosts
+  hosts: all:!dns
   become: true
   pre_tasks:
   tasks:
