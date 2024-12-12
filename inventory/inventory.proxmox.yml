@@ -18,6 +18,7 @@ groups:
   vms: "'qemu' in (proxmox_vm_type|list)"
   cts: "'lxc' in (proxmox_vm_type| list)"
   service_manager: "'service_manager' in (proxmox_tags_parsed|list)"
+  pwmanager: "'pwmanager' in (proxmox_tags_parsed|list)"
   reverse_proxy: "'reverse_proxy' in (proxmox_tags_parsed|list)"
   dns: "'dns' in (proxmox_tags_parsed|list)"
   backupper: "'backupper' in (proxmox_tags_parsed|list)"
