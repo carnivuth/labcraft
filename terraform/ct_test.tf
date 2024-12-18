@@ -25,7 +25,6 @@
 //  memory          = 512
 //  onboot          = true
 //  start           = true
-//  //hookscript      = "local:snippets/update.sh"
 //
 //  rootfs {
 //    storage = var.main_pool
@@ -52,7 +51,6 @@
 //  memory          = 2084
 //  onboot          = true
 //  start           = true
-//  //hookscript      = "local:snippets/update.sh"
 //
 //  rootfs {
 //    storage = var.main_pool
@@ -79,7 +77,6 @@ resource "proxmox_lxc" "sanet-test" {
   memory          = 4196
   onboot          = true
   start           = true
-  //hookscript      = "local:snippets/update.sh"
 
   rootfs {
     storage = var.main_pool
