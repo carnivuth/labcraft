@@ -38,7 +38,7 @@ if git diff --name-only HEAD HEAD~1 | grep "$PB" || git diff --name-only HEAD HE
   terraform plan -out "$LOG_DIR/terraform.$timestamp.plan.log" >> "$LOG_DIR/terraform.log" && terraform apply -auto-approve "$LOG_DIR/terraform.$timestamp.plan.log" >> "$LOG_DIR/terraform.log"
 
   # reconfigure dns
-  cd .. && run_pb dns
+  cd .. && (run_pb dns; run_pb common)
   curl "$NTFY_ADDRESS" -d "labcraft terraform run $timestamp ended"
 else
   curl "$NTFY_ADDRESS" -d "no $PB modified, nothing to do"
