@@ -96,7 +96,7 @@
   tasks:
     - name: Include tasks file
       ansible.builtin.include_tasks:
-        path: add_backupper.yml
+        file: add_backupper.yml
       vars:
         backupper: '{{ item }}'
       loop: "{{ groups['backupper'] }}"
