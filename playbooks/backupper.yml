@@ -98,8 +98,8 @@
       ansible.builtin.shell:
         executable: /bin/bash
         cmd: "set -o pipefail && ssh {{ item }} 'proxmox-backup-manager cert info | grep Fingerprint' > /tmp/{{ item }}.fingerprint"
-        loop: "{{ groups['backupper'] }}"
         creates: "/tmp/{{ item }}.fingerprint"
+      loop: "{{ groups['backupper'] }}"
 
     - name: Add storage to proxmox
       block:
@@ -107,7 +107,7 @@
             cmd: "pvesm add pbs {{ item }} --server {{ item }} --datastore {{ item }}"
           loop: "{{ groups['backupper'] }}"
         - ansible.builtin.command:
-            cmd: "set store2 --username root@{{ item }} --password <secret>"
+            cmd: "set store2 --username root@{{ item }} --password {{ p}}"
           loop: "{{ groups['backupper'] }}"
         - ansible.builtin.command:
             cmd: "pvesm set {{ item }} --fingerprint $(cat /tmp/item.fingerprint)"
