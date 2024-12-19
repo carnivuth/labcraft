@@ -4,7 +4,7 @@
   become: true
   tasks:
     - name: Backup all vms in the Proxmox cluster to storage mypbs
-      community.general.proxmox_snap:
+      community.general.proxmox_backup:
         api_user: "{{ vault_proxmox_user }}"
         api_token_id: "{{ vault_proxmox_token_id }}"
         api_token_secret: "{{ vault_proxmox_token_secret }}"
