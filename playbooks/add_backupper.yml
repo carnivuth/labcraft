@@ -21,7 +21,7 @@
   register: storage_status
 
 - name: Add storage to proxmox
-  when: storage_status.rc == 0
+  when: storage_status.changed
   ansible.builtin.command:
     cmd: >
       pvesm add pbs {{ backupper }}
