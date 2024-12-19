@@ -100,4 +100,3 @@
       vars:
         backupper: '{{ item }}'
       loop: "{{ groups['backupper'] }}"
-
