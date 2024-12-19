@@ -13,8 +13,7 @@
   register: fingerprint
 
 - name: Add storage to proxmox
-  ansible.builtin.shell:
-    executable: /bin/bash
+  ansible.builtin.command:
     cmd: >
       pvesm add pbs {{ backupper | quote }}
       --server {{ backupper | quote }}
