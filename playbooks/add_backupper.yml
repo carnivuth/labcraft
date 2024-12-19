@@ -17,8 +17,9 @@
     cmd: >
       pvesm add pbs {{ backupper }}
       --server {{ backupper }}
-      --datastore '{{ item.name }}'
+      --datastore '{{ datastore.name }}'
       --fingerprint "{{ fingerprint.content | b64decode | trim | replace(' ',':')}}"
       --username root@pam
       --password {{ pbs_password }}
   loop: "{{ pbs_datastores }}"
+  loop_var: datastore
