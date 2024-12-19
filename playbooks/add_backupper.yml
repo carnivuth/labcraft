@@ -22,4 +22,5 @@
       --username root@pam
       --password {{ pbs_password }}
   loop: "{{ pbs_datastores }}"
-  loop_var: datastore
+  loop_control:
+    loop_var: datastore
