@@ -15,9 +15,9 @@
 - name: Add storage to proxmox
   ansible.builtin.command:
     cmd: >
-      pvesm add pbs {{ backupper | quote }}
-      --server {{ backupper | quote }}
-      --datastore '{{ backupper | quote }}'
-      --fingerprint {{ fingerprint | quote }}
-      --username root@{{ backupper | qoute }}
-      --password {{ pbs_password | quote }}
+      pvesm add pbs {{ backupper }}
+      --server {{ backupper }}
+      --datastore '{{ backupper }}'
+      --fingerprint {{ fingerprint }}
+      --username root@{{ backupper }}
+      --password {{ pbs_password }}
