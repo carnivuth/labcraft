@@ -12,7 +12,16 @@
     path: "/tmp/{{ backupper }}.fingerprint"
   register: fingerprint
 
+- name: Get storage status
+  ansible.builtin.lineinfile:
+    name: /etc/pve/storage.cfg
+    line: "pbs: {{ backupper }}"
+    state: present
+  check_mode: yes
+  register: storage_status
+
 - name: Add storage to proxmox
+  when: storage_status.rc == 0
   ansible.builtin.command:
     cmd: >
       pvesm add pbs {{ backupper }}
