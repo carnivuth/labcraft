@@ -97,7 +97,10 @@
     - name: Get backupper fingerprints
       ansible.builtin.shell:
         executable: /bin/bash
-        cmd: "set -o pipefail && ssh {{ item }} 'proxmox-backup-manager cert info | grep Fingerprint' > /tmp/{{ item }}.fingerprint"
+        cmd: >
+          set -o pipefail &&
+          ssh {{ item }} 'proxmox-backup-manager cert info | grep Fingerprint'
+          | awk -F':' '{ $1=\"\"; print $0}' > /tmp/{{ item }}.fingerprint
         creates: "/tmp/{{ item }}.fingerprint"
       loop: "{{ groups['backupper'] }}"
 
@@ -109,7 +112,7 @@
               pvesm add pbs '{{ item }}'
               --server '{{ item }}'
               --datastore '{{ item }}'
-              --fingerprint $(cat /tmp/{{ item }}.fingerprint)
+              --fingerprint \"$(cat /tmp/{{ item }}.fingerprint)\"
               --username root@{{ item }}
               --password {{ pbs_password }}
           loop: "{{ groups['backupper'] }}"
