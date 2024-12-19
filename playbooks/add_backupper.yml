@@ -21,6 +21,7 @@
       --fingerprint "{{ fingerprint.content | b64decode | trim | replace(' ',':')}}"
       --username root@pam
       --password {{ pbs_password }}
+      --encryption-key autogen
   loop: "{{ pbs_datastores }}"
   loop_control:
     loop_var: datastore
