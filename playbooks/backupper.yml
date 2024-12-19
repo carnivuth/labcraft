@@ -103,7 +103,7 @@
 
     - name: Add storage to proxmox
       block:
-        - ansible.builtin.command:
+        - ansible.builtin.shell:
             cmd: >
               "pvesm add pbs {{ item }}
               --server {{ item }}
