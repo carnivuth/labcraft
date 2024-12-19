@@ -100,7 +100,7 @@
         cmd: >
           set -o pipefail &&
           ssh {{ item }} 'proxmox-backup-manager cert info | grep Fingerprint'
-          | awk -F':' '{ $1=\"\"; print $0}' > /tmp/{{ item }}.fingerprint
+          | awk -F':' '{ $1=""; print $0}' > /tmp/{{ item }}.fingerprint
         creates: "/tmp/{{ item }}.fingerprint"
       loop: "{{ groups['backupper'] }}"
 
