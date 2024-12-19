@@ -16,9 +16,9 @@
   ansible.builtin.shell:
     executable: /bin/bash
     cmd: >
-      pvesm add pbs {{ item | quote }}
-      --server {{ item | quote }}
-      --datastore '{{ item | quote }}'
+      pvesm add pbs {{ backupper | quote }}
+      --server {{ backupper | quote }}
+      --datastore '{{ backupper | quote }}'
       --fingerprint {{ fingerprint | quote }}
-      --username root@{{ item | qoute }}
+      --username root@{{ backupper | qoute }}
       --password {{ pbs_password | quote }}
