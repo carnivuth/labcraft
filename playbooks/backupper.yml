@@ -36,7 +36,7 @@
         - name: Add datastore
           ansible.builtin.command:
             cmd: "proxmox-backup-manager datastore create {{ item.name }} {{ item.path }}"
-            creates:
+            creates: '{{ item.path }}'
           loop: "{{ pbs_datastores }}"
 
       rescue:
@@ -106,10 +106,10 @@
         - ansible.builtin.shell:
             executable: /bin/bash
             cmd: >
-              "pvesm add pbs '{{ item }}'
+              pvesm add pbs '{{ item }}'
               --server '{{ item }}'
               --datastore '{{ item }}'
               --fingerprint $(cat /tmp/{{ item }}.fingerprint)
               --username root@{{ item }}
-              --password {{ pbs_password }}"
+              --password {{ pbs_password }}
           loop: "{{ groups['backupper'] }}"
