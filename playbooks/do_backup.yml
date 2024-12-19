@@ -4,12 +4,14 @@
   become: true
   tasks:
     - name: Backup all vms in the Proxmox cluster to storage mypbs
-      community.general.proxmox_backup:
+      community.general.proxmox_snap:
         api_user: "{{ vault_proxmox_user }}"
         api_token_id: "{{ vault_proxmox_token_id }}"
         api_token_secret: "{{ vault_proxmox_token_secret }}"
         api_host: pve
         storage: "{{ item }}"
         mode: pool
+        compress: zstd
+        retention: keep-last=10
         pool: prod
       loop: "{{ groups['backupper'] }}"
