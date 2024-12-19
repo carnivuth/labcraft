@@ -94,25 +94,10 @@
   hosts: pve
   become: true
   tasks:
-    - name: Get backupper fingerprints
-      ansible.builtin.shell:
-        executable: /bin/bash
-        cmd: >
-          set -o pipefail &&
-          ssh {{ item }} 'proxmox-backup-manager cert info | grep Fingerprint'
-          | awk -F':' '{ $1=""; print $0}' > /tmp/{{ item }}.fingerprint
-        creates: "/tmp/{{ item }}.fingerprint"
+    - name: Include tasks file
+      ansible.builtin.include_tasks:
+        path: add_backupper.yml
+      vars:
+        backupper: '{{ item }}'
       loop: "{{ groups['backupper'] }}"
 
-    - name: Add storage to proxmox
-      block:
-        - ansible.builtin.shell:
-            executable: /bin/bash
-            cmd: >
-              pvesm add pbs '{{ item }}'
-              --server '{{ item }}'
-              --datastore '{{ item }}'
-              --fingerprint \"$(cat /tmp/{{ item }}.fingerprint)\"
-              --username root@{{ item }}
-              --password {{ pbs_password }}
-          loop: "{{ groups['backupper'] }}"

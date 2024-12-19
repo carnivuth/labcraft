@@ -1,0 +1,24 @@
+- name: Get backupper fingerprints
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: >
+      set -o pipefail &&
+      ssh {{ backupper | quote }} 'proxmox-backup-manager cert info | grep Fingerprint'
+      | awk -F':' '{ $1=""; print $0}' > /tmp/{{ backupper | quote }}.fingerprint
+    creates: "/tmp/{{ backupper }}.fingerprint"
+
+- name: Slurp fingerprint
+  ansible.builtin.slurp:
+    path: "/tmp/{{ backupper }}.fingerprint"
+  register: fingerprint
+
+- name: Add storage to proxmox
+  ansible.builtin.shell:
+    executable: /bin/bash
+    cmd: >
+      pvesm add pbs {{ item | quote }}
+      --server {{ item | quote }}
+      --datastore '{{ item | quote }}'
+      --fingerprint {{ fingerprint | quote }}
+      --username root@{{ item | qoute }}
+      --password {{ pbs_password | quote }}
