@@ -110,5 +110,5 @@
             cmd: "set store2 --username root@{{ item }} --password {{ pbs_password }}"
           loop: "{{ groups['backupper'] }}"
         - ansible.builtin.command:
-            cmd: "pvesm set {{ item }} --fingerprint $(cat /tmp/item.fingerprint)"
+            cmd: "pvesm set {{ item }} --fingerprint $(cat /tmp/{{ item }}.fingerprint)"
           loop: "{{ groups['backupper'] }}"
