@@ -18,6 +18,6 @@
       pvesm add pbs {{ backupper }}
       --server {{ backupper }}
       --datastore '{{ backupper }}'
-      --fingerprint "{{ fingerprint.content | b64decode | trim | replace(' ',';')}}"
+      --fingerprint "{{ fingerprint.content | b64decode | trim | replace(' ',':')}}"
       --username root@{{ backupper }}
       --password {{ pbs_password }}
