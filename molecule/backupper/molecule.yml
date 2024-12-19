@@ -3,6 +3,7 @@ driver:
   name: vagrant
   provider:
     name: virtualbox
+
 platforms:
   - name: ditto
     box: debian/bookworm64

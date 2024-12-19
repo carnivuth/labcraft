@@ -16,6 +16,9 @@ wireguard_unmanaged_peers:
 
 # BACKUPPER
 
+# proxmox backup server password for proxmox VE access
+pbs_password: "{{ vault_pbs_password }}"
+
 # remote host where to push backups
 backup_remote: "u425518.your-storagebox.de"
 
