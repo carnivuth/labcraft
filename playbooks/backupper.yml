@@ -104,10 +104,11 @@
     - name: Add storage to proxmox
       block:
         - ansible.builtin.shell:
+            executable: /bin/bash
             cmd: >
-              "pvesm add pbs {{ item }}
-              --server {{ item }}
-              --datastore {{ item }}
+              "pvesm add pbs '{{ item }}'
+              --server '{{ item }}'
+              --datastore '{{ item }}'
               --fingerprint $(cat /tmp/{{ item }}.fingerprint)
               --username root@{{ item }}
               --password {{ pbs_password }}"
