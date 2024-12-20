@@ -26,28 +26,24 @@
             purge: true
 
         - name: Update all packages to their latest version (apt distros)
-          notify: Send ntfy.sh update
           when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
           ansible.builtin.apt:
             upgrade: true
             update_cache: true
 
         - name: Update all packages to their latest version (pacman distros)
-          notify: Send ntfy.sh update
           when: ansible_distribution == "Archlinux"
           community.general.pacman:
             upgrade: true
             update_cache: true
 
         - name: Install some default packages (pacman distros)
-          notify: Send ntfy.sh update
           when: ansible_distribution == "Archlinux"
           community.general.pacman:
             name: "{{ arch_packages }}"
             state: present
 
         - name: Install some default packages (apt distros)
-          notify: Send ntfy.sh update
           when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
           ansible.builtin.apt:
             name: "{{ deb_packages }}"
@@ -66,16 +62,14 @@
             line: source '/etc/motd.sh'
             state: present
 
+        - name: Send ntfy.sh update
+          ansible.builtin.uri:
+            url: "{{ ntfy_endpoint }}"
+            method: POST
+            body: "{{ inventory_hostname }} common playbook completed"
       rescue:
         - name: Send ntfy.sh notification of failed nodes
           ansible.builtin.uri:
             url: "{{ ntfy_endpoint }}"
             method: POST
             body: " update failed on host {{ inventory_hostname }}"
-
-  handlers:
-    - name: Send ntfy.sh update
-      ansible.builtin.uri:
-        url: "{{ ntfy_endpoint }}"
-        method: POST
-        body: "{{ inventory_hostname }} common playbook completed"
