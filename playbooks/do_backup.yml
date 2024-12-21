@@ -13,5 +13,12 @@
         mode: pool
         compress: zstd
         retention: keep-last=10
+        wait: true
         pool: prod
       loop: "{{ groups['backupper'] }}"
+
+    - name: Notify backup job
+      ansible.builtin.uri:
+        url: "{{ ntfy_endpoint }}"
+        method: POST
+        body: "containers and vms backup has ended"
