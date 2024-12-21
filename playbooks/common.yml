@@ -62,6 +62,10 @@
             line: source '/etc/motd.sh'
             state: present
 
+        - name: Set timezone
+          community.general.timezone:
+            name: Eurome/Rome
+
         - name: Send ntfy.sh update
           ansible.builtin.uri:
             url: "{{ ntfy_endpoint }}"
