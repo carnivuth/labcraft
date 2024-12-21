@@ -103,6 +103,8 @@ Note over laptop,ditto: connection secured trough vpn
 
 vms and containers backups are managed trough proxmox backup server installed on the centralizer
 
+proxmox host backups are done trough the use of borg and a cronjob script, after running the `configure_proxmox.yml` playbook configure ssh authentication to storage box
+
 ## INSTALLATION
 
 - clone repository inside the proxmox host
@@ -180,9 +182,7 @@ ansible-vault encrypt sample.yml
 mv sample.yml playbooks/group_vars/all/vault.yml
 ```
 
-### PROXMOX HOST BACKUP
 
-Host backups are done trough the use of borg and a cronjob script, after running the `configure_proxmox.yml` playbook configure ssh authentication to storage box
 
 ### UPDATE MANAGEMENT
 
