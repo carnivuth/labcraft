@@ -6,7 +6,8 @@ for workflow in workflows/*; do
   (
     source "$workflow" && \
     regex="$(get_workflow_regex)" &&\
-    echo "$changes" | grep $regex && \
+    echo "$changes" | grep -q $regex && \
+    echo "executing $workflow" && \
     workflow
   )
   fi
