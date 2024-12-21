@@ -1,5 +1,10 @@
 #!/bin/bash
-LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
+# this workflow updates the infrastructure when there is a terraform update:
+# - runs terraform
+# - reconfigure dns (in case a new machine has been created)
+# - runs common configurations
+
+ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
 function run_pb(){
   if [[ ! -f "playbooks/$1.yml" ]]; then
