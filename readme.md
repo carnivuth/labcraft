@@ -97,7 +97,7 @@ sequenceDiagram
 participant laptop
 participant ditto
 laptop ->> laptop: creates backup
-laptop ->> ditto: sync changes 
+laptop ->> ditto: sync changes
 Note over laptop,ditto: connection secured trough vpn
 ```
 
@@ -194,11 +194,11 @@ To avoid having to run ansible manually every time there is an update do the fol
 * * * * * /usr/local/labcraft/update_labcraft.sh > /dev/null 2>&1
 ```
 
-Then link `scripts/post-merge` to the git hooks dir (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
+Then link `workflows/middleware.sh` to the git hooks dir (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
 
 ```bash
 cd .git/hooks
-ln -fs ../../scripts/post-merge post-merge
+ln -fs ../../workflows/middleware.sh post-merge
 ```
 
 So every time a commit is pushed to remote cron will pull the repo and the hook will run ansible
