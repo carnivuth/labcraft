@@ -94,6 +94,16 @@
   hosts: pve
   become: true
   tasks:
+    - name: Create pool {{ item.name }}
+      community.general.proxmox_pool:
+        api_host: pve
+        api_user: "{{ vault_proxmox_user }}"
+        api_token_id: "{{ vault_proxmox_token_id }}"
+        api_token_secret: "{{ vault_proxmox_token_secret }}"
+        poolid: "{{ item.name }}"
+        comment: "{{ item.comment }}"
+      loop: "{{ proxmox_pools }}"
+
     - name: Include tasks file
       ansible.builtin.include_tasks:
         file: add_backupper.yml
