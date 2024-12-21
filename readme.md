@@ -51,7 +51,7 @@ C[wireguard]
 C --> B
 B --> A
 ```
-
+****
 ## DISKS MANAGEMENT
 
 Containers and virtual machines's rootfs disk is located in the `local-lvm` volume on the nvme disk. all the volumes are backuped in the other hard drive from pbs
@@ -74,9 +74,34 @@ flowchart
 	A -- backup on --> C
 ```
 
-## BACKUPS
+## BACKUPS MANAGEMENT
 
-Backups are made with the use of PBS in snapshot mode, every night at 21:00 for all containers and virtual machines, one of the 2 hard drives is dedicated to this purpose
+This infrastructure manages all of my backups, the backup centralizer is an lxc container with an external volume mounted with data inside
+
+```mermaid
+flowchart
+    subgraph ditto
+		subgraph main-lvm-storage
+        A[rootfs]
+		end
+		subgraph secondary-storage
+        B["/mnt/datastore"]
+		end
+    end
+```
+
+all of my personal pc use borg for managing backup locally and then copy content to the centralizer machine using rsync, backup is achieved trough a [script](https://github.com/carnivuth/scripts/blob/main/bin/backup.sh) that runs as a systemd timer
+
+```mermaid
+sequenceDiagram
+participant laptop
+participant ditto
+laptop ->> laptop: creates backup
+laptop ->> ditto: sync changes 
+Note over laptop,ditto: connection secured trough vpn
+```
+
+vms and containers backups are managed trough proxmox backup server installed on the centralizer
 
 ## INSTALLATION
 
