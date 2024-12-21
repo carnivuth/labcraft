@@ -64,7 +64,7 @@
 
         - name: Set timezone
           community.general.timezone:
-            name: Eurome/Rome
+            name: Europe/Rome
 
         - name: Send ntfy.sh update
           ansible.builtin.uri:
