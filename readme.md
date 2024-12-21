@@ -182,8 +182,6 @@ ansible-vault encrypt sample.yml
 mv sample.yml playbooks/group_vars/all/vault.yml
 ```
 
-
-
 ### UPDATE MANAGEMENT
 
 To avoid having to run ansible manually every time there is an update do the following
