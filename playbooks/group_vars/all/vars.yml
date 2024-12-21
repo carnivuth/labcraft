@@ -26,11 +26,11 @@ backup_remote: "u425518.your-storagebox.de"
 proxmox_backup_remote_username: "u425518-sub3"
 
 # backupper folder where data are stored
-backupper_data_root: /mnt/datastore/server-backup
+backupper_data_root: /mnt/datastore/
 
 # proxmox backup server datastores
 pbs_datastores:
-  - {"name":"backup", "path":"{{ backupper_data_root }}/backup"}
+  - {"name":"prod-server-backup", "path":"{{ backupper_data_root }}/prod-server-backup"}
 
 # proxmox backup server healthchecks endpoint
 pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
