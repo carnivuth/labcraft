@@ -4,21 +4,30 @@
   become: true
   tasks:
     - name: Backup all vms in the Proxmox cluster to storage mypbs
-      community.general.proxmox_backup:
-        api_user: "{{ vault_proxmox_user }}"
-        api_token_id: "{{ vault_proxmox_token_id }}"
-        api_token_secret: "{{ vault_proxmox_token_secret }}"
-        api_host: pve
-        storage: "{{ item }}"
-        mode: pool
-        compress: zstd
-        retention: keep-last=10
-        wait: true
-        pool: prod
-      loop: "{{ groups['backupper'] }}"
+      block:
+      - community.general.proxmox_backup:
+          api_user: "{{ vault_proxmox_user }}"
+          api_token_id: "{{ vault_proxmox_token_id }}"
+          api_token_secret: "{{ vault_proxmox_token_secret }}"
+          api_host: pve
+          storage: "{{ item }}"
+          mode: pool
+          compress: zstd
+          retention: keep-last=10
+          wait: true
+          wait_timeout: 200
+          pool: prod
+        loop: "{{ groups['backupper'] }}"
 
-    - name: Notify backup job
-      ansible.builtin.uri:
-        url: "{{ ntfy_endpoint }}"
-        method: POST
-        body: "containers and vms backup has ended"
+      - name: Notify backup job has ended succesfull
+        ansible.builtin.uri:
+          url: "{{ ntfy_endpoint }}"
+          method: POST
+          body: "backup job for containers and vms has ended successfully"
+
+      rescue:
+        - name: Notify backup job has failed
+          ansible.builtin.uri:
+            url: "{{ ntfy_endpoint }}"
+            method: POST
+            body: "[ERROR] backup job for containers and vms failed"
