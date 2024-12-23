@@ -112,7 +112,7 @@
       loop: "{{ groups['backupper'] }}"
 
     - name: Copy backup job script
-      ansible.builtin.file:
+      ansible.builtin.copy:
         src: files/do_backup.sh
         dest: /usr/local/bin/do_backup.sh
         mode: 755
