@@ -111,9 +111,15 @@
         backupper: '{{ item }}'
       loop: "{{ groups['backupper'] }}"
 
+    - name: Copy backup job script
+      ansible.builtin.file:
+        src: files/do_backup.sh
+        dest: /usr/local/bin/do_backup.sh
+        mode: 755
+
     - name: Add cronjob to start backup job
       ansible.builtin.cron:
         name: "run cts and vms backup job"
         minute: "0"
         hour: "21"
-        job: "cd /usr/local/labcraft && source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/do_backup.yml"
+        job: "/usr/local/bin/do_backup.sh"
