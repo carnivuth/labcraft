@@ -182,7 +182,7 @@ ansible-vault encrypt sample.yml
 mv sample.yml playbooks/group_vars/all/vault.yml
 ```
 
-### UPDATE MANAGEMENT
+### UPDATE MANAGEMENT AND PROVISION
 
 To avoid having to run ansible manually every time there is an update do the following
 
@@ -199,7 +199,7 @@ cd .git/hooks
 ln -fs ../../workflows/middleware.sh post-merge
 ```
 
-So every time a commit is pushed to remote cron will pull the repo and the hook will run ansible
+So every time a commit is pushed to remote cron will pull the updates from remote repo and the git hook will run the correct workflow based on the file that was modified
 
 ```mermaid
 ---
@@ -214,7 +214,8 @@ dev_machine ->> github_repo: push chainges
 loop every x minutes
 torterra ->> github_repo: fetch changes
 alt changes
-torterra ->> torterra: run ansible
+torterra ->> torterra: run middleware
+torterra ->> torterra: run workflow based on the file that was modified
 end
 end
 ```
