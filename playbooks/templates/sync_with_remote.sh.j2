@@ -5,7 +5,7 @@ NTFY_ENDPOINT="{{ ntfy_endpoint }}"
 HEALTHCHECKS_ENDPOINT="{{ pbs_healthchecks_address }}"
 
 for datastore in $DATASTORES; do
-  if rsync -Pavr "$datastore" "$REMOTE:"; then
+  if rsync --exclude 'lost+found' -Pavr "$datastore" "$REMOTE:"; then
     curl  "$HEALTHCHECKS_ENDPOINT"
     curl "$NTFY_ENDPOINT" -X POST  -d "done sync from $HOSTNAME to $REMOTE of $datastore"
   else
