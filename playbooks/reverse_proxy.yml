@@ -19,21 +19,26 @@
         path: /etc/nginx/sites-enabled/default
         state: absent
 
-    - name: Check for nginx site file
-      ansible.builtin.stat:
-        path: /etc/nginx/sites-available/main
-      register: nginx_conf
-
-    - name: Copy default configuration file
-      when: not nginx_conf.stat.exists
+    - name: Copy http redirect configuration file
       ansible.builtin.template:
-        src: templates/main.j2
-        dest: /etc/nginx/sites-available/main
+        src: templates/http-redirect.conf.j2
+        dest: /etc/nginx/sites-available/http-redirect.conf
 
-    - name: enable default configuration file
+    - name: enable http redirect configuration file
       ansible.builtin.file:
-        src: /etc/nginx/sites-available/main
-        dest: /etc/nginx/sites-enabled/main
+        src: /etc/nginx/sites-available/http-redirect.conf
+        dest: /etc/nginx/sites-enabled/http-redirect.conf
+        state: link
+
+    - name: Copy ssl configuration file
+      ansible.builtin.template:
+        src: templates/main.conf.j2
+        dest: /etc/nginx/sites-available/main.conf
+
+    - name: enable ssl configuration file
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/main.conf
+        dest: /etc/nginx/sites-enabled/main.conf
         state: link
 
     - name: Install reverse proxy for {{ apps[element].app }}
