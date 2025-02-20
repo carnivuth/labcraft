@@ -11,7 +11,6 @@ wireguard_unmanaged_peers:
   client:
     public_key: "{{ vault_wireguard_pub_key }}"
     allowed_ips: 10.0.8.0/24
-    endpoint: wireguard.carnivuth.org:51820
     persistent_keepalive: 0
 
 # BACKUPPER
