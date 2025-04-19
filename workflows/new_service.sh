@@ -1,8 +1,5 @@
 #!/bin/bash
 # this workflow creates a new docker container on the provisioner:
-# - runs terraform
-# - reconfigure dns (in case a new machine has been created)
-# - runs common configurations
 
  LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
@@ -16,10 +13,10 @@ function run_pb(){
 }
 
 function workflow(){
-
   # run service manager
   run_pb service_manager
 }
+
 function get_workflow_regex(){
   echo "*compose*"
 }

@@ -24,6 +24,7 @@ function workflow(){
   # reconfigure dns
   cd .. && (run_pb dns; run_pb common)
 }
+
 function get_workflow_regex(){
   echo "terraform"
 }
