@@ -1,11 +1,10 @@
-# LABCRAFT
+# Labcraft
 
 Files for homelab provisioning and maintenance operations of my personal proxmox cluster for self-hosted services, application deployment environment and playhouse :)
 
 ## ARCHITECTURE
 
-
-The machine runs proxmox cluster with vms. The main purpose of the server is to expose web interfaces of docker containers for some services that i use every day
+The main purpose of the server is to expose web interfaces of docker containers for some services that i use every day
 
 ```mermaid
 ---
@@ -27,9 +26,9 @@ end
 web_services --dns queries--> dns_servers
 ```
 
-## NETWORKING
+## Networking
 
-some services are exposed to the internet via HTTPS reverse proxy with nginx
+Some services are exposed to the internet via `HTTPS` reverse proxy implemented with `nginx`
 
 ```mermaid
 flowchart LR
@@ -41,7 +40,7 @@ C & D --> B
 B --> A
 ```
 
-some other services are exposed through port forwarding on the router
+Some other services are exposed through port forwarding on the router
 
 ```mermaid
 flowchart LR
@@ -51,46 +50,44 @@ C[wireguard]
 C --> B
 B --> A
 ```
-****
-## DISKS MANAGEMENT
 
-Containers and virtual machines's rootfs disk is located in the `local-lvm` volume on the nvme disk. all the volumes are backuped in the other hard drive from pbs
+****
+## Storage
+
+The proxmox host has a bunch of disks installed and all of them are managed trough lvm, one of them is an nvme that manages volumes for vms and containers the others are for backing up data,
 
 ```mermaid
 flowchart
-	subgraph data disks
+	subgraph data_volume_group
 		direction TB
 		subgraph nvme
 				A[container rootfs]
 		end
 	end
-	subgraph backupdisks
-		direction TB
-		subgraph HD2
-			direction LR
-			C[backup volume]
-		end
+	subgraph backup_volume_group
+	    direction TB
+		C[backup volume]
 	end
 	A -- backup on --> C
 ```
 
-## BACKUPS MANAGEMENT
+## Backups management
 
-This infrastructure manages all of my backups, the backup centralizer is an lxc container with an external volume mounted with data inside
+This infrastructure manages all of my backups, the backup centralizer is an lxc container that runs [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview)
 
 ```mermaid
 flowchart
     subgraph ditto
-		subgraph main-lvm-storage
+		subgraph data_volume_group
         A[rootfs]
 		end
-		subgraph secondary-storage
-        B["/mnt/datastore"]
+		subgraph backup_volume_group
+        B[backup disk]
 		end
     end
 ```
 
-all of my personal pc use borg for managing backup locally and then copy content to the centralizer machine using rsync, backup is achieved trough a [script](https://github.com/carnivuth/scripts/blob/main/bin/backup.sh) that runs as a systemd timer
+All of my personal pc use borg for managing backup locally and then copy content to the centralizer machine using rsync, backup is achieved trough a [script](https://github.com/carnivuth/scripts/blob/main/bin/backup.sh) that runs as a systemd timer
 
 ```mermaid
 sequenceDiagram
