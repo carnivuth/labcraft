@@ -37,8 +37,9 @@ resource "proxmox_vm_qemu" "cp" {
   }
 }
 
-resource "proxmox_vm_qemu" "worker" {
-  name        = "cp"
+# Workers
+resource "proxmox_vm_qemu" "worker1" {
+  name        = "worker1"
   tags        = "test"
   pool        = "test"
   cores       = 4
