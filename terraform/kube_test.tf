@@ -44,7 +44,7 @@ resource "proxmox_vm_qemu" "worker1" {
   pool        = "test"
   cores       = 4
   sockets     = 1
-  memory      = 4192
+  memory      = 8192
   target_node = var.proxmox_host
   clone       = "ubuntu-2404-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.212/24"
