@@ -2,7 +2,7 @@
 
 Files for homelab provisioning and maintenance operations of my personal proxmox cluster for self-hosted services, application deployment environment and playhouse :)
 
-## ARCHITECTURE
+## Architecture
 
 The main purpose of the server is to expose web interfaces of docker containers for some services that i use every day
 
@@ -102,7 +102,7 @@ vms and containers backups are managed trough proxmox backup server installed on
 
 proxmox host backups are done trough the use of borg and a cronjob script, after running the `configure_proxmox.yml` playbook configure ssh authentication to storage box
 
-## INSTALLATION
+## Installation
 
 - clone repository inside the proxmox host
 
@@ -133,17 +133,17 @@ ansible-galaxy role install -r roles/requirements.yml
 
 - create a proxmox admin token for terraform
 
-- create templates for vms and containers following [this](https://carnivuth.github.io/TIL/pages/CREATE_VM_TEMPLATE)
+- create templates for vms and containers
 
 - run terraform to deploy vms and add one of the dns servers to `/etc/hosts`
 
 - run preflight playbook for provisioning
 
 ```bash
-ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight
+ansible-playbook -i inventory/prod.proxmox.yml playbooks/preflight
 ```
 
-### HANDLE SECRETS
+### Handle secrets
 
 Sensitive informations are stored inside an encrypted vault file generated with `ansible-vault`, in order to create it do the following:
 
@@ -179,7 +179,7 @@ ansible-vault encrypt sample.yml
 mv sample.yml playbooks/group_vars/all/vault.yml
 ```
 
-### UPDATE MANAGEMENT AND PROVISION
+### Update management and provision
 
 To avoid having to run ansible manually every time there is an update do the following
 
