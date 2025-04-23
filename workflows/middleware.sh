@@ -8,7 +8,8 @@ for workflow in workflows/*; do
     regex="$(get_workflow_regex)" &&\
     echo "$changes" | grep -q $regex && \
     echo "executing $workflow" && \
-    workflow
+    output=$(workflow)
+    echo -e "Subject: workflow $( basename "$workflow") LOG\n\n $output" | sendmail root
   )
   fi
 done
