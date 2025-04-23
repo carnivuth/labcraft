@@ -3,7 +3,7 @@
   hosts: pve
   become: true
   tasks:
-    - name: Backup all vms in the Proxmox cluster to storage mypbs
+    - name: Backup all vms in the prod pool
       community.general.proxmox_backup:
         api_user: "{{ vault_proxmox_user }}"
         api_token_id: "{{ vault_proxmox_token_id }}"
