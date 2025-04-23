@@ -39,13 +39,6 @@
             creates: '{{ item.path }}'
           loop: "{{ pbs_datastores }}"
 
-      rescue:
-        - name: Notify failed installation of proxmox backup server
-          ansible.builtin.uri:
-            url: "{{ ntfy_endpoint }}"
-            method: POST
-            body: "installation of proxmox backup server on {{ inventory_hostname }} has encounter some issues"
-
     - name: Setup data syncronization with a remote site
       block:
 
@@ -62,13 +55,6 @@
             hour: "22"
             job: "/usr/local/bin/sync_with_remote.sh > /dev/null"
 
-      rescue:
-        - name: Notify failed setup of data synchronization
-          ansible.builtin.uri:
-            url: "{{ ntfy_endpoint }}"
-            method: POST
-            body: "setup of data synchronization on {{ inventory_hostname }} has encounter some issues"
-
     - name: Setup nintendo 3DS backup
       block:
 
@@ -82,13 +68,6 @@
           ansible.builtin.cron:
             name: "3ds backup"
             job: "/usr/local/bin/backup_3ds.sh >> /var/log/backup_3ds.log 2>&1"
-
-      rescue:
-        - name: Notify failed 3DS backup configuration
-          ansible.builtin.uri:
-            url: "{{ ntfy_endpoint }}"
-            method: POST
-            body: "nintendo 3DS backup configuration on {{ inventory_hostname }} has encounter some issues"
 
 - name: Add backupper pbs istance as a storage in proxmox server
   hosts: pve

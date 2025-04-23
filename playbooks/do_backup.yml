@@ -14,20 +14,5 @@
           mode: pool
           compress: zstd
           retention: keep-last=10
-          wait: true
-          wait_timeout: 200
           pool: prod
         loop: "{{ groups['backupper'] }}"
-
-      - name: Notify backup job has ended succesfull
-        ansible.builtin.uri:
-          url: "{{ ntfy_endpoint }}"
-          method: POST
-          body: "backup job for containers and vms has ended successfully"
-
-      rescue:
-        - name: Notify backup job has failed
-          ansible.builtin.uri:
-            url: "{{ ntfy_endpoint }}"
-            method: POST
-            body: "[ERROR] backup job for containers and vms failed"
