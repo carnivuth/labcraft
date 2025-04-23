@@ -31,9 +31,6 @@ backupper_data_root: /mnt/datastore/
 pbs_datastores:
   - {"name":"prod-server-backup", "path":"{{ backupper_data_root }}/prod-server-backup"}
 
-# proxmox backup server healthchecks endpoint
-pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
-
 # 3ds backup job
 port_3ds: 5000
 address_3ds: 192.168.1.99

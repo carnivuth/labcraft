@@ -1,15 +1,12 @@
 #!/bin/bash
 DATASTORES="{{ backupper_data_root }}"
 REMOTE="{{ backup_remote }}"
-NTFY_ENDPOINT="{{ ntfy_endpoint }}"
-HEALTHCHECKS_ENDPOINT="{{ pbs_healthchecks_address }}"
 
 for datastore in $DATASTORES; do
   if rsync --exclude 'lost+found' -Pavr "$datastore" "$REMOTE:"; then
-    curl  "$HEALTHCHECKS_ENDPOINT"
-    curl "$NTFY_ENDPOINT" -X POST  -d "done sync from $HOSTNAME to $REMOTE of $datastore"
+    echo -e "Subject: $HOSTNAME sync with $REMOTE SUCCESS\n\n sync with $REMOTE done correctly" | sendmail root
   else
-    curl "$NTFY_ENDPOINT" -X POST  -d "BROKEN  sync from $HOSTNAME to $REMOTE of $datastore"
+    echo -e "Subject: $HOSTNAME sync with $REMOTE FAILURE\n\n sync with $REMOTE failed" | sendmail root
   fi
 done
 
