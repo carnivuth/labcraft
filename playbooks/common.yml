@@ -65,15 +65,3 @@
         - name: Set timezone
           community.general.timezone:
             name: Europe/Rome
-
-        - name: Send ntfy.sh update
-          ansible.builtin.uri:
-            url: "{{ ntfy_endpoint }}"
-            method: POST
-            body: "{{ inventory_hostname }} common playbook completed"
-      rescue:
-        - name: Send ntfy.sh notification of failed nodes
-          ansible.builtin.uri:
-            url: "{{ ntfy_endpoint }}"
-            method: POST
-            body: " update failed on host {{ inventory_hostname }}"
