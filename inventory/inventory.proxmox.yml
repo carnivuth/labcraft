@@ -11,7 +11,7 @@ compose:
   ansible_port: 22
   ansible_user: "'root'"
   ansible_ssh_private_key_file:
-  address: "proxmox_net0.ip"
+  address: "proxmox_net0.ip | default(proxmox_ipconfig0.ip)"
   allowed_ips: 10.0.8.0/24
   wireguard_address: "'10.0.8.' ~ proxmox_net0.ip | split('.')| last | split('/') | first ~ '/24'"
 groups:
