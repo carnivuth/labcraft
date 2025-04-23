@@ -129,18 +129,23 @@ ansible-galaxy role install -r roles/requirements.yml
 ```
 
 - add secrets folowing this [guide](readme.md#HANDLE%20SECRETS)
+
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
 
 - create a proxmox admin token for terraform
 
 - create templates for vms and containers
 
-- run terraform to deploy vms and add one of the dns servers to `/etc/hosts`
-
-- run preflight playbook for provisioning
+- install terraform
 
 ```bash
-ansible-playbook -i inventory/prod.proxmox.yml playbooks/preflight
+apt install terraform
+```
+
+- run terraform to deploy vms
+
+```bash
+cd terraform && terraform init && terraform plan -o /tmp/plan && terraform apply /tmp/plan
 ```
 
 ### Handle secrets
@@ -186,6 +191,8 @@ To avoid having to run ansible manually every time there is an update do the fol
 - add the `scripts/update_labcraft.sh` to cron:
 
 ```cron
+# path variable is needed
+PATH=/usr/local/labcraft/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 * * * * * /usr/local/labcraft/update_labcraft.sh > /dev/null 2>&1
 ```
 
