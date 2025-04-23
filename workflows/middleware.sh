@@ -5,11 +5,12 @@ for workflow in workflows/*; do
   if [[ "$workflow" != 'workflows/middleware.sh' ]];then
   (
     source "$workflow" && \
-    regex="$(get_workflow_regex)" &&\
-    echo "$changes" | grep -q $regex && \
-    echo "executing $workflow" && \
-    output=$(workflow)
-    echo -e "Subject: workflow $( basename "$workflow") LOG\n\n $output" | sendmail root
+    regex="$(get_workflow_regex)"
+    if  echo "$changes" | grep -q $regex; then
+      echo "executing $workflow"
+      output=$(workflow)
+      echo -e "Subject: workflow $( basename "$workflow") LOG\n\n $output" | sendmail root
+    fi
   )
   fi
 done
