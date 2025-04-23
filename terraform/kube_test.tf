@@ -15,7 +15,7 @@ resource "proxmox_vm_qemu" "cp" {
   ciuser      = var.guest_user
   sshkeys     = var.ssh_pub_key
   nameserver  = var.nameserver
-  onboot      = true
+  onboot      = false
   vm_state    = "running"
 
   disks {
@@ -54,7 +54,7 @@ resource "proxmox_vm_qemu" "worker1" {
   ciuser      = var.guest_user
   sshkeys     = var.ssh_pub_key
   nameserver  = var.nameserver
-  onboot      = true
+  onboot      = false
   vm_state    = "running"
 
   disks {
@@ -91,7 +91,7 @@ resource "proxmox_vm_qemu" "worker2" {
   ciuser      = var.guest_user
   sshkeys     = var.ssh_pub_key
   nameserver  = var.nameserver
-  onboot      = true
+  onboot      = false
   vm_state    = "running"
 
   disks {
@@ -129,7 +129,7 @@ resource "proxmox_vm_qemu" "worker3" {
   ciuser      = var.guest_user
   sshkeys     = var.ssh_pub_key
   nameserver  = var.nameserver
-  onboot      = true
+  onboot      = false
   vm_state    = "running"
 
   disks {
