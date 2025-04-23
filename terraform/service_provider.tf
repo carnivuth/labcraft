@@ -34,6 +34,11 @@ resource "proxmox_vm_qemu" "wailord" {
   onboot      = true
   vm_state    = "running"
 
+  provisioner "local-exec" {
+    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/service_provider.yml -l wailord"
+    working_dir = "../"
+  }
+
   disks {
     ide {
       ide2 {

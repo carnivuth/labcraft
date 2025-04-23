@@ -12,6 +12,11 @@ resource "proxmox_lxc" "arcanine" {
   onboot          = true
   start           = true
 
+  provisioner "local-exec" {
+    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/vpn.yml -l arcanine"
+    working_dir = "../"
+  }
+
   rootfs {
     storage = var.main_pool
     size    = "20G"

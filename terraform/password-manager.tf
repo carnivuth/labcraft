@@ -13,6 +13,10 @@ resource "proxmox_lxc" "klefky" {
   onboot          = true
   start           = true
 
+ provisioner "local-exec" {
+    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/pwmanager.yml -l klefky"
+    working_dir = "../"
+  }
   rootfs {
     storage = var.main_pool
     size    = "15G"
