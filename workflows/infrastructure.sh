@@ -22,7 +22,7 @@ function workflow(){
   terraform plan -out "$LOG_DIR/terraform.$timestamp.plan.log" | tee -a "$LOG_DIR/terraform.log" && terraform apply -auto-approve "$LOG_DIR/terraform.$timestamp.plan.log" | tee -a "$LOG_DIR/terraform.log"
 
   # reconfigure dns
-  cd .. && (run_pb dns; run_pb common)
+  cd .. && (run_pb dns; run_pb common; run_pb postfix)
 }
 
 function get_workflow_regex(){

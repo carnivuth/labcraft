@@ -2,6 +2,7 @@
 # GENERICS
 # ntfy endpoint
 ntfy_endpoint: "https://ntfy.carnivuth.org/homelab"
+admin_email: "{{ vault_admin_email }}"
 
 # PWMANAGER
 pwmanager_pub_key: "{{ vault_pwmanager_pub_key }}"
