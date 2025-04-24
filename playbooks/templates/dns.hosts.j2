@@ -1,6 +1,12 @@
+127.0.0.1       localhost
+::1             localhost ip6-localhost ip6-loopback
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+
+{{ pve_host_address }} {% for n in pve_host_names %} {{ n }} {% endfor +%}
 {% for h in groups["all"] %}
 {% if hostvars[h].address is defined %}
-{{ hostvars[h].address | regex_replace("(.*)/.*", "\1") }} {{ h }}.{{ dns_domain_name }} {{ h }}
+{{ hostvars[h].address | ansible.utils.ipaddr('address') }} {{ h }}.{{ dns_domain_name }} {{ h }}
 {% endif %}
 {% endfor %}
 

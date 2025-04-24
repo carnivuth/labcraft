@@ -22,21 +22,12 @@
         mode: '644'
       notify: Restart dnsmasq
 
-    - name: 'Add dns server entry in the {{ hostvars[item].ansible_host }}'
-      when: hostvars[item].address is defined
-      ansible.builtin.lineinfile:
-        path: /etc/hosts
-        regex: '.*{{ item }}.*'
-        line: '{{ hostvars[item].address | regex_replace("(.*)/.*", "\1") }} {{ item }}.{{ dns_domain_name }} {{ item }}'
-        mode: '644'
-      loop: '{{ groups["all"] }}'
-      notify: Restart dnsmasq
-
-    - name: Copy /tmp/hosts.conf
+    - name: Copy /etc/hosts
       ansible.builtin.template:
         src: templates/dns.hosts.j2
-        dest: /tmp/hosts.conf
+        dest: /etc/hosts
         mode: '644'
+      notify: Restart dnsmasq
 
     - name: Install dnsmasq
       ansible.builtin.apt:

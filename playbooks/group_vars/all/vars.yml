@@ -60,6 +60,10 @@ external_dns_server: '192.168.1.1'
 dns_public_domain_name: 'carnivuth.org'
 dns_domain_name: 'carnivuth.org'
 dns_server: '192.168.1.96'
+pve_host_address: '192.168.1.62'
+pve_host_names: 
+  - pve
+  - torterra
 dns_server_backup: '192.168.1.97'
 service_manager_address: '192.168.1.94'
 
