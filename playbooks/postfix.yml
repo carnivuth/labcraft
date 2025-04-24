@@ -1,0 +1,20 @@
+---
+- name: Configure postfix in guest nodes
+  hosts: all:!pve
+  tasks:
+
+    - name: Install postfix
+      ansible.builtin.apt:
+        name: postfix
+        state: present
+
+    - name: Configure relay on guest nodes
+      block:
+        - ansible.builtin.lineinfile:
+            path: /etc/postfix/main.cf
+            regexp: "^mydestination =.*"
+            line: "mydestination = $myhostname, localhost.$mydomain, localhost, torterra"
+        - ansible.builtin.lineinfile:
+            path: /etc/postfix/main.cf
+            regexp: "^relayhost =.*"
+            line: "relayhost = torterra"
