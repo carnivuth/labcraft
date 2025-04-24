@@ -1,7 +1,7 @@
 # Control Plane
 resource "proxmox_vm_qemu" "cp" {
   name        = "cp"
-  tags        = "test"
+  tags        = "test,kubernetes,control-plane"
   pool        = "test"
   cores       = 4
   sockets     = 1
@@ -40,7 +40,7 @@ resource "proxmox_vm_qemu" "cp" {
 # Workers
 resource "proxmox_vm_qemu" "worker1" {
   name        = "worker1"
-  tags        = "test"
+  tags        = "test,kubernetes,worker"
   pool        = "test"
   cores       = 4
   sockets     = 1
@@ -77,7 +77,7 @@ resource "proxmox_vm_qemu" "worker1" {
 }
 resource "proxmox_vm_qemu" "worker2" {
   name        = "worker2"
-  tags        = "test"
+  tags        = "test,kubernetes,worker"
   pool        = "test"
   cores       = 4
   sockets     = 1
@@ -115,7 +115,7 @@ resource "proxmox_vm_qemu" "worker2" {
 
 resource "proxmox_vm_qemu" "worker3" {
   name        = "worker3"
-  tags        = "test"
+  tags        = "test,kubernetes,worker"
   pool        = "test"
   cores       = 4
   sockets     = 1
