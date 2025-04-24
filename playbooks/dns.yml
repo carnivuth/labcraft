@@ -32,6 +32,12 @@
       loop: '{{ groups["all"] }}'
       notify: Restart dnsmasq
 
+    - name: Copy /tmp/hosts.conf
+      ansible.builtin.template:
+        src: templates/dns.hosts.j2
+        dest: /tmp/hosts.conf
+        mode: '644'
+
     - name: Install dnsmasq
       ansible.builtin.apt:
         name: dnsmasq

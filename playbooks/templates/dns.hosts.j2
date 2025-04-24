@@ -1,0 +1,6 @@
+{% for h in groups["all"] %}
+{% if hostvars[h].address is defined %}
+{{ hostvars[h].address | regex_replace("(.*)/.*", "\1") }} {{ h }}.{{ dns_domain_name }} {{ h }}
+{% endif %}
+{% endfor %}
+
