@@ -1,0 +1,54 @@
+---
+- hosts: kubernetes_control_plane
+  roles:
+    - geerlingguy.docker:
+      vars:
+        docker_install_compose_plugin: false
+        docker_compose_package: docker-compose-plugin
+        docker_compose_package_state: absent
+
+  tasks:
+    - name: Install kubeadm, kubelet, and kubectl
+      ansible.builtin.apt:
+        name:
+        - kubeadm
+        - kubelet
+        - kubectl
+        state: present
+
+    - name: Initialize Kubernetes master
+      ansible.builtin.command: kubeadm init --pod-network-cidr=10.244.0.0/16
+      register: kubeadm_output
+      ignore_errors: true
+
+    - name: Set up kubectl for the current user
+      ansible.builtin.command: "{{ item }}"
+      with_items:
+        - "mkdir -p $HOME/.kube"
+        - "cp /etc/kubernetes/admin.conf $HOME/.kube/config"
+        - "chown $(id -u):$(id -g) $HOME/.kube/config"
+
+    - name: Install Calico network plugin
+      ansible.builtin.command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+      when: "'calico' in kubeadm_output.stdout"
+
+- hosts: kubernetes-workers
+  roles:
+    - geerlingguy.docker:
+      vars:
+        docker_install_compose_plugin: false
+        docker_compose_package: docker-compose-plugin
+        docker_compose_package_state: absent
+  tasks:
+
+    - name: Install kubeadm, kubelet, and kubectl
+      ansible.builtin.apt:
+        name:
+        - kubeadm
+        - kubelet
+        - kubectl
+        state: present
+
+    - name: Join worker nodes to the cluster
+      when: "'kubeadm join' in hostvars['master']['kubeadm_output']['stdout']"
+      ansible.builtin.command: "{{ hostvars['master']['kubeadm_output']['stdout_lines'][0] }}"
