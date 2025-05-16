@@ -23,3 +23,5 @@ groups:
   dns: "'dns' in (proxmox_tags_parsed|list)"
   backupper: "'backupper' in (proxmox_tags_parsed|list)"
   vpn: "'vpn' in (proxmox_tags_parsed|list)"
+  kubernetes_control_plane: "'kubernetes_control_plane' in (proxmox_tags_parsed|list)"
+  kubernetes_worker: "'kubernetes_worker' in (proxmox_tags_parsed|list)"
