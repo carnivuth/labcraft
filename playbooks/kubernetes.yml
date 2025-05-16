@@ -1,4 +1,10 @@
 ---
+- hosts: kubernetes_control_plane,kubernetes_worker
+  tasks:
+    - name: update packages repository
+      ansible.builtin.apt:
+        update_cache: true
+
 - hosts: kubernetes_control_plane
   roles:
     - geerlingguy.docker:
