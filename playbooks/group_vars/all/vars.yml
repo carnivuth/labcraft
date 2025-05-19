@@ -1,11 +1,6 @@
 ---
 # GENERICS
-# ntfy endpoint
-ntfy_endpoint: "https://ntfy.carnivuth.org/homelab"
 admin_email: "{{ vault_admin_email }}"
-
-# PWMANAGER
-pwmanager_pub_key: "{{ vault_pwmanager_pub_key }}"
 
 # VPN
 wireguard_unmanaged_peers:
@@ -61,7 +56,7 @@ dns_public_domain_name: 'carnivuth.org'
 dns_domain_name: 'carnivuth.org'
 dns_server: '192.168.1.96'
 pve_host_address: '192.168.1.62'
-pve_host_names: 
+pve_host_names:
   - pve
   - torterra
 dns_server_backup: '192.168.1.97'
@@ -99,10 +94,6 @@ github_sync_account: '{{ vault_github_sync_account }}'
 github_sync_ntfy: '{{ vault_github_sync_ntfy }}'
 github_sync_data_dir: "{{ app_var_root }}/github_sync"
 
-# openwebui
-openwebui_data_dir: "{{ app_var_root }}/openwebui"
-openwebui_exposed_port: 8083
-
 # uptime kuma
 kuma_data_dir: "{{ app_var_root }}/uptime_kuma"
 kuma_exposed_port: 8084
@@ -116,12 +107,6 @@ navidrome_exposed_port: 8085
 # portainer
 portainer_exposed_port: 8086
 
-# ntfy
-ntfy_cache_dir: "{{ app_cache_root }}/ntfy"
-ntfy_data_dir: "{{ app_var_root }}/ntfy"
-ntfy_conf_dir: "{{ app_conf_root }}/ntfy"
-ntfy_exposed_port: 8087
-
 apps:
 
   - app: uptime_kuma
@@ -131,16 +116,6 @@ apps:
       - "{{ kuma_exposed_port }}:3001"
     app_dirs:
       - "{{ kuma_data_dir }}"
-
-  - app: openwebui
-    app_uid: 10008
-    app_baseurl: "https://openwebui.{{ domain_name }}"
-    exposed_port: "{{ openwebui_exposed_port }}"
-    reverse_proxy: true
-    app_ports:
-      - "{{ openwebui_exposed_port }}:8080"
-    app_dirs:
-      - "{{ openwebui_data_dir }}"
 
   #     bug for dns port already used by systemd process
   #  - app: adguard
@@ -154,18 +129,6 @@ apps:
   #    app_dirs:
   #      - "{{ adguard_conf_dir }}"
   #      - "{{ adguard_data_dir }}"
-
-  - app: ntfy
-    app_uid: 10005
-    exposed_port: "{{ ntfy_exposed_port }}"
-    app_baseurl: "https://ntfy.{{ domain_name }}"
-    reverse_proxy: true
-    app_ports:
-      - "{{ ntfy_exposed_port }}:80"
-    app_dirs:
-      - "{{ ntfy_cache_dir }}"
-      - "{{ ntfy_conf_dir }}"
-      - "{{ ntfy_data_dir }}"
 
   - app: portainer
     app_uid: 10004

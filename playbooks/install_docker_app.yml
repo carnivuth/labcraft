@@ -42,10 +42,3 @@
         path: "{{ app_var_root }}/{{ app }}"
         state: directory
         owner: www-data
-
-    - name: Send ntfy.sh update
-      ansible.builtin.uri:
-        url: "{{ ntfy_endpoint }}"
-        method: POST
-        body: "{{ app }} has been provisioned"
-      ignore_errors: true
