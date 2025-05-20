@@ -41,6 +41,7 @@
         - kubeadm
         - kubelet
         - kubectl
+        - containerd
         state: present
 
 - hosts: kubernetes_control_plane
