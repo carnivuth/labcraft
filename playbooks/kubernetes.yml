@@ -12,6 +12,26 @@
         docker_compose_package_state: absent
 
   tasks:
+    - name: Install packages for apt repo modification
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gpg
+
+    - name: Add kubernetes repository key
+      ansible.builtin.shell:
+        cmd: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: Add apt repository key
+      ansible.builtin.lineinfile:
+        path: /etc/apt/sources.list.d/kubernetes.list
+        line: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /"
+        state: present
+        create: true
+      notify: Update apt cache
+
     - name: Install kubeadm, kubelet, and kubectl
       ansible.builtin.apt:
         name:
@@ -19,6 +39,11 @@
         - kubelet
         - kubectl
         state: present
+
+  handlers:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
 
 - hosts: kubernetes_control_plane
   tasks:
