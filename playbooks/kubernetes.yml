@@ -73,7 +73,7 @@
     #  ansible.builtin.command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
     #  when: "'calico' in kubeadm_output.stdout"
 
-- hosts: kubernetes-worker
+- hosts: kubernetes_worker
   tasks:
 
     - name: Join worker nodes to the cluster
