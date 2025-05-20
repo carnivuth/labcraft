@@ -22,7 +22,7 @@
 
     - name: Add kubernetes repository key
       ansible.builtin.shell:
-        cmd: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        cmd: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor --batch --yes -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
     - name: Add apt repository key
       ansible.builtin.lineinfile:
