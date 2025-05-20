@@ -30,7 +30,10 @@
         line: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /"
         state: present
         create: true
-      notify: Update apt cache
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
 
     - name: Install kubeadm, kubelet, and kubectl
       ansible.builtin.apt:
@@ -39,11 +42,6 @@
         - kubelet
         - kubectl
         state: present
-
-  handlers:
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: true
 
 - hosts: kubernetes_control_plane
   tasks:
