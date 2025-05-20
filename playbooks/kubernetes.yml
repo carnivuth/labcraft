@@ -41,8 +41,18 @@
         - kubeadm
         - kubelet
         - kubectl
-        - containerd
         state: present
+
+    - name: Enable cri module in containerd configuration
+      ansible.builtin.lineinfile:
+        path: /etc/containerd/config.toml
+        regexp: '^disabled_plugins = ["cri"]'
+        line: '#disabled_plugins = ["cri"]'
+
+    - name: Restart containerd
+      ansible.builtin.service:
+        name: containerd
+        state: restarted
 
 - hosts: kubernetes_control_plane
   tasks:
