@@ -18,7 +18,7 @@ resource "proxmox_vm_qemu" "cp" {
   onboot      = false
   vm_state    = "running"
  provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l cp"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l cp"
     working_dir = "../"
   }
 
@@ -61,7 +61,7 @@ resource "proxmox_vm_qemu" "worker1" {
   onboot      = false
   vm_state    = "running"
  provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker1"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker1"
     working_dir = "../"
   }
 
@@ -102,7 +102,7 @@ resource "proxmox_vm_qemu" "worker2" {
   onboot      = false
   vm_state    = "running"
  provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker2"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker2"
     working_dir = "../"
   }
 

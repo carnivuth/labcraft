@@ -14,7 +14,7 @@ resource "proxmox_lxc" "umbreon" {
   start           = true
 
  provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/dns.yml -l umbreon"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/dns.yml -l umbreon"
     working_dir = "../"
   }
   rootfs {
@@ -47,7 +47,7 @@ resource "proxmox_lxc" "espeon" {
   start           = true
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/dns.yml -l espeon"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/dns.yml -l espeon"
     working_dir = "../"
   }
   rootfs {

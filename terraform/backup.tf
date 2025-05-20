@@ -15,7 +15,7 @@ resource "proxmox_lxc" "ditto" {
   start           = true
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/backupper.yml -l ditto"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/backupper.yml -l ditto"
     working_dir = "../"
   }
   rootfs {

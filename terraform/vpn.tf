@@ -13,7 +13,7 @@ resource "proxmox_lxc" "arcanine" {
   start           = true
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/vpn.yml -l arcanine"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/vpn.yml -l arcanine"
     working_dir = "../"
   }
 

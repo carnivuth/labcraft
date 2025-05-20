@@ -14,7 +14,7 @@ resource "proxmox_lxc" "staraptor" {
   start           = true
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/reverse_proxy.yml -l staraptor"
+    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/reverse_proxy.yml -l staraptor"
     working_dir = "../"
   }
   features {
