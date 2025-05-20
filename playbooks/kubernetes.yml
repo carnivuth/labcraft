@@ -46,7 +46,7 @@
     - name: Enable cri module in containerd configuration
       ansible.builtin.lineinfile:
         path: /etc/containerd/config.toml
-        regexp: '^disabled_plugins = ["cri"]'
+        regexp: ^disabled_plugins
         line: '#disabled_plugins = ["cri"]'
 
     - name: Restart containerd
