@@ -30,7 +30,7 @@
 
     - name: Set up kubectl for the current user
       ansible.builtin.command:
-      cmd: "{{ item }}"
+        cmd: "{{ item }}"
       loop:
         - "mkdir -p $HOME/.kube"
         - "cp /etc/kubernetes/admin.conf $HOME/.kube/config"
