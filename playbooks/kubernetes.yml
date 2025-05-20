@@ -77,6 +77,6 @@
   tasks:
 
     - name: Join worker nodes to the cluster
-      when: "'kubeadm join' in hostvars['master']['kubeadm_output']['stdout']"
+      when: "'kubeadm join' in hostvars['cp']['kubeadm_output']['stdout']"
       ansible.builtin.command:
-        cmd: "{{ hostvars['master']['kubeadm_output']['stdout_lines'][0] }}"
+        cmd: "{{ hostvars['cp']['kubeadm_output']['stdout_lines'][0] }}"
