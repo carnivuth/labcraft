@@ -13,10 +13,6 @@ resource "proxmox_lxc" "umbreon" {
   onboot          = true
   start           = true
 
- provisioner "local-exec" {
-    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/dns.yml -l umbreon"
-    working_dir = "../"
-  }
   rootfs {
     storage = var.main_pool
     size    = "8G"
@@ -46,10 +42,6 @@ resource "proxmox_lxc" "espeon" {
   onboot          = true
   start           = true
 
-  provisioner "local-exec" {
-    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/dns.yml -l espeon"
-    working_dir = "../"
-  }
   rootfs {
     storage = var.main_pool
     size    = "8G"

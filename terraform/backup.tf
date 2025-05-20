@@ -14,10 +14,6 @@ resource "proxmox_lxc" "ditto" {
   onboot          = true
   start           = true
 
-  provisioner "local-exec" {
-    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/backupper.yml -l ditto"
-    working_dir = "../"
-  }
   rootfs {
     storage = var.main_pool
     size    = "8G"

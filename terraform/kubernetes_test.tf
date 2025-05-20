@@ -17,10 +17,6 @@ resource "proxmox_vm_qemu" "cp" {
   nameserver  = var.nameserver
   onboot      = false
   vm_state    = "running"
- provisioner "local-exec" {
-    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l cp"
-    working_dir = "../"
-  }
 
   disks {
     ide {
@@ -60,10 +56,6 @@ resource "proxmox_vm_qemu" "worker1" {
   nameserver  = var.nameserver
   onboot      = false
   vm_state    = "running"
- provisioner "local-exec" {
-    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker1"
-    working_dir = "../"
-  }
 
   disks {
     ide {
@@ -101,10 +93,6 @@ resource "proxmox_vm_qemu" "worker2" {
   nameserver  = var.nameserver
   onboot      = false
   vm_state    = "running"
- provisioner "local-exec" {
-    command = "source env/bin/activate && ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker2"
-    working_dir = "../"
-  }
 
   disks {
     ide {
@@ -143,10 +131,6 @@ resource "proxmox_vm_qemu" "worker3" {
   nameserver  = var.nameserver
   onboot      = false
   vm_state    = "running"
- provisioner "local-exec" {
-    command = "ansible-playbook -i inventory/inventory.proxmox.yml playbooks/kubernetes.yml -l worker3"
-    working_dir = "../"
-  }
 
   disks {
     ide {
