@@ -58,7 +58,7 @@
   tasks:
     - name: Initialize Kubernetes master
       ansible.builtin.command:
-        cmd: kubeadm init --pod-network-cidr=10.244.0.0/16
+        cmd: kubeadm init
       register: kubeadm_output
       ignore_errors: true
 
@@ -68,7 +68,6 @@
       loop:
         - "mkdir -p $HOME/.kube"
         - "cp /etc/kubernetes/admin.conf $HOME/.kube/config"
-        - "chown $(id -u):$(id -g) $HOME/.kube/config"
 
     #- name: Install Calico network plugin
     #  ansible.builtin.command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
