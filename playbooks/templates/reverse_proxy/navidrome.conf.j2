@@ -6,8 +6,8 @@ server {
     listen              443 ssl;
     server_name          {{ app }}.{{ dns_public_domain_name }};
 
-    ssl_certificate     /etc/letsencrypt/live/{{ dns_public_domain_name }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ dns_public_domain_name }}/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/{{ app }}.{{ dns_public_domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ app }}.{{ dns_public_domain_name }}/privkey.pem;
     ssl_protocols       TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
     ssl_ciphers         HIGH:!aNULL:!MD5;
 
