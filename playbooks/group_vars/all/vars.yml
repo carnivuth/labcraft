@@ -120,6 +120,8 @@ apps:
   - app: jellyfin
     app_uid: 10011
     reverse_proxy: true
+
+    exposed_port: "{{ jellyfin_exposed_port }}"
     app_ports:
       - "{{ jellyfin_exposed_port }}:8096"
     app_dirs:
