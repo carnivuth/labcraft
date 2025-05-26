@@ -30,17 +30,6 @@
         dest: /etc/nginx/sites-enabled/http-redirect.conf
         state: link
 
-    - name: Copy ssl configuration file
-      ansible.builtin.template:
-        src: templates/main.conf.j2
-        dest: /etc/nginx/sites-available/main.conf
-
-    - name: enable ssl configuration file
-      ansible.builtin.file:
-        src: /etc/nginx/sites-available/main.conf
-        dest: /etc/nginx/sites-enabled/main.conf
-        state: link
-
     - name: Install reverse proxy for {{ apps[element].app }}
       when: apps[element].reverse_proxy is true
       ansible.builtin.include_tasks:
