@@ -111,8 +111,8 @@ portainer_exposed_port: 8086
 jellyfin_data_dir: "{{ app_var_root }}/jellyfin"
 jellyfin_conf_dir: "{{ app_conf_root }}/jellyfin"
 jellyfin_media: "{{ jellyfin_data_dir }}/media"
-jellyfin_cache: "{{ navidrome_data_dir }}/cache"
-jellyfin_conf: "{{ navidrome_conf_dir }}/"
+jellyfin_cache: "{{ jellyfin_data_dir }}/cache"
+jellyfin_conf: "{{ jellyfin_conf_dir }}/"
 jellyfin_exposed_port: 8087
 
 apps:
