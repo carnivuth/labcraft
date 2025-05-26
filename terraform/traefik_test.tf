@@ -7,7 +7,7 @@ resource "proxmox_vm_qemu" "traefik-test" {
   memory      = 4096
   target_node = var.proxmox_host
   clone       = "ubuntu-2404-cloudinit-template"
-  ipconfig0   = "gw=192.168.1.1,ip=192.168.1.94/24"
+  ipconfig0   = "gw=192.168.1.1,ip=192.168.1.230/24"
   scsihw      = "virtio-scsi-pci"
   boot        = "order=scsi0;net0"
   cipassword  = var.guest_password
