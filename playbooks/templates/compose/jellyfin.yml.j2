@@ -1,0 +1,10 @@
+---
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    ports: {{ app_ports }}
+    volumes:
+      - {{ jellyfin_cache }}:/cache
+      - {{ jellyfin_media }}:/media
+      - {{ jellyfin_conf }}:/config
+    restart: unless-stopped

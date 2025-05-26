@@ -107,7 +107,25 @@ navidrome_exposed_port: 8085
 # portainer
 portainer_exposed_port: 8086
 
+# jellyfin
+jellyfin_data_dir: "{{ app_var_root }}/jellyfin"
+jellyfin_conf_dir: "{{ app_conf_root }}/jellyfin"
+jellyfin_media: "{{ jellyfin_data_dir }}/media"
+jellyfin_cache: "{{ navidrome_data_dir }}/cache"
+jellyfin_conf: "{{ navidrome_conf_dir }}/"
+jellyfin_exposed_port: 8087
+
 apps:
+
+  - app: jellyfin
+    app_uid: 10010
+    reverse_proxy: false
+    app_ports:
+      - "{{ jellyfin_exposed_port }}:8096"
+    app_dirs:
+      - "{{ jellyfin_media }}"
+      - "{{ jellyfin_cache }}"
+      - "{{ jellyfin_conf }}"
 
   - app: uptime_kuma
     app_uid: 10009
