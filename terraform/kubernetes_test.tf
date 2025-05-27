@@ -1,6 +1,7 @@
 # Control Plane
 resource "proxmox_vm_qemu" "cp" {
-  name        = "cp" tags        = "test,kubernetes_control_plane"
+  name        = "cp"
+  tags        = "test,kubernetes_control_plane"
   pool        = "test"
   cores       = 4
   sockets     = 1
@@ -26,14 +27,14 @@ resource "proxmox_vm_qemu" "cp" {
 
   provisioner "remote-exec" {
     inline = [
-    "apt-get update"
-    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd"
-    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg"
-    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list"
-    "apt-get update"
-    "apt-get install -y kubelet kubeadm kubectl"
-    "apt-mark hold kubelet kubeadm kubectl"
-    "systemctl enable --now kubelet"
+    "apt-get update",
+    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd",
+    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg",
+    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list",
+    "apt-get update",
+    "apt-get install -y kubelet kubeadm kubectl",
+    "apt-mark hold kubelet kubeadm kubectl",
+    "systemctl enable --now kubelet",
     ]
   }
 
@@ -85,14 +86,14 @@ resource "proxmox_vm_qemu" "worker1" {
 
   provisioner "remote-exec" {
     inline = [
-    "apt-get update"
-    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd"
-    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg"
-    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list"
-    "apt-get update"
-    "apt-get install -y kubelet kubeadm kubectl"
-    "apt-mark hold kubelet kubeadm kubectl"
-    "systemctl enable --now kubelet"
+    "apt-get update",
+    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd",
+    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg",
+    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list",
+    "apt-get update",
+    "apt-get install -y kubelet kubeadm kubectl",
+    "apt-mark hold kubelet kubeadm kubectl",
+    "systemctl enable --now kubelet",
     ]
   }
 
@@ -142,14 +143,14 @@ resource "proxmox_vm_qemu" "worker2" {
 
   provisioner "remote-exec" {
     inline = [
-    "apt-get update"
-    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd"
-    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg"
-    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list"
-    "apt-get update"
-    "apt-get install -y kubelet kubeadm kubectl"
-    "apt-mark hold kubelet kubeadm kubectl"
-    "systemctl enable --now kubelet"
+    "apt-get update",
+    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd",
+    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg",
+    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list",
+    "apt-get update",
+    "apt-get install -y kubelet kubeadm kubectl",
+    "apt-mark hold kubelet kubeadm kubectl",
+    "systemctl enable --now kubelet",
     ]
   }
 
@@ -200,14 +201,14 @@ resource "proxmox_vm_qemu" "worker3" {
 
   provisioner "remote-exec" {
     inline = [
-    "apt-get update"
-    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd"
-    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg"
-    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list"
-    "apt-get update"
-    "apt-get install -y kubelet kubeadm kubectl"
-    "apt-mark hold kubelet kubeadm kubectl"
-    "systemctl enable --now kubelet"
+    "apt-get update",
+    "apt-get install -y apt-transport-https ca-certificates curl gpg containerd",
+    "curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg",
+    "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list",
+    "apt-get update",
+    "apt-get install -y kubelet kubeadm kubectl",
+    "apt-mark hold kubelet kubeadm kubectl",
+    "systemctl enable --now kubelet",
     ]
   }
 
