@@ -1,5 +1,6 @@
 # Control Plane
-resource "proxmox_vm_qemu" "cp" { name        = "cp" tags        = "test,kubernetes_control_plane"
+resource "proxmox_vm_qemu" "cp" {
+  name        = "cp" tags        = "test,kubernetes_control_plane"
   pool        = "test"
   cores       = 4
   sockets     = 1
