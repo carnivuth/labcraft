@@ -45,7 +45,7 @@ Some other services are exposed through port forwarding on the router
 ```mermaid
 flowchart LR
 A((Internet))
-B{router\n port forwarding}
+B{router <br>port forwarding}
 C[wireguard]
 C --> B
 B --> A
@@ -99,8 +99,6 @@ Note over laptop,ditto: connection secured trough vpn
 ```
 
 vms and containers backups are managed trough proxmox backup server installed on the centralizer
-
-proxmox host backups are done trough the use of borg and a cronjob script, after running the `configure_proxmox.yml` playbook configure ssh authentication to storage box
 
 ## Installation
 
