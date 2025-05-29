@@ -12,8 +12,9 @@ services:
       ND_LOGLEVEL: info
       ND_SESSIONTIMEOUT: 24h
       ND_BASEURL: "{{ app_baseurl }}"
-      ND_LASTFM_APIKEY: "{{ vault_lastfm_apikey }}"
-      ND_LASTFM_SECRET: "{{ vault_lastfm_secret }}"
+      ND_LASTFM_APIKEY: "{{ navidrome_lastfm_apikey }}"
+      ND_LASTFM_SECRET: "{{ navidrome_lastfm_secret }}"
+      ND_PASSWORDENCRYPTIONKEY: "{{ navidrome_passwordencryptionkey }}"
     volumes:
       - "{{ navidrome_data }}:/data"
       - "{{ navidrome_collection }}:/music:ro"

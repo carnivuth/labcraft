@@ -103,6 +103,9 @@ navidrome_data_dir: "{{ app_var_root }}/navidrome"
 navidrome_data: "{{ navidrome_data_dir }}/data"
 navidrome_collection: "{{ navidrome_data_dir }}/collection"
 navidrome_exposed_port: 8085
+navidrome_lastfm_apikey: "{{ vault_navidrome_lastfm_apikey }}"
+navidrome_lastfm_secret: "{{ vault_navidrome_lastfm_secret }}"
+navidrome_passwordencryptionkey: "{{ vault_navidrome_passwordencryptionkey }}"
 
 # portainer
 portainer_exposed_port: 8086
