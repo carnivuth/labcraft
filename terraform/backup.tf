@@ -3,7 +3,6 @@ resource "proxmox_lxc" "ditto" {
   target_node     = var.proxmox_host
   hostname        = "ditto"
   tags            = "backupper"
-  pool        = "prod"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
