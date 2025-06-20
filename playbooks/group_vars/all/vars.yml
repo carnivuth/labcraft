@@ -118,7 +118,22 @@ jellyfin_cache: "{{ jellyfin_data_dir }}/cache"
 jellyfin_conf: "{{ jellyfin_conf_dir }}/"
 jellyfin_exposed_port: 8087
 
+# komga
+komga_data_dir: "{{ app_var_root }}/komga"
+komga_conf_dir: "{{ app_conf_root }}/komga"
+komga_exposed_port: 8088
+
 apps:
+
+  - app: komga
+    app_uid: 10012
+    reverse_proxy: true
+    exposed_port: "{{ komga_exposed_port }}"
+    app_ports:
+      - "{{ komga_exposed_port }}:25600"
+    app_dirs:
+      - "{{ komga_data_dir }}"
+      - "{{ komga_conf_dir }}"
 
   - app: jellyfin
     app_uid: 10011
