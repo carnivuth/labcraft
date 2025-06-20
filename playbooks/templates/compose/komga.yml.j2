@@ -7,8 +7,8 @@ services:
     ports: {{ app_ports }}
     restart: unless-stopped
     volumes:
-      - {{ komga_config }}:/config
-      - {{ komga_data }}:/data
+      - {{ komga_conf_dir }}:/config
+      - {{ komga_data_dir }}:/data
       - type: bind
         source: /etc/timezone
         target: /etc/timezone
