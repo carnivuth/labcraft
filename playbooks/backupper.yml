@@ -40,20 +40,11 @@
           loop: "{{ pbs_datastores }}"
 
     - name: Setup data syncronization with a remote site
-      block:
-
-        - name: Copy backup script
-          ansible.builtin.template:
-            src: templates/sync_with_remote.sh.j2
-            dest: /usr/local/bin/sync_with_remote.sh
-            mode: '755'
-
-        - name: Add backup sync cronjob
-          ansible.builtin.cron:
-            name: "backup sync"
-            minute: "0"
-            hour: "22"
-            job: "/usr/local/bin/sync_with_remote.sh > /dev/null"
+      ansible.builtin.cron:
+        name: "backup sync"
+        minute: "0"
+        hour: "22"
+        job: 'rsync --exclude "lost+found" -Pavr --delete "{{ backupper_data_root }}" "{{ backup_remote }}:"'
 
     - name: Setup nintendo 3DS backup
       block:
