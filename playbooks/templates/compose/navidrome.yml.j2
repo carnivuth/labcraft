@@ -16,6 +16,11 @@ services:
       ND_LASTFM_APIKEY: "{{ navidrome_lastfm_apikey }}"
       ND_LASTFM_SECRET: "{{ navidrome_lastfm_secret }}"
       ND_PASSWORDENCRYPTIONKEY: "{{ navidrome_passwordencryptionkey }}"
+      ND_BACKUP_PATH: /backup
+      ND_BACKUP_SCHEDULE: "*/5 0 * * *"
+      ND_BACKUP_COUNT: 7
+
     volumes:
+      - "{{ navidrome_backup }}:/backup"
       - "{{ navidrome_data }}:/data"
       - "{{ navidrome_collection }}:/music:ro"

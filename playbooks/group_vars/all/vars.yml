@@ -101,6 +101,7 @@ kuma_exposed_port: 8084
 # navidrome
 navidrome_data_dir: "{{ app_var_root }}/navidrome"
 navidrome_data: "{{ navidrome_data_dir }}/data"
+navidrome_backup: "{{ navidrome_data_dir }}/backup"
 navidrome_collection: "{{ navidrome_data_dir }}/collection"
 navidrome_exposed_port: 8085
 navidrome_lastfm_apikey: "{{ vault_navidrome_lastfm_apikey }}"
