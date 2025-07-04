@@ -2,7 +2,7 @@
 # this workflow updates the infrastructure when there is a terraform update:
 # - runs terraform
 # - reconfigure dns (in case a new machine has been created)
-# - runs common configurations
+# - configures mail notifications
 
  LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
