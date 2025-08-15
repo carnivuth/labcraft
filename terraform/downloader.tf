@@ -2,7 +2,7 @@
 resource "proxmox_lxc" "metapod" {
   target_node     = var.proxmox_host
   hostname        = "metapod"
-  tags            = "reverse_proxy"
+  tags            = ""
   pool            = "prod"
   ostemplate      = var.dev_ct_template
   password        = var.guest_password
