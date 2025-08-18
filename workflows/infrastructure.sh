@@ -7,11 +7,11 @@
  LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
 function run_pb(){
-  if [[ ! -f "playbooks/$1.yml" ]]; then
+  if [[ ! -f "ansible/playbooks/$1.yml" ]]; then
     echo "no $1 playbook found" | tee -a "$LOG_DIR/$1.log"
   else
     source env/bin/activate
-    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$1.yml" | tee -a "$LOG_DIR/$1.log"
+    ansible-playbook -i ansible/inventory/inventory.proxmox.yml "ansible/playbooks/$1.yml" | tee -a "$LOG_DIR/$1.log"
   fi
 }
 
