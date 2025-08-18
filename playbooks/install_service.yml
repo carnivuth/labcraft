@@ -51,14 +51,20 @@
       debug:
         var: services
 
+    - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
+
+      stat:
+        path: "{{ item.split(':')[0] }}"
+      register: volumes_stats
+      loop: "{{ services[app].volumes }}"
+
     - name: Create docker compose volume dirs
+      when: not volumes_stats.results[item].stat.exists
       ansible.builtin.file:
         path: "{{ item.split(':')[0] }}"
         state: directory
         mode: "644"
       loop: "{{ services[app].volumes }}"
-          #loop: "{{ lookup('ansible.builtin.vars', 'services.' + app + '.volumes') }}"
-            #loop: "{{ compose.services | map(attribute='volumes') }}"
 
     - name: Create env file
       ansible.builtin.file:
