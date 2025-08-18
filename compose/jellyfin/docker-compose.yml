@@ -3,6 +3,8 @@ services:
   jellyfin:
     restart: unless-stopped
     image: jellyfin/jellyfin:latest
+    networks:
+      - services
     ports:
       - "8086:8096"
     volumes:
@@ -11,6 +13,9 @@ services:
       - /etc/jellyfin:/config
     labels:
       - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.docker.localhost`)"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.local.carnivuth.org`)"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-
+networks:
+  services:
+    name: services
+    external: true

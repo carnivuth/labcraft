@@ -3,7 +3,8 @@ services:
     container_name: navidrome
     restart: unless-stopped
     image: deluan/navidrome:latest
-      #user: navidrome
+    networks:
+      - services
     ports:
       - 8085:4533
     env_file: /usr/local/navidrome/.env
@@ -13,5 +14,9 @@ services:
       - "/var/lib/navidrome/collection:/music:ro"
     labels:
       - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.navidrome.rule=Host(`navidrome.docker.localhost`)"
+      - "traefik.http.routers.navidrome.rule=Host(`navidrome.local.carnivuth.org`)"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
+networks:
+  services:
+    name: services
+    external: true
