@@ -3,7 +3,7 @@ services:
     container_name: navidrome
     restart: unless-stopped
     image: deluan/navidrome:latest
-    user: navidrome
+      #user: navidrome
     ports:
       - 8085:4533
     env_file: /usr/local/navidrome/.env

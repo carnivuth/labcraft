@@ -1,0 +1,12 @@
+---
+services:
+  komga:
+    image: gotson/komga:latest
+    restart: unless-stopped
+    container_name: komga
+    ports:
+      -  8088:25600
+    volumes:
+      - /etc/komga:/config
+      - /var/lib/komga:/data
+      - /etc/timezone:/etc/timezone:ro

@@ -1,0 +1,8 @@
+services:
+  curiel_bot:
+    container_name: curiel_bot
+    image: carnivuth/curiel_bot:latest
+    restart: unless-stopped
+    env_file: /usr/local/curiel_bot/.env
+    volumes:
+      - '/var/lib/curiel_bot/:/var/lib/curiel_bot/data'

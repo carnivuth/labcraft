@@ -1,0 +1,11 @@
+---
+services:
+  jellyfin:
+    restart: unless-stopped
+    image: jellyfin/jellyfin:latest
+    ports:
+      - "8086:8096"
+    volumes:
+      - /var/lib/jellyfin/cache:/cache
+      - /var/lib/jellyfin/media:/media
+      - /etc/jellyfin:/config

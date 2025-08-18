@@ -1,0 +1,10 @@
+services:
+  github_sync:
+    container_name: github_sync
+    image: "carnivuth/github_sync:latest"
+    restart: unless-stopped
+    env_file: /usr/local/github_sync/.env
+    volumes:
+      - "/var/lib/github_sync:/var/lib/github_sync"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
