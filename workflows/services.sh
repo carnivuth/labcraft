@@ -25,5 +25,5 @@ function workflow(){
 }
 
 function get_workflow_regex(){
-  echo "compose"
+  echo "services"
 }

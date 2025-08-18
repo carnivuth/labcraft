@@ -1,24 +1,25 @@
 ---
 - name: Install docker applications
   hosts: service_manager
-  become: true
   pre_tasks:
     - name: Fail if app is not defined
       ansible.builtin.fail:
         msg: variable app is not defined
       when: app is not defined
 
-    - name: Fail if app docker compose file does not exists
-      ansible.builtin.fail:
-        msg: "{{ app }} docker compose file does not exists"
-      when: app is not defined
+    - name: get app docker compose file status
+      delegate_to: localhost
+      ansible.builtin.stat:
+        path: "../services/{{ app }}/docker-compose.yml"
+      register: service_file
 
     - name: Include compose file
+      when: service_file.stat.exists
       ansible.builtin.include_vars:
-        file: "../compose/{{ app }}/docker-compose.yml"
+        file: "../services/{{ app }}/docker-compose.yml"
 
   tasks:
-    - name: install dependencies for docker role
+    - name: Install dependencies for docker role
       ansible.builtin.apt:
         name: gnupg
         state: present
@@ -31,54 +32,71 @@
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
 
-    - name: Create compose dir
-      ansible.builtin.file:
-        path: "/usr/local/{{ app }}"
-        state: directory
-        mode: "644"
+    - name: Proceed to service removal if file is not present
+      when: not service_file.stat.exists
+      block:
 
-    - name: Copy docker compose file
-      ansible.builtin.copy:
-        src: "../compose/{{ app }}/docker-compose.yml"
-        dest: "/usr/local/{{ app }}/docker-compose.yml"
-        mode: "644"
+        # check dir status on remote to avoid removing non existent services
+        - name: Get docker compose dir status
+          ansible.builtin.stat:
+            path: "/usr/local/{{ app }}"
+          register: compose_dir
 
-    - name: Create user {{ app }}
-      ansible.builtin.user:
-        name: "{{ app }}"
+        - name: Destroy {{ app }}
+          when: compose_dir.stat.exists
+          community.docker.docker_compose_v2:
+            project_src: "/usr/local/{{ app }}"
+            state: absent
+          retries: 5
+          delay: 1
 
-    - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
-      stat:
-        path: "{{ item.split(':')[0] }}"
-      register: volumes_stats
-      loop: "{{ services[app].volumes }}"
+    - name: Proceed to service installation if file is present
+      when: service_file.stat.exists
+      block:
+        - name: Create compose dir
+          ansible.builtin.file:
+            path: "/usr/local/{{ app }}"
+            state: directory
+            mode: "644"
 
-    - name: debug
-      debug:
-        var: volumes_stats
+        - name: Copy docker compose file
+          ansible.builtin.copy:
+            src: "../services/{{ app }}/docker-compose.yml"
+            dest: "/usr/local/{{ app }}/docker-compose.yml"
+            mode: "644"
 
-    - name: Create docker compose volume dirs
-      when: not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir
-      ansible.builtin.file:
-        path: "{{ item.split(':')[0] }}"
-        state: directory
-        mode: "644"
-      loop: "{{ services[app].volumes }}"
-      loop_control:
-        index_var: index
+        - name: Create user {{ app }}
+          ansible.builtin.user:
+            name: "{{ app }}"
 
-    - name: Create env file
-      when: services[app].env_file is defined
-      ansible.builtin.file:
-        path: "{{ services[app].env_file }}"
-        state: touch
-        mode: "600"
+        - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
+          ansible.builtin.stat:
+            path: "{{ item.split(':')[0] }}"
+          register: volumes_stats
+          loop: "{{ services[app].volumes }}"
 
-    - name: Start {{ app }}
-      community.docker.docker_compose_v2:
-        project_src: "/usr/local/{{ app }}"
-        state: present
-        pull: always
-      register: result
-      retries: 5
-      delay: 1
+        - name: Create docker compose volume dirs
+          when: not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir
+          ansible.builtin.file:
+            path: "{{ item.split(':')[0] }}"
+            state: directory
+            mode: "644"
+          loop: "{{ services[app].volumes }}"
+          loop_control:
+            index_var: index
+
+        - name: Create env file
+          when: services[app].env_file is defined
+          ansible.builtin.file:
+            path: "{{ services[app].env_file }}"
+            state: touch
+            mode: "600"
+
+        - name: Start {{ app }}
+          community.docker.docker_compose_v2:
+            project_src: "/usr/local/{{ app }}"
+            state: present
+            pull: always
+          register: result
+          retries: 5
+          delay: 1
