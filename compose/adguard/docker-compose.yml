@@ -3,6 +3,8 @@ services:
     restart: unless-stopped
     container_name: adguard
     image: adguard/adguardhome:latest
+    networks:
+      - services
     ports:
       - "53:53/udp"
       - "3000:3000"
@@ -12,5 +14,10 @@ services:
       - "/etc/adguard:/opt/adguardhome/conf"
     labels:
       - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.adguard.rule=Host(`adguard.docker.localhost`)"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.local.carnivuth.org`)"
       - "traefik.http.services.adguard.loadbalancer.server.port=80"
+
+networks:
+  services:
+    name: services
+    external: true
