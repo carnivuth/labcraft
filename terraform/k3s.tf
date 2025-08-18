@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "beartic" {
   name        = "beartic"
-  tags        = "k3s"
+  tags        = "k3s;test"
   pool        = "test"
   cores       = 8
   sockets     = 1
