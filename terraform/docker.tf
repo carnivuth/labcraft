@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "docker" {
   name        = "docker"
-  tags        = "docker"
+  tags        = "service_manager"
   pool        = "test"
   cores       = 2
   sockets     = 1
