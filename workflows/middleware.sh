@@ -7,8 +7,7 @@ pip install -r requirements.txt
 ansible-galaxy collection install -r ansible/collections/requirements.yml
 ansible-galaxy role install -r ansible/roles/requirements.yml
 
-for workflow in workflows/*; do
-  if [[ "$workflow" != 'workflows/middleware.sh' ]];then
+for workflow in $(find workflows -name '*.workflow.sh'); do
   (
     source "$workflow" && \
     regex="$(get_workflow_regex)"
@@ -18,6 +17,5 @@ for workflow in workflows/*; do
       echo -e "Subject: workflow $( basename "$workflow") LOG\n\n $output" | sendmail root
     fi
   )
-  fi
 done
 
