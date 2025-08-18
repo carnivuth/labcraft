@@ -1,0 +1,13 @@
+services:
+  navidrome:
+    container_name: navidrome
+    restart: unless-stopped
+    image: deluan/navidrome:latest
+    user: navidrome
+    ports:
+      - 8085:4533
+    env_file: /usr/local/navidrome/.env
+    volumes:
+      - "/var/lib/navidrome/backup:/backup"
+      - "/var/lib/navidrome/data:/data"
+      - "/var/lib/navidrome/collection:/music:ro"

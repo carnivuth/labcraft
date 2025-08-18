@@ -1,0 +1,70 @@
+---
+- name: Install docker applications
+  hosts: service_manager
+  become: true
+  pre_tasks:
+    - name: Fail if app is not defined
+      ansible.builtin.fail:
+        msg: variable app is not defined
+      when: app is not defined
+
+    - name: Fail if app docker compose file does not exists
+      ansible.builtin.fail:
+        msg: "{{ app }} docker compose file does not exists"
+      when: app is not defined
+
+  tasks:
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_install_compose_plugin: false
+        docker_compose_package: docker-compose-plugin
+        docker_compose_package_state: present
+
+    - name: Create compose dir
+      ansible.builtin.file:
+        path: "/usr/local/{{ app }}"
+        state: directory
+        mode: "644"
+
+    - name: Copy docker compose file
+      ansible.builtin.copy:
+        src: "../compose/{{ app }}/docker-compose.yml"
+        dest: "/usr/local/{{ app }}/docker-compose.yml"
+        mode: "644"
+
+    - name: Get content of docker compose file
+      ansible.builtin.slurp:
+        src: "/usr/local/{{ app }}/docker-compose.yml"
+        register: compose_file
+
+    - name: Parse compose from yaml
+      ansible.builtin.set_fact:
+        compose: '{{ compose_file.content | b64decode | from_yaml }}'
+
+    - name: Create {{ app }} user
+      ansible.builtin.user:
+        name: "{{ app }}"
+
+    - name: Create docker compose volume dirs
+      ansible.builtin.file:
+        path: "{{ item | split(':') | head }}"
+        state: directory
+        mode: "644"
+      loop: compose.services[0].volumes
+
+    - name: Create env file
+      ansible.builtin.file:
+        path: "{{ compose.services[0].env_file }}"
+        state: file
+        mode: "600"
+
+    - name: Start {{ app }}
+      community.docker.docker_compose_v2:
+        project_src: "/usr/local/{{ app }}"
+        state: present
+        pull: always
+      register: result
+      retries: 5
+      delay: 1
