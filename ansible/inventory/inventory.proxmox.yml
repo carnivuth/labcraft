@@ -1,8 +1,8 @@
 plugin: community.general.proxmox
-url: '{{ vault_proxmox_url }}'
-user: '{{ vault_proxmox_user }}'
-token_id: '{{ vault_proxmox_token_id }}'
-token_secret: '{{ vault_proxmox_token_secret }}'
+url: '{{ (lookup("ansible.builtin.unvault", "playbooks/group_vars/all/vault.yml") | from_yaml).vault_proxmox_url }}'
+user: '{{ (lookup("ansible.builtin.unvault", "playbooks/group_vars/all/vault.yml") | from_yaml).vault_proxmox_user }}'
+token_id: '{{ (lookup("ansible.builtin.unvault", "playbooks/group_vars/all/vault.yml") | from_yaml).vault_proxmox_token_id }}'
+token_secret: '{{ (lookup("ansible.builtin.unvault", "playbooks/group_vars/all/vault.yml") | from_yaml).vault_proxmox_token_secret }}'
 want_facts: true
 validate_certs: false
 want_proxmox_nodes_ansible_host: true
