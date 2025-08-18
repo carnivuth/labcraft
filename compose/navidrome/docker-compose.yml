@@ -11,3 +11,7 @@ services:
       - "/var/lib/navidrome/backup:/backup"
       - "/var/lib/navidrome/data:/data"
       - "/var/lib/navidrome/collection:/music:ro"
+    labels:
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.navidrome.rule=Host(`navidrome.docker.localhost`)"
+      - "traefik.http.services.navidrome.loadbalancer.server.port=4533"

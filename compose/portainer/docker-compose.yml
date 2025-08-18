@@ -8,3 +8,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/portainer:/data"
+    labels:
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.portainer.rule=Host(`portainer.docker.localhost`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"

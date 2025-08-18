@@ -10,3 +10,7 @@ services:
     volumes:
       - "/var/lib/adguard:/opt/adguardhome/work"
       - "/etc/adguard:/opt/adguardhome/conf"
+    labels:
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.adguard.rule=Host(`adguard.docker.localhost`)"
+      - "traefik.http.services.adguard.loadbalancer.server.port=80"

@@ -9,3 +9,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
     - 8084:3001
+    labels:
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.uptime_kuma.rule=Host(`uptime-kuma.docker.localhost`)"
+      - "traefik.http.services.uptime_kuma.loadbalancer.server.port=3001"

@@ -9,3 +9,8 @@ services:
       - /var/lib/jellyfin/cache:/cache
       - /var/lib/jellyfin/media:/media
       - /etc/jellyfin:/config
+    labels:
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.docker.localhost`)"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+
