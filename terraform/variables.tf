@@ -1,6 +1,10 @@
 variable "ssh_pub_key" {
   description = "default ssh pub key"
 }
+variable "backup2_pool" {
+  default     = "backup2"
+  description = "proxmox storage for backups"
+}
 variable "backup_pool" {
   default     = "backup"
   description = "proxmox storage for backups"

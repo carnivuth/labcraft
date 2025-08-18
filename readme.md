@@ -1,11 +1,10 @@
-# LABCRAFT
+# Labcraft
 
 Files for homelab provisioning and maintenance operations of my personal proxmox cluster for self-hosted services, application deployment environment and playhouse :)
 
-## ARCHITECTURE
+## Architecture
 
-
-The machine runs proxmox cluster with vms. The main purpose of the server is to expose web interfaces of docker containers for some services that i use every day
+The main purpose of the server is to expose web interfaces of docker containers for some services that i use every day
 
 ```mermaid
 ---
@@ -27,9 +26,9 @@ end
 web_services --dns queries--> dns_servers
 ```
 
-## NETWORKING
+## Networking
 
-some services are exposed to the internet via HTTPS reverse proxy with nginx
+Some services are exposed to the internet via `HTTPS` reverse proxy implemented with `nginx`
 
 ```mermaid
 flowchart LR
@@ -41,48 +40,72 @@ C & D --> B
 B --> A
 ```
 
-some other services are exposed through port forwarding on the router
+Some other services are exposed through port forwarding on the router
 
 ```mermaid
 flowchart LR
 A((Internet))
-B{router\n port forwarding}
+B{router <br>port forwarding}
 C[wireguard]
 C --> B
 B --> A
 ```
 
-## DISKS MANAGEMENT
+****
+## Storage
 
-Containers and virtual machines's rootfs disk is located in the `local-lvm` volume on the nvme disk. all the volumes are backuped in the other hard drive from pbs
+The proxmox host has a bunch of disks installed and all of them are managed trough lvm, one of them is an nvme that manages volumes for vms and containers the others are for backing up data,
 
 ```mermaid
 flowchart
-	subgraph data disks
+	subgraph data_volume_group
 		direction TB
 		subgraph nvme
 				A[container rootfs]
 		end
 	end
-	subgraph backupdisks
-		direction TB
-		subgraph HD2
-			direction LR
-			C[backup volume]
-		end
+	subgraph backup_volume_group
+	    direction TB
+		C[backup volume]
 	end
 	A -- backup on --> C
 ```
 
-## BACKUPS
+## Backups management
 
-Backups are made with the use of PBS in snapshot mode, every night at 21:00 for all containers and virtual machines, one of the 2 hard drives is dedicated to this purpose
+This infrastructure manages all of my backups, the backup centralizer is an lxc container that runs [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview)
 
-## INSTALLATION
+```mermaid
+flowchart
+    subgraph ditto
+		subgraph data_volume_group
+        A[rootfs]
+		end
+		subgraph backup_volume_group
+        B[backup disk]
+		end
+    end
+```
 
-- clone repository
+All of my personal pc use borg for managing backup locally and then copy content to the centralizer machine using rsync, backup is achieved trough a [script](https://github.com/carnivuth/scripts/blob/main/bin/backup.sh) that runs as a systemd timer
+
+```mermaid
+sequenceDiagram
+participant laptop
+participant ditto
+laptop ->> laptop: creates backup
+laptop ->> ditto: sync changes
+Note over laptop,ditto: connection secured trough vpn
+```
+
+vms and containers backups are managed trough proxmox backup server installed on the centralizer
+
+## Installation
+
+- clone repository inside the proxmox host
 
 ```bash
+cd /usr/local
 git clone https://github.com/carnivuth/labcraft
 ```
 
@@ -103,21 +126,27 @@ ansible-galaxy collection install -r collections/requirements.yml
 ansible-galaxy role install -r roles/requirements.yml
 ```
 
+- add secrets folowing this [guide](readme.md#HANDLE%20SECRETS)
+
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
 
 - create a proxmox admin token for terraform
 
-- create templates for vms and containers following [this](https://carnivuth.github.io/TIL/pages/CREATE_VM_TEMPLATE)
+- create templates for vms and containers
 
-- run terraform to deploy vms and add one of the dns servers to `/etc/hosts`
-
-- run preflight playbook for provisioning
+- install terraform
 
 ```bash
-ansible-playbook -i inventory/prod.proxmox.yml carnivuth.labcraft.preflight
+apt install terraform
 ```
 
-### HANDLE SECRETS
+- run terraform to deploy vms
+
+```bash
+cd terraform && terraform init && terraform plan -o /tmp/plan && terraform apply /tmp/plan
+```
+
+### Handle secrets
 
 Sensitive informations are stored inside an encrypted vault file generated with `ansible-vault`, in order to create it do the following:
 
@@ -153,24 +182,26 @@ ansible-vault encrypt sample.yml
 mv sample.yml playbooks/group_vars/all/vault.yml
 ```
 
-### UPDATE MANAGEMENT
+### Update management and provision
 
 To avoid having to run ansible manually every time there is an update do the following
 
 - add the `scripts/update_labcraft.sh` to cron:
 
 ```cron
+# path variable is needed
+PATH=/usr/local/labcraft/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 * * * * * /usr/local/labcraft/update_labcraft.sh > /dev/null 2>&1
 ```
 
-Then link `scripts/post-merge` to the git hooks dir (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
+Then link `workflows/middleware.sh` to the git hooks dir (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
 
 ```bash
 cd .git/hooks
-ln -fs ../../scripts/post-merge post-merge
+ln -fs ../../workflows/middleware.sh post-merge
 ```
 
-So every time a commit is pushed to remote cron will pull the repo and the hook will run ansible
+So every time a commit is pushed to remote cron will pull the updates from remote repo and the git hook will run the correct workflow based on the file that was modified
 
 ```mermaid
 ---
@@ -185,7 +216,8 @@ dev_machine ->> github_repo: push chainges
 loop every x minutes
 torterra ->> github_repo: fetch changes
 alt changes
-torterra ->> torterra: run ansible
+torterra ->> torterra: run middleware
+torterra ->> torterra: run workflow based on the file that was modified
 end
 end
 ```

@@ -1,0 +1,82 @@
+---
+- name: Configure backupper machine
+  hosts: backupper
+  become: true
+  tasks:
+    - name: Install some packages
+      ansible.builtin.apt:
+        name:
+          - ftp
+          - netcat-traditional
+          - curl
+          - rsync
+        state: present
+        update_cache: true
+
+    - name: Install proxmox backup server
+      block:
+        - name: Add proxmox backup server repo key
+          ansible.builtin.get_url:
+            url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+            dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+            mode: '644'
+
+        - name: Add proxmox backup server repository into sources list
+          ansible.builtin.apt_repository:
+            repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg] http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription"
+            filename: proxmox_backup_server
+            state: present
+
+        - name: Install pbs and update cache
+          ansible.builtin.apt:
+            name: proxmox-backup-server
+            state: present
+            update_cache: true
+
+        - name: Add datastore
+          ansible.builtin.command:
+            cmd: "proxmox-backup-manager datastore create {{ item.name }} {{ item.path }}"
+            creates: '{{ item.path }}'
+          loop: "{{ pbs_datastores }}"
+
+    - name: Setup data syncronization with a remote site
+      ansible.builtin.cron:
+        name: "backup sync"
+        minute: "0"
+        hour: "22"
+        job: 'rsync --exclude "lost+found" -Pavr --delete "{{ backupper_data_root }}" "{{ backup_remote }}:" | tee /var/log/backup-sync.log; echo -e "Subject: backup-sync status \n$(cat /var/log/backup-sync.log)" | sendmail root'
+
+    - name: Setup nintendo 3DS backup
+      block:
+
+        - name: Copy 3ds backup script
+          ansible.builtin.template:
+            src: templates/backup_3ds.sh.j2
+            dest: /usr/local/bin/backup_3ds.sh
+            mode: '755'
+
+        - name: Add 3ds backup cronjob
+          ansible.builtin.cron:
+            name: "3ds backup"
+            job: "/usr/local/bin/backup_3ds.sh >> /var/log/backup_3ds.log 2>&1"
+
+- name: Add backupper pbs istance as a storage in proxmox server
+  hosts: pve
+  become: true
+  tasks:
+    - name: Create pool {{ item.name }}
+      community.general.proxmox_pool:
+        api_host: pve
+        api_user: "{{ vault_proxmox_user }}"
+        api_token_id: "{{ vault_proxmox_token_id }}"
+        api_token_secret: "{{ vault_proxmox_token_secret }}"
+        poolid: "{{ item.name }}"
+        comment: "{{ item.comment }}"
+      loop: "{{ proxmox_pools }}"
+
+    - name: Include tasks file
+      ansible.builtin.include_tasks:
+        file: add_backupper.yml
+      vars:
+        backupper: '{{ item }}'
+      loop: "{{ groups['backupper'] }}"

@@ -1,8 +1,10 @@
-resource "proxmox_lxc" "arcanine" {
+
+resource "proxmox_lxc" "metapod" {
   target_node     = var.proxmox_host
-  hostname        = "arcanine"
-  tags        = "vpn"
-  ostemplate      = var.prod_ct_template
+  hostname        = "metapod"
+  tags            = ""
+  pool            = "prod"
+  ostemplate      = var.dev_ct_template
   password        = var.guest_password
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
@@ -12,19 +14,18 @@ resource "proxmox_lxc" "arcanine" {
   onboot          = true
   start           = true
 
-  rootfs {
-    storage = var.main_pool
-    size    = "20G"
-  }
-
   features {
     nesting = true
+  }
+  rootfs {
+    storage = var.main_pool
+    size    = "80G"
   }
 
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "192.168.1.95/24"
+    ip     = "192.168.1.100/24"
     gw     = var.guest_gw
   }
 }

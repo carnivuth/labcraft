@@ -1,0 +1,15 @@
+
+---
+services:
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+    ports: {{ app_ports }}
+    restart: unless-stopped
+    volumes:
+      - {{ komga_conf_dir }}:/config
+      - {{ komga_data_dir }}:/data
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true

@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  tasks:
+    - name: Update and install packages
+      ansible.builtin.apt:
+        name: cron
+        update_cache: true

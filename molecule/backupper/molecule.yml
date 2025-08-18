@@ -1,9 +1,14 @@
 ---
 driver:
-  name: docker
+  name: vagrant
+  provider:
+    name: virtualbox
+
 platforms:
-  - name: wailord
-    image: debian:bookworm
+  - name: ditto
+    box: debian/bookworm64
+    groups:
+      - backupper
 
 scenario:
   test_sequence:

@@ -1,9 +1,13 @@
 ---
 driver:
-  name: docker
+  name: vagrant
+  provider:
+    name: virtualbox
 platforms:
   - name: wailord
-    image: debian:bookworm
+    box: ubuntu/jammy64
+    groups:
+      - service_manager
 
 scenario:
   test_sequence:

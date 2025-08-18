@@ -1,16 +1,64 @@
 ---
+# GENERICS
+admin_email: "{{ vault_admin_email }}"
+
+# VPN
+wireguard_unmanaged_peers:
+  client:
+    public_key: "{{ vault_wireguard_pub_key }}"
+    allowed_ips: 10.0.8.0/24
+    persistent_keepalive: 0
+
+# BACKUPPER
+
+# proxmox backup server password for proxmox VE access
+pbs_password: "{{ vault_pbs_password }}"
+
+# remote host where to push backups
+backup_remote: "u425518.your-storagebox.de"
+
+# remote host user
+proxmox_backup_remote_username: "u425518-sub3"
+
+# backupper folder where data are stored
+backupper_data_root: /mnt/datastore/
+
+# proxmox backup server datastores
+pbs_datastores:
+  - {"name":"prod-server-backup", "path":"{{ backupper_data_root }}/prod-server-backup"}
+
+# 3ds backup job
+port_3ds: 5000
+address_3ds: 192.168.1.99
+
+# PROXMOX HOST
+
 # proxmox pools
 proxmox_pools:
   - {"name": "prod", "comment":"production resources"}
   - {"name": "test", "comment":"testing resources"}
-# dns config
-pbs_datastores: /mnt/datastore/backup
-pbs_healthchecks_address: '{{ vault_pbs_healthchecks_address }}'
+
+# proxmox host folder to backup and send to remote
+proxmox_folders_to_backup:
+  - {"name":"labcraft", "path":"/usr/local/labcraft"}
+
+# borg passphrase for proxmox host backup
+proxmox_backup_borg_passphrase: "{{ vault_proxmox_backup_borg_passphrase }}"
+
+# proxmox backup job healthceck endpoint
+proxmox_backup_healthchecks_address: '{{ vault_proxmox_backup_healthchecks_address }}'
+
+# DNS
 
 # dns config
 external_dns_server: '192.168.1.1'
-dns_domain_name: 'pokelab'
+dns_public_domain_name: 'carnivuth.org'
+dns_domain_name: 'carnivuth.org'
 dns_server: '192.168.1.96'
+pve_host_address: '192.168.1.62'
+pve_host_names:
+  - pve
+  - torterra
 dns_server_backup: '192.168.1.97'
 service_manager_address: '192.168.1.94'
 
@@ -18,7 +66,7 @@ service_manager_address: '192.168.1.94'
 certbot_admin_email: '{{ vault_certbot_admin_email }}'
 domain_name: '{{ vault_domain_name }}'
 
-# docker
+# SERVICE_MANAGER
 base_docker_compose: "files/compose"
 app_home_root: "/usr/local"
 app_var_root: "/var/lib"
@@ -30,19 +78,10 @@ nextcloud_apache_port: 11111
 nextcloud_data_dir: "{{ app_var_root }}/nextcloud"
 nextcloud_apache_address: "0.0.0.0"
 
-# ntfy
-ntfy_cache_dir: "{{ app_cache_root }}/ntfy"
-ntfy_data_dir: "{{ app_var_root }}/ntfy"
-ntfy_conf_dir: "{{ app_conf_root }}/ntfy"
-ntfy_exposed_port: 8001
-
 # adguard
 adguard_data_dir: "{{ app_var_root }}/adguard"
 adguard_conf_dir: "{{ app_conf_root }}/adguard"
 adguard_exposed_port: 8081
-
-# portainer
-portainer_exposed_port: 9443
 
 # curiel bot
 curiel_bot_token: "{{ vault_curiel_bot_token }}"
@@ -55,46 +94,72 @@ github_sync_account: '{{ vault_github_sync_account }}'
 github_sync_ntfy: '{{ vault_github_sync_ntfy }}'
 github_sync_data_dir: "{{ app_var_root }}/github_sync"
 
-# taskchampion
-taskchampion_exposed_port: 8082
-taskchampion_data_dir: "{{ app_var_root }}/taskchampion"
+# uptime kuma
+kuma_data_dir: "{{ app_var_root }}/uptime_kuma"
+kuma_exposed_port: 8084
 
 # navidrome
 navidrome_data_dir: "{{ app_var_root }}/navidrome"
 navidrome_data: "{{ navidrome_data_dir }}/data"
+navidrome_backup: "{{ navidrome_data_dir }}/backup"
 navidrome_collection: "{{ navidrome_data_dir }}/collection"
-navidrome_exposed_port: 4533
+navidrome_exposed_port: 8085
+navidrome_lastfm_apikey: "{{ vault_navidrome_lastfm_apikey }}"
+navidrome_lastfm_secret: "{{ vault_navidrome_lastfm_secret }}"
+navidrome_passwordencryptionkey: "{{ vault_navidrome_passwordencryptionkey }}"
 
-# openwebui_data_dir
-openwebui_data_dir: "{{ app_var_root }}/openwebui"
-openwebui_exposed_port: 8083
+# portainer
+portainer_exposed_port: 8086
+
+# jellyfin
+jellyfin_data_dir: "{{ app_var_root }}/jellyfin"
+jellyfin_conf_dir: "{{ app_conf_root }}/jellyfin"
+jellyfin_media: "{{ jellyfin_data_dir }}/media"
+jellyfin_cache: "{{ jellyfin_data_dir }}/cache"
+jellyfin_conf: "{{ jellyfin_conf_dir }}/"
+jellyfin_exposed_port: 8087
+
+# komga
+komga_data_dir: "{{ app_var_root }}/komga"
+komga_conf_dir: "{{ app_conf_root }}/komga"
+komga_exposed_port: 8088
 
 apps:
 
-  - app: ollama
-    app_uid: 10008
-    app_baseurl: "https://{{ domain_name }}/openwebui"
-    exposed_port: "{{ openwebui_exposed_port }}"
-    reverse_proxy: false
+  - app: komga
+    app_uid: 10012
+    reverse_proxy: true
+    exposed_port: "{{ komga_exposed_port }}"
     app_ports:
-      - "{{ openwebui_exposed_port }}:8080"
+      - "{{ komga_exposed_port }}:25600"
     app_dirs:
-      - "{{ openwebui_data_dir }}"
+      - "{{ komga_data_dir }}"
+      - "{{ komga_conf_dir }}"
 
-  - app: taskchampion
-    app_uid: 10007
-    app_baseurl: "https://{{ domain_name }}/taskchampion"
-    exposed_port: "{{ taskchampion_exposed_port }}"
+  - app: jellyfin
+    app_uid: 10011
+    reverse_proxy: true
+
+    exposed_port: "{{ jellyfin_exposed_port }}"
+    app_ports:
+      - "{{ jellyfin_exposed_port }}:8096"
+    app_dirs:
+      - "{{ jellyfin_media }}"
+      - "{{ jellyfin_cache }}"
+      - "{{ jellyfin_conf }}"
+
+  - app: uptime_kuma
+    app_uid: 10009
     reverse_proxy: false
     app_ports:
-      - "{{ taskchampion_exposed_port }}:8080"
+      - "{{ kuma_exposed_port }}:3001"
     app_dirs:
-      - "{{ taskchampion_data_dir }}"
+      - "{{ kuma_data_dir }}"
 
   #     bug for dns port already used by systemd process
   #  - app: adguard
   #    app_uid: 10006
-  #    app_baseurl: "https://{{ domain_name }}/adguard"
+  #    app_baseurl: "https://{{ domain_name }}"
   #    reverse_proxy: false
   #    app_ports:
   #      - "53:53/udp"
@@ -104,33 +169,17 @@ apps:
   #      - "{{ adguard_conf_dir }}"
   #      - "{{ adguard_data_dir }}"
 
-  - app: ntfy
-    app_uid: 10005
-    exposed_port: "{{ ntfy_exposed_port }}"
-    app_baseurl: "https://{{ domain_name }}"
-    reverse_proxy: true
-    app_ports:
-      - "{{ ntfy_exposed_port }}:80"
-    app_dirs:
-      - "{{ ntfy_cache_dir }}"
-      - "{{ ntfy_conf_dir }}"
-      - "{{ ntfy_data_dir }}"
-
   - app: portainer
     app_uid: 10004
-    exposed_port: ""
-    app_baseurl: ""
     reverse_proxy: false
     app_ports:
-      - "{{ portainer_exposed_port }}:8443"
+      - "{{ portainer_exposed_port }}:9443"
       - "8000:8000"
     app_dirs: []
 
   - app: github_sync
     app_uid: 10003
     app_ports: []
-    exposed_port: ""
-    app_baseurl: ""
     reverse_proxy: false
     app_dirs:
       - "{{ github_sync_data_dir }}"
@@ -138,8 +187,6 @@ apps:
   - app: curiel_bot
     app_uid: 10002
     app_ports: []
-    exposed_port: ""
-    app_baseurl: ""
     reverse_proxy: false
     app_dirs:
       - "{{ curiel_bot_data_dir }}"
@@ -147,7 +194,7 @@ apps:
   - app: nextcloud
     app_uid: 10001
     exposed_port: "{{ nextcloud_apache_port }}"
-    app_baseurl: ""
+    app_baseurl: "https://nextcloud.{{ domain_name }}"
     reverse_proxy: true
     app_ports:
       - "8080:8080"
@@ -156,7 +203,7 @@ apps:
 
   - app: navidrome
     app_uid: 10000
-    app_baseurl: "https://{{ domain_name }}/navidrome"
+    app_baseurl: "https://navidrome.{{ domain_name }}"
     exposed_port: "{{ navidrome_exposed_port }}"
     reverse_proxy: true
     app_ports:

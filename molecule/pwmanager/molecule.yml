@@ -1,9 +1,12 @@
 ---
 driver:
   name: docker
+
 platforms:
-  - name: wailord
+  - name: klefky
     image: debian:bookworm
+    groups:
+      - pwmanager
 
 scenario:
   test_sequence:

@@ -2,13 +2,13 @@
 resource "proxmox_lxc" "ditto" {
   target_node     = var.proxmox_host
   hostname        = "ditto"
-  tags            = "pbs"
+  tags            = "backupper"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
   ssh_public_keys = var.ssh_pub_key
   nameserver      = var.external_nameserver
-  cores           = 4
+  cores           = 6
   memory          = 4096
   onboot          = true
   start           = true
@@ -17,12 +17,15 @@ resource "proxmox_lxc" "ditto" {
     storage = var.main_pool
     size    = "8G"
   }
+  features {
+    nesting = true
+  }
  mountpoint {
     key     = "0"
     slot    = 0
-    storage = var.main_pool
-    mp      = "/mnt/datastore/backup"
-    size    = "10G"
+    storage = var.backup2_pool
+    mp      = "/mnt/datastore"
+    size    = "2000G"
   }
   network {
     name   = "eth0"

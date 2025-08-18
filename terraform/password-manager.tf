@@ -1,7 +1,8 @@
-resource "proxmox_lxc" "arcanine" {
+resource "proxmox_lxc" "klefky" {
   target_node     = var.proxmox_host
-  hostname        = "arcanine"
-  tags        = "vpn"
+  hostname        = "klefky"
+  tags        = "pwmanager"
+  pool        = "prod"
   ostemplate      = var.prod_ct_template
   password        = var.guest_password
   unprivileged    = true
@@ -14,9 +15,8 @@ resource "proxmox_lxc" "arcanine" {
 
   rootfs {
     storage = var.main_pool
-    size    = "20G"
+    size    = "15G"
   }
-
   features {
     nesting = true
   }
@@ -24,7 +24,7 @@ resource "proxmox_lxc" "arcanine" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "192.168.1.95/24"
+    ip     = "192.168.1.91/24"
     gw     = var.guest_gw
   }
 }

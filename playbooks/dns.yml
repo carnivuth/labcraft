@@ -1,7 +1,7 @@
 ---
 - name: Setup dns on dns hosts
   become: true
-  hosts: dns_hosts
+  hosts: dns
   tasks:
 
     - name: Set dns ip address
@@ -22,14 +22,11 @@
         mode: '644'
       notify: Restart dnsmasq
 
-    - name: 'Add dns server entry in the {{ hostvars[item].ansible_host }}'
-      when: hostvars[item].address is defined
-      ansible.builtin.lineinfile:
-        path: /etc/hosts
-        regex: '.*{{ item }}.*'
-        line: '{{ hostvars[item].address | regex_replace("(.*)/.*", "\1") }} {{ item }}.{{ dns_domain_name }} {{ item }}'
+    - name: Copy /etc/hosts
+      ansible.builtin.template:
+        src: templates/dns.hosts.j2
+        dest: /etc/hosts
         mode: '644'
-      loop: '{{ groups["all"] }}'
       notify: Restart dnsmasq
 
     - name: Install dnsmasq
@@ -47,7 +44,7 @@
         enabled: true
 
 - name: Set nameserver in all other nodes
-  hosts: all:!dns_hosts
+  hosts: all:!dns
   become: true
   pre_tasks:
   tasks:
