@@ -1,7 +1,6 @@
 ---
 - name: Configure backupper machine
   hosts: backupper
-  become: true
   tasks:
     - name: Install some packages
       ansible.builtin.apt:
@@ -61,8 +60,7 @@
             job: "/usr/local/bin/backup_3ds.sh >> /var/log/backup_3ds.log 2>&1"
 
 - name: Add backupper pbs istance as a storage in proxmox server
-  hosts: pve
-  become: true
+  hosts: localhost
   tasks:
     - name: Create pool {{ item.name }}
       community.general.proxmox_pool:
