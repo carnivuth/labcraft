@@ -1,6 +1,12 @@
 ---
 # GENERICS
+# destination of root user of all machines
 admin_email: "{{ vault_admin_email }}"
+
+# proxmox pools
+proxmox_pools:
+  - {"name": "prod", "comment":"production resources"}
+  - {"name": "test", "comment":"testing resources"}
 
 # VPN
 wireguard_unmanaged_peers:
@@ -31,38 +37,12 @@ pbs_datastores:
 port_3ds: 5000
 address_3ds: 192.168.1.99
 
-# PROXMOX HOST
-
-# proxmox pools
-proxmox_pools:
-  - {"name": "prod", "comment":"production resources"}
-  - {"name": "test", "comment":"testing resources"}
-
-# proxmox host folder to backup and send to remote
-proxmox_folders_to_backup:
-  - {"name":"labcraft", "path":"/usr/local/labcraft"}
-
-# borg passphrase for proxmox host backup
-proxmox_backup_borg_passphrase: "{{ vault_proxmox_backup_borg_passphrase }}"
-
-# proxmox backup job healthceck endpoint
-proxmox_backup_healthchecks_address: '{{ vault_proxmox_backup_healthchecks_address }}'
-
-# DNS
-
 # dns config
 external_dns_server: '192.168.1.1'
-dns_public_domain_name: 'carnivuth.org'
 dns_domain_name: 'carnivuth.org'
 dns_server: '192.168.1.96'
+dns_server_backup: '192.168.1.97'
 pve_host_address: '192.168.1.62'
 pve_host_names:
   - pve
   - torterra
-dns_server_backup: '192.168.1.97'
-service_manager_address: '192.168.1.94'
-
-# reverse proxy cofig
-certbot_admin_email: '{{ vault_certbot_admin_email }}'
-domain_name: '{{ vault_domain_name }}'
-
