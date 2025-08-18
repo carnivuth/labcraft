@@ -1,0 +1,68 @@
+---
+# GENERICS
+admin_email: "{{ vault_admin_email }}"
+
+# VPN
+wireguard_unmanaged_peers:
+  client:
+    public_key: "{{ vault_wireguard_pub_key }}"
+    allowed_ips: 10.0.8.0/24
+    persistent_keepalive: 0
+
+# BACKUPPER
+
+# proxmox backup server password for proxmox VE access
+pbs_password: "{{ vault_pbs_password }}"
+
+# remote host where to push backups
+backup_remote: "u425518.your-storagebox.de"
+
+# remote host user
+proxmox_backup_remote_username: "u425518-sub3"
+
+# backupper folder where data are stored
+backupper_data_root: /mnt/datastore/
+
+# proxmox backup server datastores
+pbs_datastores:
+  - {"name":"prod-server-backup", "path":"{{ backupper_data_root }}/prod-server-backup"}
+
+# 3ds backup job
+port_3ds: 5000
+address_3ds: 192.168.1.99
+
+# PROXMOX HOST
+
+# proxmox pools
+proxmox_pools:
+  - {"name": "prod", "comment":"production resources"}
+  - {"name": "test", "comment":"testing resources"}
+
+# proxmox host folder to backup and send to remote
+proxmox_folders_to_backup:
+  - {"name":"labcraft", "path":"/usr/local/labcraft"}
+
+# borg passphrase for proxmox host backup
+proxmox_backup_borg_passphrase: "{{ vault_proxmox_backup_borg_passphrase }}"
+
+# proxmox backup job healthceck endpoint
+proxmox_backup_healthchecks_address: '{{ vault_proxmox_backup_healthchecks_address }}'
+
+# DNS
+
+# dns config
+external_dns_server: '192.168.1.1'
+dns_public_domain_name: 'carnivuth.org'
+dns_domain_name: 'carnivuth.org'
+dns_server: '192.168.1.96'
+pve_host_address: '192.168.1.62'
+pve_host_names:
+  - pve
+  - torterra
+dns_server_backup: '192.168.1.97'
+service_manager_address: '192.168.1.94'
+
+# reverse proxy cofig
+certbot_admin_email: '{{ vault_certbot_admin_email }}'
+domain_name: '{{ vault_domain_name }}'
+
