@@ -14,7 +14,7 @@ for workflow in workflows/*; do
     regex="$(get_workflow_regex)"
     if  echo "$changes" | grep -q $regex; then
       echo "executing $workflow"
-      output=$(workflow)
+      output=$(workflow $changes)
       echo -e "Subject: workflow $( basename "$workflow") LOG\n\n $output" | sendmail root
     fi
   )
