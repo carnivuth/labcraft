@@ -3,23 +3,14 @@
 # - detects the modified compose files
 # - runs the playbook to update the docker host accordingly
 
- LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
+source "$(basedir "$0")/utils/run_pb.sh"
 
-function run_pb(){
-  pb=$1
-  shift
-  if [[ ! -f "ansible/playbooks/$pb.yml" ]]; then
-    echo "no $pb playbook found" | tee -a "$LOG_DIR/$pb.log"
-  else
-    source env/bin/activate
-    ansible-playbook -i ansible/inventory/inventory.proxmox.yml "ansible/playbooks/$pb.yml" "$@" | tee -a "$LOG_DIR/$1.log"
-  fi
-}
+LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
 function workflow(){
 
   for file in $0; do
-    (run_pb deploy_service -e app="$(dirname "$file")")
+     (cd ansible && run_pb deploy_service -e app="$(dirname "$file")")
   done
 
 }

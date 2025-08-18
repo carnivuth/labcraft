@@ -4,8 +4,8 @@ source env/bin/activate
 
 # install python modules and ansible content
 pip install -r requirements.txt
-ansible-galaxy collection install -r collections/requirements.yml
-ansible-galaxy role install -r roles/requirements.yml
+ansible-galaxy collection install -r ansible/collections/requirements.yml
+ansible-galaxy role install -r ansible/roles/requirements.yml
 
 for workflow in workflows/*; do
   if [[ "$workflow" != 'workflows/middleware.sh' ]];then
