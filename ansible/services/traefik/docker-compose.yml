@@ -7,7 +7,7 @@ services:
     image: traefik:v3.4
     # Enables the web UI and tells Traefik to listen to docker
     command:
-      - --api.insecure=true
+      - --api.dashboard=true
       - --providers.docker
       - --log.level=DEBUG
       - --accesslog=true
