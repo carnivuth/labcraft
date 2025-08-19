@@ -14,9 +14,9 @@ services:
       - "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.nextcloud-aio-mastercontainer.rule=Host(`nextcloud-aio-mastercontainer.local.carnivuth.org`)"
-      - "traefik.http.services.nextcloud-aio-mastercontainer.loadbalancer.server.port=8080"
+      - traefik.https.routers.traefik.entrypoints=https
+      - "traefik.https.routers.nextcloud-aio-mastercontainer.rule=Host(`nextcloud-aio-mastercontainer.local.carnivuth.org`)"
+      - "traefik.https.services.nextcloud-aio-mastercontainer.loadbalancer.server.port=8080"
       #- "traefik.http.routers.nextcloud-aio-apache.rule=Host(`nextcloud.local.carnivuth.org`)"
       #- "traefik.http.services.nextcloud-aio-apache.loadbalancer.server.port=80"
 
