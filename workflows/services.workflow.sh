@@ -3,7 +3,7 @@
 # - detects the modified compose files
 # - runs the playbook to update the docker host accordingly
 
-source "$(basedir "$0")/utils/run_pb.sh"
+source "$(dirname "$0")/utils/run_pb.sh"
 
 LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; fi
 
