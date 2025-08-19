@@ -37,23 +37,6 @@
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
 
-    - name: Proceed to service removal if file is not present
-      when: not service_file.stat.exists
-      block:
-
-        # check dir status on remote to avoid removing non existent services
-        - name: Get docker compose dir status
-          ansible.builtin.stat:
-            path: "/usr/local/{{ app }}"
-          register: compose_dir
-
-        - name: Destroy {{ app }}
-          when: compose_dir.stat.exists
-          community.docker.docker_compose_v2:
-            project_src: "/usr/local/{{ app }}"
-            state: absent
-          retries: 5
-          delay: 1
 
     - name: Proceed to service installation if file is present
       when: service_file.stat.exists
@@ -109,3 +92,41 @@
           register: result
           retries: 5
           delay: 1
+
+        - name: Create a CNAME pointing to public address when provisioning prod infrastructure
+          when: "'prod' in group_names"
+          community.general.cloudflare_dns:
+            zone: "{{ public_domain }}"
+            type: CNAME
+            value: "{{ app }}.{{ public_domain }}"
+            account_email: {{ vault_cloudflare_account_email }}
+            account_api_key: {{ vault_cloudflare_account_api_key }}
+            state: present
+
+    - name: Proceed to service removal if file is not present
+      when: not service_file.stat.exists
+      block:
+
+        # check dir status on remote to avoid removing non existent services
+        - name: Get docker compose dir status
+          ansible.builtin.stat:
+            path: "/usr/local/{{ app }}"
+          register: compose_dir
+
+        - name: Destroy {{ app }}
+          when: compose_dir.stat.exists
+          community.docker.docker_compose_v2:
+            project_src: "/usr/local/{{ app }}"
+            state: absent
+          retries: 5
+          delay: 1
+
+        - name: Remove the CNAME pointing to public address when provisioning prod infrastructure
+          when: "'prod' in group_names"
+          community.general.cloudflare_dns:
+            zone: "{{ public_domain }}"
+            type: CNAME
+            value: "{{ app }}.{{ public_domain }}"
+            account_email: {{ vault_cloudflare_account_email }}
+            account_api_key: {{ vault_cloudflare_account_api_key }}
+            state: absent
