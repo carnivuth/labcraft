@@ -18,6 +18,11 @@
       ansible.builtin.include_vars:
         file: "../services/{{ app }}/docker-compose.yml"
 
+    - name: Get Services volumes
+      when: service_file.stat.exists
+      ansible.builtin.set_fact:
+        volumes: "{{ services | dict2items | json_query('[*].value.volumes') | flatten}}"
+
   tasks:
     - name: Install dependencies for docker role
       ansible.builtin.apt:
@@ -69,19 +74,23 @@
           ansible.builtin.user:
             name: "{{ app }}"
 
+        - name: Debug
+          ansible.builtin.debug:
+            msg: "{{ services | dict2items | json_query('[*].value.volumes') | flatten}}"
+
         - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
           ansible.builtin.stat:
             path: "{{ item.split(':')[0] }}"
           register: volumes_stats
-          loop: "{{ services | dict2items | subelements('value.volumes') }}"
+          loop: "{{ volumes }}"
 
         - name: Create docker compose volume dirs
-          when: not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir
+          when: (not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir) and item is regex('^/.*')
           ansible.builtin.file:
             path: "{{ item.split(':')[0] }}"
             state: directory
             mode: "644"
-          loop: "{{ services | dict2items | subelements('value.volumes') }}"
+          loop: "{{ volumes }}"
           loop_control:
             index_var: index
 
