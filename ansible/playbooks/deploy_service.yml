@@ -73,7 +73,7 @@
           ansible.builtin.stat:
             path: "{{ item.split(':')[0] }}"
           register: volumes_stats
-          loop: "{{ services[app].volumes }}"
+          loop: "{{ services | dict2items | subelements('volumes') }}"
 
         - name: Create docker compose volume dirs
           when: not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir
@@ -81,7 +81,7 @@
             path: "{{ item.split(':')[0] }}"
             state: directory
             mode: "644"
-          loop: "{{ services[app].volumes }}"
+          loop: "{{ services | dict2items | subelements('volumes') }}"
           loop_control:
             index_var: index
 
