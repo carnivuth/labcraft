@@ -13,7 +13,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.nextcloud-aio-mastercontainer.rule=Host(`nextcloud-aio-mastercontainer.docker.localhost`)"
+      - "traefik.http.routers.nextcloud-aio-mastercontainer.rule=Host(`nextcloud-aio-mastercontainer.local.carnivuth.org`)"
       - "traefik.http.services.nextcloud-aio-mastercontainer.loadbalancer.server.port=8080"
-      - "traefik.http.routers.nextcloud-aio-apache.rule=Host(`nextcloud.docker.localhost`)"
-      - "traefik.http.services.nextcloud-aio-apache.loadbalancer.server.port=80"
+      #- "traefik.http.routers.nextcloud-aio-apache.rule=Host(`nextcloud.docker.localhost`)"
+      #- "traefik.http.services.nextcloud-aio-apache.loadbalancer.server.port=80"
