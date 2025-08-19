@@ -4,7 +4,7 @@ services:
     restart: always
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
     volumes:
-      - db:/var/lib/mysql
+      - nextcloud-database:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -17,7 +17,7 @@ services:
     networks:
       - services
     links:
-      - db
+      - nextcloud-database
     volumes:
       - nextcloud:/var/www/html
     environment:
@@ -33,7 +33,7 @@ services:
 
 volumes:
   nextcloud:
-  db:
+  nextcloud-database:
 
 networks:
   services:
