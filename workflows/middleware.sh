@@ -11,7 +11,7 @@ for workflow in $(find workflows -name '*.workflow.sh'); do
   (
     source "$workflow" && \
     regex="$(get_workflow_regex)"
-    if  echo "$changes" | grep -vq workflows | grep -q $regex; then
+    if  echo "$changes" | grep -v workflows | grep -q $regex; then
       echo "executing $workflow"
       output=$(workflow $changes)
       echo -e "Subject: workflow $( basename "$workflow") LOG\n\n $output" | sendmail root
