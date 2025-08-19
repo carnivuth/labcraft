@@ -9,6 +9,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/portainer:/data"
     labels:
+      - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.portainer.rule=Host(`portainer.docker.localhost`)"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.local.carnivuth.org`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
