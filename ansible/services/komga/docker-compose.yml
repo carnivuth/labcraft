@@ -13,6 +13,7 @@ services:
       - /var/lib/komga:/data
     labels:
       - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=websecure
       - "traefik.http.routers.komga.rule=Host(`komga.local.carnivuth.org`)"
       - "traefik.http.services.komga.loadbalancer.server.port=25600"
       - "traefik.http.routers.komga.entrypoints=websecure"
