@@ -11,7 +11,7 @@ services:
       - --providers.docker
       - --log.level=DEBUG
       - --accesslog=true
-      - --providers.docker.network=proxy
+      - --providers.docker.network=services
       - --providers.docker.exposedByDefault=false
       - --entrypoints.web.address=:80
     ports:
