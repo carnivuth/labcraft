@@ -18,9 +18,9 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
-      - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.navidrome.rule=Host(`traefik.local.carnivuth.org`)"
-      - "traefik.http.services.navidrome.loadbalancer.server.port=8080"
+      - traefik.enable=true
+      - traefik.http.routers.mydashboard.rule=Host(`traefik.local.carnivuth.org`)
+      - traefik.http.routers.mydashboard.service=api@internal
 networks:
   services:
     name: services
