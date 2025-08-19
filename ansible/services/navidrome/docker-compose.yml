@@ -13,6 +13,7 @@ services:
       - "/var/lib/navidrome/data:/data"
       - "/var/lib/navidrome/collection:/music:ro"
     labels:
+      - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.navidrome.rule=Host(`navidrome.local.carnivuth.org`)"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"

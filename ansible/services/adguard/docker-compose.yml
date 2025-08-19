@@ -13,6 +13,7 @@ services:
       - "/var/lib/adguard:/opt/adguardhome/work"
       - "/etc/adguard:/opt/adguardhome/conf"
     labels:
+      - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.adguard.rule=Host(`adguard.local.carnivuth.org`)"
       - "traefik.http.services.adguard.loadbalancer.server.port=80"

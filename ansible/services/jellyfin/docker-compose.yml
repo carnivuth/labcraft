@@ -12,6 +12,7 @@ services:
       - /var/lib/jellyfin/media:/media
       - /etc/jellyfin:/config
     labels:
+      - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.local.carnivuth.org`)"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
