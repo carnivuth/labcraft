@@ -3,6 +3,8 @@ services:
     image: mariadb:10.6
     restart: always
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    networks:
+      - nextcloud
     volumes:
       - nextcloud-database:/var/lib/mysql
     environment:
@@ -16,6 +18,7 @@ services:
     restart: always
     networks:
       - services
+      - nextcloud
     links:
       - nextcloud-database
     volumes:
@@ -39,3 +42,6 @@ networks:
   services:
     name: services
     external: true
+  nextcloud:
+    name: nextcloud
+    driver: bridge
