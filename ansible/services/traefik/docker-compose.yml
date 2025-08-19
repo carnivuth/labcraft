@@ -9,6 +9,11 @@ services:
     command:
       - --api.insecure=true
       - --providers.docker
+      - --log.level=DEBUG
+      - --accesslog=true
+      - --providers.docker.network=proxy
+      - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
     ports:
       # The HTTP port
       - "80:80"
