@@ -9,7 +9,7 @@ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; 
 
 function workflow(){
 
-  for file in $0; do
+  for file in $@; do
      (cd ansible && run_pb deploy_service -e app="$(dirname "$file")")
   done
 
