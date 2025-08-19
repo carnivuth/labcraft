@@ -1,6 +1,6 @@
 services:
   nextcloud-aio-mastercontainer:
-    container_name: nextcloud_aio_mastercontainer
+    container_name: nextcloud-aio-mastercontainer
     restart: unless-stopped
     image: nextcloud/all-in-one:latest
     networks:
