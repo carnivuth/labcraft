@@ -11,7 +11,7 @@ services:
       NEXTCLOUD_DATADIR: /var/lib/nextcloud
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "nextcloud-aio-mastercontainer:/mnt/docker-aio-config"
+      - "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
