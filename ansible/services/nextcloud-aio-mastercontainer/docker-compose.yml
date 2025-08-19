@@ -3,17 +3,26 @@ services:
     container_name: nextcloud_aio_mastercontainer
     restart: unless-stopped
     image: nextcloud/all-in-one:latest
+    networks:
+      - services
     environment:
       APACHE_PORT: 80
       APACHE_IP_BINDING: 0.0.0.0
       NEXTCLOUD_DATADIR: /var/lib/nextcloud
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/var/lib/nextcloud/nextcloud-aio-mastercontainer/:/mnt/docker-aio-config"
+      - "nextcloud-aio-mastercontainer:/mnt/docker-aio-config"
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.nextcloud-aio-mastercontainer.rule=Host(`nextcloud-aio-mastercontainer.local.carnivuth.org`)"
       - "traefik.http.services.nextcloud-aio-mastercontainer.loadbalancer.server.port=8080"
-      #- "traefik.http.routers.nextcloud-aio-apache.rule=Host(`nextcloud.docker.localhost`)"
-      #- "traefik.http.services.nextcloud-aio-apache.loadbalancer.server.port=80"
+      - "traefik.http.routers.nextcloud-aio-apache.rule=Host(`nextcloud.docker.localhost`)"
+      - "traefik.http.services.nextcloud-aio-apache.loadbalancer.server.port=80"
+
+volumes:
+  nextcloud_aio_mastercontainer:
+networks:
+  services:
+    name: services
+    external: true
