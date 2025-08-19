@@ -8,6 +8,6 @@ services:
       - NTFY="${NTFY}"
       - ACCOUNT="${ACCOUNT}"
     volumes:
-      - "/var/lib/github_sync:/var/lib/github_sync"
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
+      - /var/lib/github_sync:/var/lib/github_sync
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
