@@ -12,7 +12,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.portainer.rule=Host(`portainer.local.carnivuth.org`)"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.services.portainer.loadbalancer.server.port=8000"
 networks:
   services:
     name: services
