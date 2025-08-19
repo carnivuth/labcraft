@@ -7,7 +7,6 @@ services:
       - HEALTHCHECK="${HEALTHCHECK}"
       - NTFY="${NTFY}"
       - ACCOUNT="${ACCOUNT}"
+      - TZ=Europe/Rome
     volumes:
       - /var/lib/github_sync:/var/lib/github_sync
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
