@@ -14,10 +14,10 @@ services:
       - --providers.docker.network=services
       - --providers.docker.exposedByDefault=false
       - --entrypoints.web.address=:80
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entryPoints.web.http.redirections.entrypoint.scheme=https
+      #- --entrypoints.web.http.redirections.entrypoint.to=websecure
+      #- --entryPoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
-      - --entrypoints.websecure.asDefault=true
+      #- --entrypoints.websecure.asDefault=true
     ports:
       # The HTTP port
       - "80:80"
