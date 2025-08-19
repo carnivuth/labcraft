@@ -4,9 +4,19 @@ services:
     image: gotson/komga:latest
     restart: unless-stopped
     container_name: komga
-    ports:
-      -  8088:25600
+    environment:
+      - TZ=Europe/Rome
+    networks:
+      - services
     volumes:
       - /etc/komga:/config
       - /var/lib/komga:/data
-      - /etc/timezone:/etc/timezone:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.komga.rule=Host(`komga.local.carnivuth.org`)"
+      - "traefik.http.services.komga.loadbalancer.server.port=25600"
+networks:
+  services:
+    name: services
+    external: true
