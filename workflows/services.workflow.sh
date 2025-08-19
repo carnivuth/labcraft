@@ -10,6 +10,7 @@ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; 
 function workflow(){
 
   for file in $@; do
+    echo "execute deploy_service playbook with -e app=$(dirname "$file") parameter"
      (cd ansible && run_pb deploy_service -e app="$(dirname "$file")")
   done
 
