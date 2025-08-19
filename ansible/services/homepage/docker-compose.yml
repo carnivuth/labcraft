@@ -13,7 +13,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
-      - "traefik.http.routers.homepage.rule=Host(`jellyfin.local.carnivuth.org`)"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.local.carnivuth.org`)"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
 
 networks:
