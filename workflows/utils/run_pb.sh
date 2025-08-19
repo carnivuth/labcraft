@@ -9,6 +9,6 @@ function run_pb(){
   else
     if [[ $(git branch --show-current) == "develop" ]]; then test_limit="-l test"; fi
     source ../env/bin/activate
-    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$pb.yml" $test_limit $@ | tee -a "$LOG_DIR/$1.log"
+    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$pb.yml" $test_limit $@ | tee -a "$LOG_DIR/$pb.log"
   fi
 }
