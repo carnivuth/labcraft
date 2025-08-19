@@ -16,6 +16,11 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.local.carnivuth.org`)"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - homepage.group=Services
+      - homepage.name=Jellyfinn
+      - homepage.icon=jellyfin.svg
+      - homepage.href=http://jellyfin.local.carnivuth.org
+      - homepage.description=Video streaming
 networks:
   services:
     name: services

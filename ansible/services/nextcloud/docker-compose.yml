@@ -33,6 +33,11 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.local.carnivuth.org`)"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+      - homepage.group=Services
+      - homepage.name=Nextcloud
+      - homepage.icon=nextcloud.svg
+      - homepage.href=http://nextcloud.local.carnivuth.org
+      - homepage.description=Cloud storage
 
 volumes:
   nextcloud-database:

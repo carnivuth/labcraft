@@ -32,6 +32,11 @@ services:
       - traefik.enable=true
       - traefik.http.routers.mydashboard.rule=Host(`traefik.local.carnivuth.org`)
       - traefik.http.routers.mydashboard.service=api@internal
+      - homepage.group=Services
+      - homepage.name=Traefik
+      - homepage.icon=traefik.svg
+      - homepage.href=http://traefik.local.carnivuth.org
+      - homepage.description=Reverse proxy
 networks:
   services:
     name: services

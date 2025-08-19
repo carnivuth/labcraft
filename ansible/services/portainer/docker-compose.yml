@@ -13,6 +13,11 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.portainer.rule=Host(`portainer.local.carnivuth.org`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - homepage.group=Monitoring
+      - homepage.name=Portainer
+      - homepage.icon=portainer.svg
+      - homepage.href=http://portainer.local.carnivuth.org
+      - homepage.description=Docker monitor
 networks:
   services:
     name: services

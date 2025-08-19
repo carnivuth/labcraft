@@ -21,7 +21,7 @@ services:
       - homepage.name=Navidrome
       - homepage.icon=navidrome.svg
       - homepage.href=http://navidrome.local.carnivuth.org
-      - homepage.description=Music server
+      - homepage.description=Music streaming
 networks:
   services:
     name: services
