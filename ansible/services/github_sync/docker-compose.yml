@@ -1,8 +1,8 @@
 services:
   github_sync:
+    restart: unless-stopped
     container_name: github_sync
     image: "carnivuth/github_sync:latest"
-    restart: unless-stopped
     environment:
       - HEALTHCHECK="${HEALTHCHECK}"
       - NTFY="${NTFY}"
