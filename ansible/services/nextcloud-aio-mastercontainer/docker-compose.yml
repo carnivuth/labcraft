@@ -11,6 +11,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/var/lib/nextcloud/nextcloud-aio-mastercontainer/:/mnt/docker-aio-config"
     labels:
+      - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.nextcloud-aio-mastercontainer.rule=Host(`nextcloud-aio-mastercontainer.docker.localhost`)"
       - "traefik.http.services.nextcloud-aio-mastercontainer.loadbalancer.server.port=8080"
