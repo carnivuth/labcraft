@@ -3,6 +3,8 @@ services:
     container_name: portainer
     restart: unless-stopped
     image: portainer/portainer-ce:latest
+    networks:
+      - services
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/portainer:/data"
@@ -11,3 +13,7 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.portainer.rule=Host(`portainer.local.carnivuth.org`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+networks:
+  services:
+    name: services
+    external: true
