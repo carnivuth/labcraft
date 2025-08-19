@@ -17,6 +17,11 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.navidrome.rule=Host(`navidrome.local.carnivuth.org`)"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
+      - homepage.group=Services
+      - homepage.name=Navidrome
+      - homepage.icon=navidrome.svg
+      - homepage.href=http://navidrome.local.carnivuth.org
+      - homepage.description=Music server
 networks:
   services:
     name: services

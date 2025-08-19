@@ -1,0 +1,22 @@
+services:
+  homepage:
+    restart: unless-stopped
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    networks:
+      - services
+    volumes:
+      - /etc/homepage:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: gethomepage.dev # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.homepage.rule=Host(`jellyfin.local.carnivuth.org`)"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+
+networks:
+  services:
+    name: services
+    external: true
