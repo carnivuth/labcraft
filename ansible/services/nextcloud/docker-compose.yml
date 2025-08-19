@@ -22,7 +22,7 @@ services:
     links:
       - nextcloud-database
     volumes:
-      - nextcloud:/var/www/html
+      - /var/lib/nextcloud:/var/www/html
     environment:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=nextcloud
@@ -35,7 +35,6 @@ services:
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
 
 volumes:
-  nextcloud:
   nextcloud-database:
 
 networks:
