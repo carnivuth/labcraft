@@ -3,8 +3,6 @@ services:
     container_name: portainer
     restart: unless-stopped
     image: portainer/portainer-ce:latest
-    ports:
-      - 8086:9443
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/portainer:/data"
