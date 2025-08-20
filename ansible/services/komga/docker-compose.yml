@@ -18,6 +18,11 @@ services:
       - "traefik.http.services.komga.loadbalancer.server.port=25600"
       - "traefik.http.routers.komga.entrypoints=websecure"
       - "traefik.http.routers.komga.tls=true"
+      - homepage.group=Services
+      - homepage.name=Komga
+      - homepage.icon=komga.svg
+      - homepage.href=http://komga.local.carnivuth.org
+      - homepage.description=Comics and books library
 networks:
   services:
     name: services
