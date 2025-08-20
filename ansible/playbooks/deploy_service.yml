@@ -99,8 +99,8 @@
             zone: "{{ public_domain }}"
             type: CNAME
             value: "{{ app }}.{{ public_domain }}"
-            account_email: {{ vault_cloudflare_account_email }}
-            account_api_key: {{ vault_cloudflare_account_api_key }}
+            account_email: "{{ vault_cloudflare_account_email }}"
+            account_api_key: "{{ vault_cloudflare_account_api_key }}"
             state: present
 
     - name: Proceed to service removal if file is not present
@@ -127,6 +127,6 @@
             zone: "{{ public_domain }}"
             type: CNAME
             value: "{{ app }}.{{ public_domain }}"
-            account_email: {{ vault_cloudflare_account_email }}
-            account_api_key: {{ vault_cloudflare_account_api_key }}
+            account_email: "{{ vault_cloudflare_account_email }}"
+            account_api_key: "{{ vault_cloudflare_account_api_key }}"
             state: absent
