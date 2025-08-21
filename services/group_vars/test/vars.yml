@@ -1,0 +1,3 @@
+dns_record_type: A
+value: "{{ ansible_host }}"
+record: "{{ app }}.{{ ansible_hostname }}.{{ cloudflare_domain}}"

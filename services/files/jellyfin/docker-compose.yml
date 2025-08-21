@@ -1,0 +1,27 @@
+---
+services:
+  jellyfin:
+    restart: unless-stopped
+    image: jellyfin/jellyfin:latest
+    networks:
+      - services
+    ports:
+      - "8086:8096"
+    volumes:
+      - /var/lib/jellyfin/cache:/cache
+      - /var/lib/jellyfin/media:/media
+      - /etc/jellyfin:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.jellyfin.rule=Host(`${HOST}`)"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - homepage.group=Services
+      - homepage.name=Jellyfinn
+      - homepage.icon=jellyfin.svg
+      - homepage.href=http://${HOST}
+      - homepage.description=Video streaming
+networks:
+  services:
+    name: services
+    external: true
