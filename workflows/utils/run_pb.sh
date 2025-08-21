@@ -4,9 +4,9 @@
 function run_pb(){
   pb=$1
   shift
-  if [[ ! -f "$pb.yml" ]]; then
+  if [[ ! -f "$pb.playbook.yml" ]]; then
     echo "no $pb playbook found" | tee -a "$LOG_DIR/$pb.log"
   else
-    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$pb.yml" $@ | tee -a "$LOG_DIR/$pb.log"
+    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$pb.playbook.yml" $@ | tee -a "$LOG_DIR/$pb.playbook.log"
   fi
 }
