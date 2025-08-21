@@ -1,0 +1,4 @@
+# host based domain
+dns_record_type: CNAME
+value: "{{ cloudflare_domain }}"
+record: "{{ app }}.{{ cloudflare_domain }}"
