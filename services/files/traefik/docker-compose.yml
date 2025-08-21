@@ -20,8 +20,10 @@ services:
       #- --entryPoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
       #- --entrypoints.websecure.asDefault=true
-      - --entrypoints.websecure.http.tls.certresolver=cloudflare
+      - --entrypoints.websecure.http.tls.certresolver=myresolver
+      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=${CLOUDFLARE_ACCOUNT_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     ports:
       # The HTTP port

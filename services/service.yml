@@ -102,6 +102,14 @@
             state: present
 
         - name: Add hostname as a paramenter in docker environment
+          when: app is 'traefik'
+          ansible.builtin.lineinfile:
+            path: "/usr/local/{{ app }}/.env"
+            create: true
+            line: "CLOUDFLARE_ACCOUNT_EMAIL={{ cloudflare_account_email }}"
+            state: present
+
+        - name: Add hostname as a paramenter in docker environment
           ansible.builtin.lineinfile:
             path: "/usr/local/{{ app }}/.env"
             create: true
