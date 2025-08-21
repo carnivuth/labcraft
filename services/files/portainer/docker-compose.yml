@@ -1,0 +1,25 @@
+services:
+  portainer:
+    container_name: portainer
+    restart: unless-stopped
+    image: portainer/portainer-ce:latest
+    networks:
+      - services
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/portainer:/data"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.http.routers.portainer.rule=Host(`${HOST}`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.tls.certresolver=myresolver"
+      - homepage.group=Monitoring
+      - homepage.name=Portainer
+      - homepage.icon=portainer.svg
+      - homepage.href=http://${HOST}
+      - homepage.description=Docker monitor
+networks:
+  services:
+    name: services
+    external: true

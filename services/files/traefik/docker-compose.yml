@@ -1,0 +1,61 @@
+---
+services:
+  traefik:
+    networks:
+      - services
+    # The official v3 Traefik docker image
+    image: traefik:v3.4
+    # Enables the web UI and tells Traefik to listen to docker
+    environment:
+    - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+    command:
+      - --api.dashboard=true
+      - --providers.docker
+      - --log.level=DEBUG
+      - --accesslog=true
+      - --providers.docker.network=services
+      - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      #- --entrypoints.web.http.redirections.entrypoint.to=websecure
+      #- --entryPoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      #- --entrypoints.websecure.asDefault=true
+      - --entrypoints.websecure.http.tls.certresolver=myresolver
+      #- --traefik.http.routers.traefik.tls.certresolver=myresolver
+      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=${CLOUDFLARE_ACCOUNT_EMAIL}
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The HTTPS port
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik-letsencrypt:/letsencrypt
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mydashboard.rule=Host(`${HOST}`)
+      - traefik.http.routers.mydashboard.service=api@internal
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
+      - homepage.group=Services
+      - homepage.name=Traefik
+      - homepage.icon=traefik.svg
+      - homepage.href=http://${HOST}
+      - homepage.description=Reverse proxy
+
+networks:
+  services:
+    name: services
+    driver: bridge
+
+volumes:
+  traefik-letsencrypt:
+    name: traefik-letsencrypt

@@ -1,0 +1,31 @@
+---
+services:
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    networks:
+      - services
+    environment:
+      DOMAIN: "https://${HOST}"
+    volumes:
+      - /var/lib/vaultwarden:/data/
+    ports:
+      - 127.0.0.1:8000:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - "traefik.http.routers.vaultwarden.rule=Host(`${HOST}`)"
+      - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
+      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
+      - "traefik.http.routers.vaultwarden.tls=true"
+      - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
+      - homepage.group=Services
+      - homepage.name=Vaultwarden
+      - homepage.icon=vaultwarden.svg
+      - homepage.href=http://${HOST}
+      - homepage.description=Password vault
+networks:
+  services:
+    name: services
+    external: true

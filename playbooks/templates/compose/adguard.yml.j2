@@ -1,9 +1,0 @@
-services:
-  adguard:
-    container_name: adguard
-    image: adguard/adguardhome
-    ports: {{ app_ports }}
-    restart: unless-stopped
-    volumes:
-      - "{{ adguard_data_dir }}:/opt/adguardhome/work"
-      - "{{ adguard_conf_dir }}:/opt/adguardhome/conf"

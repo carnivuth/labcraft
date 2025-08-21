@@ -1,0 +1,79 @@
+---
+- name: Setup dns on dns hosts
+  hosts: dns
+  vars:
+
+    # dns pb
+    cloudflare_domain: '{{ vault_cloudflare_domain }}'
+    cloudflare_primary_dns: '{{ vault_cloudflare_primary_dns }}'
+    cloudflare_secondary_dns: '{{ vault_cloudflare_secondary_dns }}'
+
+    # set pve host in dns to resolve with pve hostnames
+    pve_host_address: '{{ vault_pve_host_address }}'
+
+    # hostnames that have to resolve in the pve_host_address
+    pve_host_names:
+      - pve
+      - torterra
+
+  pre_tasks:
+
+    - name: Get dns ip to populate dnsmasq listen address parameter
+      ansible.builtin.set_fact:
+        dns_ip: '{{ address | regex_replace("(.*)/.*", "\1") }}'
+
+
+  tasks:
+
+    - name: Copy dnsmasq configuration
+      ansible.builtin.template:
+        src: dns/dnsmasq.conf.j2
+        dest: /etc/dnsmasq.conf
+        mode: '644'
+      notify: Restart dnsmasq
+
+    - name: Copy /etc/resolv.conf
+      ansible.builtin.template:
+        src: dns/dns.resolv.conf.j2
+        dest: /etc/resolv.conf
+        mode: '644'
+      notify: Restart dnsmasq
+
+    - name: Copy /etc/hosts
+      ansible.builtin.template:
+        src: dns/dns.hosts.j2
+        dest: /etc/hosts
+        mode: '644'
+      notify: Restart dnsmasq
+
+    - name: Install dnsmasq
+      ansible.builtin.apt:
+        name: dnsmasq
+        state: present
+        update_cache: true
+      notify: Restart dnsmasq
+
+  handlers:
+    - name: Restart dnsmasq
+      ansible.builtin.service:
+        name: dnsmasq
+        state: restarted
+        enabled: true
+
+- name: Set nameserver in all other nodes
+  hosts: all:!dns
+  pre_tasks:
+
+    - name: Get primary dns ip from group configuration
+      ansible.builtin.set_fact:
+        primary_dns_ip: '{{ group_vars["primary_dns"][0].address | regex_replace("(.*)/.*", "\1") }}'
+
+    - name: Get secondary dns ip from group configuration
+      ansible.builtin.set_fact:
+        secondary_dns_ip: '{{ group_vars["secondary_dns"][0].address | regex_replace("(.*)/.*", "\1") }}'
+  tasks:
+    - name: Setup clients dns server
+      ansible.builtin.template:
+        src: dns/clients.resolv.conf.j2
+        dest: /etc/resolv.conf
+        mode: '644'

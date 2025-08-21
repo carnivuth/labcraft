@@ -1,4 +1,0 @@
----
-- name: Import common playbook
-  ansible.builtin.import_playbook: ../../playbooks/pwmanager.yml
-

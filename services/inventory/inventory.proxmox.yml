@@ -1,0 +1,17 @@
+plugin: community.general.proxmox
+url: '{{ (lookup("ansible.builtin.unvault", "group_vars/all/vault.yml") | from_yaml).vault_proxmox_url }}'
+user: '{{ (lookup("ansible.builtin.unvault", "group_vars/all/vault.yml") | from_yaml).vault_proxmox_user }}'
+token_id: '{{ (lookup("ansible.builtin.unvault", "group_vars/all/vault.yml") | from_yaml).vault_proxmox_token_id }}'
+token_secret: '{{ (lookup("ansible.builtin.unvault", "group_vars/all/vault.yml") | from_yaml).vault_proxmox_token_secret }}'
+want_facts: true
+validate_certs: false
+want_proxmox_nodes_ansible_host: true
+compose:
+  ansible_host: proxmox_net0.ip | default(proxmox_agent_interfaces[1].ip_addresses[0]) | ansible.utils.ipaddr('address')
+  ansible_port: 22
+  ansible_user: "'root'"
+  address: "proxmox_net0.ip | default(proxmox_ipconfig0.ip)"
+groups:
+  service_manager: "'service_manager' in (proxmox_tags_parsed|list)"
+  test: "'test' in (proxmox_tags_parsed|list)"
+  prod: "'prod' in (proxmox_tags_parsed|list)"
