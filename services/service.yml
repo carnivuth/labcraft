@@ -102,7 +102,7 @@
             state: present
 
         - name: Add hostname as a paramenter in docker environment
-          when: app is 'traefik'
+          when: app == "traefik"
           ansible.builtin.lineinfile:
             path: "/usr/local/{{ app }}/.env"
             create: true
