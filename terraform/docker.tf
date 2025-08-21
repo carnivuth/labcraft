@@ -2,9 +2,9 @@ resource "proxmox_vm_qemu" "docker" {
   name        = "docker"
   tags        = "service_manager;test"
   pool        = "test"
-  cores       = 2
+  cores       = 4
   sockets     = 1
-  memory      = 2048
+  memory      = 4096
   target_node = var.proxmox_host
   clone       = "debian-13-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.202/24"
