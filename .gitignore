@@ -21,8 +21,6 @@ tests
 # ansible local configs
 ansible.cfg
 
-# all prod files
-*prod*
 
 # tmp file for terraform plans
 plan
