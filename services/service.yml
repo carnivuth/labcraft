@@ -135,7 +135,7 @@
           retries: 5
           delay: 1
 
-        - name: Create a DNS record for the {{ app }}
+        - name: Remove a DNS record for the {{ app }}
           community.general.cloudflare_dns:
             zone: "{{ cloudflare_domain }}"
             type: "{{ dns_record_type }}"
