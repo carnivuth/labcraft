@@ -1,0 +1,14 @@
+vault_proxmox_user
+vault_proxmox_token_id
+vault_proxmox_token_secret
+vault_wireguard_pub_key
+vault_admin_email
+vault_pbs_password
+vault_cloudflare_domain
+vault_cloudflare_primary_dns
+vault_cloudflare_secondary_dns
+vault_pve_host_address
+vault_proxmox_url
+vault_proxmox_user
+vault_proxmox_token_id
+vault_proxmox_token_secret

@@ -125,7 +125,7 @@
           retries: 5
           delay: 1
 
-    - name: Proceed to service removal if file is not present
+    - name: Proceed to service removal if file is not present in the repo
       when: not service_file.stat.exists
       block:
 
