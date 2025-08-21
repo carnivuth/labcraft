@@ -41,32 +41,36 @@ cd terraform && terraform init && terraform plan -o /tmp/plan && terraform apply
 
 ### Handle secrets
 
-Sensitive informations are stored inside an encrypted vault file generated with `ansible-vault`, in order to create it do the following:
+Sensitive variables are stored inside encrypted vault files managed with `ansible-vault`, in order to create it do the following:
 
-- create a  sample with the following command:
+- create a sample with the following command:
 
 ```bash
-grep -e 'vault_[a-z_]*' playbooks/group_vars/all/vars.yml inventory/inventory.proxmox.yml  -ho > sample.yml
+grep -ho -e 'vault_[a-z_]*' $(find infrastructure/ -name '*.yml' | grep -v vault.yml) > infrastructure/vault.yml
+grep -ho -e 'vault_[a-z_]*' $(find services/ -name '*.yml' | grep -v vault.yml) > services/vault.yml
 ```
 
 - create a file to store the vault password
 
 ```bash
-pwgen -N 1 64 > passfile && chmod 600 passfile
+pwgen -N 1 64 > services/passfile && chmod 600 services/passfile
+pwgen -N 1 64 > infrastructure/passfile && chmod 600 infrastructure/passfile
 ```
 
 - set vault pass file in `ansible.cfg`
 
 ```bash
-[defaults]
-host_key_checking = False
-vault_password_file=/usr/local/labcraft/passfile
+echo -e '[defaults]\n host_key_checking = False \n vault_password_file=/usr/local/labcraft/services/passfile' > services/ansible.cfg
+echo -e '[defaults]\n host_key_checking = False \n vault_password_file=/usr/local/labcraft/infrastructure/passfile' > infrastructure/ansible.cfg
 ```
 
 - add variables and encrypt the file with ansible vault
 
 ```bash
-ansible-vault encrypt sample.yml
+cd /usr/local/labcraft/services
+ansible-vault encrypt vault.yml
+cd /usr/local/labcraft/infrastructure
+ansible-vault encrypt vault.yml
 ```
 
 - move the file to the `group_vars` folder
