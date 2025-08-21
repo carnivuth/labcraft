@@ -22,7 +22,7 @@ function workflow(){
   fi
 
   # reconfigure dns
-   ( cd infrastructure/; run_pb dns; run_pb common; run_pb postfix)
+   ( cd infrastructure; run_pb dns; run_pb common; run_pb postfix)
 }
 
 function get_workflow_regex(){
