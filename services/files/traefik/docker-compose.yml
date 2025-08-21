@@ -21,10 +21,13 @@ services:
       - --entrypoints.websecure.address=:443
       #- --entrypoints.websecure.asDefault=true
       - --entrypoints.websecure.http.tls.certresolver=myresolver
+       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.myresolver.acme.tlschallenge=true
       - --certificatesresolvers.myresolver.acme.email=${CLOUDFLARE_ACCOUNT_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+
     ports:
       # The HTTP port
       - "80:80"

@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.portainer.rule=Host(`${HOST}`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.tls.certresolver=myresolver"
       - homepage.group=Monitoring
       - homepage.name=Portainer
       - homepage.icon=portainer.svg

@@ -16,6 +16,7 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.jellyfin.rule=Host(`${HOST}`)"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - "traefik.http.routers.jellyfin.tls.certresolver=myresolver"
       - homepage.group=Services
       - homepage.name=Jellyfinn
       - homepage.icon=jellyfin.svg

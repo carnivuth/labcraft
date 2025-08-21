@@ -16,6 +16,7 @@ services:
       - traefik.http.routers.traefik.entrypoints=http
       - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
+      - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
       - homepage.group=Services
       - homepage.name=Navidrome
       - homepage.icon=navidrome.svg
