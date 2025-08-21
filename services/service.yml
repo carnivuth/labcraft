@@ -5,7 +5,7 @@
 
     # cloudflare login parameters
     cloudflare_account_email: "{{ vault_cloudflare_account_email }}"
-    cloudflare_account_api_key: "{{ vault_cloudflare_account_api_key }}"
+    cloudflare_api_token: "{{ vault_cloudflare_api_token }}"
     cloudflare_domain: '{{ vault_cloudflare_domain }}'
 
   pre_tasks:
@@ -17,13 +17,13 @@
     - name: get app docker compose file status
       delegate_to: localhost
       ansible.builtin.stat:
-        path: "{{ app }}/docker-compose.yml"
+        path: "files/{{ app }}/docker-compose.yml"
       register: service_file
 
     - name: Include compose file
       when: service_file.stat.exists
       ansible.builtin.include_vars:
-        file: "{{ app }}/docker-compose.yml"
+        file: "files/{{ app }}/docker-compose.yml"
 
     - name: Get Services volumes
       when: service_file.stat.exists
@@ -98,15 +98,14 @@
             type: "{{ dns_record_type }}"
             record: "{{ record }}"
             value: "{{ value }}"
-            account_email: "{{ cloudflare_account_email }}"
-            account_api_key: "{{ cloudflare_account_api_key }}"
+            api_token: "{{ cloudflare_api_token }}"
             state: present
 
         - name: Add hostname as a paramenter in docker environment
           ansible.builtin.lineinfile:
             path: "/usr/local/{{ app }}/.env"
             create: true
-            line: HOST={{ record }}
+            line: "HOST={{ record }}"
             state: present
 
         - name: Start {{ app }}
@@ -142,6 +141,5 @@
             type: "{{ dns_record_type }}"
             record: "{{ record }}"
             value: "{{ value }}"
-            account_email: "{{ cloudflare_account_email }}"
-            account_api_key: "{{ cloudflare_account_api_key }}"
+            api_token: "{{ cloudflare_api_token }}"
             state: absent
