@@ -7,8 +7,6 @@ function run_pb(){
   if [[ ! -f "playbooks/$pb.yml" ]]; then
     echo "no $pb playbook found" | tee -a "$LOG_DIR/$pb.log"
   else
-    if [[ $(git branch --show-current) == "develop" ]]; then test_limit="-l test"; fi
-    source ../env/bin/activate
-    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$pb.yml" $test_limit $@ | tee -a "$LOG_DIR/$pb.log"
+    ansible-playbook -i inventory/inventory.proxmox.yml "playbooks/$pb.yml" $@ | tee -a "$LOG_DIR/$pb.log"
   fi
 }

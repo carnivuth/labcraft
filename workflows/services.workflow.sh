@@ -10,8 +10,18 @@ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; 
 function workflow(){
 
   for file in $@; do
-    echo "execute deploy_service playbook with -e app=$(basename "$(dirname "$file")") parameter"
-     (cd ansible && run_pb deploy_service -e app="$(basename "$(dirname "$file")")")
+    case "$file" in
+      *docker-compose.yml )
+        echo "execute deploy_service playbook with -e app=$(basename "$(dirname "$file")") parameter"
+        (cd services && run_pb deploy_service -e app="$(basename "$(dirname "$file")")")
+        ;;
+      playbooks|inventory|group_vars )
+        for df in $(find services -name 'docker-compose.yml'); do
+          echo "execute deploy_service playbook with -e app=$(basename "$(dirname "$file")") parameter"
+          (cd services && run_pb deploy_service -e app="$(basename "$(dirname "$file")")")
+        done
+        ;;
+    esac
   done
 
 }

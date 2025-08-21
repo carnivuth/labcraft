@@ -14,7 +14,7 @@ function workflow(){
   # run terraform only in the main branch
   if [[ $(git branch --show-current) == "main" ]]; then
     (
-      cd terraform
+      cd infrastructure/IaC
       timestamp="$(date +%s)"
       terraform plan -out "$LOG_DIR/terraform.$timestamp.plan.log" | tee -a "$LOG_DIR/terraform.log" && \
       terraform apply -auto-approve "$LOG_DIR/terraform.$timestamp.plan.log" | tee -a "$LOG_DIR/terraform.log"
@@ -22,9 +22,9 @@ function workflow(){
   fi
 
   # reconfigure dns
-   ( cd ansible; run_pb dns; run_pb common; run_pb postfix)
+   ( cd infrastructure/; run_pb dns; run_pb common; run_pb postfix)
 }
 
 function get_workflow_regex(){
-  echo "terraform"
+  echo "infrastructure"
 }
