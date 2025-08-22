@@ -31,7 +31,7 @@ resource "proxmox_lxc" "espeon" {
 resource "proxmox_lxc" "umbreon" {
   target_node     = var.proxmox_host
   hostname        = "umbreon"
-  tags            = "prod;dns;secondary_dns"
+  tags            = "dns;secondary_dns"
   pool            = "prod"
   ostemplate      = var.debian_12_ct_template
   password        = var.guest_password
