@@ -62,15 +62,18 @@
 
 - name: Set nameserver in all other nodes
   hosts: all:!dns
+  vars:
+    # dns pb
+    cloudflare_domain: '{{ vault_cloudflare_domain }}'
   pre_tasks:
 
     - name: Get primary dns ip from group configuration
       ansible.builtin.set_fact:
-        primary_dns_ip: '{{ host_vars[groups["primary_dns"][0]].address | regex_replace("(.*)/.*", "\1") }}'
+        primary_dns_ip: '{{ hostvars[groups["primary_dns"][0]].address | regex_replace("(.*)/.*", "\1") }}'
 
     - name: Get secondary dns ip from group configuration
       ansible.builtin.set_fact:
-        secondary_dns_ip: '{{ host_vars[groups["secondary_dns"][0]].address | regex_replace("(.*)/.*", "\1") }}'
+        secondary_dns_ip: '{{ hostvars[groups["secondary_dns"][0]].address | regex_replace("(.*)/.*", "\1") }}'
   tasks:
     - name: Setup clients dns server
       ansible.builtin.template:
