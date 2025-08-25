@@ -16,7 +16,7 @@ services:
       - ND_LASTFM_SECRET="${ND_LASTFM_SECRET}"
       - ND_PASSWORDENCRYPTIONKEY="${ND_PASSWORDENCRYPTIONKEY}"
       - ND_BACKUP_PATH=/backup
-      - ND_BACKUP_SCHEDULE="*/5 0 * * *"
+      - ND_BACKUP_SCHEDULE=*/5 0 * * *
       - ND_BACKUP_COUNT=7
 
     ports:
