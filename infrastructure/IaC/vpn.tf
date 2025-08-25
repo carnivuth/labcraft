@@ -14,7 +14,7 @@ resource "proxmox_lxc" "arcanine" {
 
   rootfs {
     storage = var.main_pool
-    size    = "20G"
+    size    = "8G"
   }
 
   features {
