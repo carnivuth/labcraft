@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.http.routers.vaultwarden.tls=true"
       - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
-      - homepage.group=Services
+      - homepage.group=Password vault
       - homepage.name=Vaultwarden
       - homepage.icon=vaultwarden.svg
       - homepage.href=http://${HOST}
