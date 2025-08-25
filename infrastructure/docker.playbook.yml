@@ -1,6 +1,6 @@
 ---
 - name: Install docker applications
-  hosts: service_manager
+  hosts: docker
   tasks:
     - name: Install dependencies for docker role
       ansible.builtin.apt:

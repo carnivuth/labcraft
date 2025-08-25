@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "wailord" {
   name        = "wailord"
-  tags        = "service_manager;test"
+  tags        = "docker;service_manager;test"
   pool        = "prod"
   cores       = 8
   sockets     = 1
@@ -38,7 +38,7 @@ resource "proxmox_vm_qemu" "wailord" {
 
 resource "proxmox_vm_qemu" "avalug" {
   name        = "avalug"
-  tags        = "service_manager;prod"
+  tags        = "docker;service_manager;prod"
   pool        = "test"
   cores       = 4
   sockets     = 1
