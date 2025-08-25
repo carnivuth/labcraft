@@ -42,7 +42,7 @@ resource "proxmox_vm_qemu" "avalug" {
   pool        = "test"
   cores       = 4
   sockets     = 1
-  memory      = 4096
+  memory      = 8192
   target_node = var.proxmox_host
   clone       = "debian-13-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.202/24"
