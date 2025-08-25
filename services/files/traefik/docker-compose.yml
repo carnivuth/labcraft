@@ -43,7 +43,6 @@ services:
       - traefik.http.routers.mydashboard.rule=Host(`${HOST}`)
       - traefik.http.routers.mydashboard.entrypoint=websecure
       - traefik.http.routers.mydashboard.service=api@internal
-      - "traefik.http.services.mydashboard.loadbalancer.server.port=8080"
       - traefik.http.routers.traefik.tls.certresolver=myresolver
       - homepage.group=Monitoring and access control
       - homepage.name=Traefik
