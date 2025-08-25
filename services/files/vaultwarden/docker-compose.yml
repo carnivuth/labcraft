@@ -7,7 +7,8 @@ services:
     networks:
       - services
     environment:
-      DOMAIN: "https://${HOST}"
+      - DOMAIN= "https://${HOST}"
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
     volumes:
       - /var/lib/vaultwarden:/data/
     ports:
@@ -22,7 +23,7 @@ services:
       - "homepage.group=Password vault"
       - "homepage.name=Vaultwarden"
       - "homepage.icon=vaultwarden.svg"
-      - "homepage.href=http://${HOST}"
+      - "homepage.href=https://${HOST}"
       - "homepage.description=Password vault"
 networks:
   services:
