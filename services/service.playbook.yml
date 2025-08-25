@@ -57,10 +57,6 @@
           ansible.builtin.user:
             name: "{{ app }}"
 
-        - name: Debug
-          ansible.builtin.debug:
-            msg: "{{ services | dict2items | json_query('[*].value.volumes') | flatten }}"
-
         - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
           ansible.builtin.stat:
             path: "{{ item.split(':')[0] }}"
@@ -72,7 +68,7 @@
           ansible.builtin.file:
             path: "{{ item.split(':')[0] }}"
             state: directory
-            mode: "644"
+            mode: "755"
           loop: "{{ volumes }}"
           loop_control:
             index_var: index
