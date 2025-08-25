@@ -5,6 +5,20 @@ services:
     image: deluan/navidrome:latest
     networks:
       - services
+    environment:
+      - ND_SCANSCHEDULE=1h
+      - ND_LOGLEVEL=info
+      - ND_SESSIONTIMEOUT=24h
+      - ND_ENABLESHARING=true
+      - ND_BASEURL="${HOST}"
+      - ND_LASTFM_ENABLED=true
+      - ND_LASTFM_APIKEY="${ND_LASTFM_APIKEY}"
+      - ND_LASTFM_SECRET="${ND_LASTFM_SECRET}"
+      - ND_PASSWORDENCRYPTIONKEY="${ND_PASSWORDENCRYPTIONKEY}"
+      - ND_BACKUP_PATH=/backup
+      - ND_BACKUP_SCHEDULE="*/5 0 * * *"
+      - ND_BACKUP_COUNT=7
+
     ports:
       - 8085:4533
     volumes:
