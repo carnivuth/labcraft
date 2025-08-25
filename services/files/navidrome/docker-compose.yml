@@ -10,7 +10,6 @@ services:
       - ND_LOGLEVEL=info
       - ND_SESSIONTIMEOUT=24h
       - ND_ENABLESHARING=true
-      - ND_BASEURL="${HOST}"
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY="${ND_LASTFM_APIKEY}"
       - ND_LASTFM_SECRET="${ND_LASTFM_SECRET}"
