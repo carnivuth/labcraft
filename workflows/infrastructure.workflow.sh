@@ -11,6 +11,7 @@ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; 
 
 function workflow(){
 
+  changes="$1"
   # run terraform only in the main branch
   if [[ $(git branch --show-current) == "main" ]]; then
     (
@@ -21,8 +22,12 @@ function workflow(){
     )
   fi
 
-  # reconfigure dns
+  # reconfigure dns after terraform runs and apply common configurations to hosts an postfix setup
    ( cd infrastructure; run_pb dns; run_pb common; run_pb postfix)
+
+   # install docker engine when a new service provider is created
+   grep -q "service_provider" "$changes" && (cd infrastructure; run_pb docker )
+
 }
 
 function get_workflow_regex(){

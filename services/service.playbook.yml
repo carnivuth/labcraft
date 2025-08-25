@@ -31,19 +31,6 @@
         volumes: "{{ services | dict2items | json_query('[*].value.volumes') | flatten }}"
 
   tasks:
-    - name: Install dependencies for docker role
-      ansible.builtin.apt:
-        name: gnupg
-        state: present
-
-    - name: Install docker
-      ansible.builtin.include_role:
-        name: geerlingguy.docker
-      vars:
-        docker_install_compose_plugin: false
-        docker_compose_package: docker-compose-plugin
-        docker_compose_package_state: present
-
 
     - name: Proceed to service installation if file is present
       when: service_file.stat.exists

@@ -1,0 +1,16 @@
+---
+- name: Install docker applications
+  hosts: service_manager
+  tasks:
+    - name: Install dependencies for docker role
+      ansible.builtin.apt:
+        name: gnupg
+        state: present
+
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+      vars:
+        docker_install_compose_plugin: false
+        docker_compose_package: docker-compose-plugin
+        docker_compose_package_state: present
