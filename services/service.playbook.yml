@@ -20,6 +20,12 @@
         path: "files/{{ app }}/docker-compose.yml"
       register: service_file
 
+    - name: get config dir of the docker services status
+      delegate_to: localhost
+      ansible.builtin.stat:
+        path: "files/{{ app }}/etc"
+      register: config_dir
+
     - name: Include compose file
       when: service_file.stat.exists
       ansible.builtin.include_vars:
@@ -102,6 +108,13 @@
             create: true
             line: "HOST={{ record }}"
             state: present
+
+        - name: Copy config folder if present
+          when: config_dir.stat.exists
+          ansible.builtin.copy:
+            src: "/files/{{ app }}/etc"
+            dest: "/etc/{{ app }}"
+            mode: "755"
 
         - name: Start {{ app }}
           community.docker.docker_compose_v2:
