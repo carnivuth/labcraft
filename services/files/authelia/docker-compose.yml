@@ -5,6 +5,14 @@ services:
     image: authelia/authelia:4.39
     networks:
       - services
+    environment:
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE='/secrets/JWT_SECRET'
+      - AUTHELIA_SESSION_SECRET_FILE='/secrets/SESSION_SECRET'
+      - AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE='/secrets/STORAGE_PASSWORD'
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE='/secrets/STORAGE_ENCRYPTION_KEY'
+    volumes:
+      - '/etc/authelia/config:/config'
+      - '/etc/authelia/secrets:/secrets'
     labels:
       # The login page and user dashboard need to be reachable from the web
       - "traefik.http.routers.authelia.rule=Host(`${HOST}`)"
