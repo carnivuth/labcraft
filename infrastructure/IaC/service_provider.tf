@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "wailord" {
   name        = "wailord"
-  tags        = "service_manager"
+  tags        = "service_manager;test"
   pool        = "prod"
   cores       = 8
   sockets     = 1

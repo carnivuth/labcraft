@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "avalug" {
   name        = "avalug"
-  tags        = "service_manager;test"
+  tags        = "service_manager;prod"
   pool        = "test"
   cores       = 4
   sockets     = 1
