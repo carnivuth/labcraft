@@ -9,16 +9,16 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/portainer:/data"
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.routers.portainer.rule=Host(`${HOST}`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
-      - homepage.group=Monitoring and access control
-      - homepage.name=Portainer
-      - homepage.icon=portainer.svg
-      - homepage.href=http://${HOST}
-      - homepage.description=Docker monitor
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Portainer"
+      - "homepage.icon=portainer.svg"
+      - "homepage.href=http://${HOST}"
+      - "homepage.description=Docker monitor"
 networks:
   services:
     name: services

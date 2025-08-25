@@ -11,18 +11,17 @@ services:
       - KC_BOOTSTRAP_ADMIN_USERNAME=${KC_BOOTSTRAP_ADMIN_USERNAME}
       - KC_BOOTSTRAP_ADMIN_PASSWORD=${KC_BOOTSTRAP_ADMIN_PASSWORD}
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.keycloak.rule=Host(`${HOST}`)
-      - traefik.http.services.keycloak.loadbalancer.server.port=8080
-      - traefik.http.routers.keycloak.entrypoints=websecure
-      - traefik.http.routers.keycloak.tls=true
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`${HOST}`)"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.routers.keycloak.tls=true"
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
-      - homepage.group=Monitoring and access control
-      - homepage.name=Keycloak
-      - homepage.icon=keycloak.svg
-      - homepage.href=https://${HOST}
-      - homepage.description=Idp service
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Keycloak"
+      - "homepage.icon=keycloak.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Idp service"
 
 networks:
   services:

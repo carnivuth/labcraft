@@ -12,16 +12,16 @@ services:
       - "/var/lib/navidrome/data:/data"
       - "/var/lib/navidrome/collection:/music:ro"
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=http
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
       - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
-      - homepage.group=Media streaming
-      - homepage.name=Navidrome
-      - homepage.icon=navidrome.svg
-      - homepage.href=http://${HOST}
-      - homepage.description=Music streaming
+      - "homepage.group=Media streaming"
+      - "homepage.name=Navidrome"
+      - "homepage.icon=navidrome.svg"
+      - "homepage.href=http://${HOST}"
+      - "homepage.description=Music streaming"
 networks:
   services:
     name: services

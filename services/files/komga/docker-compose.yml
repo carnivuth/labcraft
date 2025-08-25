@@ -12,18 +12,17 @@ services:
       - /etc/komga:/config
       - /var/lib/komga:/data
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=websecure
+      - "traefik.enable=true"
       - "traefik.http.routers.komga.rule=Host(`${HOST}`)"
       - "traefik.http.services.komga.loadbalancer.server.port=25600"
       - "traefik.http.routers.komga.entrypoints=websecure"
       - "traefik.http.routers.komga.tls=true"
       - "traefik.http.routers.komga.tls.certresolver=myresolver"
-      - homepage.group=Media streaming
-      - homepage.name=Komga
-      - homepage.icon=komga.svg
-      - homepage.href=http://${HOST}
-      - homepage.description=Comics and books library
+      - "homepage.group=Media streaming"
+      - "homepage.name=Komga"
+      - "homepage.icon=komga.svg"
+      - "homepage.href=http://${HOST}"
+      - "homepage.description=Comics and books library"
 networks:
   services:
     name: services

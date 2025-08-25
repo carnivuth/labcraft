@@ -29,17 +29,17 @@ services:
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=nextcloud-database
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.nextcloud.rule=Host(`${HOST}`)
-      - traefik.http.services.nextcloud.loadbalancer.server.port=80
-      - traefik.http.routers.nextcloud.tls.certresolver=myresolver
-      - traefik.http.routers.komga.tls=true
-      - homepage.group=Personal cloud
-      - homepage.name=Nextcloud
-      - homepage.icon=nextcloud.svg
-      - homepage.href=http://${HOST}
-      - homepage.description=Cloud storage
+      - "traefik.enable=true"
+      - "traefik.http.routers.nextcloud.entrypoints=websecure"
+      - "traefik.http.routers.nextcloud.rule=Host(`${HOST}`)"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+      - "traefik.http.routers.nextcloud.tls.certresolver=myresolver"
+      - "traefik.http.routers.komga.tls=true"
+      - "homepage.group=Personal cloud"
+      - "homepage.name=Nextcloud"
+      - "homepage.icon=nextcloud.svg"
+      - "homepage.href=http://${HOST}"
+      - "homepage.description=Cloud storage"
 
 volumes:
   nextcloud-database:
