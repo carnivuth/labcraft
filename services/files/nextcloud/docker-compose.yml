@@ -12,6 +12,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+      - TZ=Europe/Rome
 
   nextcloud:
     image: nextcloud
@@ -34,7 +35,11 @@ services:
       - "traefik.http.routers.nextcloud.rule=Host(`${HOST}`)"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
       - "traefik.http.routers.nextcloud.tls.certresolver=myresolver"
-      - "traefik.http.routers.komga.tls=true"
+      - "traefik.http.routers.nextcloud.tls=true"
+      - "traefik.http.routers.nextcloud.middlewares=nextcloud-redirect@docker"
+      - "traefik.http.middlewares.nextcloud-redirect.redirectregex.permanent=true"
+      - "traefik.http.middlewares.nextcloud-redirect.redirectregex.regex=https://(.*)/.well-known/(?:card|cal)dav"
+      - "traefik.http.middlewares.nextcloud-redirect.redirectregex.replacement=https://$${1}/remote.php/dav"
       - "homepage.group=Personal cloud"
       - "homepage.name=Nextcloud"
       - "homepage.icon=nextcloud.svg"
