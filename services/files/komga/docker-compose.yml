@@ -1,7 +1,7 @@
 ---
 services:
   komga:
-    image: gotson/komga:latest
+    image: gotson/komga:1.23.1
     restart: unless-stopped
     container_name: komga
     environment:
