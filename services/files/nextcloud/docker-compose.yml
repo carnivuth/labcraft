@@ -44,7 +44,7 @@ services:
       - "homepage.group=Personal cloud"
       - "homepage.name=Nextcloud"
       - "homepage.icon=nextcloud.svg"
-      - "homepage.href=http://${HOST}"
+      - "homepage.href=https://${HOST}"
       - "homepage.description=Cloud storage"
 
 volumes:

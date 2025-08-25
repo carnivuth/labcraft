@@ -43,7 +43,7 @@ services:
       - "homepage.group=Media streaming"
       - "homepage.name=Navidrome"
       - "homepage.icon=navidrome.svg"
-      - "homepage.href=http://${HOST}"
+      - "homepage.href=https://${HOST}"
       - "homepage.description=Music streaming"
 networks:
   services:

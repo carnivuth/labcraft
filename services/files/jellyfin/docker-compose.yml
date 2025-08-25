@@ -20,7 +20,7 @@ services:
       - "homepage.group=Media streaming"
       - "homepage.name=Jellyfinn"
       - "homepage.icon=jellyfin.svg"
-      - "homepage.href=http://${HOST}"
+      - "homepage.href=https://${HOST}"
       - "homepage.description=Video streaming"
 networks:
   services:

@@ -21,7 +21,7 @@ services:
       - "homepage.group=Media streaming"
       - "homepage.name=Komga"
       - "homepage.icon=komga.svg"
-      - "homepage.href=http://${HOST}"
+      - "homepage.href=https://${HOST}"
       - "homepage.description=Comics and books library"
 networks:
   services:
