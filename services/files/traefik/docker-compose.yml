@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.mydashboard.rule=Host(`${HOST}`)
       - traefik.http.routers.mydashboard.service=api@internal
       - traefik.http.routers.traefik.tls.certresolver=myresolver
-      - homepage.group=Services
+      - homepage.group=Monitoring and access control
       - homepage.name=Traefik
       - homepage.icon=traefik.svg
       - homepage.href=http://${HOST}

@@ -18,7 +18,7 @@ services:
       - traefik.http.routers.keycloak.entrypoints=websecure
       - traefik.http.routers.keycloak.tls=true
       - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
-      - homepage.group=Services
+      - homepage.group=Monitoring and access control
       - homepage.name=Keycloak
       - homepage.icon=keycloak.svg
       - homepage.href=https://${HOST}
