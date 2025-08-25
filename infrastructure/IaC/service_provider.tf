@@ -66,7 +66,7 @@ resource "proxmox_vm_qemu" "avalug" {
     scsi {
       scsi0 {
         disk {
-          size    = "400G"
+          size    = "300G"
           storage = var.main_pool
         }
       }
