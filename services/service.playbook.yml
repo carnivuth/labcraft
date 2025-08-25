@@ -106,14 +106,14 @@
             state: present
 
         - name: Copy config folder if present
-          when: config_dir.stat.exists and app != authelia
+          when: config_dir.stat.exists and app != 'authelia'
           ansible.builtin.copy:
             src: "files/{{ app }}/etc/"
             dest: "/etc/{{ app }}"
             mode: "755"
 
         - name: copy template for authelia configuration
-          when: config_dir.stat.exists and app == authelia
+          when: config_dir.stat.exists and app == 'authelia'
           ansible.builtin.copy:
             src: "files/{{ app }}/etc/configuration.yml"
             dest: "/etc/{{ app }}/configuration.yml"
