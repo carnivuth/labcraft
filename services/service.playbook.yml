@@ -112,7 +112,7 @@
         - name: Copy config folder if present
           when: config_dir.stat.exists
           ansible.builtin.copy:
-            src: "/files/{{ app }}/etc"
+            src: "files/{{ app }}/etc"
             dest: "/etc/{{ app }}"
             mode: "755"
 
