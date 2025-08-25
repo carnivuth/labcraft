@@ -13,6 +13,7 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - TZ=Europe/Rome
+      - TRUSTED_PROXIES=0.0.0.0/0
 
   nextcloud:
     image: nextcloud
