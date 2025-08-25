@@ -1,0 +1,28 @@
+---
+services:
+  authelia:
+    restart: unless-stopped
+    image: authelia/authelia:4.39
+    networks:
+      - services
+    labels:
+      # The login page and user dashboard need to be reachable from the web
+      - "traefik.http.routers.authelia.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.authelia.entrypoints=https"
+      - "traefik.http.routers.authelia.tls.certresolver=myresolver"
+      - "traefik.http.services.authelia.loadbalancer.server.port=8096"
+      # Standard authentication middleware to be used by web services
+      - "traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://auth.example.com/"
+      - "traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User"
+      # Basicauth middleware for subsonic clients
+      - "traefik.http.middlewares.authelia-basicauth.forwardauth.address=http://authelia:9091/api/verify?auth=basic"
+      - "traefik.http.middlewares.authelia-basicauth.forwardauth.authResponseHeaders=Remote-User"
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Authelia"
+      - "homepage.icon=authelia.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Isp"
+networks:
+  services:
+    name: services
+    external: true
