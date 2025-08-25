@@ -7,8 +7,8 @@ services:
     networks:
       - services
     environment:
-      - DOMAIN= "https://${HOST}"
-      - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - "DOMAIN=https://${HOST}"
+      - "ADMIN_TOKEN=${ADMIN_TOKEN}"
     volumes:
       - /var/lib/vaultwarden:/data/
     ports:

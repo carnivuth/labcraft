@@ -39,16 +39,15 @@ services:
       - traefik-letsencrypt:/letsencrypt
 
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.mydashboard.rule=Host(`${HOST}`)
-      - traefik.http.routers.mydashboard.entrypoint=websecure
-      - traefik.http.routers.mydashboard.service=api@internal
-      - traefik.http.routers.mydashboard.tls.certresolver=myresolver
-      - homepage.group=Monitoring and access control
-      - homepage.name=Traefik
-      - homepage.icon=traefik.svg
-      - homepage.href=http://${HOST}
-      - homepage.description=Reverse proxy
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`${HOST}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Traefik"
+      - "homepage.icon=traefik.svg"
+      - "homepage.href=https://${HOST}/dashboard/"
+      - "homepage.description=Reverse proxy"
 
 networks:
   services:

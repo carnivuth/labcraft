@@ -6,17 +6,16 @@ services:
     networks:
       - services
     environment:
-      - ND_SCANSCHEDULE=1h
-      - ND_LOGLEVEL=info
-      - ND_SESSIONTIMEOUT=24h
-      - ND_ENABLESHARING=true
-      - ND_LASTFM_ENABLED=true
-      - ND_LASTFM_APIKEY="${ND_LASTFM_APIKEY}"
-      - ND_LASTFM_SECRET="${ND_LASTFM_SECRET}"
-      - ND_PASSWORDENCRYPTIONKEY="${ND_PASSWORDENCRYPTIONKEY}"
-      - ND_BACKUP_PATH=/backup
-      - ND_BACKUP_SCHEDULE=*/5 0 * * *
-      - ND_BACKUP_COUNT=7
+      - "ND_SCANSCHEDULE=1h"
+      - "ND_LOGLEVEL=info"
+      - "ND_SESSIONTIMEOUT=24h"
+      - "ND_ENABLESHARING=true"
+      - "ND_LASTFM_ENABLED=true"
+      - "ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}"
+      - "ND_LASTFM_SECRET=${ND_LASTFM_SECRET}"
+      - "ND_BACKUP_PATH=/backup"
+      - "ND_BACKUP_SCHEDULE=*/5 0 * * *"
+      - "ND_BACKUP_COUNT=7"
       - "ND_REVERSEPROXYWHITELIST=0.0.0.0/0"
       # Since authentication is entirely handled by Authelia, users don't need to
       # manage their password in Navidrome anymore.
@@ -31,13 +30,15 @@ services:
       - "/var/lib/navidrome/collection:/music:ro"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.navidrome.entrypoints=websecure"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome.middlewares=authelia@docker"
+      - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
+
+      - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome-subsonic.rule=Host(`${HOST}`) && PathPrefix(`/rest/`) && !Query(`c`, `NavidromeUI`)"
-      - "traefik.http.routers.navidrome-subsonic.entrypoints=https"
+      - "traefik.http.routers.navidrome-subsonic.entrypoints=websecure"
       - "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
       - "homepage.group=Media streaming"
       - "homepage.name=Navidrome"

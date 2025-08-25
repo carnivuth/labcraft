@@ -333,7 +333,7 @@ identity_validation:
     # jwt_algorithm: 'HS256'
 
     ## The secret key used to sign and verify the JWT.
-    jwt_secret: 'a_very_important_secret'
+    #jwt_secret: 'a_very_important_secret'
 
   ## Elevated Session flows. Adjusts the flow which require elevated sessions for example managing credentials, adding,
   ## removing, etc.
@@ -563,7 +563,7 @@ access_control:
 
   rules:
     ## Rules applied to everyone
-    - domain: '*.carnivuth.org'
+    - domain: 'navidrome.carnivuth.org'
       policy: 'one_factor'
 
     ## Domain Regex examples. Generally we recommend just using a standard domain.
@@ -645,18 +645,18 @@ access_control:
 session:
   ## The secret to encrypt the session data. This is only used with Redis / Redis Sentinel.
   ## Secret can also be set using a secret: https://www.authelia.com/c/secrets
-  secret: 'insecure_session_secret'
+  #secret: 'insecure_session_secret'
 
   ## Cookies configures the list of allowed cookie domains for sessions to be created on.
   ## Undefined values will default to the values below.
-  # cookies:
-  #   -
+  cookies:
+    -
       ## The name of the session cookie.
-      # name: 'authelia_session'
+      name: 'authelia_session'
 
       ## The domain to protect.
       ## Note: the Authelia portal must also be in that domain.
-      # domain: 'example.com'
+      domain: 'carnivuth.org'
 
       ## Required. The fully qualified URI of the portal to redirect users to on proxies that support redirections.
       ## Rules:
@@ -664,7 +664,7 @@ session:
       ##   - The above 'domain' option MUST either:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
-      # authelia_url: 'https://auth.example.com'
+      authelia_url: 'https://authelia.carnivuth.org'
 
       ## Optional. The fully qualified URI used as the redirection location if the portal is accessed directly. Not
       ## configuring this option disables the automatic redirection behaviour.
@@ -1009,7 +1009,7 @@ storage:
 ## The available providers are: filesystem, smtp. You must use only one of these providers.
 notifier:
   ## You can disable the notifier startup check by setting this to true.
-  # disable_startup_check: false
+  disable_startup_check: true
 
   ##
   ## File System (Notification Provider)
@@ -1031,7 +1031,7 @@ notifier:
   ##     (configure in tls section)
   smtp:
     ## The address of the SMTP server to connect to in the address common syntax.
-    # address: 'smtp://127.0.0.1:25'
+    address: 'smtp://127.0.0.1:25'
 
     ## The connection timeout in the duration common syntax.
     # timeout: '5 seconds'
@@ -1046,20 +1046,20 @@ notifier:
     ## The sender is used to is used for the MAIL FROM command and the FROM header.
     ## If this is not defined and the username is an email, we use the username as this value. This can either be just
     ## an email address or the RFC5322 'Name <email address>' format.
-    # sender: 'Authelia <admin@example.com>'
+    sender: 'Authelia <admin@carnivuth.org>'
 
     ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
     # identifier: 'localhost'
 
     ## Subject configuration of the emails sent. {title} is replaced by the text from the notifier.
-    # subject: '[Authelia] {title}'
+    subject: '[Authelia] {title}'
 
     ## This address is used during the startup check to verify the email configuration is correct.
     ## It's not important what it is except if your email server only allows local delivery.
     # startup_check_address: 'test@authelia.com'
 
     ## By default we require some form of TLS. This disables this check though is not advised.
-    # disable_require_tls: false
+    disable_require_tls: false
 
     ## Disables sending HTML formatted emails.
     # disable_html_emails: false
