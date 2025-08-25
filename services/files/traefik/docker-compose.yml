@@ -16,17 +16,27 @@ services:
       - --providers.docker.network=services
       - --providers.docker.exposedByDefault=false
       - --entrypoints.web.address=:80
-      #- --entrypoints.web.http.redirections.entrypoint.to=websecure
-      #- --entryPoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entryPoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.websecure.address=:443
-      #- --entrypoints.websecure.asDefault=true
-      - --entrypoints.websecure.http.tls.certresolver=myresolver
+      - --entrypoints.websecure.asDefault=true
+      #- --entrypoints.websecure.http.tls.certresolver=myresolver
       #- --traefik.http.routers.traefik.tls.certresolver=myresolver
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.myresolver.acme.tlschallenge=true
       - --certificatesresolvers.myresolver.acme.email=${CLOUDFLARE_ACCOUNT_EMAIL}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
       - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      certificatesResolvers:
+  myresolver:
+    acme:
+      email: xxx@gmail.com
+      storage: /ssl-certs/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
 
     ports:
       # The HTTP port
