@@ -563,7 +563,7 @@ access_control:
 
   rules:
     ## Rules applied to everyone
-    - domain: 'navidrome.carnivuth.org'
+    - domain: '*.{{ cloudflare_domain }}'
       policy: 'one_factor'
 
     ## Domain Regex examples. Generally we recommend just using a standard domain.
@@ -656,7 +656,7 @@ session:
 
       ## The domain to protect.
       ## Note: the Authelia portal must also be in that domain.
-      domain: 'carnivuth.org'
+      domain: '{{ cloudflare_domain }}'
 
       ## Required. The fully qualified URI of the portal to redirect users to on proxies that support redirections.
       ## Rules:
@@ -664,7 +664,7 @@ session:
       ##   - The above 'domain' option MUST either:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
-      authelia_url: 'https://authelia.carnivuth.org'
+      authelia_url: 'https://{{ record }}'
 
       ## Optional. The fully qualified URI used as the redirection location if the portal is accessed directly. Not
       ## configuring this option disables the automatic redirection behaviour.
@@ -1046,7 +1046,7 @@ notifier:
     ## The sender is used to is used for the MAIL FROM command and the FROM header.
     ## If this is not defined and the username is an email, we use the username as this value. This can either be just
     ## an email address or the RFC5322 'Name <email address>' format.
-    sender: 'Authelia <admin@carnivuth.org>'
+    sender: 'Authelia <admin@{{ cloudflare_domain }}>'
 
     ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
     # identifier: 'localhost'
