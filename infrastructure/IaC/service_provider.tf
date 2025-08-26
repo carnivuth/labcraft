@@ -71,5 +71,13 @@ resource "proxmox_vm_qemu" "avalug" {
         }
       }
     }
+    sata {
+      sata0 {
+        disk {
+          size    = "500G"
+          storage = var.data_pool
+        }
+      }
+    }
   }
 }
