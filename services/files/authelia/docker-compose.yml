@@ -12,7 +12,7 @@ services:
       - "AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/secrets/STORAGE_ENCRYPTION_KEY"
     volumes:
       - '/etc/authelia/:/config'
-      - '/var/lib/authelia/:/secrets'
+      - '/mnt/containers/authelia/:/secrets'
     labels:
       # The login page and user dashboard need to be reachable from the web
       - "traefik.enable=true"

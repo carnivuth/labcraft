@@ -24,7 +24,7 @@ services:
     links:
       - nextcloud-database
     volumes:
-      - /var/lib/nextcloud:/var/www/html
+      - /mnt/containers/nextcloud:/var/www/html
     environment:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=nextcloud

@@ -25,9 +25,9 @@ services:
     ports:
       - 8085:4533
     volumes:
-      - "/var/lib/navidrome/backup:/backup"
-      - "/var/lib/navidrome/data:/data"
-      - "/var/lib/navidrome/collection:/music:ro"
+      - "/mnt/containers/navidrome/backup:/backup"
+      - "/mnt/containers/navidrome/data:/data"
+      - "/mnt/containers/navidrome/collection:/music:ro"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navidrome.entrypoints=websecure"
