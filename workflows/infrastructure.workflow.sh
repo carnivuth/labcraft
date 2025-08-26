@@ -26,10 +26,10 @@ function workflow(){
    ( cd infrastructure; run_pb dns; run_pb common; run_pb postfix)
 
    # install docker engine when a new service provider is created
-   grep -q "docker" "$changes" && (cd infrastructure; run_pb docker )
+   grep -q "docker" $changes && (cd infrastructure; run_pb docker )
 
    # install docker engine when a new service provider is created
-   grep -q "nfs" "$changes" && (cd infrastructure; run_pb nfs )
+   grep -q "nfs" $changes && (cd infrastructure; run_pb nfs )
 
 }
 
