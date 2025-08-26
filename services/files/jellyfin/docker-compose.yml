@@ -17,6 +17,40 @@ services:
       - "traefik.http.routers.jellyfin.rule=Host(`${HOST}`)"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
       - "traefik.http.routers.jellyfin.tls.certresolver=myresolver"
+      ## Middleware
+      - 'traefik.http.routers.jellyfin.middlewares=jellyfin'
+      #### The customResponseHeaders option lists the Header names and values to apply to the response.
+      - 'traefik.http.middlewares.jellyfin.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
+      #### The sslRedirect is set to true, then only allow https requests.
+      - 'traefik.http.middlewares.jellyfin.headers.SSLRedirect=true'
+      #### The sslHost option is the host name that is used to redirect http requests to https.
+      #### This is the exact URL that will be redirected to, so you can remove the :9999 port if using default SSL port
+      - 'traefik.http.middlewares.jellyfin.headers.SSLHost=${HOST}'
+      #### Set sslForceHost to true and set SSLHost to forced requests to use SSLHost even the ones that are already using SSL.
+      #### Note that this uses SSLHost verbatim, so add the port to SSLHost if you are using an alternate port.
+      - 'traefik.http.middlewares.jellyfin.headers.SSLForceHost=true'
+      #### The stsSeconds is the max-age of the Strict-Transport-Security header. If set to 0, would NOT include the header.
+      - 'traefik.http.middlewares.jellyfin.headers.STSSeconds=315360000'
+      #### The stsIncludeSubdomains is set to true, the includeSubDomains directive will be
+      #### appended to the Strict-Transport-Security header.
+      - 'traefik.http.middlewares.jellyfin.headers.STSIncludeSubdomains=true'
+      #### Set stsPreload to true to have the preload flag appended to the Strict-Transport-Security header.
+      - 'traefik.http.middlewares.jellyfin.headers.STSPreload=true'
+      #### Set forceSTSHeader to true, to add the STS header even when the connection is HTTP.
+      - 'traefik.http.middlewares.jellyfin.headers.forceSTSHeader=true'
+      #### Set frameDeny to true to add the X-Frame-Options header with the value of DENY.
+      - 'traefik.http.middlewares.jellyfin.headers.frameDeny=true'
+      #### Set contentTypeNosniff to true to add the X-Content-Type-Options header with the value nosniff.
+      - 'traefik.http.middlewares.jellyfin.headers.contentTypeNosniff=true'
+      #### Set browserXssFilter to true to add the X-XSS-Protection header with the value 1; mode=block.
+      - 'traefik.http.middlewares.jellyfin.headers.customresponseheaders.X-XSS-PROTECTION=1'
+      #### The customFrameOptionsValue allows the X-Frame-Options header value to be set with a custom value. This
+      #### overrides the FrameDeny option.
+      - "traefik.http.middlewares.jellyfin.headers.customFrameOptionsValue='allow-from https://DOMAIN_NAME'"
+
+
+
+
       - "homepage.group=Media streaming"
       - "homepage.name=Jellyfinn"
       - "homepage.icon=jellyfin.svg"
