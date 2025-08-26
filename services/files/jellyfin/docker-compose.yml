@@ -5,6 +5,8 @@ services:
     image: jellyfin/jellyfin:latest
     networks:
       - services
+    ports:
+      - "9999:9999"
     volumes:
       - /mnt/containers/jellyfin/cache:/cache
       - /mnt/containers/jellyfin/media:/media
@@ -23,7 +25,7 @@ services:
       - 'traefik.http.middlewares.jellyfin.headers.SSLRedirect=true'
       #### The sslHost option is the host name that is used to redirect http requests to https.
       #### This is the exact URL that will be redirected to, so you can remove the :9999 port if using default SSL port
-      - 'traefik.http.middlewares.jellyfin.headers.SSLHost=${HOST}'
+      - 'traefik.http.middlewares.jellyfin.headers.SSLHost=${HOST}:9999'
       #### Set sslForceHost to true and set SSLHost to forced requests to use SSLHost even the ones that are already using SSL.
       #### Note that this uses SSLHost verbatim, so add the port to SSLHost if you are using an alternate port.
       - 'traefik.http.middlewares.jellyfin.headers.SSLForceHost=true'
