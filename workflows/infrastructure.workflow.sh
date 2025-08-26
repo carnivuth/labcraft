@@ -28,6 +28,9 @@ function workflow(){
    # install docker engine when a new service provider is created
    grep -q "docker" "$changes" && (cd infrastructure; run_pb docker )
 
+   # install docker engine when a new service provider is created
+   grep -q "nfs" "$changes" && (cd infrastructure; run_pb nfs )
+
 }
 
 function get_workflow_regex(){
