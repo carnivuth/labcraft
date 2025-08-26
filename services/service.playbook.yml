@@ -114,7 +114,7 @@
 
         - name: copy template for authelia configuration
           when: config_dir.stat.exists and app == 'authelia'
-          ansible.builtin.copy:
+          ansible.builtin.template:
             src: "files/{{ app }}/etc/configuration.yml"
             dest: "/etc/{{ app }}/configuration.yml"
             mode: "755"
