@@ -567,6 +567,10 @@ access_control:
       policy: 'one_factor'
       subject: 'group:navidrome'
 
+    - domain: 'traefik.{{ cloudflare_domain }}'
+      policy: 'one_factor'
+      subject: 'group:admins'
+
     ## Domain Regex examples. Generally we recommend just using a standard domain.
     # - domain_regex: '^(?P<User>\w+)\.example\.com$'
     #   policy: 'one_factor'
