@@ -70,9 +70,7 @@ resource "proxmox_vm_qemu" "avalug" {
           storage = var.main_pool
         }
       }
-    }
-    sata {
-      sata0 {
+      scsi1 {
         disk {
           size    = "500G"
           storage = var.data_pool
