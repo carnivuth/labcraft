@@ -10,15 +10,16 @@ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; 
 function workflow(){
 
   for file in $@; do
+    app="$( echo "$file" | awk -F'/' '{print $3}')"
     case "$file" in
       *docker-compose.yml )
-        echo "execute deploy_service playbook with -e app=$(basename "$(dirname "$file")") parameter"
-        (cd services && run_pb service -e app="$(basename "$(dirname "$file")")")
+        echo "execute deploy_service playbook with -e app=$app parameter"
+        (cd services && run_pb service -e app="$app")
         ;;
       inventory|group_vars )
         for df in $(find services -name 'docker-compose.yml'); do
-          echo "execute deploy_service playbook with -e app=$(basename "$(dirname "$file")") parameter"
-          (cd services && run_pb service -e app="$(basename "$(dirname "$file")")")
+          echo "execute deploy_service playbook with -e app=$app parameter"
+          (cd services && run_pb service -e app="$app")
         done
         ;;
     esac
