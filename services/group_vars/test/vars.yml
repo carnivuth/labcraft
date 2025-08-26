@@ -1,3 +1,4 @@
 dns_record_type: A
 value: '{{ address | regex_replace("(.*)/.*", "\1") }}'
 record: "{{ app }}.{{ ansible_host }}.{{ cloudflare_domain }}"
+domain: "{{ ansible_host }}.{{ cloudflare_domain }}"

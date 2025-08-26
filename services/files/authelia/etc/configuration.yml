@@ -563,11 +563,11 @@ access_control:
 
   rules:
     ## Rules applied to everyone
-    - domain: 'navidrome.{{ cloudflare_domain }}'
+    - domain: 'navidrome.{{ domain }}'
       policy: 'one_factor'
       subject: 'group:navidrome'
 
-    - domain: 'traefik.{{ cloudflare_domain }}'
+    - domain: 'traefik.{{ domain }}'
       policy: 'one_factor'
       subject: 'group:admins'
 
@@ -661,7 +661,7 @@ session:
 
       ## The domain to protect.
       ## Note: the Authelia portal must also be in that domain.
-      domain: '{{ cloudflare_domain }}'
+      domain: '{{ domain }}'
 
       ## Required. The fully qualified URI of the portal to redirect users to on proxies that support redirections.
       ## Rules:
@@ -1051,7 +1051,7 @@ notifier:
     ## The sender is used to is used for the MAIL FROM command and the FROM header.
     ## If this is not defined and the username is an email, we use the username as this value. This can either be just
     ## an email address or the RFC5322 'Name <email address>' format.
-    sender: 'Authelia <admin@{{ cloudflare_domain }}>'
+    sender: 'Authelia <admin@{{ domain }}>'
 
     ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
     # identifier: 'localhost'
