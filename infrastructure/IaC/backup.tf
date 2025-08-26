@@ -23,7 +23,7 @@ resource "proxmox_lxc" "ditto" {
  mountpoint {
     key     = "0"
     slot    = 0
-    storage = var.backup2_pool
+    storage = var.backup_pool
     mp      = "/mnt/datastore"
     size    = "2000G"
   }

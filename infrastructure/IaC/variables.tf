@@ -2,12 +2,16 @@ variable "ssh_pub_key" {
   description = "default ssh pub key"
 }
 variable "backup_pool" {
-  default     = "backup"
+  default     = "backup2"
   description = "proxmox storage for backups"
 }
 variable "main_pool" {
   default     = "local-lvm"
   description = "proxmox storage for guest volumes"
+}
+variable "data_pool" {
+  default     = "data"
+  description = "proxmox storage for data volumes"
 }
 variable "nameserver" {
   description = "network nameserver"
