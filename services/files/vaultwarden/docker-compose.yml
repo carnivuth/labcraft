@@ -10,9 +10,7 @@ services:
       - "DOMAIN=https://${HOST}"
       - "ADMIN_TOKEN=${ADMIN_TOKEN}"
     volumes:
-      - /var/lib/vaultwarden:/data/
-    ports:
-      - 127.0.0.1:8000:80
+      - /mnt/containers/vaultwarden:/data/
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.rule=Host(`${HOST}`)"
