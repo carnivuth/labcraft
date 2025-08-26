@@ -565,6 +565,10 @@ access_control:
     ## Rules applied to everyone
     - domain: '*.{{ cloudflare_domain }}'
       policy: 'one_factor'
+    - domain: 'navidrome.{{ cloudflare_domain }}'
+      policy: 'one_factor'
+      subject:
+        - ['group:navidrome']
 
     ## Domain Regex examples. Generally we recommend just using a standard domain.
     # - domain_regex: '^(?P<User>\w+)\.example\.com$'
