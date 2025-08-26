@@ -2,5 +2,3 @@
 roles:
   - geerlingguy.docker
   - githubixx.ansible_role_wireguard
-  - nginxinc.nginx
-  - geerlingguy.certbot
