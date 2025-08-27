@@ -1,5 +1,6 @@
 services:
   nextcloud-database:
+    container_name: nextcloud-database
     image: mariadb:10.6
     restart: always
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
@@ -15,8 +16,17 @@ services:
       - TZ=Europe/Rome
       - TRUSTED_PROXIES=0.0.0.0/0
 
+  nextcloud-cache:
+    container_name: nextcloud-cache
+    networks:
+      - nextcloud
+    image: redis
+    restart: always
+    command: redis-server --requirepass ${REDIS_HOST_PASSWORD}
+
   nextcloud:
     image: nextcloud
+    container_name: nextcloud
     restart: always
     networks:
       - services
@@ -30,6 +40,8 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=nextcloud-database
+      - REDIS_HOST_PASSWORD=${REDIS_HOST_PASSWORD}
+      - REDIS_HOST=nextcloud-cache
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
