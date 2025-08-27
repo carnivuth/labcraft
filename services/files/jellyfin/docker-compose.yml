@@ -2,7 +2,7 @@
 services:
   jellyfin:
     restart: unless-stopped
-    image: jellyfin/jellyfin:latest
+    image: jellyfin/jellyfin:10.11.0-rc5
     networks:
       - services
     ports:
