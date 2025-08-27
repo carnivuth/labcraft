@@ -40,7 +40,7 @@ services:
       - "traefik.http.routers.navidrome-subsonic.rule=Host(`${HOST}`) && PathPrefix(`/rest/`) && !Query(`c`, `NavidromeUI`)"
       - "traefik.http.routers.navidrome-subsonic.entrypoints=websecure"
       - "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
-      - "homepage.group=Media streaming"
+      - "homepage.group=Media"
       - "homepage.name=Navidrome"
       - "homepage.icon=navidrome.svg"
       - "homepage.href=https://${HOST}"

@@ -10,7 +10,7 @@ services:
       - services
     volumes:
       - /etc/komga:/config
-      - /var/lib/komga:/data
+      - /mnt/containers/komga:/data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.komga.rule=Host(`${HOST}`)"
@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.komga.entrypoints=websecure"
       - "traefik.http.routers.komga.tls=true"
       - "traefik.http.routers.komga.tls.certresolver=myresolver"
-      - "homepage.group=Media streaming"
+      - "homepage.group=Media"
       - "homepage.name=Komga"
       - "homepage.icon=komga.svg"
       - "homepage.href=https://${HOST}"
