@@ -3,6 +3,8 @@ services:
     container_name: curiel_bot
     image: carnivuth/curiel_bot:latest
     restart: unless-stopped
-    env_file: /usr/local/curiel_bot/.env
+    environment:
+      - TOKEN=${TOKEN}
+      - ADMIN=${ADMIN}
     volumes:
-      - '/var/lib/curiel_bot/:/var/lib/curiel_bot/data'
+      - '/mnt/containers/curiel_bot/:/var/lib/curiel_bot/data'
