@@ -9,4 +9,4 @@ services:
       - ACCOUNT="${ACCOUNT}"
       - TZ=Europe/Rome
     volumes:
-      - /var/lib/github_sync:/var/lib/github_sync
+      - /mnt/containers/github_sync:/var/lib/github_sync
