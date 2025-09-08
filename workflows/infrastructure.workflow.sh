@@ -28,9 +28,6 @@ function workflow(){
    # install docker engine when a new docker host is created
    grep -q "docker" $changes && (cd infrastructure; run_pb docker )
 
-   # install nfs server when a new storage vm is created
-   grep -q "nfs" $changes && (cd infrastructure; run_pb nfs )
-
    # install vpn server when a vpn endpoint is created
    grep -q "vpn" $changes && (cd infrastructure; run_pb vpn )
 
