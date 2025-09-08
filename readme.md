@@ -1,20 +1,30 @@
 # Labcraft
 
-Infrastructure as code definition for my proxmox virtual environment instance.
+Infrastructure as code for my proxmox virtual environment instance.
+
+```mermaid
+flowchart LR
+A[laptop]
+B((github repo))
+subgraph proxmox_host
+C[vms]
+D[containers]
+end
+A -- push commits --> B ~~~ proxmox_host -- propagates changes --> C & D
+```
 
 ## Why this
 
-The goal of this project is to create menage my personal proxmox instance in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed inside the project:
+The goal of this project is to manage my personal proxmox instance in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed:
 
 - [terraform](https://developer.hashicorp.com/terraform) to provision qemu managed virtual machines and LXC containers
-- [docker](https://www.docker.com/) to manage services for personal use.
+- [docker](https://www.docker.com/) to manage services for personal use
 - [ansible](docs.ansible.com/ansible/latest/index.html) to automate provisioning operations
 - [git](https://git-scm.com/) to version the infrastructure state
 - bash scripting for utilities and workflows
 
 ## Features
 
-- Auto update with email notifications of docker machines with applications
 - Auto provisioning of vm and containers with DNS already configured and other basic utilities
 - Deployment of docker compose sets of services
 
