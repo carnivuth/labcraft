@@ -1,6 +1,6 @@
 # Installation
 
-Installation of the repository is done by cloning it inside the proxmox host and making an initial setup to allow the continous integration pipeline to trigger itself when commits are made to the main branch
+Installation of the repository is done by cloning it inside the proxmox host and making an initial setup to allow the continuous integration pipeline to trigger itself when commits are made to the main branch
 
 - clone repository inside the proxmox host
 
@@ -19,7 +19,7 @@ ansible-galaxy collection install -r collections/requirements.yml
 ansible-galaxy role install -r roles/requirements.yml
 ```
 
-- add secrets folowing this [guide](#HANDLE%20SECRETS)
+- add secrets following this [guide](#HANDLE%20SECRETS)
 
 - create terraform vars file following the vars declaration in `terraform/variables.tf`
 
@@ -73,22 +73,16 @@ cd /usr/local/labcraft/infrastructure
 ansible-vault encrypt vault.yml
 ```
 
-- move the file to the `group_vars` folder
+### Enable automatic provisioning
 
-```bash
-mv sample.yml playbooks/group_vars/all/vault.yml
-```
+To enable automatic provision after a commit on the main branch do the following
 
-### Update management and provision
-
-To avoid having to run ansible manually every time there is an update do the following
-
-- add the `scripts/update_labcraft.sh` to cron:
+- add the `cronjob.sh` to cron:
 
 ```cron
 # path variable is needed
 PATH=/usr/local/labcraft/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-* * * * * /usr/local/labcraft/update_labcraft.sh > /dev/null 2>&1
+* * * * * /usr/local/labcraft/cronjob.sh > /dev/null 2>&1
 ```
 
 Then link `workflows/middleware.sh` to the git hooks dir (*more on the topic [here](https://carnivuth.github.io/TIL/pages/git_github/GIT_HOOKS)*) as follows
@@ -98,7 +92,7 @@ cd .git/hooks
 ln -fs ../../workflows/middleware.sh post-merge
 ```
 
-So every time a commit is pushed to remote cron will pull the updates from remote repo and the git hook will run the correct workflow based on the file that was modified
+So every time a commit is pushed to remote cron will pull the updates and the git hook will run the correct workflow based on the file that was modified
 
 ```mermaid
 ---
