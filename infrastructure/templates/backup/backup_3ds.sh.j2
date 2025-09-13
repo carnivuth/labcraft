@@ -6,21 +6,37 @@ ADDRESS="{{ address_3ds }}"
 # directories
 NDS_DEST=/mnt/datastore/nds_saves; if [[ ! -d "$NDS_DEST" ]]; then mkdir -p "$NDS_DEST"; fi
 GBA_DEST=/mnt/datastore/gba_saves; if [[ ! -d "$GBA_DEST" ]]; then mkdir -p "$GBA_DEST"; fi
+BACKUP_DEST=/mnt/datastore/3ds_backup; if [[ ! -d "$GBA_DEST" ]]; then mkdir -p "$GBA_DEST"; fi
+STAT_FILE=/tmp/3ds_backup_status
 
-if nc -z -w1 "$ADDRESS" "$PORT"; then
-  echo "server is up, connecting for backup"
-  ftp -n -p "$ADDRESS" "$PORT" <<EOF
-        binary
-        prompt
-        lcd "$NDS_DEST"
-        cd roms/nds/saves
-        mget *
-        lcd "$GBA_DEST"
-        cd roms/gba/saves
-        mget *
-EOF
-echo DONE
-else
-  echo "3ds is not listening for ftp connections"
-fi
+# create stat file if does not exists
+if [[ ! -f "$STAT_FILE" ]]; then echo 1 > "$STAT_FILE"; fi
 
+function backup(){
+
+  # check if 3ds ftp server is up and if backup as been made
+  if nc -z -w1 "$ADDRESS" "$PORT" && [[ $(cat "$STAT_FILE") == "1" ]]; then
+
+    echo "server is up, connecting for backup"
+    ncftpget -R -P "$PORT" "$ADDRESS" "$BACKUP_DEST" /
+
+    echo "done backup"
+    echo 0 > /tmp/3ds_backup_status
+
+  else
+    echo "3ds is not listening for ftp connections"
+  fi
+}
+
+function reset(){
+  echo 1 > "$STAT_FILE"
+}
+
+case "$1" in;
+  "backup")
+    backup
+    ;;
+  "reset")
+    reset
+    ;;
+esac
