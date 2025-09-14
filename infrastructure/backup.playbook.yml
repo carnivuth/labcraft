@@ -16,8 +16,6 @@
     pbs_datastores:
       - {"name":"prod-server-backup", "path":"{{ backup_data_root }}/prod-server-backup"}
 
-    # Nintendo 3DS parameters for backup job address_3ds: 192.168.1.99
-    port_3ds: 5000
 
     pbs_password: "{{ vault_pbs_password }}"
 
@@ -121,23 +119,3 @@
           loop: "{{ groups['backup'] | product(pbs_datastores | json_query('[*].name')) }}"
           loop_control:
             index_var: index
-
-    - name: Setup nintendo 3DS backup
-      block:
-
-        - name: Copy 3ds backup script
-          ansible.builtin.template:
-            src: backup/backup_3ds.sh.j2
-            dest: /usr/local/bin/backup_3ds.sh
-            mode: '755'
-
-        - name: Add 3ds backup cronjob
-          ansible.builtin.cron:
-            name: "3ds backup"
-            job: "/usr/local/bin/backup_3ds.sh backup >> /var/log/backup_3ds.log 2>&1"
-
-        - name: Add 3ds backup reset cronjob
-          ansible.builtin.cron:
-            name: "3ds backup"
-            minute: "*/10"
-            job: "/usr/local/bin/backup_3ds.sh reset >> /var/log/backup_3ds.log 2>&1"
