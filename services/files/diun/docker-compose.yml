@@ -15,7 +15,7 @@ services:
       - "DIUN_PROVIDERS_DOCKER=true"
       - "DIUN_NOTIF_TELEGRAM_TOKEN=${DIUN_NOTIF_TELEGRAM_TOKEN}"
       - "DIUN_NOTIF_TELEGRAM_CHATIDS=${DIUN_NOTIF_TELEGRAM_CHATIDS}"
-      - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=Docker tag {{ .Entry.Image }} which you subscribed to through {{ .Entry.Provider }} provider has been released."
+      - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=${DIUN_NOTIF_TELEGRAM_TEMPLATEBODY}"
     labels:
       - "diun.enable=true"
 
