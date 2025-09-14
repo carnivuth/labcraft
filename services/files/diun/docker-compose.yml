@@ -1,0 +1,21 @@
+services:
+  diun:
+    image: crazymax/diun:latest
+    restart: unless-stopped
+    container_name: diun
+    command: serve
+    volumes:
+      - "/mnt/containers/diun:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - "TZ=Europe/Rome"
+      - "DIUN_WATCH_WORKERS=20"
+      - "DIUN_WATCH_SCHEDULE=0 */6 * * *"
+      - "DIUN_WATCH_JITTER=30s"
+      - "DIUN_PROVIDERS_DOCKER=true"
+      - "DIUN_NOTIF_TELEGRAM_TOKEN=${DIUN_NOTIF_TELEGRAM_TOKEN}"
+      - "DIUN_NOTIF_TELEGRAM_CHATIDS=${DIUN_NOTIF_TELEGRAM_CHATIDS}"
+      - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=Docker tag {{ .Entry.Image }} which you subscribed to through {{ .Entry.Provider }} provider has been released."
+    labels:
+      - "diun.enable=true"
+
