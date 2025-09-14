@@ -8,3 +8,5 @@ services:
       - ADMIN=${ADMIN}
     volumes:
       - '/mnt/containers/curiel_bot/:/var/lib/curiel_bot/data'
+    labels:
+      - "diun.enable=true"

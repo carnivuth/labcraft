@@ -8,3 +8,5 @@ services:
       - FTPD_3DS_PORT=${FTPD_3DS_PORT}
     volumes:
       - "/mnt/containers/backup_3ds:/var/lib/3ds_backup"
+    labels:
+      - "diun.enable=true"
