@@ -1,0 +1,52 @@
+# See https://ihatemoney.readthedocs.io/en/latest/configuration.html to understand all settings.
+services:
+  ihatemoney:
+    restart: unless-stopped
+    image: ihatemoney/ihatemoney:latest
+    container_name: ihatemoney
+    environment:
+      - DEBUG=False
+      - ACTIVATE_DEMO_PROJECT=False
+      - ACTIVATE_ADMIN_DASHBOARD=True
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ALLOW_PUBLIC_PROJECT_CREATION=False
+      - BABEL_DEFAULT_TIMEZONE=Europe/Rome
+      - GREENLET_TEST_CPP=no
+      - MAIL_DEFAULT_SENDER=Budget manager
+      - MAIL_PASSWORD=
+      - MAIL_PORT=25
+      - MAIL_SERVER=localhost
+      - MAIL_USE_SSL=False
+      - MAIL_USE_TLS=False
+      - MAIL_USERNAME=
+      - SECRET_KEY=${SECRET_KEY}
+      - SESSION_COOKIE_SECURE=True
+      - SHOW_ADMIN_EMAIL=True
+      - SQLALCHEMY_DATABASE_URI=sqlite:////database/ihatemoney.db
+      - SQLALCHEMY_TRACK_MODIFICATIONS=False
+      - APPLICATION_ROOT=/
+      - ENABLE_CAPTCHA=False
+      - LEGAL_LINK=
+      - PORT=8000
+      - PUID=0
+      - PGID=0
+    volumes:
+      - /mnt/containers/ihatemoney:/database
+    networks:
+      - services
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ihatemoney.rule=Host(`${HOST}`)"
+      - "traefik.http.services.ihatemoney.loadbalancer.server.port=8000"
+      - "traefik.http.routers.ihatemoney.entrypoints=websecure"
+      - "traefik.http.routers.ihatemoney.tls=true"
+      - "traefik.http.routers.ihatemoney.tls.certresolver=myresolver"
+      - "homepage.group=Finances"
+      - "homepage.name=Ihatemoney"
+      - "homepage.icon=ihatemoney.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Share budgeting application"
+networks:
+  services:
+    name: services
+    external: true
