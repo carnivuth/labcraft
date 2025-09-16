@@ -5,7 +5,7 @@ services:
     image: ihatemoney/ihatemoney:latest
     container_name: ihatemoney
     environment:
-      - DEBUG=False
+      - DEBUG=True
       - ACTIVATE_DEMO_PROJECT=False
       - ACTIVATE_ADMIN_DASHBOARD=True
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
