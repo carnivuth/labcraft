@@ -43,7 +43,7 @@ services:
       - "traefik.http.routers.ihatemoney.tls.certresolver=myresolver"
       - "homepage.group=Finances"
       - "homepage.name=Ihatemoney"
-      - "homepage.icon=ihatemoney.svg"
+      - "homepage.icon=ihatemoney.png"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Share budgeting application"
 networks:
