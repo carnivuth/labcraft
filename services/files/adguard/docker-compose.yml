@@ -19,7 +19,7 @@ services:
 
       - "homepage.group=Network services"
       - "homepage.name=Adguard"
-      - "homepage.icon=adguard.svg"
+      - "homepage.icon=adguard-home.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=dns forwarder"
 
