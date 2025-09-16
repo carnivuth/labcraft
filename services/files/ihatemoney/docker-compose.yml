@@ -15,7 +15,7 @@ services:
       - MAIL_DEFAULT_SENDER=Budget manager
       - MAIL_PASSWORD=
       - MAIL_PORT=25
-      - MAIL_SERVER=localhost
+      - MAIL_SERVER=avalug
       - MAIL_USE_SSL=False
       - MAIL_USE_TLS=False
       - MAIL_USERNAME=
