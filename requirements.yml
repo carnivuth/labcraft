@@ -1,4 +1,8 @@
 ---
+collections:
+  - community.general
+  - ansible.posix
+  - ansible.utils
 roles:
   - geerlingguy.docker
   - githubixx.ansible_role_wireguard
