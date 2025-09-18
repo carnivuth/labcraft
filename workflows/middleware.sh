@@ -4,8 +4,7 @@ source env/bin/activate
 
 # install python modules and ansible content
 pip install -r requirements.txt
-ansible-galaxy collection install -r collections/requirements.yml
-ansible-galaxy role install -r roles/requirements.yml
+ansible-galaxy install -r requirements.yml
 
 for workflow in $(find workflows -name '*.workflow.sh'); do
   (
