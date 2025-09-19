@@ -17,6 +17,8 @@ services:
       - "ND_BACKUP_SCHEDULE=*/5 0 * * *"
       - "ND_BACKUP_COUNT=7"
       - "ND_REVERSEPROXYWHITELIST=0.0.0.0/0"
+      - "ND_PROMETHEUS_ENABLED=true"
+      - "ND_PROMETHEUS_METRICSPATH=${ND_PROMETHEUS_METRICSPATH}"
       # Since authentication is entirely handled by Authelia, users don't need to
       # manage their password in Navidrome anymore.
       - "ND_ENABLEUSEREDITING=false"
