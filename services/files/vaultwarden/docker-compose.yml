@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.http.routers.vaultwarden.tls=true"
       - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
-      - "homepage.group=Password vault"
+      - "homepage.group=Passwords"
       - "homepage.name=Vaultwarden"
       - "homepage.icon=vaultwarden.svg"
       - "homepage.href=https://${HOST}"

@@ -1,9 +1,19 @@
 layout:
   Media:
     iconsOnly: true
-    style: row
-    columns: 4
   Cloud:
-    iconsOnly: false
+    style: row
+    fullWidth: true
+    columns: 1
+  Monitoring:
+    style: row
+    columns: 1
+  Finances:
+    style: row
+    columns: 1
+  Passwords:
+    style: row
+    columns: 1
+  Network:
     style: row
     columns: 1

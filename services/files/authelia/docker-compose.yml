@@ -26,7 +26,7 @@ services:
       # Basicauth middleware for subsonic clients
       - "traefik.http.middlewares.authelia-basicauth.forwardauth.address=http://authelia:9091/api/verify?auth=basic"
       - "traefik.http.middlewares.authelia-basicauth.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name"
-      - "homepage.group=Monitoring and access control"
+      - "homepage.group=Monitoring"
       - "homepage.name=Authelia"
       - "homepage.icon=authelia.svg"
       - "homepage.href=https://${HOST}"
