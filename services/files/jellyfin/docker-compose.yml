@@ -2,6 +2,7 @@
 services:
   jellyfin:
     restart: unless-stopped
+    container_name: jellyfin
     image: jellyfin/jellyfin:10.11.0-rc5
     networks:
       - services
