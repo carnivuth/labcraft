@@ -1,12 +1,8 @@
 layout:
   Media:
     iconsOnly: true
-    style: row
-    columns: 2
-  Cloud:
-    style: row
-    fullWidth: true
-    columns: 1
+    style: column
+    row: 2
   Monitoring:
     iconsOnly: true
     style: row
@@ -19,4 +15,8 @@ layout:
     columns: 1
   Network:
     style: row
+    columns: 1
+  Cloud:
+    style: row
+    fullWidth: true
     columns: 1
