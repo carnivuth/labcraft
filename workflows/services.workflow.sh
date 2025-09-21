@@ -12,15 +12,15 @@ function workflow(){
   for file in $@; do
     app="$( echo "$file" | awk -F'/' '{print $3}')"
     case "$file" in
-      *docker-compose.yml )
-        echo "execute deploy_service playbook with -e app=$app parameter"
-        (cd services && run_pb service -e app="$app")
-        ;;
       inventory|group_vars )
         for df in $(find services -name 'docker-compose.yml'); do
           echo "execute deploy_service playbook with -e app=$app parameter"
           (cd services && run_pb service -e app="$app")
         done
+        ;;
+       *)
+        echo "execute deploy_service playbook with -e app=$app parameter"
+        (cd services && run_pb service -e app="$app")
         ;;
     esac
   done
