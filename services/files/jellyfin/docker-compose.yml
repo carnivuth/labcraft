@@ -49,7 +49,7 @@ services:
       #### overrides the FrameDeny option.
       - "traefik.http.middlewares.jellyfin.headers.customFrameOptionsValue='allow-from https://DOMAIN_NAME'"
       - "homepage.group=Media"
-      #- "homepage.name=Jellyfin"
+      - "homepage.name=Jellyfin"
       - "homepage.icon=jellyfin.svg"
       - "homepage.href=https://${HOST}"
       #- "homepage.description=Video streaming"
