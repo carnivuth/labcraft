@@ -1,0 +1,43 @@
+# Documentation for the environment variables: https://recipes.musicavis.ca/docs/installation/docker/#environment-variables
+services:
+  web:
+    image: reaper99/recipya:v1.2.2
+    container_name: recipya
+    restart: unless-stopped
+    networks:
+      - services
+    environment:
+      #RECIPYA_EMAIL: "my@email.com"
+      #RECIPYA_EMAIL_SMTP_HOST: "smtp.gmail.com"
+      #RECIPYA_EMAIL_SMTP_USERNAME: "my@email.com"
+      #RECIPYA_EMAIL_SMTP_PASSWORD: "app password"
+      RECIPYA_SERVER_AUTOLOGIN: false
+      RECIPYA_SERVER_IS_DEMO: false
+      RECIPYA_SERVER_IS_PROD: true
+      RECIPYA_SERVER_NO_SIGNUPS: true
+      RECIPYA_SERVER_PORT: 8078
+      RECIPYA_SERVER_URL: "https://${HOST}"
+    ports:
+      - "<host-port>:8078"
+    volumes:
+      # For nightly image:
+      # "recipya-data:/home/recipya/.config/Recipya"
+      - "/mnt/containers/recipya:/root/.config/Recipya"
+    user: "${UID:-1000}:${GID:-1000}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.recipya.rule=Host(`${HOST}`)"
+      - "traefik.http.services.recipya.loadbalancer.server.port=8078"
+      - "traefik.http.routers.recipya.entrypoints=websecure"
+      - "traefik.http.routers.recipya.tls=true"
+      - "traefik.http.routers.recipya.tls.certresolver=myresolver"
+      - "homepage.group=Media"
+      - "homepage.name=Recipya"
+      - "homepage.icon=recipya.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Recype library"
+
+networks:
+  services:
+    name: services
+    external: true
