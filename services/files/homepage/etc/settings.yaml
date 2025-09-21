@@ -1,12 +1,8 @@
 layout:
   Media:
     iconsOnly: true
-    #style: column
-    #row: 2
   Monitoring:
     iconsOnly: true
-    style: row
-    columns: 2
   Finances:
     style: row
     columns: 1
