@@ -1,0 +1,41 @@
+---
+services:
+  freshrss:
+    image: freshrss/freshrss:1.27.0
+    container_name: freshrss
+    hostname: freshrss
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+    volumes:
+      - /mnt/containers/freshrss/data:/var/www/FreshRSS/data
+      - /mnt/containers/freshrss/extensions:/var/www/FreshRSS/extensions
+    environment:
+      - TZ=Europe/Rome
+      - CRON_MIN=3,33
+      - BASE_URL=https://${HOST}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_API_PASSWORD=${ADMIN_API_PASSWORD}
+        # Published port if running locally
+      - PUBLISHED_PORT=8080
+
+    networks:
+      - services
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.freshrss.rule=Host(`${HOST}`)"
+      - "traefik.http.services.freshrss.loadbalancer.server.port=8080"
+      - "traefik.http.routers.freshrss.entrypoints=websecure"
+      - "traefik.http.routers.freshrss.tls=true"
+      - "traefik.http.routers.freshrss.tls.certresolver=myresolver"
+      - "homepage.group=Media"
+      - "homepage.name=FreshRSS"
+      - "homepage.icon=freshrss.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Feed aggregator"
+networks:
+  services:
+    name: services
+    external: true
