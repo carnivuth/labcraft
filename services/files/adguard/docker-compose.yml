@@ -22,6 +22,8 @@ services:
       - "homepage.icon=adguard-home.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=dns forwarder"
+      - "homepage.widget.type=adguard"
+      - "homepage.widget.url=https://${HOST}"
 
 networks:
   services:
