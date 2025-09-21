@@ -2,6 +2,7 @@
 services:
   traefik:
     restart: unless-stopped
+    container_name: traefik
     networks:
       - services
     # The official v3 Traefik docker image
