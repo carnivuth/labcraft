@@ -1,13 +1,16 @@
 layout:
   Media:
     iconsOnly: true
+    style: row
+    columns: 2
   Cloud:
     style: row
     fullWidth: true
     columns: 1
   Monitoring:
+    iconsOnly: true
     style: row
-    columns: 1
+    columns: 2
   Finances:
     style: row
     columns: 1
