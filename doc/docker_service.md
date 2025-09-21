@@ -44,3 +44,7 @@ Then add `traefik` and `homepage labels` for reverse proxy configuration and hom
       - "homepage.href=https://${HOST}"
       - "homepage.description=Service description"
 ```
+
+### Adding configuration files
+
+Configuration files are managed inside the `etc/` directory and copied over when provisioning, when adding a service that needs configuration files create a dir `etc/` inside the service folder and edit the parameters as needed, see homepage service as reference
