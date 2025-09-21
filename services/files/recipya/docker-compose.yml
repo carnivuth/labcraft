@@ -17,13 +17,10 @@ services:
       RECIPYA_SERVER_NO_SIGNUPS: true
       RECIPYA_SERVER_PORT: 8078
       RECIPYA_SERVER_URL: "https://${HOST}"
-    ports:
-      - "<host-port>:8078"
     volumes:
       # For nightly image:
       # "recipya-data:/home/recipya/.config/Recipya"
       - "/mnt/containers/recipya:/root/.config/Recipya"
-    user: "${UID:-1000}:${GID:-1000}"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.recipya.rule=Host(`${HOST}`)"
