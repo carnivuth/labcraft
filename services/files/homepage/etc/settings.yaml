@@ -1,0 +1,9 @@
+layout:
+  Media:
+    iconsOnly: true
+    style: row
+    columns: 4
+  Cloud:
+    iconsOnly: false
+    style: row
+    columns: 1
