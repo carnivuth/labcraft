@@ -73,14 +73,6 @@
           loop_control:
             index_var: index
 
-        - name: Create env file
-          when: services[app].env_file is defined
-          ansible.builtin.file:
-            path: "{{ services[app].env_file }}"
-            state: touch
-            mode: "600"
-
-
         - name: Create a DNS record for the {{ app }}
           community.general.cloudflare_dns:
             zone: "{{ cloudflare_domain }}"
