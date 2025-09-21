@@ -30,7 +30,7 @@ services:
       - "traefik.http.routers.recipya.tls.certresolver=myresolver"
       - "homepage.group=Media"
       - "homepage.name=Recipya"
-      - "homepage.icon=recipya.svg"
+      - "homepage.icon=recipya.png"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Recype library"
 
