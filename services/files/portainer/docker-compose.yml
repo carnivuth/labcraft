@@ -14,7 +14,7 @@ services:
       - "traefik.http.routers.portainer.rule=Host(`${HOST}`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
-      - "homepage.group=Monitoring"
+      - "homepage.group=Monitoring and access control"
       - "homepage.name=Portainer"
       - "homepage.icon=portainer.svg"
       - "homepage.href=https://${HOST}"

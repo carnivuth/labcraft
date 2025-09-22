@@ -8,7 +8,7 @@ background:
 layout:
   Media:
     iconsOnly: true
-  Monitoring:
+  Monitoring and access control:
     iconsOnly: true
   Finances:
     style: row
