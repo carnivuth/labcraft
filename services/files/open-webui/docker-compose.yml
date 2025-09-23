@@ -26,7 +26,7 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
-    hostname: ollama
+    restart: unless-stopped
     networks:
       - open-webui
     volumes:
