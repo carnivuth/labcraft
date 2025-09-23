@@ -13,7 +13,7 @@ resource "proxmox_vm_qemu" "avalug" {
   clone       = "debian-13-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.202/24"
   scsihw      = "virtio-scsi-pci"
-  boot        = "order=scsi0;net0"
+  boot        = "order=scsi0;ide2"
   cipassword  = var.guest_password
   ciuser      = var.guest_user
   sshkeys     = var.ssh_pub_key
