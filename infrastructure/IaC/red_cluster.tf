@@ -2,9 +2,9 @@ resource "proxmox_vm_qemu" "avalug" {
   name        = "avalug"
   tags        = "docker;service_manager;red;prod"
   pool        = "prod"
-  cores       = 4
+  cores       = 8
   sockets     = 1
-  memory      = 8192
+  memory      = 16384
   target_node = var.proxmox_host
   clone       = "debian-13-cloudinit-template"
   ipconfig0   = "gw=192.168.1.1,ip=192.168.1.202/24"
