@@ -1,0 +1,40 @@
+---
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    networks:
+      - services
+      - open-webui
+    volumes:
+      - /mnt/containers/open-webui:/app/backend/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.open-webui.entrypoints=websecure"
+      - "traefik.http.routers.open-webui.rule=Host(`${HOST}`)"
+      - "traefik.http.services.open-webui.loadbalancer.server.port=8080"
+      - "traefik.http.routers.open-webui.tls.certresolver=myresolver"
+      - "traefik.http.routers.open-webui.tls=true"
+      - "homepage.group=AI services"
+      - "homepage.name=Open webui"
+      - "homepage.icon=open-webui-light.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=AI chatbot"
+    environment:
+      OLLAMA_BASE_URLS: http://ollama:11434
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    hostname: ollama
+    networks:
+      - open-webui
+    volumes:
+      - /mnt/containers/open-webui/ollama:/root/.ollama
+networks:
+  open-webui:
+    name: open-webui
+    driver: bridge
+  services:
+    name: services
+    external: true
