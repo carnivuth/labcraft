@@ -1,6 +1,6 @@
 #!/bin/bash
-# this workflow updates the infrastructure when there is a terraform update:
-# - runs terraform
+# this workflow updates the infrastructure when there is a opentofu update:
+# - runs opentofu
 # - reconfigure dns (in case a new machine has been created)
 # - exec basic configurations
 # - configures mail notifications
@@ -12,17 +12,17 @@ LOG_DIR="/var/log/labcraft"; if [[ ! -d "$LOG_DIR" ]];then mkdir -p "$LOG_DIR"; 
 function workflow(){
 
   changes="$1"
-  # run terraform only in the main branch
+  # run opentofu only in the main branch
   if [[ $(git branch --show-current) == "main" ]]; then
     (
       cd infrastructure/IaC
       timestamp="$(date +%s)"
-      #terraform plan -out "$LOG_DIR/terraform.$timestamp.plan.log" | tee -a "$LOG_DIR/terraform.log" && \
-      #terraform apply -auto-approve "$LOG_DIR/terraform.$timestamp.plan.log" | tee -a "$LOG_DIR/terraform.log"
+      #tofu plan -out "$LOG_DIR/tofu.$timestamp.plan.log" | tee -a "$LOG_DIR/opentofu.log" && \
+      #tofy apply -auto-approve "$LOG_DIR/tofu.$timestamp.plan.log" | tee -a "$LOG_DIR/opentofu.log"
     )
   fi
 
-  # reconfigure dns after terraform runs and apply common configurations to hosts an postfix setup
+  # reconfigure dns after opentofu runs and apply common configurations to hosts an postfix setup
    ( cd infrastructure; run_pb dns; run_pb common; run_pb postfix)
 
    # install docker engine when a new docker host is created
