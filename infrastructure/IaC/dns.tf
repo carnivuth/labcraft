@@ -1,59 +1,112 @@
-resource "proxmox_lxc" "espeon" {
-  target_node     = var.proxmox_host
-  hostname        = "espeon"
-  tags            = "dns;primary_dns"
-  pool            = "prod"
-  ostemplate      = var.debian_12_ct_template
-  password        = var.guest_password
-  unprivileged    = true
-  ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.external_nameserver
-  cores           = 1
-  memory          = 512
-  onboot          = true
-  start           = true
+resource "proxmox_virtual_environment_container" "glaceon" {
+  description = "Dns server"
+  tags        = ["dns","test"]
+  pool_id = "test"
 
-  rootfs {
-    storage = var.main_pool
-    size    = "8G"
-  }
+  node_name = "pve"
+  vm_id     = 201
+
+  unprivileged = true
 
   features {
     nesting = true
   }
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.1.96/24"
-    gw     = var.guest_gw
+
+  initialization {
+    hostname = "glaceon"
+
+    dns {
+      domain = "carnivuth.org"
+      servers = ["192.168.1.96","192.168.1.97"]
+
+    }
+    ip_config {
+      ipv4 {
+        address = "192.168.1.201/24"
+        gateway = "192.168.1.1"
+      }
+    }
+
+    user_account {
+      password = var.password
+      keys = [
+        var.ssh_pub_key
+      ]
+    }
+  }
+
+  network_interface {
+    name = "veth0"
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = 5
+  }
+
+  operating_system {
+    template_file_id = proxmox_virtual_environment_download_file.debian_ct_cloud_image.id
+    type             = "debian"
+  }
+
+
+  startup {
+    order      = "1"
   }
 }
-resource "proxmox_lxc" "umbreon" {
-  target_node     = var.proxmox_host
-  hostname        = "umbreon"
-  tags            = "dns;secondary_dns"
-  pool            = "prod"
-  ostemplate      = var.debian_12_ct_template
-  password        = var.guest_password
-  unprivileged    = true
-  ssh_public_keys = var.ssh_pub_key
-  nameserver      = var.external_nameserver
-  cores           = 1
-  memory          = 512
-  onboot          = true
-  start           = true
+resource "proxmox_virtual_environment_container" "flareon" {
+  description = "Dns server"
+  tags        = ["dns","test"]
+  pool_id = "test"
 
-  rootfs {
-    storage = var.main_pool
-    size    = "8G"
-  }
+  node_name = "pve"
+  vm_id     = 202
+
+  unprivileged = true
+
   features {
     nesting = true
   }
-  network {
-    name   = "eth0"
-    bridge = "vmbr0"
-    ip     = "192.168.1.97/24"
-    gw     = var.guest_gw
+
+  initialization {
+    hostname = "flareon"
+
+    dns {
+      domain = "carnivuth.org"
+      servers = ["192.168.1.96","192.168.1.97"]
+
+    }
+    ip_config {
+      ipv4 {
+        address = "192.168.1.208/24"
+        gateway = "192.168.1.1"
+      }
+    }
+
+    user_account {
+      password = var.password
+      keys = [
+        var.ssh_pub_key
+      ]
+    }
+  }
+
+  network_interface {
+    name = "veth0"
+  }
+
+  disk {
+    datastore_id = "local-lvm"
+    size         = 5
+  }
+
+  operating_system {
+    template_file_id = proxmox_virtual_environment_download_file.debian_ct_cloud_image.id
+    type             = "debian"
+  }
+
+
+  startup {
+    order      = "2"
   }
 }
