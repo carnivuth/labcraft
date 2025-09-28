@@ -18,6 +18,8 @@ services:
       - "ND_BACKUP_COUNT=7"
       - "ND_REVERSEPROXYWHITELIST=0.0.0.0/0"
       - "ND_PROMETHEUS_ENABLED=true"
+      - "ND_DEFAULTSHAREEXPIRATION=24h"
+      - "ND_DEFAULTDOWNLOADABLESHARE=true"
       - "ND_PROMETHEUS_METRICSPATH=${ND_PROMETHEUS_METRICSPATH}"
       # Since authentication is entirely handled by Authelia, users don't need to
       # manage their password in Navidrome anymore.
