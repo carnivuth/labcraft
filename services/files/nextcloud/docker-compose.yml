@@ -53,11 +53,16 @@ services:
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.regex=https://(.*)/.well-known/(?:card|cal)dav"
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.replacement=https://$${1}/remote.php/dav"
+      # homepage labels
       - "homepage.group=Personal cloud"
       - "homepage.name=Nextcloud"
       - "homepage.icon=nextcloud.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=cloud storage"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
 
 volumes:
   nextcloud-database:
