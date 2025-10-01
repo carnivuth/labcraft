@@ -1,0 +1,42 @@
+services:
+  speedtest-tracker:
+    image: ghcr.io/alexjustesen/speedtest-tracker:v0.19.0
+    restart: unless-stopped
+    container_name: speedtest-tracker
+    networks:
+      - services
+    environment:
+        - "PUID=0"
+        - "PGID=0"
+        - "APP_KEY=${APP_KEY}"
+        - "ADMIN_NAME=${ADMIN_NAME}"
+        - "ADMIN_EMAIL=${ADMIN_EMAIL}"
+        - "ADMIN_PASSWORD=${ADMIN_PASSWORD}"
+        - "DB_CONNECTION=sqlite"
+        - "SPEEDTEST_SERVERS=61135,40519,59168,36930,38731,39329,60884,20551,21272,44591"
+        - "SPEEDTEST_SCHEDULE=*/5 * * * *"
+        - "APP_URL=${HOST}"
+        - "ASSET_URL=${HOST}"
+        - "DISPLAY_TIMEZONE=Europe/Rome"
+        - "TZ=Europe/Rome"
+    volumes:
+        - /mnt/containers/speedtest-tracker/:/config
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.speedtest-tracker.rule=Host(`${HOST}`)"
+      - "traefik.http.services.speedtest-tracker.loadbalancer.server.port=80"
+      - "traefik.http.routers.speedtest-tracker.entrypoints=websecure"
+      - "traefik.http.routers.speedtest-tracker.tls=true"
+      - "traefik.http.routers.speedtest-tracker.tls.certresolver=myresolver"
+      # homepage labels
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Speedtest tracker"
+      - "homepage.icon=speedtest-tracker.png"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=network performance monitor"
+
+networks:
+  services:
+    name: services
+    external: true
