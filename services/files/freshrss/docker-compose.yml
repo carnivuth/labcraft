@@ -29,7 +29,7 @@ services:
       - "traefik.http.routers.freshrss.entrypoints=websecure"
       - "traefik.http.routers.freshrss.tls=true"
       - "traefik.http.routers.freshrss.tls.certresolver=myresolver"
-      - "homepage.group=Media"
+      - "homepage.group=News and notifications"
       - "homepage.name=FreshRSS"
       - "homepage.icon=freshrss.svg"
       - "homepage.href=https://${HOST}"
