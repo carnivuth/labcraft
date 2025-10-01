@@ -11,7 +11,9 @@ layout:
     style: row
     fullWidth: true
     columns: 1
-  Media:
+  News and notifications:
+    iconsOnly: true
+  Media streaming:
     iconsOnly: true
   Monitoring and access control:
     iconsOnly: true
