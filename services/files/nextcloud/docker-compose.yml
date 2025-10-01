@@ -63,6 +63,7 @@ services:
       - "diun.enable=true"
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 
 volumes:
   nextcloud-database:
