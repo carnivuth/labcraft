@@ -21,11 +21,8 @@ services:
       - "ND_DEFAULTSHAREEXPIRATION=24h"
       - "ND_DEFAULTDOWNLOADABLESHARE=true"
       - "ND_PROMETHEUS_METRICSPATH=${ND_PROMETHEUS_METRICSPATH}"
-      # Since authentication is entirely handled by Authelia, users don't need to
-      # manage their password in Navidrome anymore.
+      # inserted cause authelia is configured
       - "ND_ENABLEUSEREDITING=false"
-
-
     ports:
       - 8085:4533
     volumes:
@@ -33,22 +30,29 @@ services:
       - "/mnt/containers/navidrome/data:/data"
       - "/mnt/containers/navidrome/collection:/music:ro"
     labels:
+      # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.navidrome.entrypoints=websecure"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
-      - "traefik.http.routers.navidrome.middlewares=authelia@docker"
       - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
-
+      # traefik authelia proxy auth
+      - "traefik.http.routers.navidrome.middlewares=authelia@docker"
       - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome-subsonic.rule=Host(`${HOST}`) && PathPrefix(`/rest/`) && !Query(`c`, `NavidromeUI`)"
       - "traefik.http.routers.navidrome-subsonic.entrypoints=websecure"
       - "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
+      # homepage labels
       - "homepage.group=Media streaming"
       - "homepage.name=Navidrome"
       - "homepage.icon=navidrome.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Music streaming"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 networks:
   services:
     name: services
