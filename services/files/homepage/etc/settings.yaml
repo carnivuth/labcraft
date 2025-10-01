@@ -1,4 +1,5 @@
 title: Carnivuth personal services
+bookmarksStyle: icons
 background:
   image: /images/background.jpg
   blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
