@@ -6,8 +6,8 @@ services:
     networks:
       - services
     environment:
-        - "PUID=${PUID_speedtest-tracker}"
-        - "PGID=${PGID_speedtest-tracker}"
+        - "PUID=${PUID_SPEEDTEST_TRACKER}"
+        - "PGID=${PGID_SPEEDTEST_TRACKER}"
         - "APP_KEY=${APP_KEY}"
         - "ADMIN_NAME=${ADMIN_NAME}"
         - "ADMIN_EMAIL=${ADMIN_EMAIL}"
