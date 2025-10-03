@@ -99,10 +99,10 @@
           loop_control:
             index_var: index
 
-        - name: Save GUIDs in .env file
+        - name: Save PGIDs in .env file
           ansible.builtin.lineinfile:
             path: /usr/local/{{ app }}/.env
-            line: GUID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
+            line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
             create: true
             state: present
           loop: "{{ users }}"
