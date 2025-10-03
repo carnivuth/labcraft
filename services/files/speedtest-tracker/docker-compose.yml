@@ -15,8 +15,8 @@ services:
         - "DB_CONNECTION=sqlite"
         - "SPEEDTEST_SERVERS=61135,40519,59168,36930,38731,39329,60884,20551,21272,44591"
         - "SPEEDTEST_SCHEDULE=*/5 * * * *"
-        - "APP_URL=${HOST}"
-        - "ASSET_URL=${HOST}"
+        - "APP_URL=https://${HOST}"
+        - "ASSET_URL=https://${HOST}"
         - "DISPLAY_TIMEZONE=Europe/Rome"
         - "TZ=Europe/Rome"
     volumes:
