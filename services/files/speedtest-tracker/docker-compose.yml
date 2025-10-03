@@ -3,11 +3,12 @@ services:
     image: lscr.io/linuxserver/speedtest-tracker:1.6.8
     restart: unless-stopped
     container_name: speedtest-tracker
+    user: speedtest-tracker
     networks:
       - services
     environment:
-        - "PUID=0"
-        - "PGID=0"
+        - "PUID=${PUID}"
+        - "PGID=${PGID}"
         - "APP_KEY=${APP_KEY}"
         - "ADMIN_NAME=${ADMIN_NAME}"
         - "ADMIN_EMAIL=${ADMIN_EMAIL}"
