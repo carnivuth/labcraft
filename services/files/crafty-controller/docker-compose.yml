@@ -24,6 +24,8 @@ services:
       - "traefik.http.routers.crafty-controller.entrypoints=websecure"
       - "traefik.http.routers.crafty-controller.tls=true"
       - "traefik.http.routers.crafty-controller.tls.certresolver=myresolver"
+      - "traefik.http.services.crafty-controller.loadbalancer.server.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto = https"
       - "homepage.group=Game Servers"
       - "homepage.name=Crafty controller"
       - "homepage.icon=crafty-controller.svg"
