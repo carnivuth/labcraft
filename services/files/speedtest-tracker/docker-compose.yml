@@ -14,7 +14,7 @@ services:
         - "ADMIN_PASSWORD=${ADMIN_PASSWORD}"
         - "DB_CONNECTION=sqlite"
         - "SPEEDTEST_SERVERS=61135,40519,59168,36930,38731,39329,60884,20551,21272,44591"
-        - "SPEEDTEST_SCHEDULE=*/5 * * * *"
+        - "SPEEDTEST_SCHEDULE=* * * * *"
         - "APP_URL=https://${HOST}"
         - "ASSET_URL=https://${HOST}"
         - "DISPLAY_TIMEZONE=Europe/Rome"
