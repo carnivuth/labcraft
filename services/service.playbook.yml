@@ -12,7 +12,7 @@
     - name: Fail if app is not defined
       ansible.builtin.fail:
         msg: variable app is not defined
-      when: app is not defined
+      when: app is not defined or app == ''
 
     - name: get app docker compose file status
       delegate_to: localhost
