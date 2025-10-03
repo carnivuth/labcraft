@@ -93,6 +93,8 @@
           ansible.builtin.lineinfile:
             path: /usr/local/{{ app }}/.env
             line: PUID_{{ users_data.results[index].name }}={{ users_data.results[index].uid }}
+            create: true
+            state: present
           loop: "{{ users }}"
           loop_control:
             index_var: index
@@ -101,6 +103,8 @@
           ansible.builtin.lineinfile:
             path: /usr/local/{{ app }}/.env
             line: GUID_{{ users_data.results[index].name }}={{ users_data.results[index].group }}
+            create: true
+            state: present
           loop: "{{ users }}"
           loop_control:
             index_var: index
