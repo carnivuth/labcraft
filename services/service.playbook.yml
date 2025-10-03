@@ -39,7 +39,7 @@
     - name: Get Services users
       when: service_file.stat.exists
       ansible.builtin.set_fact:
-        users: "{{ services | dict2items | json_query('[*].value.user') }}"
+        users: "{{ services | dict2items | json_query('[*].value.container_name') }}"
     - name: Debug
       ansible.builtin.debug:
         var: users
