@@ -36,6 +36,14 @@
       ansible.builtin.set_fact:
         volumes: "{{ services | dict2items | json_query('[*].value.volumes') | flatten }}"
 
+    - name: Get Services users
+      when: service_file.stat.exists
+      ansible.builtin.set_fact:
+        users: "{{ services | dict2items | json_query('[*].value.user') }}"
+    - name: Debug
+      ansible.builtin.debug:
+        var: users
+
   tasks:
 
     - name: Proceed to service installation if file is present
@@ -70,6 +78,30 @@
             state: directory
             mode: "755"
           loop: "{{ volumes }}"
+          loop_control:
+            index_var: index
+
+        - name: Create application users and save PUIDs and GUIDs
+          ansible.builtin.user:
+            name: "{{ item }}"
+            create_home: true
+            home: /usr/local/{{ app }}
+          register: users_data
+          loop: "{{ users }}"
+
+        - name: Save PUIDs in .env file
+          ansible.builtin.lineinfile:
+            path: /usr/local/{{ app }}/.env
+            line: PUID_{{ users_data.results[index].name }}={{ users_data.results[index].uid }}
+          loop: "{{ users }}"
+          loop_control:
+            index_var: index
+
+        - name: Save GUIDs in .env file
+          ansible.builtin.lineinfile:
+            path: /usr/local/{{ app }}/.env
+            line: GUID_{{ users_data.results[index].name }}={{ users_data.results[index].group }}
+          loop: "{{ users }}"
           loop_control:
             index_var: index
 
