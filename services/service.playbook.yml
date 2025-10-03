@@ -82,7 +82,7 @@
             api_token: "{{ cloudflare_api_token }}"
             state: present
 
-        - name: Add hostname as a paramenter in docker environment
+        - name: Add cloudflare account email in docker environment
           when: app == "traefik"
           ansible.builtin.lineinfile:
             path: "/usr/local/{{ app }}/.env"
