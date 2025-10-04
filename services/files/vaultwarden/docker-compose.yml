@@ -12,17 +12,24 @@ services:
     volumes:
       - /mnt/containers/vaultwarden:/data/
     labels:
+      # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.rule=Host(`${HOST}`)"
       - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.http.routers.vaultwarden.tls=true"
       - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
+      # homepage labels
       - "homepage.group=Passwords"
       - "homepage.name=Vaultwarden"
       - "homepage.icon=vaultwarden.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Password vault"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 networks:
   services:
     name: services
