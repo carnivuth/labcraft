@@ -14,7 +14,7 @@ services:
       - "ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}"
       - "ND_LASTFM_SECRET=${ND_LASTFM_SECRET}"
       - "ND_BACKUP_PATH=/backup"
-      - "ND_BACKUP_SCHEDULE=*/5 0 * * *"
+      - "ND_BACKUP_SCHEDULE=0 18 * * *"
       - "ND_BACKUP_COUNT=7"
       - "ND_REVERSEPROXYWHITELIST=0.0.0.0/0"
       - "ND_PROMETHEUS_ENABLED=true"
