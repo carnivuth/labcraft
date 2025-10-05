@@ -1,6 +1,6 @@
 services:
   minecraft-server:
-    image: itzg/minecraft-server
+    image: itzg/minecraft-server:2025.10.1
     restart: unless-stopped
     container_name: minecraft-server
     tty: true
