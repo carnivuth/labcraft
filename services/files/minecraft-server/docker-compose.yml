@@ -21,10 +21,9 @@ services:
       - "diun.max_tags=3"
       # traefik labels
       - "traefik.enable=true"
-      - "traefik.tcp.routers.minecraft-server.rule=HostSNI(`${HOST}`)"
+      - "traefik.tcp.routers.minecraft-server.rule=HostSNI(`*`)"
       - "traefik.tcp.routers.minecraft-server.entrypoints=minecraft"
       - "traefik.tcp.services.minecraft-server.loadbalancer.server.port=25565"
-      - "traefik.tcp.routers.minecraft-server.tls=true"
 networks:
   services:
     name: services
