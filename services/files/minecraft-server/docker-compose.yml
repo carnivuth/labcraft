@@ -11,6 +11,8 @@ services:
       - "TYPE=VANILLA"
       - "DIFFICULTY=hard"
       - "SERVER_NAME=carnivuth-mc"
+    networks:
+      - services
     volumes:
       - /mnt/containers/minecraft-server/:/data
     labels:
