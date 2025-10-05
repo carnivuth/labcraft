@@ -1,0 +1,19 @@
+services:
+  minecraft-server:
+    image: itzg/minecraft-server
+    restart: unless-stopped
+    container_name: minecraft-server
+    tty: true
+    stdin_open: true
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+    volumes:
+      - /mnt/containers/minecraft-server/:/data
+    labels:
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
