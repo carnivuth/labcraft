@@ -5,8 +5,6 @@ services:
     container_name: minecraft-server
     tty: true
     stdin_open: true
-    ports:
-      - "25565:25565"
     environment:
       - "EULA=TRUE"
       - "TZ=Europe/Rome"
@@ -21,3 +19,12 @@ services:
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
       - "diun.max_tags=3"
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.minecraft-server.rule=Host(`${HOST}`)"
+      - "traefik.tcp.routers.minecraft-server.entrypoints=minecraft"
+      - "traefik.tcp.services.minecraft-server.loadbalancer.server.port=25565"
+networks:
+  services:
+    name: services
+    external: true
