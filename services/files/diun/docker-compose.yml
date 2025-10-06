@@ -1,6 +1,6 @@
 services:
   diun:
-    image: crazymax/diun:latest
+    image: crazymax/diun:4.30.0
     restart: unless-stopped
     container_name: diun
     command: serve
@@ -19,5 +19,9 @@ services:
       - "DIUN_NOTIF_TELEGRAM_CHATIDS=${DIUN_NOTIF_TELEGRAM_CHATIDS}"
       - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=${DIUN_NOTIF_TELEGRAM_TEMPLATEBODY}"
     labels:
+      # diun labels
       - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 
