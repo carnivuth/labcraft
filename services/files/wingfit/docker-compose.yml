@@ -3,6 +3,8 @@ services:
     image: ghcr.io/itskovacs/wingfit:5.3.1
     restart: unless-stopped
     container_name: wingfit
+    environment:
+      - REGISTER_ENABLE=false
     networks:
       - services
     volumes:
