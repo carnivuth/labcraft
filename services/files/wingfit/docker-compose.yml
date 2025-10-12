@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.wingfit.tls=true"
       - "traefik.http.routers.wingfit.tls.certresolver=myresolver"
       # homepage labels
-      - "homepage.group=Media streaming"
+      - "homepage.group=Health"
       - "homepage.name=Wingfit"
       - "homepage.icon=https://github.com/itskovacs/wingfit/blob/main/src/public/favicon_square.png"
       - "homepage.href=https://${HOST}"
