@@ -1,0 +1,28 @@
+services:
+  wingfit:
+    image: ghcr.io/itskovacs/wingfit:5.3.1
+    restart: unless-stopped
+    container_name: wingfit
+    networks:
+      - services
+    volumes:
+      - /mnt/containers/wingfit:/app/storage
+    command: ["fastapi", "run", "/app/wingfit/main.py", "--host", "0.0.0.0"]
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.wingfit.rule=Host(`${HOST}`)"
+      - "traefik.http.services.wingfit.loadbalancer.server.port=8000"
+      - "traefik.http.routers.wingfit.entrypoints=websecure"
+      - "traefik.http.routers.wingfit.tls=true"
+      - "traefik.http.routers.wingfit.tls.certresolver=myresolver"
+      # homepage labels
+      - "homepage.group=Media streaming"
+      - "homepage.name=Wingfit"
+      - "homepage.icon=https://github.com/itskovacs/wingfit/blob/main/src/public/favicon_square.png"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Jim tracking app"
+networks:
+  services:
+    name: services
+    external: true
