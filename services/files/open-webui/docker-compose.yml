@@ -24,7 +24,7 @@ services:
     environment:
       OLLAMA_BASE_URLS: http://ollama:11434
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.12.5
     container_name: ollama
     restart: unless-stopped
     networks:
