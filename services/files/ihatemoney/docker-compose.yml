@@ -2,7 +2,7 @@
 services:
   ihatemoney:
     restart: unless-stopped
-    image: ihatemoney/ihatemoney:latest
+    image: ihatemoney/ihatemoney:6.1.5
     container_name: ihatemoney
     environment:
       - DEBUG=True
