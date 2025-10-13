@@ -21,7 +21,7 @@ services:
       # homepage labels
       - "homepage.group=Health"
       - "homepage.name=Wingfit"
-      - "homepage.icon=https://github.com/itskovacs/wingfit/blob/main/src/public/favicon_square.png"
+      - "homepage.icon=sh-wingfit.png"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Jim tracking app"
 networks:
