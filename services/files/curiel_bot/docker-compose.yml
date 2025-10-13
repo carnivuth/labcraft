@@ -9,4 +9,8 @@ services:
     volumes:
       - '/mnt/containers/curiel_bot/:/var/lib/curiel_bot/data'
     labels:
+      # diun labels
       - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
