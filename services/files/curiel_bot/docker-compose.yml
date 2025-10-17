@@ -1,7 +1,7 @@
 services:
   curiel_bot:
     container_name: curiel_bot
-    image: carnivuth/curiel_bot:v1.0.2
+    image: carnivuth/curiel_bot:v1.0.3
     restart: unless-stopped
     environment:
       - TOKEN=${TOKEN}
