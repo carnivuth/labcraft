@@ -1,0 +1,51 @@
+---
+services:
+  torrra:
+    image: stabldev/torrra:1.2.8
+    container_name: torrra
+    networks:
+      - jackett
+    volumes:
+       - /mnt/containers/torrra/config:/root/.config/torrra
+       - /mnt/containers/torrra/downloads:/root/Downloads
+
+  jackett:
+    image: linuxserver/jackett:0.24.95
+    container_name: jackett
+    restart: unless-stopped
+    networks:
+      - jackett
+      - services
+    environment:
+      - PUID=${PUID_JACKETT}
+      - PGID=${PGID_JACKETT}
+      - TZ=Europe/Rome
+    volumes:
+      - /mnt/containers/jackett/config:/config
+      - /mnt/containers/jackett/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jackett.entrypoints=websecure"
+      - "traefik.http.routers.jackett.rule=Host(`${HOST}`)"
+      - "traefik.http.services.jackett.loadbalancer.server.port=9117"
+      - "traefik.http.routers.jackett.tls.certresolver=myresolver"
+      - "traefik.http.routers.jackett.tls=true"
+      # homepage labels
+      - "homepage.group=Media streaming"
+      - "homepage.name=Jackett"
+      - "homepage.icon=jackett.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Torrent indexer"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+
+networks:
+  services:
+    name: services
+    external: true
+  jackett:
+    name: jackett
+    driver: bridge
