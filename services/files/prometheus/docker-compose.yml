@@ -24,6 +24,7 @@ services:
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
       - "traefik.http.routers.prometheus.tls.certresolver=myresolver"
       - "traefik.http.routers.prometheus.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.prometheus.middlewares=authelia-basicauth@docker"
       # homepage labels
       - "homepage.group=Monitoring and access control"
       - "homepage.name=Prometheus"
