@@ -46,7 +46,7 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
       # block middleware
-      - "http.middlewares.deny.IPAllowList=''"
+      - "traefik.http.middlewares.deny.IPAllowList=''"
       # homepage labels
       - "homepage.group=Monitoring and access control"
       - "homepage.name=Traefik"
