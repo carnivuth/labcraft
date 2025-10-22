@@ -23,13 +23,10 @@ services:
       - "--entryPoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.asDefault=true"
-      #-" --entrypoints.websecure.http.tls.certresolver=myresolver"
-      #-" --traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=${CLOUDFLARE_ACCOUNT_EMAIL}"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
 
     ports:
       # HTTP port
@@ -48,6 +45,9 @@ services:
       - "traefik.http.routers.dashboard.rule=Host(`${HOST}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      # block middleware
+      - "http.middlewares.deny.IPAllowList=''"
+      # homepage labels
       - "homepage.group=Monitoring and access control"
       - "homepage.name=Traefik"
       - "homepage.icon=traefik.svg"
