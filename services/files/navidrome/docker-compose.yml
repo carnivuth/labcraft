@@ -37,8 +37,8 @@ services:
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
       # block access from internet for the metrics endpoint
-      - traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) &&  Path(`/metrics`)
-      - traefik.http.routers.navidrome-metrics.middlewares=deny@docker
+      - "traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) && Path(`/metrics`)"
+      - "traefik.http.routers.navidrome-metrics.middlewares=deny@docker"
       # traefik authelia proxy auth
       - "traefik.http.routers.navidrome.middlewares=authelia@docker"
       - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
