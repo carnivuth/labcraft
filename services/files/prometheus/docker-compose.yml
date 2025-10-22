@@ -1,0 +1,44 @@
+---
+services:
+  prometheus:
+    image: prom/prometheus:v3.7.1
+    container_name: prometheus
+    restart: unless-stopped
+    user: "${PUID_PROMETHEUS}"
+    volumes:
+      - /etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /mnt/containers/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring
+      - services
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+      - "traefik.http.routers.prometheus.tls.certresolver=myresolver"
+      - "traefik.http.routers.prometheus.rule=Host(`${HOST}`)"
+      # homepage labels
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Prometheus"
+      - "homepage.icon=prometheus.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Data collector"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+
+networks:
+  monitoring:
+    driver: bridge
+  services:
+    name: services
+    external: true
