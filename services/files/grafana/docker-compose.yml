@@ -1,0 +1,45 @@
+---
+services:
+  grafana:
+    image: grafana/grafana:12.2
+    container_name: grafana
+    restart: unless-stopped
+    user: "${PUID_GRAFANA}"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+    ports:
+      - '3000:3000'
+    networks:
+      - monitoring
+      - services
+    volumes:
+      - /mnt/containers/grafana:/var/lib/grafana
+
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.routers.grafana.tls.certresolver=myresolver"
+      - "traefik.http.routers.grafana.rule=Host(`${HOST}`)"
+      # homepage labels
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Grafana"
+      - "homepage.icon=grafana.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Data visualization"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+
+networks:
+  monitoring:
+    name: monitoring
+    external: true
+  services:
+    name: services
+    external: true
+
