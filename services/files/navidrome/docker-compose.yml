@@ -23,6 +23,8 @@ services:
       - "ND_PROMETHEUS_METRICSPATH=${ND_PROMETHEUS_METRICSPATH}"
       # inserted cause authelia is configured
       - "ND_ENABLEUSEREDITING=false"
+    expose:
+      - 4533
     volumes:
       - "/mnt/containers/navidrome/backup:/backup"
       - "/mnt/containers/navidrome/data:/data"
