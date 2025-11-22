@@ -1,0 +1,8 @@
+---
+- name: Install k3s on master roles
+  hosts: k3s_masters
+  tasks:
+    - name: Install k3s
+      ansible.builtin.command:
+        cmd: "curl -sfL https://get.k3s.io | sh -"
+        creates: /usr/local/bin/k3s

@@ -25,3 +25,4 @@ groups:
   vpn: "'vpn' in (proxmox_tags_parsed|list)"
   nfs: "'nfs' in (proxmox_tags_parsed|list)"
   docker: "'docker' in (proxmox_tags_parsed|list)"
+  k3s_master: "'k3s_master' in (proxmox_tags_parsed|list)"
