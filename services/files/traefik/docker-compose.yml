@@ -6,7 +6,7 @@ services:
     networks:
       - services
     # The official v3 Traefik docker image
-    image: traefik:v3.4
+    image: traefik:v3.6.2
     # Enables the web UI and tells Traefik to listen to docker
     environment:
     - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
