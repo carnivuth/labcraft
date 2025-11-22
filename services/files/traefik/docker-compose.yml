@@ -57,6 +57,12 @@ services:
       - "homepage.href=https://${HOST}/dashboard/"
       - "homepage.description=Reverse proxy"
 
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+
 networks:
   services:
     name: services
