@@ -17,8 +17,8 @@ function workflow(){
     (
       cd infrastructure/IaC
       timestamp="$(date +%s)"
-      #tofu plan -out "$LOG_DIR/tofu.$timestamp.plan.log" | tee -a "$LOG_DIR/opentofu.log" && \
-      #tofy apply -auto-approve "$LOG_DIR/tofu.$timestamp.plan.log" | tee -a "$LOG_DIR/opentofu.log"
+      tofu plan -out "$LOG_DIR/tofu.$timestamp.plan.log" | tee -a "$LOG_DIR/opentofu.log" && \
+      tofy apply -auto-approve "$LOG_DIR/tofu.$timestamp.plan.log" | tee -a "$LOG_DIR/opentofu.log"
     )
   fi
 
@@ -30,6 +30,9 @@ function workflow(){
 
    # install vpn server when a vpn endpoint is created
    grep -q "vpn" $changes && (cd infrastructure; run_pb vpn )
+
+   # install kubernetes k3s cluster when a k3s node is created
+   grep -q "k3s" $changes && (cd infrastructure; run_pb k3s )
 
 }
 
