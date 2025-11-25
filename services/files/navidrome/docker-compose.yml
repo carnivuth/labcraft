@@ -35,14 +35,14 @@ services:
       - "traefik.http.routers.navidrome.entrypoints=websecure"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
-      - "traefik.http.routers.navidrome.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.navidrome.rule=Host(`${HOST}`) && !PathPrefix(`/share/`)"
       # block access from internet for the metrics endpoint
       - "traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) && Path(`/metrics`)"
       - "traefik.http.routers.navidrome-metrics.middlewares=deny@docker"
       # traefik authelia proxy auth
       - "traefik.http.routers.navidrome.middlewares=authelia@docker"
       - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
-      - "traefik.http.routers.navidrome-subsonic.rule=Host(`${HOST}`) && PathPrefix(`/rest/`) && !Query(`c`, `NavidromeUI`)"
+      - "traefik.http.routers.navidrome-subsonic.rule=Host(`${HOST}`) && !PathPrefix(`/share/`) && PathPrefix(`/rest/`) && !Query(`c`, `NavidromeUI`)"
       - "traefik.http.routers.navidrome-subsonic.entrypoints=websecure"
       - "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
       # homepage labels
