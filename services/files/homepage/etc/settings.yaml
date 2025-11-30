@@ -7,10 +7,10 @@ background:
   brightness: 90 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
   opacity: 50 # 0-100
 layout:
-  Personal cloud:
+  Personal Cloud:
     style: row
     fullWidth: true
-    columns: 1
+    columns: 2
   News and notifications:
     iconsOnly: true
   Media streaming:

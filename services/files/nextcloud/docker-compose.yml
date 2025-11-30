@@ -54,7 +54,7 @@ services:
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.regex=https://(.*)/.well-known/(?:card|cal)dav"
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.replacement=https://$${1}/remote.php/dav"
       # homepage labels
-      - "homepage.group=Personal cloud"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Nextcloud"
       - "homepage.icon=nextcloud.svg"
       - "homepage.href=https://${HOST}"
