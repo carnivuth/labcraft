@@ -1,0 +1,38 @@
+---
+services:
+  vikunja:
+    container_name: vikunja
+    image: vikunja/vikunja:0.24.6
+    networks:
+      - services
+    environment:
+      VIKUNJA_SERVICE_JWTSECRET: ${VIKUNJA_SERVICE_JWTSECRET}
+      VIKUNJA_SERVICE_PUBLICURL: ${HOST}
+      VIKUNJA_DATABASE_PATH: /db/vikunja.db
+    volumes:
+      - /mnt/containers/vikunja/files:/app/vikunja/files
+      - /mnt/containers/vikunja/files/db:/db
+    restart: unless-stopped
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.services.vikunja.loadbalancer.server.port=3456"
+      # default entrypoint with authelia authentincation
+      - "traefik.http.routers.vikunja.entrypoints=websecure"
+      - "traefik.http.routers.vikunja.tls.certresolver=myresolver"
+      - "traefik.http.routers.vikunja.rule=Host(`${HOST}`)"
+      # homepage labels
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=vikunja"
+      - "homepage.icon=vikunja.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=ToDo task list"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+networks:
+  services:
+    name: services
+    external: true
