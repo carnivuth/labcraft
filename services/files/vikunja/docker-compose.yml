@@ -9,6 +9,7 @@ services:
       VIKUNJA_SERVICE_JWTSECRET: ${VIKUNJA_SERVICE_JWTSECRET}
       VIKUNJA_SERVICE_PUBLICURL: ${HOST}
       VIKUNJA_DATABASE_PATH: /db/vikunja.db
+    user: ${PUID_VIKUNJA}
     volumes:
       - /mnt/containers/vikunja/files:/app/vikunja/files
       - /mnt/containers/vikunja/files/db:/db
