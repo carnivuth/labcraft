@@ -10,5 +10,5 @@ resource "proxmox_virtual_environment_download_file" "debian_ct_cloud_image" {
   content_type = "vztmpl"
   datastore_id = "local"
   node_name    = "pve"
-  url          = "http://download.proxmox.com/images/system/debian-13-standard_13.1-1_amd64.tar.zst"
+  url          = "http://download.proxmox.com/images/system/debian-13-standard_13.1-2_amd64.tar.zst"
 }

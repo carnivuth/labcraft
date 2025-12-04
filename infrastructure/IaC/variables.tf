@@ -6,13 +6,10 @@ variable "proxmox_api_token" {
   description = "secret for proxmox api"
 }
 
-variable "ssh_pub_key" {
+variable "ssh_keys" {
   description = "default ssh pub key"
 }
 
-variable "password" {
-  description = "vms and containers password"
-}
 variable "dns_servers" {
   description = "dns servers"
 }

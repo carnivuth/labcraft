@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "kttack" {
   name      = "kttack"
   node_name = "pve"
   vm_id     = 206
-  pool_id = "test"
+
   # should be true if qemu agent is not installed / enabled on the VM
   stop_on_destroy = true
   tags        = ["k3s_master"]
@@ -14,9 +14,9 @@ resource "proxmox_virtual_environment_vm" "kttack" {
       keys     = var.ssh_keys
     }
     dns {
-        domain = "carnivuth.org"
-        servers = var.dns_servers
-      }
+      domain = "carnivuth.org"
+      servers = var.dns_servers
+    }
     ip_config {
       ipv4 {
         address = "192.168.1.206/24"
@@ -24,6 +24,14 @@ resource "proxmox_virtual_environment_vm" "kttack" {
       }
     }
   }
+  cpu {
+    cores = 4
+  }
+
+  memory {
+    dedicated = 4096
+  }
+
   network_device {
     bridge = "vmbr0"
   }
@@ -36,4 +44,12 @@ resource "proxmox_virtual_environment_vm" "kttack" {
     discard      = "on"
     size         = 50
   }
+}
+resource "proxmox_virtual_environment_pool" "kttack" {
+  pool_id = "kttack"
+}
+
+resource "proxmox_virtual_environment_pool_membership" "kttack_vm_membership" {
+  pool_id = proxmox_virtual_environment_pool.kttack.id
+  vm_id   = proxmox_virtual_environment_vm.kttack.id
 }
