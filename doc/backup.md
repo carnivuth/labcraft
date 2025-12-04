@@ -1,28 +1,22 @@
 # Backups management
 
-This infrastructure manages all of my backups, the backup centralizer is an lxc container that runs [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview)
+Backups are managed at the infrastructure level using [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview) and a pool based backup job
 
 ```mermaid
 flowchart
-    subgraph ditto
-		subgraph data_volume_group
-        A[rootfs]
-		end
-		subgraph backup_volume_group
-        B[backup disk]
-		end
-    end
+subgraph Proxmox host
+    A@{shape: proc, label: pbs}
+    B@{shape: db, label: backup-disk}
+
+    A -- write backups on disk --> B
+end
 ```
 
-All of my personal pc use borg for managing backup locally and then copy content to the centralizer machine using rsync, backup is achieved trough a [script](https://github.com/carnivuth/scripts/blob/main/bin/backup.sh) that runs as a systemd timer
+## Backup synchronization
 
-```mermaid
-sequenceDiagram
-participant laptop
-participant ditto
-laptop ->> laptop: creates backup
-laptop ->> ditto: sync changes
-Note over laptop,ditto: connection secured trough vpn
+Backups are also saved in a remote Hetzner storagebox, that is synchronized using `rsync` in a cron job
+
+```bash
+# backup rsync to storagebox and send mail with report of the sync
+0 22 * * * rsync --exclude "lost+found" -Pavr --delete "/mnt/datastore" "storagebox:" >  /var/log/backup-sync-"$(date +%s)".log
 ```
-
-vms and containers backups are managed trough proxmox backup server installed on the centralizer

@@ -14,15 +14,7 @@ compose:
   address: "proxmox_net0.ip | default(proxmox_ipconfig0.ip)"
   allowed_ips: 10.0.8.0/24
   wireguard_address: "'10.0.8.' ~ proxmox_net0.ip | split('.')| last | split('/') | first ~ '/24'"
-groups:
-  vms: "'qemu' in (proxmox_vm_type|list)"
-  cts: "'lxc' in (proxmox_vm_type| list)"
-  pwmanager: "'pwmanager' in (proxmox_tags_parsed|list)"
-  dns: "'dns' in (proxmox_tags_parsed|list)"
-  primary_dns: "'primary_dns' in (proxmox_tags_parsed|list)"
-  secondary_dns: "'secondary_dns' in (proxmox_tags_parsed|list)"
-  backup: "'backup' in (proxmox_tags_parsed|list)"
-  vpn: "'vpn' in (proxmox_tags_parsed|list)"
-  nfs: "'nfs' in (proxmox_tags_parsed|list)"
-  docker: "'docker' in (proxmox_tags_parsed|list)"
-  k3s_master: "'k3s_master' in (proxmox_tags_parsed|list)"
+keyed_groups:
+  # proxmox_tags_parsed is an example of a fact only returned when 'want_facts=true'
+  - key: proxmox_tags_parsed
+    separator: ""
