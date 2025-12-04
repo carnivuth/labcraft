@@ -1,6 +1,6 @@
 ---
 - name: Install k3s on master roles
-  hosts: k3s_masters
+  hosts: k3s_master
   tasks:
     - name: Install k3s
       ansible.builtin.command:
