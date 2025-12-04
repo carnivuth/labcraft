@@ -8,15 +8,14 @@ resource "proxmox_virtual_environment_vm" "kttack" {
   tags        = ["k3s_master"]
 
   initialization {
+
     user_account {
-      # do not use this in production, configure your own ssh key instead!
-      username = "user"
-      password = "password"
+      username = "root"
+      keys     = var.ssh_keys
     }
     dns {
         domain = "carnivuth.org"
-        servers = ["192.168.1.96","192.168.1.97"]
-
+        servers = var.dns_servers
       }
     ip_config {
       ipv4 {
@@ -38,4 +37,3 @@ resource "proxmox_virtual_environment_vm" "kttack" {
     size         = 50
   }
 }
-
