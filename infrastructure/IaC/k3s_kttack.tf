@@ -45,6 +45,7 @@ resource "proxmox_virtual_environment_vm" "kttack" {
     size         = 50
   }
 }
+
 resource "proxmox_virtual_environment_pool" "kttack" {
   pool_id = "kttack"
 }
