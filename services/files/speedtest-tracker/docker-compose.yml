@@ -1,6 +1,6 @@
 services:
   speedtest-tracker:
-    image: lscr.io/linuxserver/speedtest-tracker:1.7.1
+    image: lscr.io/linuxserver/speedtest-tracker:1.11.2
     restart: unless-stopped
     container_name: speedtest-tracker
     networks:
@@ -35,6 +35,11 @@ services:
       - "homepage.icon=speedtest-tracker.png"
       - "homepage.href=https://${HOST}"
       - "homepage.description=network performance monitor"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 
 networks:
   services:
