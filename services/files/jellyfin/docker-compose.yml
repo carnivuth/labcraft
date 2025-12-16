@@ -51,7 +51,7 @@ services:
       - 'traefik.http.middlewares.jellyfin.headers.customresponseheaders.X-XSS-PROTECTION=1'
       #### The customFrameOptionsValue allows the X-Frame-Options header value to be set with a custom value. This
       #### overrides the FrameDeny option.
-      - "traefik.http.middlewares.jellyfin.headers.customFrameOptionsValue='allow-from https://DOMAIN_NAME'"
+      - "traefik.http.middlewares.jellyfin.headers.customFrameOptionsValue='allow-from https://${HOST}'"
       - "homepage.group=Personal Cloud"
       - "homepage.name=Jellyfin"
       - "homepage.icon=jellyfin.svg"
