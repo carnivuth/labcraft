@@ -5,6 +5,7 @@ services:
     container_name: traefik
     networks:
       - services
+      - monitoring
     # The official v3 Traefik docker image
     image: traefik:v3.6.2
     # Enables the web UI and tells Traefik to listen to docker
@@ -27,6 +28,9 @@ services:
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=${CLOUDFLARE_ACCOUNT_EMAIL}"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      # metrics
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.addEntryPointsLabels=false"
 
     ports:
       # HTTP port
@@ -50,6 +54,7 @@ services:
       # block middleware
       - "traefik.http.middlewares.deny.IPAllowList.sourceRange=127.0.0.1/32"
 
+
       # homepage labels
       - "homepage.group=Monitoring and access control"
       - "homepage.name=Traefik"
@@ -67,6 +72,9 @@ networks:
   services:
     name: services
     driver: bridge
+  monitoring:
+    name: monitoring
+    external: true
 
 volumes:
   traefik-letsencrypt:
