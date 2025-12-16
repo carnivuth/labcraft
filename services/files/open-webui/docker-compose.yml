@@ -16,7 +16,7 @@ services:
       - "traefik.http.services.open-webui.loadbalancer.server.port=8080"
       - "traefik.http.routers.open-webui.tls.certresolver=myresolver"
       - "traefik.http.routers.open-webui.tls=true"
-      - "homepage.group=AI services"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Open webui"
       - "homepage.icon=open-webui-light.svg"
       - "homepage.href=https://${HOST}"

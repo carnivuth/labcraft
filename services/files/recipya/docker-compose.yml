@@ -28,7 +28,7 @@ services:
       - "traefik.http.routers.recipya.entrypoints=websecure"
       - "traefik.http.routers.recipya.tls=true"
       - "traefik.http.routers.recipya.tls.certresolver=myresolver"
-      - "homepage.group=Media streaming"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Recipya"
       - "homepage.icon=recipya.png"
       - "homepage.href=https://${HOST}"

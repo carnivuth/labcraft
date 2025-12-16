@@ -31,7 +31,7 @@ services:
       - "traefik.http.routers.jackett.tls.certresolver=myresolver"
       - "traefik.http.routers.jackett.tls=true"
       # homepage labels
-      - "homepage.group=Media streaming"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Jackett"
       - "homepage.icon=jackett.svg"
       - "homepage.href=https://${HOST}"

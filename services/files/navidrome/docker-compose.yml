@@ -51,7 +51,7 @@ services:
       - "traefik.http.routers.navidrome-subsonic.entrypoints=websecure"
       - "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
       # homepage labels
-      - "homepage.group=Media streaming"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Navidrome"
       - "homepage.icon=navidrome.svg"
       - "homepage.href=https://${HOST}"

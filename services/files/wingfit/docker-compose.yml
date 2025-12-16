@@ -19,7 +19,7 @@ services:
       - "traefik.http.routers.wingfit.tls=true"
       - "traefik.http.routers.wingfit.tls.certresolver=myresolver"
       # homepage labels
-      - "homepage.group=Health"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Wingfit"
       - "homepage.icon=sh-wingfit.png"
       - "homepage.href=https://${HOST}"

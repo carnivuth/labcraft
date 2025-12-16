@@ -41,7 +41,7 @@ services:
       - "traefik.http.routers.ihatemoney.entrypoints=websecure"
       - "traefik.http.routers.ihatemoney.tls=true"
       - "traefik.http.routers.ihatemoney.tls.certresolver=myresolver"
-      - "homepage.group=Finances"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Ihatemoney"
       - "homepage.icon=ihatemoney.png"
       - "homepage.href=https://${HOST}"

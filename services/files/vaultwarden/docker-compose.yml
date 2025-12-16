@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.vaultwarden.tls=true"
       - "traefik.http.routers.vaultwarden.tls.certresolver=myresolver"
       # homepage labels
-      - "homepage.group=Passwords"
+      - "homepage.group=Personal Cloud"
       - "homepage.name=Vaultwarden"
       - "homepage.icon=vaultwarden.svg"
       - "homepage.href=https://${HOST}"
