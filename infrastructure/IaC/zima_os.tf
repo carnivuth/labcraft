@@ -6,7 +6,6 @@ resource "proxmox_virtual_environment_vm" "zimaos" {
 
   # should be true if qemu agent is not installed / enabled on the VM
   stop_on_destroy = true
-  tags        = [""]
 
   initialization {
 
