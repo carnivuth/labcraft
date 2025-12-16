@@ -15,9 +15,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.entrypoints=websecure"
-      - "traefik.http.routers.jellyfin.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.jellyfin.rule=Host(`${HOST}`) && ! PathPrefix(`/metrics`)"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
       - "traefik.http.routers.jellyfin.tls.certresolver=myresolver"
+      # blocks metrics endpoint from external connections
+      - "traefik.http.routers.jellyfin-metrics.rule=Host(`${HOST}`) && PathPrefix(`/metrics`)"
+      - "traefik.http.routers.jellyfin-metrics.middlewares=deny@docker"
+
       ## Middleware
       - 'traefik.http.routers.jellyfin.middlewares=jellyfin'
       #### The customResponseHeaders option lists the Header names and values to apply to the response.
