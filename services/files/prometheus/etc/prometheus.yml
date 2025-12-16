@@ -13,3 +13,8 @@ scrape_configs:
     metrics_path: '/metrics'
     static_configs:
       - targets: ["navidrome:4533"]
+
+  - job_name: 'traefik'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ["traefik:8080"]
