@@ -36,14 +36,14 @@ services:
       # default entrypoint with authelia authentincation
       - "traefik.http.routers.navidrome.entrypoints=websecure"
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
-      - "traefik.http.routers.navidrome.rule=Host(`${HOST}`) && !PathPrefix(`/metrics/`) && !PathPrefix(`/share/`)"
+      - "traefik.http.routers.navidrome.rule=Host(`${HOST}`) && !PathPrefix(`/metrics`) && !PathPrefix(`/share/`)"
       - "traefik.http.routers.navidrome.middlewares=authelia@docker"
       # public access for share endpoint
       - "traefik.http.routers.navidrome-share.entrypoints=websecure"
       - "traefik.http.routers.navidrome-share.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome-share.rule=Host(`${HOST}`) && PathPrefix(`/share/`)"
       # deny access from internet for the metrics endpoint
-      - "traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) && PathPrefix(`/metrics/`)"
+      - "traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) && PathPrefix(`/metrics`)"
       - "traefik.http.routers.navidrome-metrics.middlewares=deny@docker"
       # entrypoint using basic auth for subsonic api
       - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
