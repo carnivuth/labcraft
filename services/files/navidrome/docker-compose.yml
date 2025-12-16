@@ -43,7 +43,7 @@ services:
       - "traefik.http.routers.navidrome-share.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome-share.rule=Host(`${HOST}`) && PathPrefix(`/share/`)"
       # deny access from internet for the metrics endpoint
-      - "traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) && Path(`/metrics`)"
+      - "traefik.http.routers.navidrome-metrics.rule=Host(`${HOST}`) && PathPrefix(`/metrics/`)"
       - "traefik.http.routers.navidrome-metrics.middlewares=deny@docker"
       # entrypoint using basic auth for subsonic api
       - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
