@@ -24,3 +24,9 @@ scrape_configs:
     metrics_path: '/metrics'
     static_configs:
       - targets: ["jellyfin:8096"]
+
+  - job_name: 'authelia'
+    scrape_interval: '15s'
+    scheme: 'http'
+    static_configs:
+    - targets: ['authelia:9959']
