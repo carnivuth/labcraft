@@ -3,7 +3,7 @@ services:
   jellyfin:
     restart: unless-stopped
     container_name: jellyfin
-    image: jellyfin/jellyfin:10.11.0-rc5
+    image: jellyfin/jellyfin:10.11.5
     networks:
       - services
     ports:
@@ -52,11 +52,19 @@ services:
       #### The customFrameOptionsValue allows the X-Frame-Options header value to be set with a custom value. This
       #### overrides the FrameDeny option.
       - "traefik.http.middlewares.jellyfin.headers.customFrameOptionsValue='allow-from https://${HOST}'"
+
+      # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Jellyfin"
       - "homepage.icon=jellyfin.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Video streaming"
+
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 networks:
   services:
     name: services
