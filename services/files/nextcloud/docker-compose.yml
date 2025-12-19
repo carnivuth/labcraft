@@ -33,8 +33,16 @@ services:
     image: xperimental/nextcloud-exporter:0.9.0
     restart: unless-stopped
     environment:
-      - 'NEXTCLOUD_SERVER=http://nextcloud'
+      - 'NEXTCLOUD_SERVER=https://nextcloud'
       - 'NEXTCLOUD_AUTH_TOKEN=${NEXTCLOUD_AUTH_TOKEN}'
+      - 'NEXTCLOUD_TLS_SKIP_VERIFY=true'
+    labels:
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+
   nextcloud:
     image: nextcloud:32.0.0-apache
     container_name: nextcloud
