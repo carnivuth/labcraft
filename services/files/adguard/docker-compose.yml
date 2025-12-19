@@ -41,6 +41,7 @@ services:
       - 'ADGUARD_USERNAMES=${USERNAME}'
       - 'ADGUARD_PASSWORDS=${PASSWORD}'
       - 'INTERVAL=15s'
+      - 'DEBUG=true'
 
     networks:
       - monitoring
