@@ -33,4 +33,4 @@ scrape_configs:
 
   - job_name: 'adguard'
     static_configs:
-      - targets: ['adguard:9618']
+      - targets: ['adguard-exporter:9618']
