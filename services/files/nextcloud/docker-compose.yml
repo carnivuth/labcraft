@@ -1,3 +1,4 @@
+---
 services:
   nextcloud-database:
     container_name: nextcloud-database
@@ -24,6 +25,16 @@ services:
     restart: always
     command: redis-server --requirepass ${REDIS_HOST_PASSWORD}
 
+  nextcloud-exporter:
+    container_name: nextcloud-exporter
+    networks:
+      - nextcloud
+      - monitoring
+    image: xperimental/nextcloud-exporter:0.9.0
+    restart: unless-stopped
+    environment:
+      - 'NEXTCLOUD_SERVER=http://nextcloud'
+      - 'NEXTCLOUD_AUTH_TOKEN=${NEXTCLOUD_AUTH_TOKEN}'
   nextcloud:
     image: nextcloud:32.0.0-apache
     container_name: nextcloud
@@ -71,6 +82,9 @@ volumes:
 networks:
   services:
     name: services
+    external: true
+  monitoring:
+    name: monitoring
     external: true
   nextcloud:
     name: nextcloud

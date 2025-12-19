@@ -34,3 +34,8 @@ scrape_configs:
   - job_name: 'adguard'
     static_configs:
       - targets: ['adguard-exporter:9618']
+
+  - job_name: 'nextcloud'
+    scrape_interval: 90s
+    static_configs:
+      - targets: ['nextcloud-exporter:9205']
