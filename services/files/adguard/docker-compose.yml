@@ -1,3 +1,4 @@
+---
 services:
   adguard:
     restart: unless-stopped
@@ -5,6 +6,7 @@ services:
     image: adguard/adguardhome:v0.107.65
     networks:
       - services
+      - adguard
     ports:
       - "53:53/udp"
     volumes:
@@ -23,7 +25,26 @@ services:
       - "homepage.href=https://${HOST}"
       - "homepage.description=dns forwarder"
 
+  adguard-exporter:
+    container_name: adguard-exporter
+    restart: unless-stopped
+    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.1
+    environment:
+      - "ADGUARD_SERVERS=http://adguard"
+      - 'ADGUARD_USERNAMES=${USERNAME}'
+      - 'ADGUARD_PASSWORDS=${PASSWORD}'
+      - 'INTERVAL=15s'
+    networks:
+      - monitoring
+      - adguard
+
 networks:
   services:
     name: services
     external: true
+  monitoring:
+    name: monitoring
+    external: true
+  adguard:
+    name: adguard
+    driver: bridge
