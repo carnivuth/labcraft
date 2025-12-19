@@ -30,3 +30,7 @@ scrape_configs:
     scheme: 'http'
     static_configs:
     - targets: ['authelia:9959']
+
+  - job_name: 'adguard'
+    static_configs:
+      - targets: ['adguard:9618']
