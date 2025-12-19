@@ -35,14 +35,23 @@ services:
     container_name: adguard-exporter
     restart: unless-stopped
     image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.1
+
     environment:
       - "ADGUARD_SERVERS=http://adguard"
       - 'ADGUARD_USERNAMES=${USERNAME}'
       - 'ADGUARD_PASSWORDS=${PASSWORD}'
       - 'INTERVAL=15s'
+
     networks:
       - monitoring
       - adguard
+
+    labels:
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 
 networks:
   services:
