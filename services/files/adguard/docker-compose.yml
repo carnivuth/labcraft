@@ -25,6 +25,12 @@ services:
       - "homepage.href=https://${HOST}"
       - "homepage.description=dns forwarder"
 
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+
   adguard-exporter:
     container_name: adguard-exporter
     restart: unless-stopped
