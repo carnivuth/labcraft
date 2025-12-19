@@ -33,7 +33,7 @@ services:
     image: xperimental/nextcloud-exporter:0.9.0
     restart: unless-stopped
     environment:
-      - 'NEXTCLOUD_SERVER=https://nextcloud'
+      - 'NEXTCLOUD_SERVER=http://nextcloud'
       - 'NEXTCLOUD_AUTH_TOKEN=${NEXTCLOUD_AUTH_TOKEN}'
       - 'NEXTCLOUD_TLS_SKIP_VERIFY=true'
     labels:
