@@ -21,6 +21,9 @@ tests
 # ansible local configs
 ansible.cfg
 
+# environment files
+.env
+.envrc
 
 # tmp file for terraform plans
 plan
