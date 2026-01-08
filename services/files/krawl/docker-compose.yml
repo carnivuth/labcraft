@@ -38,12 +38,6 @@ services:
       - "homepage.icon=krawl.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Honeypot"
-    healthcheck:
-      test: ["CMD", "python3", "-c", "import requests; requests.get('http://localhost:5000')"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
 networks:
   services:
     name: services
