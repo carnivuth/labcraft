@@ -43,7 +43,7 @@ services:
       - "diun.max_tags=3"
 
   nextcloud:
-    image: nextcloud:32.0.0-apache
+    image: nextcloud:32.0.3-apache
     container_name: nextcloud
     restart: always
     networks:
