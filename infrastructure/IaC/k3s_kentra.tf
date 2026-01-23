@@ -1,5 +1,5 @@
-resource "proxmox_virtual_environment_vm" "kttack" {
-  name      = "kttack"
+resource "proxmox_virtual_environment_vm" "kentra" {
+  name      = "kentra"
   node_name = "pve"
   vm_id     = 206
 
@@ -46,11 +46,11 @@ resource "proxmox_virtual_environment_vm" "kttack" {
   }
 }
 
-resource "proxmox_virtual_environment_pool" "kttack" {
-  pool_id = "kttack"
+resource "proxmox_virtual_environment_pool" "kentra" {
+  pool_id = "kentra"
 }
 
-resource "proxmox_virtual_environment_pool_membership" "kttack_vm_membership" {
-  pool_id = proxmox_virtual_environment_pool.kttack.id
-  vm_id   = proxmox_virtual_environment_vm.kttack.id
+resource "proxmox_virtual_environment_pool_membership" "kentra_vm_membership" {
+  pool_id = proxmox_virtual_environment_pool.kentra.id
+  vm_id   = proxmox_virtual_environment_vm.kentra.id
 }
