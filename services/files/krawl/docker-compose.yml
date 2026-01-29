@@ -14,7 +14,7 @@ services:
     environment:
       - CONFIG_LOCATION=config.yaml
       - TZ=Europe/Rome
-      - KRAWL_DASHBOARD_PATH=${KRAWL_DASHBOARD_PATH}
+      - KRAWL_DASHBOARD_SECRET_PATH=${KRAWL_DASHBOARD_SECRET_PATH}
 
     labels:
       # traefik labels
