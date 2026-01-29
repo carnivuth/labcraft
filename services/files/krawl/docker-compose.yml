@@ -3,17 +3,16 @@ services:
   krawl:
     image: ghcr.io/blessedrebus/krawl:v1.0.0
     container_name: krawl
+    restart: unless-stopped
     networks:
       - services
     volumes:
-      - /mnt/containers/krawl/wordlists.json:/app/wordlists.json:ro
+      - /mnt/containers/krawl/data:/app/data
     environment:
       - CONFIG_LOCATION=config.yaml
       - TZ=Europe/Rome
       - DASHBOARD_SECRET_PATH=${DASHBOARD_SECRET_PATH}
-    restart: unless-stopped
     labels:
-
       # traefik labels
       - "traefik.enable=true"
       - "traefik.http.services.krawl.loadbalancer.server.port=5000"
