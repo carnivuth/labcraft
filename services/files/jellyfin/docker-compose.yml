@@ -3,7 +3,7 @@ services:
   jellyfin:
     restart: unless-stopped
     container_name: jellyfin
-    image: jellyfin/jellyfin:10.11.5
+    image: jellyfin/jellyfin:10.11.6
     networks:
       - services
     ports:
