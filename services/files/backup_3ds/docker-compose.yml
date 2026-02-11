@@ -13,6 +13,7 @@ services:
     volumes:
       - "/mnt/containers/backup_3ds:/var/lib/backup_3ds/backups"
     labels:
+
       # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.backup_3ds.entrypoints=websecure"
@@ -20,12 +21,14 @@ services:
       - "traefik.http.routers.backup_3ds.tls.certresolver=myresolver"
       - "traefik.http.routers.backup_3ds.rule=Host(`${HOST}`)"
       - "traefik.http.routers.backup_3ds.middlewares=authelia-basicauth@docker"
+
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=backup_3ds"
       - "homepage.icon=backup_3ds.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=nintendo 3DS backup service"
+
 networks:
   services:
     name: services
