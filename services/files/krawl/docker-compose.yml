@@ -29,7 +29,7 @@ services:
       # homepage labels
       - "homepage.group=Monitoring and access control"
       - "homepage.name=Krawl"
-      - "homepage.icon=https://github.com/BlessedRebuS/Krawl/blob/main/img/krawl-svg.svg"
+      - "homepage.icon=https://raw.githubusercontent.com/BlessedRebuS/Krawl/8d5ecc6a6ffd3193431dbb1b05cd3b3bc752ba52/img/krawl-svg.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Honeypot"
 networks:
