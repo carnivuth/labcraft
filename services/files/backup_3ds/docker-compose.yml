@@ -20,7 +20,7 @@ services:
       - "traefik.http.services.backup_3ds.loadbalancer.server.port=80"
       - "traefik.http.routers.backup_3ds.tls.certresolver=myresolver"
       - "traefik.http.routers.backup_3ds.rule=Host(`${HOST}`)"
-      #- "traefik.http.routers.backup_3ds.middlewares=authelia-basicauth@docker"
+      - "traefik.http.routers.backup_3ds.middlewares=authelia-basicauth@docker"
 
       # homepage labels
       - "homepage.group=Personal Cloud"
