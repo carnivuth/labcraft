@@ -25,7 +25,7 @@ services:
       - "homepage.name=backup_3ds"
       - "homepage.icon=backup_3ds.svg"
       - "homepage.href=https://${HOST}"
-      - "homepage.description=Data collector"
+      - "homepage.description=nintendo 3DS backup service"
 networks:
   services:
     name: services
