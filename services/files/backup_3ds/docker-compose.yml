@@ -25,7 +25,7 @@ services:
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=backup_3ds"
-      - "homepage.icon=backup_3ds.svg"
+      - "homepage.icon=https://raw.githubusercontent.com/carnivuth/backup_3ds/4c38c457d0864cc9551cde0a258dcc3a39ef5ef9/demo/logo.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=nintendo 3DS backup service"
 
