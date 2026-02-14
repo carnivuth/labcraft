@@ -402,6 +402,10 @@ access_control:
     - domain: 'prometheus.{{ domain }}'
       policy: 'one_factor'
       subject: 'group:admins'
+
+    - domain: 'backup-3ds.{{ domain }}'
+      policy: 'one_factor'
+      subject: 'group:admins'
     ## Domain Regex examples. Generally we recommend just using a standard domain.
     # - domain_regex: '^(?P<User>\w+)\.example\.com$'
     #   policy: 'one_factor'
