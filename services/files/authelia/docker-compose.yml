@@ -3,7 +3,7 @@ services:
   authelia:
     container_name: authelia
     restart: unless-stopped
-    image: authelia/authelia:4.39
+    image: authelia/authelia:4.39.15
     networks:
       - services
     environment:
@@ -14,15 +14,18 @@ services:
       - '/etc/authelia/:/config'
       - '/mnt/containers/authelia/:/secrets'
     labels:
+
       # The login page and user dashboard need to be reachable from the web
       - "traefik.enable=true"
       - "traefik.http.routers.authelia.rule=Host(`${HOST}`)"
       - "traefik.http.routers.authelia.entrypoints=websecure"
       - "traefik.http.routers.authelia.tls.certresolver=myresolver"
       - "traefik.http.services.authelia.loadbalancer.server.port=9091"
+
       # Standard authentication middleware to be used by web services
       - "traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://${HOST}/"
       - "traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name"
+
       # Basicauth middleware for subsonic clients
       - "traefik.http.middlewares.authelia-basicauth.forwardauth.address=http://authelia:9091/api/verify?auth=basic"
       - "traefik.http.middlewares.authelia-basicauth.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name"
