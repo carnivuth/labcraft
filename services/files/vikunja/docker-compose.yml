@@ -17,7 +17,7 @@ services:
     user: ${PUID_VIKUNJA}
     volumes:
       - /mnt/containers/vikunja/files:/app/vikunja/files
-      - /mnt/containers/vikunja/files/db:/db
+      - /mnt/containers/vikunja/db:/db
     restart: unless-stopped
     labels:
       # traefik labels
