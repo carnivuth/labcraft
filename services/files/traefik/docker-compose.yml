@@ -55,7 +55,6 @@ services:
       # block middleware
       - "traefik.http.middlewares.deny.IPAllowList.sourceRange=127.0.0.1/32"
 
-
       # homepage labels
       - "homepage.group=Monitoring and access control"
       - "homepage.name=Traefik"
