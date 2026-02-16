@@ -1,13 +1,5 @@
 ---
 services:
-  torrra:
-    image: stabldev/torrra:1.2.8
-    container_name: torrra
-    networks:
-      - jackett
-    volumes:
-       - /mnt/containers/torrra/config:/root/.config/torrra
-       - /mnt/containers/torrra/downloads:/root/Downloads
 
   jackett:
     image: linuxserver/jackett:0.24.95
