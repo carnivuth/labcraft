@@ -1,5 +1,6 @@
 ---
 services:
+
   nextcloud-database:
     container_name: nextcloud-database
     image: mariadb:10.6
@@ -16,6 +17,19 @@ services:
       - MYSQL_USER=nextcloud
       - TZ=Europe/Rome
       - TRUSTED_PROXIES=0.0.0.0/0
+
+  cron:
+    depends_on:
+      - nextcloud-database
+      - nextcloud-cache
+      - nextcloud
+    image: nextcloud:32.0.6-apache
+    restart: unless-stopped
+    volumes:
+      - /mnt/containers/nextcloud:/var/www/html
+    entrypoint: /cron.sh
+    networks:
+      - nextcloud
 
   nextcloud-cache:
     container_name: nextcloud-cache
