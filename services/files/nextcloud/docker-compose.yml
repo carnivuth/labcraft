@@ -19,12 +19,13 @@ services:
       - TRUSTED_PROXIES=0.0.0.0/0
 
   cron:
+    container_name: nextcloud-cron
+    restart: unless-stopped
+    image: nextcloud:32.0.6-apache
     depends_on:
       - nextcloud-database
       - nextcloud-cache
       - nextcloud
-    image: nextcloud:32.0.6-apache
-    restart: unless-stopped
     volumes:
       - /mnt/containers/nextcloud:/var/www/html
     entrypoint: /cron.sh
