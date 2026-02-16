@@ -69,9 +69,13 @@ services:
       - "traefik.http.routers.nextcloud.tls=true"
       - "traefik.http.routers.nextcloud.middlewares=nextcloud-redirect@docker"
       - "traefik.http.routers.nextcloud.middlewares=nextcloud-headers@docker"
+
+      # custom headers for nextcloud redirect
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.permanent=true"
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.regex=https://(.*)/.well-known/(?:card|cal)dav"
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.replacement=https://$${1}/remote.php/dav"
+
+      # custom headers for nextcloud security
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.X-Content-Type-Options=nosniff"
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.X-XSS-Protection=1; mode=block"
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow"
@@ -81,12 +85,14 @@ services:
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=()"
       - "traefik.http.middlewares.nextcloud-headers.headers.customRequestHeaders.X-Forwarded-Proto=https"
       - "traefik.http.middlewares.nextcloud-headers.headers.customRequestHeaders.X-Forwarded-Host=${HOST}"
+
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Nextcloud"
       - "homepage.icon=nextcloud.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=cloud storage"
+
       # diun labels
       - "diun.enable=true"
       - "diun.watch_repo=true"
