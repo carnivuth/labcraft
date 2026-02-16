@@ -76,7 +76,6 @@ services:
       - "traefik.http.middlewares.nextcloud-redirect.redirectregex.replacement=https://$${1}/remote.php/dav"
 
       # custom headers for nextcloud security
-      - "traefik.http.middlewares.nextcloud-headers.headers.X-Forwarded-For=true"
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.X-Content-Type-Options=nosniff"
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.X-XSS-Protection=1; mode=block"
       - "traefik.http.middlewares.nextcloud-headers.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow"
