@@ -18,11 +18,11 @@ services:
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_API_PASSWORD=${ADMIN_API_PASSWORD}
-        # Published port if running locally
 
     networks:
       - services
     labels:
+
       # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.freshrss.rule=Host(`${HOST}`)"
@@ -43,6 +43,7 @@ services:
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
       - "diun.max_tags=3"
+
 networks:
   services:
     name: services
