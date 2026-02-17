@@ -23,17 +23,26 @@ services:
     networks:
       - services
     labels:
+      # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.freshrss.rule=Host(`${HOST}`)"
       - "traefik.http.services.freshrss.loadbalancer.server.port=80"
       - "traefik.http.routers.freshrss.entrypoints=websecure"
       - "traefik.http.routers.freshrss.tls=true"
       - "traefik.http.routers.freshrss.tls.certresolver=myresolver"
+
+      # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=FreshRSS"
       - "homepage.icon=freshrss.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Feed aggregator"
+
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 networks:
   services:
     name: services
