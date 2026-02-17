@@ -1,7 +1,7 @@
 ---
 services:
   freshrss:
-    image: freshrss/freshrss:1.27.0
+    image: freshrss/freshrss:1.28.1
     container_name: freshrss
     hostname: freshrss
     restart: unless-stopped
