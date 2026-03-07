@@ -37,7 +37,7 @@ services:
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Actual"
-      - "homepage.icon=actual.svg"
+      - "homepage.icon=actual-budget.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Budgeting service"
 
