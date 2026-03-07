@@ -2,7 +2,7 @@ services:
   portainer:
     container_name: portainer
     restart: unless-stopped
-    image: portainer/portainer-ce:2.33.7-alpine
+    image: portainer/portainer-ce:2.39.0-alpine
     networks:
       - services
     volumes:
