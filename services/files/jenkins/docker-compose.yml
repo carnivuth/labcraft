@@ -1,0 +1,34 @@
+---
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:2.556-alpine
+    restart: unless-stopped
+    networks:
+      - services
+    volumes:
+        - /mnt/containers/jenkins:/var/jenkins_home
+        - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.services.jenkins.loadbalancer.server.port=8080"
+      # default entrypoint with authelia authentincation
+      - "traefik.http.routers.jenkins.entrypoints=websecure"
+      - "traefik.http.routers.jenkins.tls.certresolver=myresolver"
+      - "traefik.http.routers.jenkins.rule=Host(`${HOST}`)"
+      # homepage labels
+      - "homepage.group=Development"
+      - "homepage.name=Jenkins"
+      - "homepage.icon=jenkins.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=CI server"
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+networks:
+  services:
+    name: services
+    external: true
