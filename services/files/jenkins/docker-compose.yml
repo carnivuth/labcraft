@@ -4,6 +4,7 @@ services:
     container_name: jenkins
     image: jenkins/jenkins:2.556-alpine
     restart: unless-stopped
+    user: ${PUID_JENKINS}:${PUID_JENKINS}
     networks:
       - services
     volumes:
