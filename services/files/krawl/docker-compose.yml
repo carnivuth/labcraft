@@ -11,6 +11,7 @@ services:
     volumes:
       - /mnt/containers/krawl/data:/app/data
       - /mnt/containers/krawl/backups:/app/backups
+      - /mnt/containers/krawl/exports:/app/exports
 
     environment:
       - CONFIG_LOCATION=config.yaml
