@@ -22,17 +22,26 @@ services:
       # "recipya-data:/home/recipya/.config/Recipya"
       - "/mnt/containers/recipya:/root/.config/Recipya"
     labels:
+      # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.recipya.rule=Host(`${HOST}`)"
       - "traefik.http.services.recipya.loadbalancer.server.port=8078"
       - "traefik.http.routers.recipya.entrypoints=websecure"
       - "traefik.http.routers.recipya.tls=true"
       - "traefik.http.routers.recipya.tls.certresolver=myresolver"
+
+      # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Recipya"
       - "homepage.icon=recipya.png"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Recype library"
+
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
 
 networks:
   services:
