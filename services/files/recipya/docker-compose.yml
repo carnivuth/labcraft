@@ -7,10 +7,6 @@ services:
     networks:
       - services
     environment:
-      #RECIPYA_EMAIL: "my@email.com"
-      #RECIPYA_EMAIL_SMTP_HOST: "smtp.gmail.com"
-      #RECIPYA_EMAIL_SMTP_USERNAME: "my@email.com"
-      #RECIPYA_EMAIL_SMTP_PASSWORD: "app password"
       RECIPYA_SERVER_AUTOLOGIN: false
       RECIPYA_SERVER_IS_DEMO: false
       RECIPYA_SERVER_IS_PROD: true
@@ -18,8 +14,6 @@ services:
       RECIPYA_SERVER_PORT: 8078
       RECIPYA_SERVER_URL: "https://${HOST}"
     volumes:
-      # For nightly image:
-      # "recipya-data:/home/recipya/.config/Recipya"
       - "/mnt/containers/recipya:/root/.config/Recipya"
     labels:
       # traefik labels
