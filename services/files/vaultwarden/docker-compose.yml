@@ -2,7 +2,7 @@
 services:
   vaultwarden:
     container_name: vaultwarden
-    image: vaultwarden/server:1.35.6-alpine
+    image: vaultwarden/server:1.36.0-alpine
     restart: unless-stopped
     networks:
       - services
