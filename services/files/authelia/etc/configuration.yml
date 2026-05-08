@@ -395,6 +395,10 @@ access_control:
       policy: 'one_factor'
       subject: 'group:navidrome'
 
+    - domain: 'metube.{{ domain }}'
+      policy: 'one_factor'
+      subject: 'group:metube'
+
     - domain: 'traefik.{{ domain }}'
       policy: 'one_factor'
       subject: 'group:admins'
