@@ -15,7 +15,7 @@ services:
       - "traefik.http.routers.metube.entrypoints=websecure"
       - "traefik.http.routers.metube.tls.certresolver=myresolver"
       - "traefik.http.routers.metube.rule=Host(`${HOST}`)"
-      - "traefik.http.routers.metube.middlewares=authelia@docker"
+      - "traefik.http.routers.metube.middlewares=authelia-basicauth@docker"
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Metube"
