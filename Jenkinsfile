@@ -1,31 +1,8 @@
 pipeline {
-    agent any
-
-    parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['dev', 'staging', 'prod'],
-            description: 'Target environment to deploy to'
-        )
-        choice(
-            name: 'PLAYBOOK',
-            choices: ['site.yml', 'deploy.yml', 'rollback.yml', 'maintenance.yml'],
-            description: 'Ansible playbook to run'
-        )
-        string(
-            name: 'EXTRA_VARS',
-            defaultValue: '',
-            description: 'Extra variables to pass to Ansible (key=value format)'
-        )
-        booleanParam(
-            name: 'DRY_RUN',
-            defaultValue: false,
-            description: 'Run in check mode (no changes applied)'
-        )
-    }
+  agent any
 
     environment {
-        ANSIBLE_HOST_KEY_CHECKING = 'False'
+      ANSIBLE_HOST_KEY_CHECKING = 'False'
         ANSIBLE_FORCE_COLOR       = 'true'
         ANSIBLE_STDOUT_CALLBACK   = 'yaml'
 
@@ -39,90 +16,76 @@ pipeline {
         VAULT_CREDENTIAL_ID = 'ansible-vault-password'
     }
 
-    options {
-        timestamps()
-        ansiColor('xterm')
-        buildDiscarder(logRotator(numToKeepStr: '30'))
-        timeout(time: 60, unit: 'MINUTES')
-        disableConcurrentBuilds()
+  options {
+    timestamps()
+      ansiColor('xterm')
+      buildDiscarder(logRotator(numToKeepStr: '30'))
+      timeout(time: 60, unit: 'MINUTES')
+      disableConcurrentBuilds()
+  }
+
+  stages {
+
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
 
-    stages {
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Validate') {
-            steps {
-                sh 'ansible --version'
-                sh "ansible-playbook --syntax-check -i ${INVENTORY} ${params.PLAYBOOK}"
-            }
-        }
-
-        stage('Lint') {
-            steps {
-                sh "ansible-lint ${params.PLAYBOOK} || true"
-            }
-        }
-
-        stage('Run Playbook') {
-            steps {
-                withCredentials([
-                    sshUserPrivateKey(
-                        credentialsId: env.SSH_CREDENTIAL_ID,
-                        keyFileVariable: 'SSH_KEY_FILE',
-                        usernameVariable: 'SSH_USER'
-                    ),
-                    string(
-                        credentialsId: env.VAULT_CREDENTIAL_ID,
-                        variable: 'VAULT_PASSWORD'
-                    )
-                ]) {
-                    script {
-                        def ansibleCmd = [
-                            "ansible-playbook",
-                            "-i ${INVENTORY}",
-                            "${params.PLAYBOOK}",
-                            "--user=${SSH_USER}",
-                            "--private-key=${SSH_KEY_FILE}",
-                            "--vault-password-file=<(echo \$VAULT_PASSWORD)"
-                        ]
-
-                        if (params.DRY_RUN) {
-                            ansibleCmd << '--check --diff'
-                        }
-
-                        if (params.EXTRA_VARS?.trim()) {
-                            ansibleCmd << "--extra-vars \"${params.EXTRA_VARS}\""
-                        }
-
-                        sh "bash -c '${ansibleCmd.join(' ')}'"
-                    }
-                }
-            }
-        }
+    stage('Install ansible and ansible dependencies') {
+      steps {
+        sh '''
+          python3 -m venv env
+          source env/bin/activate
+          pip install -r requirements.txt
+          ansible-galaxy collection install -r requirements.yml
+          ansible-galaxy role install -r requirements.yml
+          '''
+      }
     }
 
-    post {
-        always {
-            // Archive any generated logs or reports
-            archiveArtifacts artifacts: 'logs/**/*.log', allowEmptyArchive: true
-            cleanWs()
-        }
-        success {
-            echo "Playbook ${params.PLAYBOOK} completed successfully on ${params.ENVIRONMENT}."
-            // Uncomment to send Slack notifications:
-            // slackSend channel: '#deployments', color: 'good',
-            //     message: "✅ Ansible: ${params.PLAYBOOK} on *${params.ENVIRONMENT}* succeeded."
-        }
-        failure {
-            echo "Playbook ${params.PLAYBOOK} FAILED on ${params.ENVIRONMENT}."
-            // Uncomment to send Slack notifications:
-            // slackSend channel: '#deployments', color: 'danger',
-            //     message: "❌ Ansible: ${params.PLAYBOOK} on *${params.ENVIRONMENT}* failed."
-        }
+    stage('Lint') {
+      steps {
+        sh "ansible-lint playbooks/ || true"
+      }
     }
+
+    stage('Run service playbook') {
+      steps {
+        when {
+          oneOf {
+            changeset "playbooks/files/services/**"
+            changeset "playbooks/service.yml"
+          }
+        }
+        withCredentials([
+            sshUserPrivateKey(
+              credentialsId: env.SSH_CREDENTIAL_ID,
+              keyFileVariable: 'SSH_KEY_FILE',
+              usernameVariable: 'SSH_USER'
+              ),
+            string(
+              credentialsId: env.VAULT_CREDENTIAL_ID,
+              variable: 'VAULT_PASSWORD'
+              )
+        ]) {
+          script {
+            sh "source env/bin/activate; ansible-playbook -i ${INVENTORY} playbooks/service.yml --user=${SSH_USER} --private-key=${SSH_KEY_FILE}"
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+        cleanWs()
+    }
+    success {
+      echo "Playbook ${params.PLAYBOOK} completed successfully on ${params.ENVIRONMENT}."
+    }
+    failure {
+      echo "Playbook ${params.PLAYBOOK} FAILED on ${params.ENVIRONMENT}."
+    }
+  }
 }
