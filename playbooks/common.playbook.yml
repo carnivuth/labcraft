@@ -1,0 +1,70 @@
+---
+- name: Run common role on all nodes
+  hosts: all
+  vars:
+    toolbox_vimrc_version: 1.0.1
+    arch_packages:
+      - vim
+      - figlet
+      - tmux
+      - net-tools
+    deb_packages:
+      - vim
+      - figlet
+      - tmux
+      - net-tools
+
+  tasks:
+    - name: Update packages
+      block:
+        - name: Remove dependencies that are no longer required and purge their configuration files (apt distros)
+          when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+          ansible.builtin.apt:
+            autoremove: true
+            purge: true
+
+        - name: Update all packages to their latest version (apt distros)
+          when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+          ansible.builtin.apt:
+            upgrade: true
+            update_cache: true
+
+        - name: Update all packages to their latest version (pacman distros)
+          when: ansible_distribution == "Archlinux"
+          community.general.pacman:
+            upgrade: true
+            update_cache: true
+
+        - name: Install some default packages (pacman distros)
+          when: ansible_distribution == "Archlinux"
+          community.general.pacman:
+            name: "{{ arch_packages }}"
+            state: present
+
+        - name: Install some default packages (apt distros)
+          when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+          ansible.builtin.apt:
+            name: "{{ deb_packages }}"
+            state: present
+            update_cache: true
+
+        - name: Copy motd script for presentation
+          ansible.builtin.copy:
+            src: files/motd.sh
+            dest: /etc/motd.sh
+            mode: '755'
+
+        - name: Add motd in /etc/profile
+          ansible.builtin.lineinfile:
+            path: /etc/profile
+            line: source '/etc/motd.sh'
+            state: present
+
+        - name: Download vimrcfile
+          ansible.builtin.get_url:
+            url: https://github.com/carnivuth/toolbox/releases/download/vimrc-v{{ toolbox_vimrc_version }}/vimrc
+            dest: ~/.vimrc
+
+        - name: Set timezone
+          community.general.timezone:
+            name: Europe/Rome

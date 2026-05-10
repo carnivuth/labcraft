@@ -1,0 +1,48 @@
+---
+- name: Configure postfix in guest nodes
+  hosts: all:!pve
+  vars:
+    # postfix pb
+    admin_email: "{{ vault_admin_email }}"
+
+  tasks:
+
+    - name: Install postfix
+      ansible.builtin.apt:
+        name: postfix
+        state: present
+
+    - name: Configure relay on guest nodes
+      block:
+        - name: Add "mydestination" parameter
+          ansible.builtin.lineinfile:
+            path: /etc/postfix/main.cf
+            regexp: "^mydestination =.*"
+            line: "mydestination = $myhostname, localhost.$mydomain, localhost, torterra"
+          notify: Restart postfix
+
+        - name: Add "relayhost" parameter
+          ansible.builtin.lineinfile:
+            path: /etc/postfix/main.cf
+            regexp: "^relayhost =.*"
+            line: "relayhost = torterra"
+          notify: Restart postfix
+
+    - name: Configure root email address
+      ansible.builtin.lineinfile:
+        path: /etc/aliases
+        regexp: "^root:.*"
+        line: "root: {{ admin_email }}"
+      notify: Run newaliases
+
+  handlers:
+
+    - name: Restart postfix
+      ansible.builtin.service:
+        name: postfix
+        state: restarted
+
+    - name: Run newaliases
+      ansible.builtin.command:
+        cmd: newaliases
+

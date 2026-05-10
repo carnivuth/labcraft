@@ -1,0 +1,29 @@
+- name: Setup dns on dns hosts
+  hosts: all
+  vars:
+    # dns pb
+    cloudflare_domain: '{{ vault_cloudflare_domain }}'
+    cloudflare_subdomain: 'local'
+    cloudflare_primary_dns: '{{ vault_cloudflare_primary_dns }}'
+    cloudflare_secondary_dns: '{{ vault_cloudflare_secondary_dns }}'
+    cloudflare_api_token: '{{ vault_cloudflare_api_token }}'
+  tasks:
+
+    - name: Create a DNS record inside cloudflare
+      community.general.cloudflare_dns:
+        zone: "{{ cloudflare_domain }}"
+        type: A
+        record: "{{ ansible_facts.hostname }}.{{ cloudflare_subdomain }}.{{ cloudflare_domain }}"
+        value: "{{ ansible_facts.default_ipv4.address }}"
+        api_token: "{{ cloudflare_api_token }}"
+        state: present
+
+    - name: Configure dns servers
+      become: true
+      ansible.builtin.copy:
+        mode: '644'
+        dest: /etc/resolv.conf
+        content: |
+          search {{ cloudflare_domain }}
+          nameserver {{ cloudflare_primary_dns }}
+          nameserver {{ cloudflare_secondary_dns }}

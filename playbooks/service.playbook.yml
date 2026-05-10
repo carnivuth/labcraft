@@ -1,0 +1,185 @@
+---
+- name: Install docker applications
+  hosts: service_manager
+  vars:
+
+    # cloudflare login parameters
+    cloudflare_account_email: "{{ vault_cloudflare_account_email }}"
+    cloudflare_api_token: "{{ vault_cloudflare_api_token }}"
+    cloudflare_domain: '{{ vault_cloudflare_domain }}'
+
+  pre_tasks:
+    - name: Fail if app is not defined
+      ansible.builtin.fail:
+        msg: variable app is not defined
+      when: app is not defined or app == ''
+
+    - name: get app docker compose file status
+      delegate_to: localhost
+      ansible.builtin.stat:
+        path: "files/{{ app }}/docker-compose.yml"
+      register: service_file
+
+    - name: get config dir of the docker services status
+      delegate_to: localhost
+      ansible.builtin.stat:
+        path: "files/{{ app }}/etc"
+      register: config_dir
+
+    - name: Include compose file
+      when: service_file.stat.exists
+      ansible.builtin.include_vars:
+        file: "files/{{ app }}/docker-compose.yml"
+
+    - name: Get Services volumes
+      when: service_file.stat.exists
+      ansible.builtin.set_fact:
+        volumes: "{{ services | dict2items | json_query('[*].value.volumes') | flatten }}"
+
+    - name: Get Services users
+      when: service_file.stat.exists
+      ansible.builtin.set_fact:
+        users: "{{ services | dict2items | json_query('[*].value.container_name') }}"
+    - name: Debug
+      ansible.builtin.debug:
+        var: users
+
+  tasks:
+
+    - name: Proceed to service installation if file is present
+      when: service_file.stat.exists
+      block:
+        - name: Create compose dir
+          ansible.builtin.file:
+            path: "/usr/local/{{ app }}"
+            state: directory
+            mode: "644"
+
+        - name: Copy docker compose file
+          ansible.builtin.copy:
+            src: "{{ app }}/docker-compose.yml"
+            dest: "/usr/local/{{ app }}/docker-compose.yml"
+            mode: "644"
+
+        - name: Create user {{ app }}
+          ansible.builtin.user:
+            name: "{{ app }}"
+
+        - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
+          ansible.builtin.stat:
+            path: "{{ item.split(':')[0] }}"
+          register: volumes_stats
+          loop: "{{ volumes }}"
+
+        - name: Create docker compose volume dirs
+          when: (not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir) and item is regex('^/.*')
+          ansible.builtin.file:
+            path: "{{ item.split(':')[0] }}"
+            state: directory
+            mode: "755"
+          loop: "{{ volumes }}"
+          loop_control:
+            index_var: index
+
+        - name: Create application users and save PUIDs and GUIDs
+          ansible.builtin.user:
+            name: "{{ item }}"
+            create_home: true
+            home: /usr/local/{{ app }}
+          register: users_data
+          loop: "{{ users }}"
+
+        - name: Save PUIDs in .env file
+          ansible.builtin.lineinfile:
+            path: /usr/local/{{ app }}/.env
+            line: PUID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].uid }}
+            create: true
+            state: present
+          loop: "{{ users }}"
+          loop_control:
+            index_var: index
+
+        - name: Save PGIDs in .env file
+          ansible.builtin.lineinfile:
+            path: /usr/local/{{ app }}/.env
+            line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
+            create: true
+            state: present
+          loop: "{{ users }}"
+          loop_control:
+            index_var: index
+
+        - name: Create a DNS record for the {{ app }}
+          community.general.cloudflare_dns:
+            zone: "{{ cloudflare_domain }}"
+            type: "{{ dns_record_type }}"
+            record: "{{ record }}"
+            value: "{{ value }}"
+            api_token: "{{ cloudflare_api_token }}"
+            state: present
+
+        - name: Add cloudflare account email in docker environment
+          when: app == "traefik"
+          ansible.builtin.lineinfile:
+            path: "/usr/local/{{ app }}/.env"
+            create: true
+            line: "CLOUDFLARE_ACCOUNT_EMAIL={{ cloudflare_account_email }}"
+            state: present
+
+        - name: Add hostname as a paramenter in docker environment
+          ansible.builtin.lineinfile:
+            path: "/usr/local/{{ app }}/.env"
+            create: true
+            line: "HOST={{ record }}"
+            state: present
+
+        - name: Copy config folder if present
+          when: config_dir.stat.exists and app != 'authelia'
+          ansible.builtin.copy:
+            src: "files/{{ app }}/etc/"
+            dest: "/etc/{{ app }}"
+            mode: "755"
+
+        - name: copy template for authelia configuration
+          when: config_dir.stat.exists and app == 'authelia'
+          ansible.builtin.template:
+            src: "files/{{ app }}/etc/configuration.yml"
+            dest: "/etc/{{ app }}/configuration.yml"
+            mode: "755"
+
+
+        - name: Start {{ app }}
+          community.docker.docker_compose_v2:
+            project_src: "/usr/local/{{ app }}"
+            state: present
+            pull: always
+          register: result
+          retries: 5
+          delay: 1
+
+    - name: Proceed to service removal if file is not present in the repo
+      when: not service_file.stat.exists
+      block:
+
+        # check dir status on remote to avoid removing non existent services
+        - name: Get docker compose dir status
+          ansible.builtin.stat:
+            path: "/usr/local/{{ app }}"
+          register: compose_dir
+
+        - name: Destroy {{ app }}
+          when: compose_dir.stat.exists
+          community.docker.docker_compose_v2:
+            project_src: "/usr/local/{{ app }}"
+            state: absent
+          retries: 5
+          delay: 1
+
+        - name: Remove a DNS record for the {{ app }}
+          community.general.cloudflare_dns:
+            zone: "{{ cloudflare_domain }}"
+            type: "{{ dns_record_type }}"
+            record: "{{ record }}"
+            value: "{{ value }}"
+            api_token: "{{ cloudflare_api_token }}"
+            state: absent
