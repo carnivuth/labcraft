@@ -1,5 +1,5 @@
 - name: Setup dns on dns hosts
-  hosts: all
+  hosts: proxmox_all_running
   vars:
     # dns pb
     cloudflare_domain: '{{ vault_cloudflare_domain }}'

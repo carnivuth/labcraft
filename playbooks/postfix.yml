@@ -1,6 +1,6 @@
 ---
 - name: Configure postfix in guest nodes
-  hosts: all:!pve
+  hosts: proxmox_all_running
   vars:
     # postfix pb
     admin_email: "{{ vault_admin_email }}"
