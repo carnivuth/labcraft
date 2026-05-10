@@ -45,4 +45,3 @@
     - name: Run newaliases
       ansible.builtin.command:
         cmd: newaliases
-
