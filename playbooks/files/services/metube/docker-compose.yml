@@ -11,17 +11,20 @@ services:
       # traefik labels
       - "traefik.enable=true"
       - "traefik.http.services.metube.loadbalancer.server.port=8081"
+
       # default entrypoint with authelia authentincation
       - "traefik.http.routers.metube.entrypoints=websecure"
       - "traefik.http.routers.metube.tls.certresolver=myresolver"
       - "traefik.http.routers.metube.rule=Host(`${HOST}`)"
       #- "traefik.http.routers.metube.middlewares=authelia-basicauth@docker"
+
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Metube"
       - "homepage.icon=metube.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=yt downlader"
+
       # diun labels
       - "diun.enable=false"
 
