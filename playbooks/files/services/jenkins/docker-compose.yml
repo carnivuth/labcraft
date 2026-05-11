@@ -8,8 +8,8 @@ services:
     networks:
       - services
     volumes:
-        - /mnt/containers/jenkins:/var/jenkins_home
-        - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/containers/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     labels:
       # traefik labels
       - "traefik.enable=true"
