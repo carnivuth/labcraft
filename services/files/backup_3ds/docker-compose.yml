@@ -5,6 +5,8 @@ services:
     image: carnivuth/backup_3ds:v2.2.1
     networks:
       - services
+    expose:
+      - "80"
     environment:
       - FTPD_3DS_ADDRESSES=${FTPD_3DS_ADDRESSES}
       - FTPD_3DS_PORTS=${FTPD_3DS_PORTS}
