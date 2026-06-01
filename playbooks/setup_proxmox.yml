@@ -1,0 +1,26 @@
+- name: Setup proxmox host
+  hosts: pve
+  tasks:
+    - name: Install updates cronjob
+      become: true
+      ansible.builtin.cron:
+        name: "Update notification"
+        user: root
+        minute: "0"
+        hour: "17"
+        job: >
+          /bin/bash -c
+          'apt-get update;
+          echo -e "Subject: $HOSTNAME package status\n
+          $(apt list --upgradable 2>/dev/null | grep -c '/') packages can be upgraded\n
+          $(apt list --upgradable 2>/dev/null)" |
+          sendmail root'
+
+    - name: Install keepalive signal
+      become: true
+      ansible.builtin.cron:
+        name: "torterra keepalive signal"
+        user: root
+        minute: "*"
+        hour: "*"
+        job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
