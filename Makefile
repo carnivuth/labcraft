@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER)
+.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER) update
 
 inventory_opt = -i inventory/inventory.proxmox.yml
 ifdef inventory
