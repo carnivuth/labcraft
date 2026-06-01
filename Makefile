@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 .PHONY: playbooks/* playbooks/files/services/* services install
 
 .git/hooks/post-merge:
