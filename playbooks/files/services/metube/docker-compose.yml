@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     networks:
       - services
+    expose:
+      - "8081"
     volumes:
       - /mnt/containers/metube/downloads:/downloads
     labels:
@@ -16,7 +18,7 @@ services:
       - "traefik.http.routers.metube.entrypoints=websecure"
       - "traefik.http.routers.metube.tls.certresolver=myresolver"
       - "traefik.http.routers.metube.rule=Host(`${HOST}`)"
-      #- "traefik.http.routers.metube.middlewares=authelia-basicauth@docker"
+      - "traefik.http.routers.metube.middlewares=authelia-basicauth@docker"
 
       # homepage labels
       - "homepage.group=Personal Cloud"
