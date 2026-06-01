@@ -42,4 +42,4 @@ services: playbooks/files/services/*
 install: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/common.yml playbooks/align_cloudflare_dns.yml playbooks/postfix.yml services
 
 update: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/common.yml playbooks/align_cloudflare_dns.yml
-	git diff-tree --name-only -r HEAD@{1} HEAD | grep services/files/ | cut -d'/' -f1,2,3 | parallel make {}
+	git diff-tree --name-only -r HEAD@{1} HEAD | grep files/services/ | cut -d'/' -f1,2,3 | parallel make {}
