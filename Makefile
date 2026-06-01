@@ -1,6 +1,19 @@
 SHELL=/bin/bash
 .PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER)
 
+inventory_opt = -i inventory/inventory.proxmox.yml
+ifdef inventory
+inventory_opt = -i $(inventory)
+endif
+
+ifdef user
+user_opt = -u $(user)
+endif
+
+ifdef key
+key_opt = --private-key $(key)
+endif
+
 .git/hooks/post-merge:
 	echo -e '#!/bin/bash\nmake update' > $@
 	chmod +x "$@"
@@ -16,12 +29,10 @@ inventory/group_vars/all/vault.yml:
 	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
 
 playbooks/*: env ~/.ansible/collections/ansible_collections/
-	source env/bin/activate && \
-	ansible-playbook -i inventory/inventory.proxmox.yml $@
+	ansible-playbook $(inventory_opt) $@ -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
 
 playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
-	source env/bin/activate && \
-	ansible-playbook -i inventory/inventory.proxmox.yml playbooks/service.yml -e app=$$(basename $@)
+	ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
 
 /var/spool/cron/crontabs/$(USER):
 	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
