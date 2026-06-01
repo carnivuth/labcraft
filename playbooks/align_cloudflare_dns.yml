@@ -27,3 +27,16 @@
           search {{ cloudflare_domain }}
           nameserver {{ cloudflare_primary_dns }}
           nameserver {{ cloudflare_secondary_dns }}
+
+    - name: Send Telegram notification
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "markdown"
+          text: |
+            # playbook `align_cloudflare_dns`
+            created record {{ ansible_facts.hostname }}.{{ cloudflare_subdomain }}.{{ cloudflare_domain }}
+            that points to {{ ansible_facts.default_ipv4.address }}
+          disable_web_page_preview: true
+          disable_notification: false
