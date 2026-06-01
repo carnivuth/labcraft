@@ -1,6 +1,6 @@
 ---
 - name: Run common role on all nodes
-  hosts: all
+  hosts: proxmox_all_running
   vars:
     toolbox_vimrc_version: 1.0.1
     arch_packages:
@@ -18,31 +18,31 @@
     - name: Update packages
       block:
         - name: Remove dependencies that are no longer required and purge their configuration files (apt distros)
-          when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+          when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
           ansible.builtin.apt:
             autoremove: true
             purge: true
 
         - name: Update all packages to their latest version (apt distros)
-          when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+          when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
           ansible.builtin.apt:
             upgrade: true
             update_cache: true
 
         - name: Update all packages to their latest version (pacman distros)
-          when: ansible_distribution == "Archlinux"
+          when: ansible_facts.distribution == "Archlinux"
           community.general.pacman:
             upgrade: true
             update_cache: true
 
         - name: Install some default packages (pacman distros)
-          when: ansible_distribution == "Archlinux"
+          when: ansible_facts.distribution == "Archlinux"
           community.general.pacman:
             name: "{{ arch_packages }}"
             state: present
 
         - name: Install some default packages (apt distros)
-          when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+          when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
           ansible.builtin.apt:
             name: "{{ deb_packages }}"
             state: present
@@ -50,7 +50,9 @@
 
         - name: Copy motd script for presentation
           ansible.builtin.copy:
-            src: files/motd.sh
+            content: |
+              #!/bin/bash
+              figlet "$(hostname)"
             dest: /etc/motd.sh
             mode: '755'
 
@@ -64,6 +66,7 @@
           ansible.builtin.get_url:
             url: https://github.com/carnivuth/toolbox/releases/download/vimrc-v{{ toolbox_vimrc_version }}/vimrc
             dest: ~/.vimrc
+            mode: '644'
 
         - name: Set timezone
           community.general.timezone:

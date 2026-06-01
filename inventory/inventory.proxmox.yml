@@ -1,0 +1,18 @@
+plugin: community.proxmox.proxmox
+url: '{{ (lookup("ansible.builtin.unvault", "inventory/group_vars/all/vault.yml") | from_yaml).vault_proxmox_url }}'
+user: '{{ (lookup("ansible.builtin.unvault", "inventory/group_vars/all/vault.yml") | from_yaml).vault_proxmox_user }}'
+token_id: '{{ (lookup("ansible.builtin.unvault", "inventory/group_vars/all/vault.yml") | from_yaml).vault_proxmox_token_id }}'
+token_secret: '{{ (lookup("ansible.builtin.unvault", "inventory/group_vars/all/vault.yml") | from_yaml).vault_proxmox_token_secret }}'
+want_facts: true
+validate_certs: false
+want_proxmox_nodes_ansible_host: false
+compose:
+  ansible_hostname: proxmox_name ~ ".local.carnivuth.org"
+  ansible_host: proxmox_name ~ ".local.carnivuth.org"
+  address: "proxmox_net0.ip | default(proxmox_ipconfig0.ip)"
+  allowed_ips: 10.0.8.0/24
+  wireguard_address: "'10.0.8.' ~ proxmox_net0.ip | split('.')| last | split('/') | first ~ '/24'"
+keyed_groups:
+  # proxmox_tags_parsed is an example of a fact only returned when 'want_facts=true'
+  - key: proxmox_tags_parsed
+    separator: ""
