@@ -2,7 +2,7 @@ SHELL=/bin/bash
 .PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER)
 
 .git/hooks/post-merge:
-	echo -e '#!/bin/bash\nmake install' > $@
+	echo -e '#!/bin/bash\nmake update' > $@
 	chmod +x "$@"
 
 env: requirements.txt
@@ -29,3 +29,6 @@ playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
 services: playbooks/files/services/*
 
 install: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/common.yml playbooks/align_cloudflare_dns.yml playbooks/postfix.yml services
+
+update: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/common.yml playbooks/align_cloudflare_dns.yml
+	git diff-tree --name-only -r HEAD@{1} HEAD | grep services/files/ | cut -d'/' -f1,2,3 | parallel make {}
