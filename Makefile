@@ -29,10 +29,10 @@ inventory/group_vars/all/vault.yml:
 	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
 
 playbooks/*: env ~/.ansible/collections/ansible_collections/
-	ansible-playbook $(inventory_opt) $@ -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
+	source env/bin/activate && ansible-playbook $(inventory_opt) $@ -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
 
 playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
-	ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
+	source env/bin/activate && ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
 
 /var/spool/cron/crontabs/$(USER):
 	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
