@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/* playbooks/files/services/* services install
+.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER)
 
 .git/hooks/post-merge:
 	echo -e '#!/bin/bash\nmake install' > $@
