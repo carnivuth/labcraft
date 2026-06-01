@@ -24,7 +24,7 @@ playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
 	ansible-playbook -i inventory/inventory.proxmox.yml playbooks/service.yml -e app=$$(basename $@)
 
 /var/spool/cron/crontabs/$(USER):
-	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull 2>/dev/null" || echo "* * * * * cd $$(pwd) && git pull 2> /dev/null") | crontab -
+	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
 
 services: playbooks/files/services/*
 
