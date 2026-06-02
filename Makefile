@@ -39,7 +39,9 @@ playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
 
 services: playbooks/files/services/*
 
+# run this on first install
 install: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/setup_proxmox.yml playbooks/common.yml playbooks/align_cloudflare_dns.yml playbooks/postfix.yml services
 
+# this will run when git pull triggers a merge event
 update: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/setup_proxmox.yml playbooks/common.yml playbooks/align_cloudflare_dns.yml playbooks/docker.yml
 	git diff-tree --name-only -r HEAD@{1} HEAD | grep files/services/ | cut -d'/' -f1,2,3,4 | parallel make {}
