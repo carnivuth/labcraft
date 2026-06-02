@@ -14,3 +14,15 @@
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
+
+    - name: Send Telegram notification
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "markdown"
+          text: |
+            # playbook `docker`
+            installed docker on host {{ inventory_hostname }}
+          disable_web_page_preview: true
+          disable_notification: false
