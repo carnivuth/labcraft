@@ -39,7 +39,7 @@ playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
 
 services: playbooks/files/services/*
 
-install: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/common.yml playbooks/align_cloudflare_dns.yml playbooks/postfix.yml services
+install: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/setup_proxmox.yml playbooks/common.yml playbooks/align_cloudflare_dns.yml playbooks/postfix.yml services
 
-update: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/common.yml playbooks/align_cloudflare_dns.yml
-	git diff-tree --name-only -r HEAD@{1} HEAD | grep files/services/ | cut -d'/' -f1,2,3 | parallel make {}
+update: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/setup_proxmox.yml playbooks/common.yml playbooks/align_cloudflare_dns.yml
+	git diff-tree --name-only -r HEAD@{1} HEAD | grep files/services/ | cut -d'/' -f1,2,3,4 | parallel make {}
