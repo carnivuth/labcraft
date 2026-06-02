@@ -15,6 +15,7 @@
           $(apt list --upgradable 2>/dev/null | grep -c '/') packages can be upgraded\n
           $(apt list --upgradable 2>/dev/null)" |
           sendmail root'
+      register: update_cronjob
 
     - name: Install keepalive signal
       become: true
@@ -24,3 +25,29 @@
         minute: "*"
         hour: "*"
         job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
+      register: keepalive_cronjob
+
+    - name: Send Telegram notification
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "markdown"
+          text: |
+            # playbook `setup_proxmox`
+            installed chronjobs on {{ inventory_hostname }}
+
+            - update chronjob:
+
+            ```json
+            {{ update_cronjob }}
+            ```
+
+            - keepalive chronjob:
+
+            ```json
+            {{ keepalive_cronjob }}
+            ```
+
+          disable_web_page_preview: true
+          disable_notification: false
