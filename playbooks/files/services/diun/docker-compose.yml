@@ -1,6 +1,6 @@
 services:
   diun:
-    image: crazymax/diun:4.31.0
+    image: crazymax/diun:4.33.0
     restart: unless-stopped
     container_name: diun
     command: serve
@@ -24,4 +24,3 @@ services:
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
       - "diun.max_tags=3"
-
