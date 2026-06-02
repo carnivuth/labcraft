@@ -160,6 +160,10 @@
           retries: 5
           delay: 1
 
+        - name: Prune images
+          community.docker.docker_prune:
+            images: true
+
         - name: Send Telegram notification
           community.general.telegram:
             token: "{{ vault_telegram_token }}"
@@ -169,12 +173,10 @@
               text: |
                 # playbook `service`
                 application deployed at {{ record }}
+                on host {{ inventory_hostname }}
               disable_web_page_preview: true
               disable_notification: false
 
-        - name: Prune images
-          community.docker.docker_prune:
-            images: true
 
       rescue:
         - name: Send Telegram notification
