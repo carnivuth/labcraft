@@ -395,6 +395,10 @@ access_control:
       policy: 'one_factor'
       subject: 'group:navidrome'
 
+    - domain: 'picard.{{ domain }}'
+      policy: 'one_factor'
+      subject: 'group:picard'
+
     - domain: 'metube.{{ domain }}'
       policy: 'one_factor'
       subject: 'group:metube'
