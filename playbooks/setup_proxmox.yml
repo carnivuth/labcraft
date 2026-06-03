@@ -29,7 +29,7 @@
 
     - name: Install Ts.sh script
       become: true
-      ansible.builtin.file:
+      ansible.builtin.copy:
         src: "setup_proxmox_files/ts.sh"
         mode: "0755"
         dest: "/usr/local/bin/ts.sh"
