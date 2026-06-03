@@ -27,6 +27,15 @@
         job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
       register: keepalive_cronjob
 
+    - name: Install Ts.sh script
+      become: true
+      ansible.builtin.file:
+        src: "setup_proxmox_files/ts.sh"
+        mode: "0755"
+        dest: "/usr/local/bin/ts.sh"
+        owner: root
+      register: ts_install
+
     - name: Send Telegram notification
       community.general.telegram:
         token: "{{ vault_telegram_token }}"
@@ -47,6 +56,12 @@
 
             ```json
             {{ keepalive_cronjob }}
+            ```
+
+            - ts install:
+
+            ```json
+            {{ ts_install }}
             ```
 
           disable_web_page_preview: true
