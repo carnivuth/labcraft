@@ -1,0 +1,37 @@
+---
+services:
+  picard:
+    container_name: picard
+    restart: unless-stopped
+    image: mikenye/picard:2.13.3
+    networks:
+      - services
+    volumes:
+      - "/mnt/containers/navidrome/collection:/storage/collection"
+      - "/mnt/containers/metube/downloads:/storage/downloads"
+      - "/mnt/containers/picard/config:/config"
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.services.picard.loadbalancer.server.port=5800"
+      - "traefik.http.routers.picard.entrypoints=websecure"
+      - "traefik.http.routers.picard.tls.certresolver=myresolver"
+      - "traefik.http.routers.picard.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.picard.middlewares=authelia-basicauth@docker"
+
+      # homepage labels
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=Picard"
+      - "homepage.icon=picard.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Metadata editing"
+
+      # diun labels
+      - "diun.enable=true"
+      - "diun.watch_repo=true"
+      - "diun.sort_tags=semver"
+      - "diun.max_tags=3"
+networks:
+  services:
+    name: services
+    external: true
