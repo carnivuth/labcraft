@@ -54,7 +54,7 @@
           \n
           \`\`\`text\n
           $(apt list --upgradable 2>/dev/null)\n
-          \`\`\`" | Ts.sh > /dev/null 2>&1
+          \`\`\`" | Ts.sh > /dev/null 2>&1'
       register: update_cronjob
 
     - name: Install keepalive signal
