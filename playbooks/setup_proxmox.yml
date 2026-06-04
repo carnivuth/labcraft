@@ -57,6 +57,16 @@
           \`\`\`" | Ts.sh > /dev/null 2>&1'
       register: update_cronjob
 
+    - name: Install wakeup notification cronjob
+      become: true
+      ansible.builtin.cron:
+        name: "Wakeup notification"
+        special_time: reboot
+        job: >
+          /bin/bash -c
+          'echo -e "# Wake up notification \n$(hostname) waked up at $(date)" |
+          Ts.sh > /dev/null 2>&1'
+
     - name: Install keepalive signal
       become: true
       ansible.builtin.cron:
