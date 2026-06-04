@@ -49,10 +49,12 @@
         job: >
           /bin/bash -c
           'apt-get update;
-          echo -e "Subject: $HOSTNAME package status\n
+          echo -e "# $HOSTNAME package status\n
           $(apt list --upgradable 2>/dev/null | grep -c '/') packages can be upgraded\n
-          $(apt list --upgradable 2>/dev/null)" |
-          Ts.sh'
+          \n
+          \`\`\`text\n
+          $(apt list --upgradable 2>/dev/null)\n
+          \`\`\`" | Ts.sh > /dev/null 2>&1
       register: update_cronjob
 
     - name: Install keepalive signal

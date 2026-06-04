@@ -23,7 +23,7 @@ RESPONSE="$(curl -sSf \
   --data "$(jq -n \
     --arg chat_id "$TELEGRAM_CHAT_ID" \
     --arg text "$MESSAGE" \
-    '{chat_id: $chat_id, text: $text, parse_mode: "HTML"}'
+    '{chat_id: $chat_id, text: $text, parse_mode: "markdown"}'
   )")"
 
 if echo "$RESPONSE" | jq -e '.ok == true' > /dev/null; then
