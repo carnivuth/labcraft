@@ -96,7 +96,7 @@
 
         - name: Install carbon-relay-ng storage schemas configuration file
           ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng/config/storage-schemas.conf"
+            src: "files/setup_proxmox/carbon-relay-ng/storage-schemas.conf"
             dest: "/usr/local/carbon-relay-ng/config/storage-schemas.conf"
             mode: "0644"
             owner: root
