@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.picard.entrypoints=websecure"
       - "traefik.http.routers.picard.tls.certresolver=myresolver"
       - "traefik.http.routers.picard.rule=Host(`${HOST}`)"
-      - "traefik.http.routers.picard.middlewares=authelia-basicauth@docker"
+      #- "traefik.http.routers.picard.middlewares=authelia-basicauth@docker"
 
       # homepage labels
       - "homepage.group=Personal Cloud"
