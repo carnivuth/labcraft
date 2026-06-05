@@ -22,7 +22,7 @@ services:
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Picard"
-      - "homepage.icon=picard.svg"
+      - "homepage.icon=musicbrainz-picard.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Metadata editing"
 
