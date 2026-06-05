@@ -136,20 +136,41 @@
             state: present
             mode: '600'
 
-        - name: Copy config folder if present
-          when: config_dir.stat.exists and app != 'authelia'
-          ansible.builtin.copy:
-            src: "services/{{ app }}/etc/"
-            dest: "/etc/{{ app }}"
-            mode: "755"
+        - name: Find template files (.j2) under files/services/etc
+          ansible.builtin.find:
+            paths: "files/services/{{ app }}/etc"
+            patterns: "*.j2"
+            recurse: true
+          register: template_files
+          delegate_to: localhost
 
-        - name: copy template for authelia configuration
-          when: config_dir.stat.exists and app == 'authelia'
+        - name: Deploy template files (parsed)
           ansible.builtin.template:
-            src: "files/services/{{ app }}/etc/configuration.yml"
-            dest: "/etc/{{ app }}/configuration.yml"
-            mode: "755"
+            src: "{{ item.path }}"
+            dest: "/etc/{{ item.path | basename | regex_replace('\\.j2$', '') }}"
+            owner: "{{ app }}"
+            group: "{{ app }}"
+            mode: "0644"
+          loop: "{{ template_files.files }}"
 
+        - name: Find config files (non-.j2) under files/services/etc
+          ansible.builtin.find:
+            paths: "files/services/{{ app }}/etc"
+            patterns: "*"
+            excludes: "*.j2"
+            recurse: true
+            file_type: file
+          register: config_files
+          delegate_to: localhost
+
+        - name: Deploy config files (unparsed)
+          ansible.builtin.copy:
+            src: "{{ item.path }}"
+            dest: "/etc/{{ item.path | basename }}"
+            owner: "{{ app }}"
+            group: "{{ app }}"
+            mode: "0644"
+          loop: "{{ config_files.files }}"
 
         - name: Start {{ app }}
           community.docker.docker_compose_v2:
