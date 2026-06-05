@@ -80,30 +80,37 @@
     - name: Install grafite exporter for grafana cloud
       become: true
       block:
+
+        - name: Create directory for carbon-relay-ng
+          ansible.builtin.file:
+            path: "/usr/local/carbon-relay-ng/config"
+            state: directory
+            mode: "0755"
+
         - name: Install carbon-relay-ng configuration file
+          ansible.builtin.template:
+            src: "files/setup_proxmox/carbon-relay-ng/carbon-relay-ng.ini.j2"
+            dest: "/usr/local/carbon-relay-ng/config/carbon-relay-ng.ini"
+            mode: "0600"
+            owner: root
+
+        - name: Install carbon-relay-ng storage schemas configuration file
           ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng.conf"
-            dest: "/usr/local/carbon-relay-ng/config.conf"
+            src: "files/setup_proxmox/carbon-relay-ng/config/storage-schemas.conf"
+            dest: "/usr/local/carbon-relay-ng/config/storage-schemas.conf"
             mode: "0644"
             owner: root
 
-        - name: Install carbon-relay-ng configuration file
+        - name: Install carbon-relay-ng storage aggregation configuration file
           ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng.conf"
-            dest: "/usr/local/carbon-relay-ng/config.conf"
-            mode: "0644"
-            owner: root
-
-        - name: Install carbon-relay-ng configuration file
-          ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng.conf"
-            dest: "/usr/local/carbon-relay-ng/config.conf"
+            src: "files/setup_proxmox/carbon-relay-ng/storage-aggregation.conf"
+            dest: "/usr/local/carbon-relay-ng/config/stoorage-aggregation.conf"
             mode: "0644"
             owner: root
 
         - name: install docker compose file
           ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng.yml"
+            src: "files/setup_proxmox/carbon-relay-ng/docker-compose.yml"
             dest: "/usr/local/carbon-relay-ng/docker-compose.yml"
             mode: "0644"
             owner: root
