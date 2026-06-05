@@ -1,6 +1,7 @@
 - name: Setup proxmox host
   hosts: pve
   handlers:
+
     - name: Restart ddclient
       become: true
       ansible.builtin.service:
