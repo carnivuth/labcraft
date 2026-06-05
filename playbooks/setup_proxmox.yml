@@ -104,7 +104,7 @@
         - name: Install carbon-relay-ng storage aggregation configuration file
           ansible.builtin.copy:
             src: "files/setup_proxmox/carbon-relay-ng/storage-aggregation.conf"
-            dest: "/usr/local/carbon-relay-ng/config/stoorage-aggregation.conf"
+            dest: "/usr/local/carbon-relay-ng/config/storage-aggregation.conf"
             mode: "0644"
             owner: root
 
