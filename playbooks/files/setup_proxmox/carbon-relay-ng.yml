@@ -1,0 +1,13 @@
+---
+services:
+  carbon-relay-ng:
+    container_name: carbon-relay-ng
+    restart: unless-stopped
+    image: grafana/carbon-relay-ng:1.5.8
+    volumes:
+      - ./config:/conf
+      - ./spool:/spool
+    ports:
+      - 2003:2003
+      - 2004:2004
+      - 8081:8081

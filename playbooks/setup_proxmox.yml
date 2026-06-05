@@ -77,6 +77,46 @@
         job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
       register: keepalive_cronjob
 
+    - name: Install grafite exporter for grafana cloud
+      become: true
+      block:
+        - name: Install carbon-relay-ng configuration file
+          ansible.builtin.copy:
+            src: "files/setup_proxmox/carbon-relay-ng.conf"
+            dest: "/usr/local/carbon-relay-ng/config.conf"
+            mode: "0644"
+            owner: root
+
+        - name: Install carbon-relay-ng configuration file
+          ansible.builtin.copy:
+            src: "files/setup_proxmox/carbon-relay-ng.conf"
+            dest: "/usr/local/carbon-relay-ng/config.conf"
+            mode: "0644"
+            owner: root
+
+        - name: Install carbon-relay-ng configuration file
+          ansible.builtin.copy:
+            src: "files/setup_proxmox/carbon-relay-ng.conf"
+            dest: "/usr/local/carbon-relay-ng/config.conf"
+            mode: "0644"
+            owner: root
+
+        - name: install docker compose file
+          ansible.builtin.copy:
+            src: "files/setup_proxmox/carbon-relay-ng.yml"
+            dest: "/usr/local/carbon-relay-ng/docker-compose.yml"
+            mode: "0644"
+            owner: root
+
+        - name: Start carbon-relay-ng
+          community.docker.docker_compose_v2:
+            project_src: "/usr/local/carbon-relay-ng"
+            state: present
+            pull: always
+          register: result
+          retries: 5
+          delay: 1
+
     - name: Send Telegram notification
       community.general.telegram:
         token: "{{ vault_telegram_token }}"
