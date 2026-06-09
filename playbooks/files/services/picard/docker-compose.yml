@@ -10,6 +10,9 @@ services:
       - "/mnt/containers/navidrome/collection:/storage/collection"
       - "/mnt/containers/metube/downloads:/storage/downloads"
       - "/mnt/containers/picard/config:/config"
+    environment:
+      - USER_ID=0
+      - GROUP_ID=0
     labels:
       # traefik labels
       - "traefik.enable=true"
