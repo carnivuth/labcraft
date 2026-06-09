@@ -60,11 +60,17 @@
             dest: "/usr/local/{{ app }}/docker-compose.yml"
             mode: "644"
 
+        - name: Create application group and save GUID
+          ansible.builtin.group:
+            name: "services"
+          register: group_data
+
         - name: Create application users and save PUIDs and GUIDs
           ansible.builtin.user:
             name: "{{ item }}"
             create_home: true
             home: /usr/local/{{ app }}
+            groups: ["services"]
           register: users_data
           loop: "{{ users }}"
 
@@ -81,6 +87,7 @@
             state: directory
             mode: "755"
             owner: "{{ app }}"
+            group: "services"
           loop: "{{ volumes }}"
           loop_control:
             index_var: index
@@ -106,6 +113,14 @@
           loop: "{{ users }}"
           loop_control:
             index_var: index
+
+        - name: Save services GUID in .env file
+          ansible.builtin.lineinfile:
+            path: /usr/local/{{ app }}/.env
+            line: PGID_SERVICES={{ group_data.group }}
+            create: true
+            state: present
+            mode: '600'
 
         - name: Create a DNS record for the {{ app }}
           community.general.cloudflare_dns:
