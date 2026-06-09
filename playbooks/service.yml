@@ -106,7 +106,7 @@
         - name: Save PGIDs in .env file
           ansible.builtin.lineinfile:
             path: /usr/local/{{ app }}/.env
-            line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].gid }}
+            line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
             create: true
             state: present
             mode: '600'
@@ -117,7 +117,7 @@
         - name: Save services GUID in .env file
           ansible.builtin.lineinfile:
             path: /usr/local/{{ app }}/.env
-            line: PGID_SERVICES={{ group_data.group }}
+            line: PGID_SERVICES={{ group_data.gid }}
             create: true
             state: present
             mode: '600'
