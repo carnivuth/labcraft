@@ -12,6 +12,7 @@ services:
     environment:
       - PUID=${PUID_METUBE}
       - PGID=${PGID_SERVICES}
+      - UMASK=002
     labels:
       # traefik labels
       - "traefik.enable=true"
