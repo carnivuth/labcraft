@@ -9,6 +9,9 @@ services:
       - "8081"
     volumes:
       - /mnt/containers/metube/downloads:/downloads
+    environment:
+      - PUID=${PUID_METUBE}
+      - PGID=${PGID_SERVICES}
     labels:
       # traefik labels
       - "traefik.enable=true"
