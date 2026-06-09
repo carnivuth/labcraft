@@ -11,8 +11,8 @@ services:
       - "/mnt/containers/metube/downloads:/storage/downloads"
       - "/mnt/containers/picard/config:/config"
     environment:
-      - USER_ID=0
-      - GROUP_ID=0
+      - USER_ID=${PUID_PICARD}
+      - GROUP_ID=${PGID_PICARD}
     labels:
       # traefik labels
       - "traefik.enable=true"
