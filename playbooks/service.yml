@@ -85,7 +85,7 @@
           ansible.builtin.file:
             path: "{{ item.split(':')[0] }}"
             state: directory
-            mode: "755"
+            mode: "775"
             owner: "{{ app }}"
             group: "services"
           loop: "{{ volumes }}"
