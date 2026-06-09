@@ -12,7 +12,7 @@ services:
       - "/mnt/containers/picard/config:/config"
     environment:
       - USER_ID=${PUID_PICARD}
-      - GROUP_ID=${PGID_PICARD}
+      - GROUP_ID=${PGID_SERVICES}
     labels:
       # traefik labels
       - "traefik.enable=true"
