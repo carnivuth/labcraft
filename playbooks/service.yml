@@ -60,9 +60,13 @@
             dest: "/usr/local/{{ app }}/docker-compose.yml"
             mode: "644"
 
-        - name: Create user {{ app }}
+        - name: Create application users and save PUIDs and GUIDs
           ansible.builtin.user:
-            name: "{{ app }}"
+            name: "{{ item }}"
+            create_home: true
+            home: /usr/local/{{ app }}
+          register: users_data
+          loop: "{{ users }}"
 
         - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
           ansible.builtin.stat:
@@ -76,17 +80,10 @@
             path: "{{ item.split(':')[0] }}"
             state: directory
             mode: "755"
+            owner: "{{ app }}"
           loop: "{{ volumes }}"
           loop_control:
             index_var: index
-
-        - name: Create application users and save PUIDs and GUIDs
-          ansible.builtin.user:
-            name: "{{ item }}"
-            create_home: true
-            home: /usr/local/{{ app }}
-          register: users_data
-          loop: "{{ users }}"
 
         - name: Save PUIDs in .env file
           ansible.builtin.lineinfile:
