@@ -1,5 +1,15 @@
 - name: Setup proxmox host
   hosts: pve
+  vars:
+
+    # remote host where to push backups
+    backup_remote: "u425518.your-storagebox.de"
+
+    # remote host user
+    proxmox_backup_remote_username: "u425518-sub3"
+
+    # backup folder where data are stored
+    backup_data_root: /mnt/datastore/
   handlers:
 
     - name: Restart ddclient
