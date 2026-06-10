@@ -204,18 +204,14 @@
 
         - name: Setup data syncronization with a remote site
           ansible.builtin.cron:
-            name: "backup sync"
+            name: "backup sync with storagebox"
             minute: "0"
             hour: "22"
             job: >
-              rsync
-              --exclude "lost+found"
-              -Pavr
-              --delete "{{ backup_data_root }}"
-              "{{ backup_remote }}:{{ ansible_facts["hostname"] }}" |
-              tee /var/log/backup-sync.log;
-              echo -e "Subject: backup-sync status \n$(cat /var/log/backup-sync.log)" |
-              Ts.sh
+              /bin/bash -c
+              'rsync --exclude "lost+found" -Pzavr --delete
+              "{{ backup_data_root }}" "{{ backup_remote }}:" |
+              Ts.sh && curl '{{ vault_healthchecks_proxmox_backup_sync_signal }}' > /dev/null 2>&1
 
     - name: Send Telegram notification
       community.general.telegram:
