@@ -211,7 +211,7 @@
               /bin/bash -c
               'rsync --exclude "lost+found" -Pzavr --delete
               "{{ backup_data_root }}" "{{ backup_remote }}:" |
-              Ts.sh && curl '{{ vault_healthchecks_proxmox_backup_sync_signal }}' > /dev/null 2>&1
+              Ts.sh && curl "{{ vault_healthchecks_proxmox_backup_sync_signal }}"' > /dev/null 2>&1
 
     - name: Send Telegram notification
       community.general.telegram:
