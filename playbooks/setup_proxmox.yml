@@ -6,7 +6,7 @@
     backup_remote: "u425518.your-storagebox.de"
 
     # remote host user
-    proxmox_backup_remote_username: "u425518-sub3"
+    proxmox_backup_remote_username: "u425518-sub1"
 
     # backup folder where data are stored
     backup_data_root: /mnt/datastore/
