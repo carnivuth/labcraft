@@ -198,7 +198,7 @@
       block:
         - name: "Configure ssh parameters for the {{ backup_remote }}"
           ansible.builtin.template:
-            src: "backup/backup_ssh_config.j2"
+            src: "setup_proxmox/backup_ssh_config.j2"
             dest: "/root/.ssh/config"
             mode: '644'
 
