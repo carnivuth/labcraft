@@ -9,7 +9,7 @@
     proxmox_backup_remote_username: "u425518-sub1"
 
     # backup folder where data are stored
-    backup_data_root: /mnt/datastore/
+    backup_data_root: /mnt/datastore
   handlers:
 
     - name: Restart ddclient
