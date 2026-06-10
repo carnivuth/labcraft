@@ -212,7 +212,7 @@
               --exclude "lost+found"
               -Pavr
               --delete "{{ backup_data_root }}"
-              "{{ backup_remote }}:{{ ansible_hostname }}" |
+              "{{ backup_remote }}:{{ ansible_facts["hostname"] }}" |
               tee /var/log/backup-sync.log;
               echo -e "Subject: backup-sync status \n$(cat /var/log/backup-sync.log)" |
               Ts.sh
