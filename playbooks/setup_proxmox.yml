@@ -20,226 +20,210 @@
 
   tasks:
 
-    - name: Add TELEGRAM_CHAT_ID env var
-      become: true
-      ansible.builtin.cron:
-        env: true
-        name: "TELEGRAM_CHAT_ID"
-        value: "{{ vault_telegram_chat_id }}"
-
-    - name: Add TELEGRAM_TOKEN env var
-      become: true
-      ansible.builtin.cron:
-        env: true
-        name: "TELEGRAM_TOKEN"
-        value: "{{ vault_telegram_token }}"
-
-    - name: Add TELEGRAM_CHAT_ID in bashrc
-      become: true
-      ansible.builtin.lineinfile:
-        path: /root/.bashrc
-        state: present
-        line: "TELEGRAM_CHAT_ID={{ vault_telegram_chat_id }}"
-
-    - name: Add TELEGRAM_TOKEN in bashrc
-      become: true
-      ansible.builtin.lineinfile:
-        path: /root/.bashrc
-        state: present
-        line: "TELEGRAM_TOKEN={{ vault_telegram_token }}"
-
-    - name: Install Ts.sh script
-      become: true
-      ansible.builtin.copy:
-        src: "setup_proxmox/Ts.sh"
-        mode: "0755"
-        dest: "/usr/local/bin/Ts.sh"
-        owner: root
-      register: ts_install
-
-    - name: Install updates cronjob
-      become: true
-      ansible.builtin.cron:
-        name: "Update notification"
-        user: root
-        minute: "0"
-        hour: "17"
-        job: >
-          /bin/bash -c
-          'apt-get update;
-          echo -e "# $HOSTNAME package status\n
-          $(apt list --upgradable 2>/dev/null | grep -c '/') packages can be upgraded\n
-          \n
-          \`\`\`text\n
-          $(apt list --upgradable 2>/dev/null)\n
-          \`\`\`" | Ts.sh > /dev/null 2>&1'
-      register: update_cronjob
-
-    - name: Install wakeup notification cronjob
-      become: true
-      ansible.builtin.cron:
-        name: "Wakeup notification"
-        special_time: reboot
-        job: >
-          /bin/bash -c
-          'echo -e "# Wake up notification \n$(hostname) waked up at $(date)" |
-          Ts.sh > /dev/null 2>&1'
-
-    - name: Install keepalive signal
-      become: true
-      ansible.builtin.cron:
-        name: "torterra keepalive signal"
-        user: root
-        minute: "*"
-        hour: "*"
-        job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
-      register: keepalive_cronjob
-
-    - name: Install grafite exporter for grafana cloud
-      become: true
-      block:
-
-        - name: Create directory for carbon-relay-ng
-          ansible.builtin.file:
-            path: "/usr/local/carbon-relay-ng/config"
-            state: directory
-            mode: "0755"
-
-        - name: Install carbon-relay-ng configuration file
-          ansible.builtin.template:
-            src: "files/setup_proxmox/carbon-relay-ng/carbon-relay-ng.ini.j2"
-            dest: "/usr/local/carbon-relay-ng/config/carbon-relay-ng.ini"
-            mode: "0600"
-            owner: root
-
-        - name: Install carbon-relay-ng storage schemas configuration file
-          ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng/storage-schemas.conf"
-            dest: "/usr/local/carbon-relay-ng/config/storage-schemas.conf"
-            mode: "0644"
-            owner: root
-
-        - name: Install carbon-relay-ng storage aggregation configuration file
-          ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng/storage-aggregation.conf"
-            dest: "/usr/local/carbon-relay-ng/config/storage-aggregation.conf"
-            mode: "0644"
-            owner: root
-
-        - name: install docker compose file
-          ansible.builtin.copy:
-            src: "files/setup_proxmox/carbon-relay-ng/docker-compose.yml"
-            dest: "/usr/local/carbon-relay-ng/docker-compose.yml"
-            mode: "0644"
-            owner: root
-
-        - name: Start carbon-relay-ng
-          community.docker.docker_compose_v2:
-            project_src: "/usr/local/carbon-relay-ng"
-            state: present
-            pull: always
-          register: result
-          retries: 5
-          delay: 1
-
-    - name: Setup ddclient
-      become: true
-      block:
-
-        - name: Install ddclient package
-          ansible.builtin.apt:
-            name: ddclient
-            state: present
-            update_cache: true
-
-        - name: Configure ddclient
-          notify: Restart ddclient
-          ansible.builtin.template:
-            src: "files/setup_proxmox/ddclient.conf.j2"
-            dest: "/etc/ddclient.conf"
-            mode: "0600"
-            owner: root
-
-    - name: Install proxmox backup server
-      block:
-        - name: Install some packages
-          ansible.builtin.apt:
-            name:
-              - ftp
-              - ncftp
-              - netcat-traditional
-              - curl
-              - gawk
-              - grep
-              - rsync
-            state: present
-            update_cache: true
-        - name: Add proxmox backup server repo key
-          ansible.builtin.get_url:
-            url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
-            dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
-            mode: '644'
-
-        - name: Add proxmox backup server repository into sources list
-          ansible.builtin.apt_repository:
-            repo: >
-              deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg]
-              http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription
-            filename: proxmox_backup_server
-            state: present
-
-        - name: Install pbs and update cache
-          ansible.builtin.apt:
-            name: proxmox-backup-server
-            state: present
-            update_cache: true
-
-    - name: Setup remote synchronization with hetzner storagebox
-      block:
-        - name: "Configure ssh parameters for the {{ backup_remote }}"
-          ansible.builtin.template:
-            src: "setup_proxmox/backup_ssh_config.j2"
-            dest: "/root/.ssh/config"
-            mode: '644'
-
-        - name: Setup data syncronization with a remote site
+    - block:
+        - name: Add TELEGRAM_CHAT_ID env var
+          become: true
           ansible.builtin.cron:
-            name: "backup sync with storagebox"
+            env: true
+            name: "TELEGRAM_CHAT_ID"
+            value: "{{ vault_telegram_chat_id }}"
+
+        - name: Add TELEGRAM_TOKEN env var
+          become: true
+          ansible.builtin.cron:
+            env: true
+            name: "TELEGRAM_TOKEN"
+            value: "{{ vault_telegram_token }}"
+
+        - name: Add TELEGRAM_CHAT_ID in bashrc
+          become: true
+          ansible.builtin.lineinfile:
+            path: /root/.bashrc
+            state: present
+            line: "TELEGRAM_CHAT_ID={{ vault_telegram_chat_id }}"
+
+        - name: Add TELEGRAM_TOKEN in bashrc
+          become: true
+          ansible.builtin.lineinfile:
+            path: /root/.bashrc
+            state: present
+            line: "TELEGRAM_TOKEN={{ vault_telegram_token }}"
+
+        - name: Install Ts.sh script
+          become: true
+          ansible.builtin.copy:
+            src: "setup_proxmox/Ts.sh"
+            mode: "0755"
+            dest: "/usr/local/bin/Ts.sh"
+            owner: root
+
+        - name: Install updates cronjob
+          become: true
+          ansible.builtin.cron:
+            name: "Update notification"
+            user: root
             minute: "0"
-            hour: "22"
+            hour: "17"
             job: >
               /bin/bash -c
-              'rsync --exclude "lost+found" -Pzavr --delete
-              "{{ backup_data_root }}" "{{ backup_remote }}:" |
-              Ts.sh && curl "{{ vault_healthchecks_proxmox_backup_sync_signal }}"' > /dev/null 2>&1
+              'apt-get update;
+              echo -e "# $HOSTNAME package status\n
+              $(apt list --upgradable 2>/dev/null | grep -c '/') packages can be upgraded\n
+              \n
+              \`\`\`text\n
+              $(apt list --upgradable 2>/dev/null)\n
+              \`\`\`" | Ts.sh > /dev/null 2>&1'
 
-    - name: Send Telegram notification
-      community.general.telegram:
-        token: "{{ vault_telegram_token }}"
-        api_args:
-          chat_id: "{{ vault_telegram_chat_id }}"
-          parse_mode: "markdown"
-          text: |
-            *playbook `setup_proxmox`*
-            installed chronjobs on {{ inventory_hostname }}
+        - name: Install wakeup notification cronjob
+          become: true
+          ansible.builtin.cron:
+            name: "Wakeup notification"
+            special_time: reboot
+            job: >
+              /bin/bash -c
+              'echo -e "# Wake up notification \n$(hostname) waked up at $(date)" |
+              Ts.sh > /dev/null 2>&1'
 
-            - update chronjob:
+        - name: Install keepalive signal
+          become: true
+          ansible.builtin.cron:
+            name: "torterra keepalive signal"
+            user: root
+            minute: "*"
+            hour: "*"
+            job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
 
-            ```json
-            {{ update_cronjob }}
-            ```
+        - name: Install grafite exporter for grafana cloud
+          become: true
+          block:
 
-            - keepalive chronjob:
+            - name: Create directory for carbon-relay-ng
+              ansible.builtin.file:
+                path: "/usr/local/carbon-relay-ng/config"
+                state: directory
+                mode: "0755"
 
-            ```json
-            {{ keepalive_cronjob }}
-            ```
+            - name: Install carbon-relay-ng configuration file
+              ansible.builtin.template:
+                src: "files/setup_proxmox/carbon-relay-ng/carbon-relay-ng.ini.j2"
+                dest: "/usr/local/carbon-relay-ng/config/carbon-relay-ng.ini"
+                mode: "0600"
+                owner: root
 
-            - ts install:
+            - name: Install carbon-relay-ng storage schemas configuration file
+              ansible.builtin.copy:
+                src: "files/setup_proxmox/carbon-relay-ng/storage-schemas.conf"
+                dest: "/usr/local/carbon-relay-ng/config/storage-schemas.conf"
+                mode: "0644"
+                owner: root
 
-            ```json
-            {{ ts_install }}
-            ```
+            - name: Install carbon-relay-ng storage aggregation configuration file
+              ansible.builtin.copy:
+                src: "files/setup_proxmox/carbon-relay-ng/storage-aggregation.conf"
+                dest: "/usr/local/carbon-relay-ng/config/storage-aggregation.conf"
+                mode: "0644"
+                owner: root
 
-          disable_web_page_preview: true
-          disable_notification: false
+            - name: install docker compose file
+              ansible.builtin.copy:
+                src: "files/setup_proxmox/carbon-relay-ng/docker-compose.yml"
+                dest: "/usr/local/carbon-relay-ng/docker-compose.yml"
+                mode: "0644"
+                owner: root
+
+            - name: Start carbon-relay-ng
+              community.docker.docker_compose_v2:
+                project_src: "/usr/local/carbon-relay-ng"
+                state: present
+                pull: always
+              retries: 5
+              delay: 1
+
+        - name: Setup ddclient
+          become: true
+          block:
+
+            - name: Install ddclient package
+              ansible.builtin.apt:
+                name: ddclient
+                state: present
+                update_cache: true
+
+            - name: Configure ddclient
+              notify: Restart ddclient
+              ansible.builtin.template:
+                src: "files/setup_proxmox/ddclient.conf.j2"
+                dest: "/etc/ddclient.conf"
+                mode: "0600"
+                owner: root
+
+        - name: Install proxmox backup server
+          block:
+            - name: Install some packages
+              ansible.builtin.apt:
+                name:
+                  - ftp
+                  - ncftp
+                  - netcat-traditional
+                  - curl
+                  - gawk
+                  - grep
+                  - rsync
+                state: present
+                update_cache: true
+            - name: Add proxmox backup server repo key
+              ansible.builtin.get_url:
+                url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+                dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+                mode: '644'
+
+            - name: Add proxmox backup server repository into sources list
+              ansible.builtin.apt_repository:
+                repo: >
+                  deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg]
+                  http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription
+                filename: proxmox_backup_server
+                state: present
+
+            - name: Install pbs and update cache
+              ansible.builtin.apt:
+                name: proxmox-backup-server
+                state: present
+                update_cache: true
+
+        - name: Setup remote synchronization with hetzner storagebox
+          block:
+            - name: "Configure ssh parameters for the {{ backup_remote }}"
+              ansible.builtin.template:
+                src: "setup_proxmox/backup_ssh_config.j2"
+                dest: "/root/.ssh/config"
+                mode: '644'
+
+            - name: Setup data syncronization with a remote site
+              ansible.builtin.cron:
+                name: "backup sync with storagebox"
+                minute: "0"
+                hour: "22"
+                job: >
+                  /bin/bash -c
+                  'rsync --exclude "lost+found" -Pzavr --delete
+                  "{{ backup_data_root }}" "{{ backup_remote }}:" |
+                  Ts.sh && curl "{{ vault_healthchecks_proxmox_backup_sync_signal }}"' > /dev/null 2>&1
+
+      rescue:
+        - name: Set notification message
+          ansible.builtin.set_fact:
+            telegram_message: |
+              Failed to run task {{ ansible_failed_task.name }}  in {{ inventory_hostname }} with message:
+              {{ ansible_failed_result }}
+      always:
+        - name: Send Telegram notification
+          delegate_to: localhost
+          community.general.telegram:
+            token: "{{ vault_telegram_token }}"
+            api_args:
+              chat_id: "{{ vault_telegram_chat_id }}"
+              parse_mode: "markdown"
+              text: {{ telegram_message | default( 'successfully run playbook on ' + inventory_hostname) }}
+              disable_web_page_preview: true
+              disable_notification: false
