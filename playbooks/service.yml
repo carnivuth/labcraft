@@ -211,7 +211,6 @@
               appname: {{ app }}
       always:
         - name: Send Telegram notification
-          delegate_to: localhost
           community.general.telegram:
             token: "{{ vault_telegram_token }}"
             api_args:
