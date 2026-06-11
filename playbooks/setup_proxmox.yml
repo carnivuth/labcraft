@@ -171,6 +171,7 @@
                   - rsync
                 state: present
                 update_cache: true
+
             - name: Add proxmox backup server repo key
               ansible.builtin.get_url:
                 url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
