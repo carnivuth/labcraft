@@ -215,7 +215,10 @@
           ansible.builtin.set_fact:
             telegram_message: |
               Failed to run task {{ ansible_failed_task.name }}  in {{ inventory_hostname }} with message:
+
+              ```json
               {{ ansible_failed_result }}
+              ```
       always:
         - name: Send Telegram notification
           delegate_to: localhost
