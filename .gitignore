@@ -21,6 +21,9 @@ tests
 # ansible local configs
 ansible.cfg
 
+# cache
+__pycache__
+
 # environment files
 .env
 .envrc
