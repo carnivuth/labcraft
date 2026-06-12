@@ -24,7 +24,8 @@ RESPONSE="$(curl -sSf \
   --data "$(jq -n \
     --arg chat_id "$TELEGRAM_CHAT_ID" \
     --arg text "$MESSAGE" \
-    '{chat_id: $chat_id, text: $text, parse_mode: "$PARSE_MODE"}'
+    --arg parse_mode "$PARSE_MODE" \
+    '{chat_id: $chat_id, text: $text, parse_mode: "$parse_mode"}'
   )")"
 
 if echo "$RESPONSE" | jq -e '.ok == true' > /dev/null; then
