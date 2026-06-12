@@ -83,11 +83,12 @@
         name: "krawl rules sync with storagebox"
         minute: "*"
         hour: "*"
-        job: >
-          /bin/bash -c
-          'curl "{{ krawl_url }}" |
-          while read ip; do
-          iptables -C INPUT -s  "$ip" -j DROP 2>/dev/null  ||
-          ( iptables -I INPUT -s "$ip" -j DROP && echo "blocked ip $ip" );
-          done |
-          PARSE_MODE=HTML Ts.sh ' > /dev/null 2>&1
+        job: cd /usr/local/labcraft && make playbooks/ban_krawl_attackers.yml
+        #job: >
+        #  /bin/bash -c
+        #  'curl "{{ krawl_url }}" |
+        #  while read ip; do
+        #  iptables -C INPUT -s  "$ip" -j DROP 2>/dev/null  ||
+        #  ( iptables -I INPUT -s "$ip" -j DROP && echo "blocked ip $ip" );
+        #  done |
+        #  PARSE_MODE=HTML Ts.sh ' > /dev/null 2>&1

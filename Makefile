@@ -14,6 +14,9 @@ ifdef key
 key_opt = --private-key $(key)
 endif
 
+ansible.cfg:
+	echo -e '[defaults]\nstdout_callback = telegram\ncallback_whitelist = telegram' > $@
+
 .git/hooks/post-merge:
 	echo -e '#!/bin/bash\nmake update' > $@
 	chmod +x "$@"
@@ -29,10 +32,10 @@ inventory/group_vars/all/vault.yml:
 	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
 
 playbooks/*: env ~/.ansible/collections/ansible_collections/
-	source env/bin/activate && ansible-playbook $(inventory_opt) $@ -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts) | PARSE_MODE=HTML Ts.sh
+	source env/bin/activate && ansible-playbook $(inventory_opt) $@ -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
 
 playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
-	source env/bin/activate && ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts) | PARSE_MODE=HTML Ts.sh
+	source env/bin/activate && ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
 
 /var/spool/cron/crontabs/$(USER):
 	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
@@ -40,8 +43,8 @@ playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
 services: playbooks/files/services/*
 
 # run this on first install
-install: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml playbooks/align_cloudflare_dns.yml playbooks/common.yml  playbooks/postfix.yml services
+install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml playbooks/align_cloudflare_dns.yml playbooks/common.yml  playbooks/postfix.yml services
 
 # this will run when git pull triggers a merge event
-update: env ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml playbooks/align_cloudflare_dns.yml playbooks/common.yml  playbooks/docker.yml playbooks/postfix.yml
+update: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml playbooks/align_cloudflare_dns.yml playbooks/common.yml  playbooks/docker.yml playbooks/postfix.yml
 	git diff-tree --name-only -r HEAD@{1} HEAD | grep files/services/ | cut -d'/' -f1,2,3,4 | parallel make {}

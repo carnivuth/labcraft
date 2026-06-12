@@ -1,0 +1,40 @@
+- name: block krawl classified ips
+  hosts: pve
+  become: true
+  vars:
+    krawl_url: "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories=attacker,bad_crawler&fwtype=raw"
+  tasks:
+    - name: get krawl classified ips from vault
+      ansible.builtin.uri:
+        url: "{{ krawl_url }}"
+        method: GET
+        return_content: true
+      register: krawl_api_response
+
+    - name: set fact with krawl classified ips
+      ansible.builtin.set_fact:
+        krawl_classified_ips: "{{ krawl_api_response.content | split('\n') }}"
+
+    - name: Block krawl classified ips
+      ansible.builtin.iptables:
+        chain: INPUT
+        source: "{{ item }}"
+        jump: DROP
+      register: result
+      loop: "{{ krawl_classified_ips }}"
+
+    - name: Notify about blocked ips via telegram
+      when: result.results | selectattr('changed', 'equalto', true) | list | length > 0
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "markdown"
+          text: |
+            *Krawl attack detected and mitigated!*
+            The following IPs have been blocked:
+            {% for ip in (result.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list )%}
+              - `{{ ip }}`
+            {% endfor %}
+          disable_web_page_preview: true
+          disable_notification: false
