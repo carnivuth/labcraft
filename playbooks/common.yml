@@ -15,79 +15,57 @@
       - net-tools
 
   tasks:
-    - name: Update packages
-      block:
-        - name: Remove dependencies that are no longer required and purge their configuration files (apt distros)
-          when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
-          ansible.builtin.apt:
-            autoremove: true
-            purge: true
+    - name: Remove dependencies that are no longer required and purge their configuration files (apt distros)
+      when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+      ansible.builtin.apt:
+        autoremove: true
+        purge: true
 
-        - name: Update all packages to their latest version (apt distros)
-          when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
-          ansible.builtin.apt:
-            upgrade: true
-            update_cache: true
+    - name: Update all packages to their latest version (apt distros)
+      when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+      ansible.builtin.apt:
+        upgrade: true
+        update_cache: true
 
-        - name: Update all packages to their latest version (pacman distros)
-          when: ansible_facts.distribution == "Archlinux"
-          community.general.pacman:
-            upgrade: true
-            update_cache: true
+    - name: Update all packages to their latest version (pacman distros)
+      when: ansible_facts.distribution == "Archlinux"
+      community.general.pacman:
+        upgrade: true
+        update_cache: true
 
-        - name: Install some default packages (pacman distros)
-          when: ansible_facts.distribution == "Archlinux"
-          community.general.pacman:
-            name: "{{ arch_packages }}"
-            state: present
+    - name: Install some default packages (pacman distros)
+      when: ansible_facts.distribution == "Archlinux"
+      community.general.pacman:
+        name: "{{ arch_packages }}"
+        state: present
 
-        - name: Install some default packages (apt distros)
-          when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
-          ansible.builtin.apt:
-            name: "{{ deb_packages }}"
-            state: present
-            update_cache: true
+    - name: Install some default packages (apt distros)
+      when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+      ansible.builtin.apt:
+        name: "{{ deb_packages }}"
+        state: present
+        update_cache: true
 
-        - name: Copy motd script for presentation
-          ansible.builtin.copy:
-            content: |
-              #!/bin/bash
-              figlet "$(hostname)"
-            dest: /etc/motd.sh
-            mode: '755'
+    - name: Copy motd script for presentation
+      ansible.builtin.copy:
+        content: |
+          #!/bin/bash
+          figlet "$(hostname)"
+        dest: /etc/motd.sh
+        mode: '755'
 
-        - name: Add motd in /etc/profile
-          ansible.builtin.lineinfile:
-            path: /etc/profile
-            line: source '/etc/motd.sh'
-            state: present
+    - name: Add motd in /etc/profile
+      ansible.builtin.lineinfile:
+        path: /etc/profile
+        line: source '/etc/motd.sh'
+        state: present
 
-        - name: Download vimrcfile
-          ansible.builtin.get_url:
-            url: https://github.com/carnivuth/toolbox/releases/download/vimrc-v{{ toolbox_vimrc_version }}/vimrc
-            dest: ~/.vimrc
-            mode: '644'
+    - name: Download vimrcfile
+      ansible.builtin.get_url:
+        url: https://github.com/carnivuth/toolbox/releases/download/vimrc-v{{ toolbox_vimrc_version }}/vimrc
+        dest: ~/.vimrc
+        mode: '644'
 
-        - name: Set timezone
-          community.general.timezone:
-            name: Europe/Rome
-
-      rescue:
-        - name: Set notification message
-          ansible.builtin.set_fact:
-            telegram_message: |
-              Failed to run task {{ ansible_failed_task.name }}  in {{ inventory_hostname }} with message:
-
-              ```json
-              {{ ansible_failed_result }}
-              ```
-      always:
-        - name: Send Telegram notification
-          community.general.telegram:
-            token: "{{ vault_telegram_token }}"
-            api_args:
-              chat_id: "{{ vault_telegram_chat_id }}"
-              parse_mode: "markdown"
-              text: "{{ telegram_message | default( 'successfully run common on ' + inventory_hostname) }}"
-              disable_web_page_preview: true
-              disable_notification: false
+    - name: Set timezone
+      community.general.timezone:
+        name: Europe/Rome
