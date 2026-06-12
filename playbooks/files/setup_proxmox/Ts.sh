@@ -8,7 +8,7 @@ set -euo pipefail
 
 : "${TELEGRAM_TOKEN:?Error: TELEGRAM_TOKEN is not set}"
 : "${TELEGRAM_CHAT_ID:?Error: TELEGRAM_CHAT_ID is not set}"
-PARSE_MODE="${PARSE_MODE:MarkdownV2}"
+PARSE_MODE="${PARSE_MODE:-MarkdownV2}"
 
 MESSAGE="$(cat)"
 
