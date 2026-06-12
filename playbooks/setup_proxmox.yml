@@ -10,7 +10,7 @@
 
     # backup folder where data are stored
     backup_data_root: /mnt/datastore
-    krawl_url: "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories=attacker&fwtype=raw"
+    krawl_url: "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories=attacker,bad_crawler&fwtype=raw"
   handlers:
 
     - name: Restart ddclient
