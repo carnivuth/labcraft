@@ -10,6 +10,7 @@
 
     # backup folder where data are stored
     backup_data_root: /mnt/datastore
+    krawl_url: "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories=attacker&fwtype=raw"
   handlers:
 
     - name: Restart ddclient
@@ -210,6 +211,19 @@
                   'rsync --exclude "lost+found" -Pzavr --delete
                   "{{ backup_data_root }}" "{{ backup_remote }}:" |
                   Ts.sh && curl "{{ vault_healthchecks_proxmox_backup_sync_signal }}"' > /dev/null 2>&1
+
+        - name: Setup krawl rule syncronization
+          ansible.builtin.cron:
+            name: "krawl rules sync with storagebox"
+            minute: "*"
+            hour: "*"
+            job: >
+              /bin/bash -c
+              'curl "{{ krawl_url }}" |
+              while read ip; do
+              iptables -C INPUT -s  "$ip" -j DROP || iptables -I INPUT -s "$ip" -j DROP
+              done |
+              Ts.sh && curl "{{ vault_healthchecks_proxmox_krawl_sync_signal }}"' > /dev/null 2>&1
 
       rescue:
         - name: Set notification message
