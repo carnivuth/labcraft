@@ -8,6 +8,7 @@ set -euo pipefail
 
 : "${TELEGRAM_TOKEN:?Error: TELEGRAM_TOKEN is not set}"
 : "${TELEGRAM_CHAT_ID:?Error: TELEGRAM_CHAT_ID is not set}"
+PARSE_MODE="${PARSE_MODE:MarkdownV2}"
 
 MESSAGE="$(cat)"
 
@@ -23,7 +24,7 @@ RESPONSE="$(curl -sSf \
   --data "$(jq -n \
     --arg chat_id "$TELEGRAM_CHAT_ID" \
     --arg text "$MESSAGE" \
-    '{chat_id: $chat_id, text: $text, parse_mode: "MarkdownV2"}'
+    '{chat_id: $chat_id, text: $text, parse_mode: "$PARSE_MODE"}'
   )")"
 
 if echo "$RESPONSE" | jq -e '.ok == true' > /dev/null; then
