@@ -33,8 +33,9 @@
           chat_id: "{{ vault_telegram_chat_id }}"
           parse_mode: "markdown"
           text: |
-            *Krawl attack detected and mitigated*
+            *Krawl attack detected and mitigated on {{ inventory_hostname }}*
             The following IPs have been blocked:
+
             {% for ip in (result.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list )%}
               - `{{ ip }}`
             {% endfor %}
