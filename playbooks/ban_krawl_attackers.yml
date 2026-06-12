@@ -31,7 +31,7 @@
           chat_id: "{{ vault_telegram_chat_id }}"
           parse_mode: "markdownv2"
           text: |
-            *Krawl attack detected and mitigated!*
+            *Krawl attack detected and mitigated*
             The following IPs have been blocked:
             {% for ip in (result.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list )%}
               - `{{ ip }}`
