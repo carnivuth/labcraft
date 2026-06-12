@@ -1,0 +1,35 @@
+- name: Generate report of apt package status
+  hosts:
+    - proxmox_all_running
+    - pve
+  become: true
+  tasks:
+    - name: Run the equivalent of "apt-get update" as a separate step
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Check package status
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+      check_mode: true
+      register: package_status
+    - debug: var=package_status
+
+    - name: Notify about package status ips via telegram
+      when: package_status.changed
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "markdown"
+          text: |
+            *Package status on {{ inventory_hostname }}*
+
+            apt output:
+
+            ```text
+            {{ package_status.stdout }}
+            ```
+          disable_web_page_preview: true
+          disable_notification: false
