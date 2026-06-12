@@ -18,6 +18,11 @@
       ansible.builtin.service:
         name: ddclient
         state: restarted
+    - name: Restart fail2ban
+      become: true
+      ansible.builtin.service:
+        name: fail2ban
+        state: restarted
 
   tasks:
 
@@ -157,6 +162,16 @@
                 dest: "/etc/ddclient.conf"
                 mode: "0600"
                 owner: root
+
+        - name: Setup fail2ban
+          become: true
+          block:
+            - name: Install fail2ban package
+              ansible.builtin.apt:
+                name: fail2ban
+                state: present
+                update_cache: true
+              notify: Restart fail2ban
 
         - name: Install proxmox backup server
           block:
