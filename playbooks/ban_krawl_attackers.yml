@@ -1,5 +1,7 @@
 - name: block krawl classified ips
-  hosts: pve
+  hosts:
+    - pve
+    - proxmox_all_running
   become: true
   vars:
     krawl_url: "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories=attacker,bad_crawler&fwtype=raw"
