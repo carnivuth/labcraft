@@ -1,0 +1,63 @@
+---
+- name: Setup proxmox backup server
+  hosts: pve
+  become: true
+  vars:
+    backup_remote: "u425518.your-storagebox.de"
+    proxmox_backup_remote_username: "u425518"
+    backup_data_root: /mnt/datastore
+  tasks:
+    - name: Install proxmox backup server
+      block:
+        - name: Install some packages
+          ansible.builtin.apt:
+            name:
+              - ftp
+              - ncftp
+              - netcat-traditional
+              - curl
+              - gawk
+              - grep
+              - rsync
+            state: present
+            update_cache: true
+
+        - name: Add proxmox backup server repo key
+          ansible.builtin.get_url:
+            url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+            dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+            mode: '644'
+
+        - name: Add proxmox backup server repository into sources list
+          ansible.builtin.apt_repository:
+            repo: >
+              deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg]
+              http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription
+            filename: proxmox_backup_server
+            state: present
+
+        - name: Install pbs and update cache
+          ansible.builtin.apt:
+            name: proxmox-backup-server
+            state: present
+            update_cache: true
+
+    - name: Setup remote synchronization with hetzner storagebox
+      block:
+        - name: "Configure ssh parameters for the {{ backup_remote }}"
+          ansible.builtin.template:
+            src: "setup_proxmox/backup_ssh_config.j2"
+            dest: "/root/.ssh/config"
+            mode: '644'
+
+        - name: Setup data syncronization with a remote site
+          ansible.builtin.cron:
+            name: "backup sync with storagebox"
+            minute: "0"
+            hour: "22"
+            job: >
+              /bin/bash -c
+              'rsync --exclude "lost+found" -Pzavr --delete
+              "{{ backup_data_root }}" "{{ backup_remote }}:" |
+              PARSE_MODE=HTML Ts.sh &&
+              curl "{{ vault_healthchecks_proxmox_backup_sync_signal }}"' > /dev/null 2>&1

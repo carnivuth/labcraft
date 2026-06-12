@@ -1,0 +1,25 @@
+---
+- name: Setup ddclient
+  become: true
+  hosts: pve
+  handlers:
+    - name: Restart ddclient
+      become: true
+      ansible.builtin.service:
+        name: ddclient
+        state: restarted
+  tasks:
+
+    - name: Install ddclient package
+      ansible.builtin.apt:
+        name: ddclient
+        state: present
+        update_cache: true
+
+    - name: Configure ddclient
+      notify: Restart ddclient
+      ansible.builtin.template:
+        src: "files/ddclient/ddclient.conf.j2"
+        dest: "/etc/ddclient.conf"
+        mode: "0600"
+        owner: root

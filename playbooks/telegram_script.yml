@@ -1,0 +1,40 @@
+---
+- name: Install Telegram Script
+  hosts: pve
+  become: true
+  tasks:
+    - name: Add TELEGRAM_CHAT_ID env var
+      become: true
+      ansible.builtin.cron:
+        env: true
+        name: "TELEGRAM_CHAT_ID"
+        value: "{{ vault_telegram_chat_id }}"
+
+    - name: Add TELEGRAM_TOKEN env var
+      become: true
+      ansible.builtin.cron:
+        env: true
+        name: "TELEGRAM_TOKEN"
+        value: "{{ vault_telegram_token }}"
+
+    - name: Add TELEGRAM_CHAT_ID in bashrc
+      become: true
+      ansible.builtin.lineinfile:
+        path: /root/.bashrc
+        state: present
+        line: "TELEGRAM_CHAT_ID={{ vault_telegram_chat_id }}"
+
+    - name: Add TELEGRAM_TOKEN in bashrc
+      become: true
+      ansible.builtin.lineinfile:
+        path: /root/.bashrc
+        state: present
+        line: "TELEGRAM_TOKEN={{ vault_telegram_token }}"
+
+    - name: Install Ts.sh script
+      become: true
+      ansible.builtin.copy:
+        src: "telegram_script/Ts.sh"
+        mode: "0755"
+        dest: "/usr/local/bin/Ts.sh"
+        owner: root

@@ -1,0 +1,18 @@
+---
+- name: configure ssh
+  ansible.builtin.import_playbook: "ssh.yml"
+
+- name: Install telegram script
+  ansible.builtin.import_playbook: "telegram_script.yml"
+
+- name: Install cronjobs
+  ansible.builtin.import_playbook: "cronjobs.yml"
+
+- name: Install ddclient
+  ansible.builtin.import_playbook: "ddclient.yml"
+
+- name: Install grafite exporter for grafana cloud
+  ansible.builtin.import_playbook: "graphite_exporter.yml"
+
+- name: Install proxmox backup server
+  ansible.builtin.import_playbook: "proxmox_backup_server.yml"
