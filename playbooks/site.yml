@@ -16,3 +16,15 @@
 
 - name: Install proxmox backup server
   ansible.builtin.import_playbook: "proxmox_backup_server.yml"
+
+- name: align cloudflare dns
+  ansible.builtin.import_playbook: "align_cloudflare_dns.yml"
+
+- name: Run common configuration on guests
+  ansible.builtin.import_playbook: "common.yml"
+
+- name: Install docker on guest nodes
+  ansible.builtin.import_playbook: "docker.yml"
+
+- name: Configure postfix on guest nodes
+  ansible.builtin.import_playbook: "postfix.yml"
