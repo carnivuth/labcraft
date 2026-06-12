@@ -220,10 +220,11 @@
             job: >
               /bin/bash -c
               'curl "{{ krawl_url }}" |
-              while read ip; do
-              iptables -C INPUT -s  "$ip" -j DROP || iptables -I INPUT -s "$ip" -j DROP
-              done |
-              Ts.sh && curl "{{ vault_healthchecks_proxmox_krawl_sync_signal }}"' > /dev/null 2>&1
+              parallel  iptables -C INPUT -s  "{}" -j DROP 2\>/dev/null  \|\|
+              \( iptables -I INPUT -s "{}" -j DROP \&\&
+              echo blocked ip \\\`{}\\\` \)
+              | Ts.sh &&
+              curl "{{ vault_healthchecks_proxmox_krawl_sync_signal }}"' > /dev/null 2>&1
 
       rescue:
         - name: Set notification message
