@@ -151,7 +151,7 @@ class CallbackModule(CallbackBase):
         ]
         msg_items = [' '.join(title)]
         msg_items.append('\n         time: ' + '<code>' + str(self.now) + '</code>')
-        msg_items.append('playbook: ' + '<code>' + self.playbook_name + '</code>')
+        msg_items.append('playbook: ' + '<code>' + (str)(self.playbook_name) + '</code>')
         msg_items.append('        host: ' + '<code>' + result._host.get_name() + '</code>')
         msg_items.append('      stderr: ' + '<code>' + result._result['stderr'] + '</code>')
 
