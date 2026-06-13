@@ -32,7 +32,7 @@ inventory/group_vars/all/vault.yml:
 	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
 
 playbooks/*: env ~/.ansible/collections/ansible_collections/
-	source env/bin/activate && ansible-playbook $(inventory_opt) $@ -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
+	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
 
 playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
