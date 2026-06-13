@@ -41,13 +41,8 @@ DOCUMENTATION = '''
 '''
 
 import os
-from dotenv import load_dotenv
-load_dotenv()
 from datetime import datetime
 
-from ansible import context
-from ansible.module_utils._text import to_text
-from ansible.module_utils.urls import open_url
 from ansible.plugins.callback import CallbackBase
 
 try:
@@ -133,7 +128,7 @@ class CallbackModule(CallbackBase):
 
         msg_items = [' '.join(title)]
         msg_items.append('\n         time: ' + '<code>' + str(self.now) + '</code>')
-        msg_items.append('playbook: ' + '<code>' + self.playbook_name + '</code>')
+        msg_items.append('playbook: ' + '<code>' + (str)(self.play) + '</code>')
         msg_items.append('       hosts:')
         for host in play.hosts:
             msg_items.append('<code>     - ' + host + '</code>')
@@ -151,9 +146,14 @@ class CallbackModule(CallbackBase):
         ]
         msg_items = [' '.join(title)]
         msg_items.append('\n         time: ' + '<code>' + str(self.now) + '</code>')
-        msg_items.append('playbook: ' + '<code>' + (str)(self.playbook_name) + '</code>')
+        msg_items.append('playbook: ' + '<code>' + (str)(self.play) + '</code>')
         msg_items.append('        host: ' + '<code>' + result._host.get_name() + '</code>')
-        msg_items.append('      stderr: ' + '<code>' + result._result['stderr'] + '</code>')
+        print(result._result)
+        if "msg" in result._result:
+            msg_items.append('      stderr: ' + '<code>' + result._result["msg"] + '</code>')
+        if "stderr" in result._result:
+            msg_items.append('      stderr: ' + '<code>' + result._result["stderr"] + '</code>')
+
 
         msg = '\n'.join(msg_items)
 
