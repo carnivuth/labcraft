@@ -1,0 +1,48 @@
+- name: synchronize backups with storagebox
+  hosts: pve
+  become: true
+  vars:
+    backup_remote: "u425518.your-storagebox.de"
+    backup_data_root: /mnt/datastore
+  tasks:
+    - name: Sync folders
+      changed_when:
+        - "'100%' in sync_status.stdout"
+      ansible.builtin.command:
+        cmd: " rsync
+              --exclude 'lost+found'
+              -Pzavr
+              --delete
+              '{{ backup_data_root }}'
+              '{{ backup_remote }}:'"
+      register: sync_status
+
+    - name: Get storagebox disk usage
+      ansible.builtin.command:
+        cmd: "ssh {{ backup_remote }} 'df -h'"
+      changed_when: true
+      register: disk_usage
+
+    - name: Send telegram notification when data changes
+      when: sync_status.changed
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "markdown"
+          text: |
+            Backup synchronization with storagebox jsoncompleted successfully. The following files were synchronized:
+
+            ```text
+            {% for line in sync_status.stdout_lines %}
+            {{ line }}
+            {% endfor %}
+            ```
+
+            Storagebox disk usage:
+
+            ```text
+            {{ disk_usage.stdout }}
+            ```
+          disable_web_page_preview: true
+          disable_notification: false
