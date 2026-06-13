@@ -32,11 +32,11 @@
         user: root
         minute: "0"
         hour: "17"
-        job: cd /usr/local/labcraft && make playbooks/package_status.yml
+        job: cd /usr/local/labcraft && make playbooks/package_status.yml > /dev/null 2>&1
 
     - name: Setup krawl rule syncronization
       ansible.builtin.cron:
         name: "krawl rules sync with storagebox"
         minute: "*/30"
         hour: "*"
-        job: cd /usr/local/labcraft && make playbooks/ban_krawl_attackers.yml
+        job: cd /usr/local/labcraft && make playbooks/ban_krawl_attackers.yml > /dev/null 2>&1
