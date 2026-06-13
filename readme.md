@@ -1,6 +1,6 @@
 # Labcraft
 
-Infrastructure as code for my proxmox virtual environment instance.
+Automations for my personal proxmox cluster
 
 ```mermaid
 flowchart LR
@@ -20,7 +20,6 @@ The goal of this project is to manage my personal proxmox instance in a git ops 
 - [docker](https://www.docker.com/) to manage services for personal use
 - [ansible](docs.ansible.com/ansible/latest/index.html) to automate provisioning operations
 - [git](https://git-scm.com/) to version the infrastructure state
-- bash scripting for utilities and workflows
 
 ## Installation
 
@@ -46,7 +45,7 @@ make install
 
 This will create a cronjob that runs git pull every minute and a git hook to run the `install` target, also the install targets runs a set of playbook to align proxmox guests and proxmox host
 
-### Enable automatic provisioning
+### Automatic provisioning
 
 Every time a commit is pushed to remote cron will pull the updates and the git hook will run the `install` target to align the proxmox cluster
 
@@ -95,7 +94,7 @@ B -- monitors --> C
 
 ## Backup management
 
-Backups are managed at the infrastructure level using [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview) and a pool based backup job
+Backups are managed at the infrastructure level using [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview)
 
 ```mermaid
 flowchart
