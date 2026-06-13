@@ -55,9 +55,4 @@
             name: "backup sync with storagebox"
             minute: "0"
             hour: "22"
-            job: >
-              /bin/bash -c
-              'rsync --exclude "lost+found" -Pzavr --delete
-              "{{ backup_data_root }}" "{{ backup_remote }}:" |
-              PARSE_MODE=HTML Ts.sh &&
-              curl "{{ vault_healthchecks_proxmox_backup_sync_signal }}"' > /dev/null 2>&1
+            job: cd /usr/local/labcraft && make playbooks/backup_sync.yml > /dev/null 2>&1
