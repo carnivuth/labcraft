@@ -1,4 +1,4 @@
-- name: Setup dns on dns hosts
+- name: Align cloudflare dns
   hosts: proxmox_all_running
   vars:
     # dns pb
