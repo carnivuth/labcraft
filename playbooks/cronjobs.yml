@@ -39,4 +39,4 @@
         name: "krawl rules sync with storagebox"
         minute: "*/30"
         hour: "*"
-        job: cd /usr/local/labcraft && make playbooks/ban_krawl_attackers.yml > /dev/null 2>&1
+        job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1
