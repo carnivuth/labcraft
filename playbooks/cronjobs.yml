@@ -37,6 +37,6 @@
     - name: Setup krawl rule syncronization
       ansible.builtin.cron:
         name: "krawl rules sync with storagebox"
-        minute: "*/30"
-        hour: "*"
+        minute: "10"
+        hour: "17"
         job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1
