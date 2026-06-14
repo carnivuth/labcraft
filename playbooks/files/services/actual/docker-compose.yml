@@ -1,6 +1,6 @@
 services:
   actual:
-    image: docker.io/actualbudget/actual-server:26.4.0
+    image: docker.io/actualbudget/actual-server:26.6.0
     container_name: actual
     restart: unless-stopped
 
