@@ -197,25 +197,15 @@
           community.docker.docker_prune:
             images: true
 
-      rescue:
-
-        - name: Set notification message
-          ansible.builtin.set_fact:
-            telegram_message: |
-              Failed to run task {{ ansible_failed_task.name }}  in {{ inventory_hostname }} with message:
-
-              ```json
-              {{ ansible_failed_result }}
-              ```
-
-              appname: {{ app }}
-      always:
         - name: Send Telegram notification
           community.general.telegram:
             token: "{{ vault_telegram_token }}"
             api_args:
               chat_id: "{{ vault_telegram_chat_id }}"
               parse_mode: "markdown"
-              text: "{{ telegram_message | default( 'successfully deployed '+ record + ' service on ' + inventory_hostname) }}"
+              text: |
+                successfully deployed `{{ app }}`
+                - url: `{{ record }}`
+                - host: `{{ inventory_hostname }}`
               disable_web_page_preview: true
               disable_notification: false
