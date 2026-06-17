@@ -23,3 +23,14 @@
         dest: "/etc/ddclient.conf"
         mode: "0600"
         owner: root
+
+    - name: Configure dns servers to fix ddclient name resolution
+      become: true
+      notify: Restart ddclient
+      ansible.builtin.copy:
+        mode: '644'
+        dest: /etc/resolv.conf
+        content: |
+          search {{ vault_cloudflare_domain }}
+          nameserver {{ vault_cloudflare_primary_dns }}
+          nameserver {{ vault_cloudflare_secondary_dns }}
