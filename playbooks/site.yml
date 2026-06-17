@@ -23,8 +23,8 @@
 - name: Run common configuration on guests
   ansible.builtin.import_playbook: "common.yml"
 
-- name: Install docker on guest nodes
-  ansible.builtin.import_playbook: "docker.yml"
+#- name: Install docker on guest nodes
+#  ansible.builtin.import_playbook: "docker.yml"
 
 - name: stop adguard
   ansible.builtin.import_playbook: "stop_adguard.yml"
