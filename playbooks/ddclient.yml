@@ -39,11 +39,11 @@
         state: restarted
       register: ddclient_restart
 
-    - name: cat /etc/resolv.conf
-      ansible.builtin.command:
-        cmd: cat /etc/resolv.conf
-      changed_when: true
-      register: resolv_conf_content
+    #- name: cat /etc/resolv.conf
+    #  ansible.builtin.command:
+    #    cmd: cat /etc/resolv.conf
+    #  changed_when: true
+    #  register: resolv_conf_content
 
     - name: Notify about ddclient status via telegram
       community.general.telegram:
@@ -56,6 +56,5 @@
             <code>
             {{ ddclient_restart }}
             </code>
-
           disable_web_page_preview: true
           disable_notification: false
