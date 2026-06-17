@@ -1,33 +1,30 @@
 ---
-#- name: configure ssh
-#  ansible.builtin.import_playbook: "ssh.yml"
-#
-#- name: Install telegram script
-#  ansible.builtin.import_playbook: "telegram_script.yml"
-#
-#- name: Install cronjobs
-#  ansible.builtin.import_playbook: "cronjobs.yml"
+- name: configure ssh
+  ansible.builtin.import_playbook: "ssh.yml"
+
+- name: Install telegram script
+  ansible.builtin.import_playbook: "telegram_script.yml"
+
+- name: Install cronjobs
+  ansible.builtin.import_playbook: "cronjobs.yml"
 
 - name: Install ddclient
   ansible.builtin.import_playbook: "ddclient.yml"
 
-#- name: Install grafite exporter for grafana cloud
-#  ansible.builtin.import_playbook: "graphite_exporter.yml"
-#
-#- name: Install proxmox backup server
-#  ansible.builtin.import_playbook: "proxmox_backup_server.yml"
-#
-#- name: align cloudflare dns
-#  ansible.builtin.import_playbook: "cloudflare_dns.yml"
-#
-#- name: Run common configuration on guests
-#  ansible.builtin.import_playbook: "common.yml"
+- name: Install grafite exporter for grafana cloud
+  ansible.builtin.import_playbook: "graphite_exporter.yml"
 
-#- name: Install docker on guest nodes
-#  ansible.builtin.import_playbook: "docker.yml"
+- name: Install proxmox backup server
+  ansible.builtin.import_playbook: "proxmox_backup_server.yml"
 
-- name: stop adguard
-  ansible.builtin.import_playbook: "stop_adguard.yml"
+- name: align cloudflare dns
+  ansible.builtin.import_playbook: "cloudflare_dns.yml"
 
-#- name: Configure postfix on guest nodes
-#  ansible.builtin.import_playbook: "postfix.yml"
+- name: Run common configuration on guests
+  ansible.builtin.import_playbook: "common.yml"
+
+- name: Install docker on guest nodes
+  ansible.builtin.import_playbook: "docker.yml"
+
+- name: Configure postfix on guest nodes
+  ansible.builtin.import_playbook: "postfix.yml"
