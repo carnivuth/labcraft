@@ -4,7 +4,6 @@
   hosts: pve
   handlers:
     - name: Restart ddclient
-      become: true
       ansible.builtin.service:
         name: ddclient
         state: restarted
@@ -24,13 +23,16 @@
         mode: "0600"
         owner: root
 
-    #- name: Configure dns servers to fix ddclient name resolution
-    #  become: true
-    #  notify: Restart ddclient
-    #  ansible.builtin.copy:
-    #    mode: '644'
-    #    dest: /etc/resolv.conf
-    #    content: |
-    #      search {{ vault_cloudflare_domain }}
-    #      nameserver {{ vault_cloudflare_primary_dns }}
-    #      nameserver {{ vault_cloudflare_secondary_dns }}
+    - name: Configure dns servers to fix ddclient name resolution
+      ansible.builtin.copy:
+        mode: '644'
+        dest: /etc/resolv.conf
+        content: |
+          search {{ vault_cloudflare_domain }}
+          nameserver {{ vault_cloudflare_primary_dns }}
+          nameserver {{ vault_cloudflare_secondary_dns }}
+
+    - name: Restart ddclient
+      ansible.builtin.service:
+        name: ddclient
+        state: restarted
