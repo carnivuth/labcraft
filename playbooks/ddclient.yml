@@ -30,13 +30,12 @@
         dest: /etc/resolv.conf
         content: |
           search {{ vault_cloudflare_domain }}
-          nameserver 8.8.8.8
           nameserver {{ vault_cloudflare_primary_dns }}
           nameserver {{ vault_cloudflare_secondary_dns }}
 
     - name: Get public IP address
       ansible.builtin.uri:
-        url: https://ifconfig.me
+        url: https://ifconfig.me/ip
         return_content: true
       register: public_ip
 
@@ -50,7 +49,7 @@
         token: "{{ vault_telegram_token }}"
         api_args:
           chat_id: "{{ vault_telegram_chat_id }}"
-          parse_mode: "HTML"
-          text: "proxmox public ip <code>{{ public_ip.content }}</code> "
+          parse_mode: "markdown"
+          text: "proxmox public ip `{{ public_ip.content }}` "
           disable_web_page_preview: true
           disable_notification: false
