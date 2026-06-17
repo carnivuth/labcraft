@@ -1,6 +1,6 @@
 ---
 - name: Install docker applications
-  hosts: service_manager
+  hosts: 192.168.1.202
   tasks:
 
     - name: Stop adguard
