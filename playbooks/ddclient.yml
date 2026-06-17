@@ -39,21 +39,23 @@
         state: restarted
       register: ddclient_restart
 
-    #- name: cat /etc/resolv.conf
-    #  ansible.builtin.command:
-    #    cmd: cat /etc/resolv.conf
-    #  changed_when: true
-    #  register: resolv_conf_content
+    - name: cat /etc/resolv.conf
+      ansible.builtin.command:
+        cmd: cat /etc/resolv.conf
+      changed_when: true
+      register: resolv_conf_content
 
-    #- name: Notify about ddclient status via telegram
-    #  community.general.telegram:
-    #    token: "{{ vault_telegram_token }}"
-    #    api_args:
-    #      chat_id: "{{ vault_telegram_chat_id }}"
-    #      parse_mode: "HTML"
-    #      text: |
-    #        ddclient status
-    #        {{ ddclient_restart }}
+    - name: Notify about ddclient status via telegram
+      community.general.telegram:
+        token: "{{ vault_telegram_token }}"
+        api_args:
+          chat_id: "{{ vault_telegram_chat_id }}"
+          parse_mode: "HTML"
+          text: |
+            ddclient status
+            <code>
+            {{ ddclient_restart }}
+            </code>
 
-    #      disable_web_page_preview: true
-    #      disable_notification: false
+          disable_web_page_preview: true
+          disable_notification: false
