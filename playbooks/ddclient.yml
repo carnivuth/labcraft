@@ -37,6 +37,7 @@
     - name: Get public IP address
       ansible.builtin.uri:
         url: https://ifconfig.me
+        return_content: true
       register: public_ip
 
     - name: Send public ip via telegram api as debug
