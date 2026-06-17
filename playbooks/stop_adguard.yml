@@ -4,6 +4,7 @@
   tasks:
 
     - name: Stop adguard
+      become: true
       community.docker.docker_compose_v2:
         project_src: "/usr/local/adguard"
         state: absent
