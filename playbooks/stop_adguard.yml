@@ -10,3 +10,9 @@
         pull: always
       retries: 5
       delay: 1
+
+    - name: Restart ddclient
+      become: true
+      ansible.builtin.service:
+        name: ddclient
+        state: restarted
