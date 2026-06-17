@@ -37,6 +37,13 @@
     - name: Setup krawl rule syncronization
       ansible.builtin.cron:
         name: "krawl rules sync with storagebox"
+        minute: "*/2"
+        hour: "*"
+        job: cd /usr/local/labcraft && make playbooks/cloudflare_dns.yml > /dev/null 2>&1
+
+    - name: Setup krawl rule syncronization
+      ansible.builtin.cron:
+        name: "krawl rules sync with storagebox"
         minute: "10"
         hour: "17"
         job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1

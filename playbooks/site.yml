@@ -8,9 +8,6 @@
 - name: Install cronjobs
   ansible.builtin.import_playbook: "cronjobs.yml"
 
-- name: Install ddclient
-  ansible.builtin.import_playbook: "ddclient.yml"
-
 - name: Install grafite exporter for grafana cloud
   ansible.builtin.import_playbook: "graphite_exporter.yml"
 
