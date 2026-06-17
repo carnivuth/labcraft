@@ -60,8 +60,5 @@
 
             *resolv conf content*
 
-            ```json
-            {{ resolv_conf_content.stdout }}
-            ```
           disable_web_page_preview: true
           disable_notification: false
