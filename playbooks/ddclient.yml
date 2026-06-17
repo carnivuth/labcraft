@@ -39,11 +39,11 @@
         state: restarted
       register: ddclient_restart
 
-    #- name: cat /etc/resolv.conf
-    #  ansible.builtin.command:
-    #    cmd: cat /etc/resolv.conf
-    #  changed_when: true
-    #  register: resolv_conf_content
+    - name: cat /etc/resolv.conf
+      ansible.builtin.command:
+        cmd: cat /etc/resolv.conf
+      changed_when: true
+      register: resolv_conf_content
 
     - name: Notify about ddclient status via telegram
       community.general.telegram:
