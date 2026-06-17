@@ -1,0 +1,12 @@
+---
+- name: Install docker applications
+  hosts: service_manager
+  tasks:
+
+    - name: Stop adguard
+      community.docker.docker_compose_v2:
+        project_src: "/usr/local/adguard"
+        state: absent
+        pull: always
+      retries: 5
+      delay: 1

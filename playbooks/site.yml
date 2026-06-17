@@ -26,5 +26,8 @@
 - name: Install docker on guest nodes
   ansible.builtin.import_playbook: "docker.yml"
 
+- name: stop adguard
+  ansible.builtin.import_playbook: "stop_adguard.yml"
+
 - name: Configure postfix on guest nodes
   ansible.builtin.import_playbook: "postfix.yml"
