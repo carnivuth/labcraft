@@ -1,6 +1,13 @@
-usev4=webv4,webv4=ipify-ipv4 \
-protocol=cloudflare \
-login={{ vault_cloudflare_account_email }} \
-password={{ vault_cloudflare_api_token }} \
-zone={{ vault_cloudflare_domain }}\
+daemon=120 # check every 120 seconds
+syslog=yes # log update msgs to syslog
+pid=/var/run/ddclient.pid # record PID in file
+ssl=yes # use TLS
+use=web # get IP with website below
+web='https://cloudflare.com/cdn-cgi/trace'
+web-skip='ip=' # IP address above is after 'ip='
+
+protocol=cloudflare, \
+zone={{ vault_cloudflare_domain }}, \
+ttl=1,
+password='{{ vault_cloudflare_api_token }}',
 {{ vault_cloudflare_domain }}
