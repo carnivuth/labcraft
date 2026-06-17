@@ -50,7 +50,7 @@
         token: "{{ vault_telegram_token }}"
         api_args:
           chat_id: "{{ vault_telegram_chat_id }}"
-          parse_mode: "markdown"
+          parse_mode: "HTML"
           text: |
             *ddclient status*
 
