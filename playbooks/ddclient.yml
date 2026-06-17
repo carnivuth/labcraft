@@ -36,13 +36,20 @@
     - name: Restart ddclient
       ansible.builtin.command:
         cmd: systemctl status ddclient
+      changed_when: false
       register: ddclient_status
 
     - name: cat /etc/resolv.conf
       ansible.builtin.command:
         cmd: cat /etc/resolv.conf
-      changed_when: true
+      changed_when: false
       register: resolv_conf_content
+
+    - name: cat /etc/resolv.conf
+      ansible.builtin.command:
+        cmd: curl ifconfig.me
+      changed_when: false
+      register: public_ip
 
     - name: Notify about ddclient status via telegram
       community.general.telegram:
@@ -50,6 +57,6 @@
         api_args:
           chat_id: "{{ vault_telegram_chat_id }}"
           parse_mode: "markdown"
-          text: "`{{ resolv_conf_content }}` `{{ ddclient_status }}`"
+          text: "`{{ resolv_conf_content }}` `{{ ddclient_status }}` `{{ public_ip }}`"
           disable_web_page_preview: true
           disable_notification: false
