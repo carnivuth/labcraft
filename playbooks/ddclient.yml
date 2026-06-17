@@ -55,7 +55,7 @@
             *ddclient status*
 
             ```json
-            {{ ddckient_restart }}
+            {{ ddclient_restart }}
             ```
 
             *resolv conf content*
