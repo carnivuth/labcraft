@@ -40,3 +40,9 @@
         minute: "10"
         hour: "17"
         job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1
+
+    - name: Setup reboot site configuration
+      ansible.builtin.cron:
+        name: "Site configuration"
+        special_time: reboot
+        job: cd /usr/local/labcraft && make playbooks/site.yml > /dev/null 2>&1
