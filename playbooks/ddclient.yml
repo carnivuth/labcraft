@@ -29,6 +29,7 @@
         dest: /etc/resolv.conf
         content: |
           search {{ vault_cloudflare_domain }}
+          nameserver 8.8.8.8
           nameserver {{ vault_cloudflare_primary_dns }}
           nameserver {{ vault_cloudflare_secondary_dns }}
 
