@@ -1,5 +1,6 @@
 usev4=webv4,webv4=ipify-ipv4 \
 protocol=cloudflare \
-password='{{ vault_cloudflare_api_token }}' \
+login={{ vault_cloudflare_account_email }} \
+password={{ vault_cloudflare_api_token }} \
 zone={{ vault_cloudflare_domain }}\
 {{ vault_cloudflare_domain }}
