@@ -34,9 +34,9 @@
         hour: "17"
         job: cd /usr/local/labcraft && make playbooks/package_status.yml > /dev/null 2>&1
 
-    - name: Setup krawl rule syncronization
+    - name: Setup dynamic dns updates
       ansible.builtin.cron:
-        name: "krawl rules sync with storagebox"
+        name: "dynamic dns updates"
         minute: "*/2"
         hour: "*"
         job: cd /usr/local/labcraft && make playbooks/cloudflare_dns.yml > /dev/null 2>&1
