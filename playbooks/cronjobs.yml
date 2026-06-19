@@ -2,19 +2,7 @@
 - name: Install cronjobs
   hosts: pve
   become: true
-  vars:
-    krawl_url: "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories=attacker,bad_crawler&fwtype=raw"
   tasks:
-
-    - name: Install wakeup notification cronjob
-      become: true
-      ansible.builtin.cron:
-        name: "Wakeup notification"
-        special_time: reboot
-        job: >
-          /bin/bash -c
-          'echo -e "# Wake up notification \n$(hostname) waked up at $(date)" |
-          Ts.sh > /dev/null 2>&1'
 
     - name: Install keepalive signal
       become: true
