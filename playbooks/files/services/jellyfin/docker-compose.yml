@@ -11,7 +11,7 @@ services:
     volumes:
       - /mnt/containers/jellyfin/cache:/cache
       - /mnt/containers/jellyfin/media:/media
-      - /etc/jellyfin:/config
+      - /mnt/containers/jellyfin/etc:/config
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.entrypoints=websecure"

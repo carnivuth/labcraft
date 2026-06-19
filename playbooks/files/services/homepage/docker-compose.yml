@@ -1,17 +1,18 @@
 services:
   homepage:
     restart: unless-stopped
-    image: ghcr.io/gethomepage/homepage:v1.4.6
+    image: gethomepage/homepage:v1.13.2
     container_name: homepage
     networks:
       - services
     volumes:
-      - /etc/homepage:/app/config # Make sure your local config directory exists
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
       - /mnt/containers/homepage/images:/app/public/images
+      - /mnt/containers/homepage/etc:/app/config
     environment:
       HOMEPAGE_ALLOWED_HOSTS: ${HOST} # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
     labels:
+
       - "traefik.enable=true"
       - "traefik.http.routers.homepage.rule=Host(`${HOST}`)"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"

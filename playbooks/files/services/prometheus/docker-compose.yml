@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     user: "${PUID_PROMETHEUS}"
     volumes:
-      - /etc/prometheus:/etc/prometheus/
-      - /mnt/containers/prometheus:/prometheus
+      - /mnt/containers/prometheus/etc:/etc/prometheus/
+      - /mnt/containers/prometheus/data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
