@@ -39,7 +39,7 @@
         name: "dynamic dns updates"
         minute: "*/2"
         hour: "*"
-        job: cd /usr/local/labcraft && make playbooks/cloudflare_dns.yml > /dev/null 2>&1
+        job: cd /usr/local/labcraft && export ANSIBLE_STDOUT_CALLBACK=skippy; make playbooks/cloudflare_dns.yml > /dev/null 2>&1
 
     - name: Setup krawl rule syncronization
       ansible.builtin.cron:
