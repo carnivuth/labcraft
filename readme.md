@@ -136,7 +136,7 @@ Services are installed using a playbook and `docker compose` configuration file,
 
 ### Configure web interface
 
-To configure web interface, add the reverse proxy network as an external network
+To configure web interface, add the service network
 
 ```yaml
 networks:
