@@ -63,3 +63,19 @@
   become: true
   community.general.timezone:
     name: "{{ enforce_policies_timezone }}"
+
+- name: Configure ssh daemon
+  become: true
+  ansible.builtin.copy:
+    src: sshd_config
+    dest: "/etc/ssh/sshd_config"
+    mode: "0600"
+    owner: root
+  notify: Restart ssh
+
+- name: Install fail2ban package
+  ansible.builtin.apt:
+    name: fail2ban
+    state: present
+    update_cache: true
+  notify: Restart fail2ban

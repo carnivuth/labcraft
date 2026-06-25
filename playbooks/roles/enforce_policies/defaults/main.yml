@@ -9,6 +9,7 @@ enforce_policies_arch_packages:
   - net-tools
   - parallel
   - curl
+  - gnupg
 
 enforce_policies_deb_packages:
   - vim
@@ -17,5 +18,6 @@ enforce_policies_deb_packages:
   - net-tools
   - parallel
   - curl
+  - gnupg
 
 enforce_policies_timezone: Europe/Rome
