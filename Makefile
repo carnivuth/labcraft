@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER) update
+.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER) update playbooks/roles/*
 
 inventory_opt = -i inventory/inventory.proxmox.yml
 ifdef inventory
@@ -30,6 +30,9 @@ env: requirements.txt
 inventory/group_vars/all/vault.yml:
 	mkdir -p $$(dirname $@)
 	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
+
+playbooks/roles/%: env ~/.ansible/collections/ansible_collections/
+	source env/bin/activate && ansible-galaxy role init $@
 
 playbooks/*: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
