@@ -1,0 +1,43 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/cronjobs
+- name: Install keepalive signal
+  become: true
+  ansible.builtin.cron:
+    name: "torterra keepalive signal"
+    user: root
+    minute: "*"
+    hour: "*"
+    job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
+
+- name: Install updates cronjob
+  become: true
+  ansible.builtin.cron:
+    name: "Update notification"
+    user: root
+    minute: "0"
+    hour: "17"
+    job: cd /usr/local/labcraft && make playbooks/package_status.yml > /dev/null 2>&1
+
+- name: Setup dynamic dns updates
+  become: true
+  ansible.builtin.cron:
+    name: "dynamic dns updates"
+    minute: "*/2"
+    hour: "*"
+    job: cd /usr/local/labcraft && export ANSIBLE_STDOUT_CALLBACK=default; make playbooks/cloudflare_dns.yml > /dev/null 2>&1
+
+- name: Setup krawl rule syncronization
+  become: true
+  ansible.builtin.cron:
+    name: "krawl rules sync with storagebox"
+    minute: "10"
+    hour: "17"
+    job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1
+
+- name: Setup reboot site configuration
+  become: true
+  ansible.builtin.cron:
+    name: "Site configuration"
+    special_time: reboot
+    job: cd /usr/local/labcraft && make playbooks/site.yml > /dev/null 2>&1
