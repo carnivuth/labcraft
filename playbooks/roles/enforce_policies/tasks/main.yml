@@ -1,0 +1,65 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Remove dependencies that are no longer required and purge their configuration files (apt distros)
+  when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+  become: true
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true
+
+- name: Update all packages to their latest version (apt distros)
+  when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+  become: true
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: true
+
+- name: Update all packages to their latest version (pacman distros)
+  when: ansible_facts.distribution == "Archlinux"
+  become: true
+  community.general.pacman:
+    upgrade: true
+    update_cache: true
+
+- name: Install some default packages (pacman distros)
+  when: ansible_facts.distribution == "Archlinux"
+  become: true
+  community.general.pacman:
+    name: "{{ enforce_policies_arch_packages }}"
+    state: present
+
+- name: Install some default packages (apt distros)
+  when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ enforce_policies_deb_packages }}"
+    state: present
+    update_cache: true
+
+- name: Copy motd script for presentation
+  become: true
+  ansible.builtin.copy:
+    content: |
+      #!/bin/bash
+      figlet "$(hostname)"
+    dest: /etc/motd.sh
+    mode: '755'
+
+- name: Add motd in /etc/profile
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/profile
+    line: source '/etc/motd.sh'
+    state: present
+
+- name: Download vimrcfile
+  become: true
+  ansible.builtin.get_url:
+    url: https://github.com/carnivuth/toolbox/releases/download/vimrc-v{{ enforce_policies_toolbox_vimrc_version }}/vimrc
+    dest: ~/.vimrc
+    mode: '644'
+
+- name: Set timezone
+  become: true
+  community.general.timezone:
+    name: "{{ enforce_policies_timezone }}"

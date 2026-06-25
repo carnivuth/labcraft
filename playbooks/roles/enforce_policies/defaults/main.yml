@@ -1,0 +1,21 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for playbooks/roles/enforce_policies
+enforce_policies_toolbox_vimrc_version: 1.0.1
+enforce_policies_arch_packages:
+  - vim
+  - figlet
+  - tmux
+  - net-tools
+  - parallel
+  - curl
+
+enforce_policies_deb_packages:
+  - vim
+  - figlet
+  - tmux
+  - net-tools
+  - parallel
+  - curl
+
+enforce_policies_timezone: Europe/Rome
