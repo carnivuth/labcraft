@@ -1,0 +1,4 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for playbooks/roles/align_cloudflare_dns
+cloudflare_subdomain: 'local'
