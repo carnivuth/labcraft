@@ -1,7 +1,0 @@
----
-- name: Run common role on all nodes
-  hosts:
-    - proxmox_all_running
-    - pve
-  roles:
-    - roles/enforce_policies

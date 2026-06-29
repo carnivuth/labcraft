@@ -1,7 +1,0 @@
----
-- name: Install Telegram Script
-  hosts:
-    - pve
-    - proxmox_all_running
-  roles:
-    - roles/Ts_script
