@@ -34,6 +34,13 @@
       disable_web_page_preview: true
       disable_notification: false
 
+- name: "Configure ssh parameters for the {{ backup_remote }}"
+  become: true
+  ansible.builtin.template:
+    src: "backup_ssh_config.j2"
+    dest: "/root/.ssh/config"
+    mode: '644'
+
 - name: Sync folders
   become: true
   changed_when:
