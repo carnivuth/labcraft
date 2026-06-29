@@ -35,6 +35,14 @@
     hour: "17"
     job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1
 
+- name: Setup backup job
+  become: true
+  ansible.builtin.cron:
+    name: "Backup job"
+    minute: "0"
+    hour: "22"
+    job: cd /usr/local/labcraft && make playbooks/backup.yml > /dev/null 2>&1
+
 - name: Setup reboot site configuration
   become: true
   ansible.builtin.cron:

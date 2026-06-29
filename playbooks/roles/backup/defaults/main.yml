@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for playbooks/roles/backup
+backup_remote: "u425518.your-storagebox.de"
+backup_data_root: /mnt/datastore

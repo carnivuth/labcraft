@@ -1,0 +1,72 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/backup
+- name: Backup VMID 100 by stopping it and set an individual retention
+  delegate_to: localhost
+  run_once: true
+  community.proxmox.proxmox_backup:
+    api_host: "{{ vault_pve_host_address }}"
+    api_user: "{{ vault_proxmox_user }}"
+    api_token_id: "{{ vault_proxmox_token_id }}"
+    api_token_secret: "{{ vault_proxmox_token_secret }}"
+    validate_certs: false
+    node: pve
+    mode: pool
+    pool: prod
+    retention: keep-all=1
+    storage: torterra-backup
+    wait: true
+    wait_timeout: 3600
+    vmids: [101]
+  register: backup_status
+
+- name: Send telegram notification when data changes
+  when: backup_status.changed
+  run_once: true
+  delegate_to: localhost
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      parse_mode: "markdown"
+      text: |
+        Backup completed successfully
+      disable_web_page_preview: true
+      disable_notification: false
+
+- name: Sync folders
+  become: true
+  changed_when:
+    - "'100%' in sync_status.stdout"
+  ansible.builtin.command:
+    cmd: " rsync
+          --exclude 'lost+found'
+          -Pzavr
+          --delete
+          '{{ backup_data_root }}'
+          '{{ backup_remote }}:'"
+  register: sync_status
+
+- name: Get storagebox disk usage
+  become: true
+  ansible.builtin.command:
+    cmd: "ssh {{ backup_remote }} 'df -h'"
+  changed_when: true
+  register: disk_usage
+
+- name: Send telegram notification when data changes
+  when: sync_status.changed
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      parse_mode: "markdown"
+      text: |
+        Backup synchronization with storagebox completed successfully
+        Storagebox disk usage:
+
+        ```text
+        {{ disk_usage.stdout }}
+        ```
+      disable_web_page_preview: true
+      disable_notification: false
