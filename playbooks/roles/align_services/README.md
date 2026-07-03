@@ -1,7 +1,7 @@
-enforce_policies
+align_services
 =========
 
-Run common configuration inside hosts
+Installs services inside docker host
 
 Requirements
 ------------
@@ -23,9 +23,14 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - roles/enforce_policies
+```yaml
+- hosts: servers
+  roles:
+    - roles/align_services
+  vars:
+    align_services_apps:
+        - "traefik"
+```
 
 License
 -------
