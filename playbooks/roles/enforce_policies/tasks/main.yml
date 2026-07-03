@@ -71,7 +71,7 @@
     dest: "/etc/ssh/sshd_config"
     mode: "0600"
     owner: root
-  notify: Restart ssh
+  notify: Restart sshd
 
 - name: Install fail2ban package
   ansible.builtin.apt:
