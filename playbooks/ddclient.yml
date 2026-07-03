@@ -1,5 +1,0 @@
----
-- name: Setup ddclient
-  hosts: pve
-  roles:
-    - roles/install_ddclient
