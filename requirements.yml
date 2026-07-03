@@ -4,8 +4,6 @@ collections:
   - ansible.posix
   - ansible.utils
   - community.proxmox
-  - name: https://github.com/k3s-io/k3s-ansible.git
-    type: git
 roles:
   - geerlingguy.docker
   - githubixx.ansible_role_wireguard
