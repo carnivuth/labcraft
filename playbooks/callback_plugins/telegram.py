@@ -149,7 +149,6 @@ class CallbackModule(CallbackBase):
         msg_items.append('playbook: ' + '<code>' + (str)(self.play) + '</code>')
         msg_items.append('        host: ' + '<code>' + result._host.get_name() + '</code>')
 
-        msg_items.append('      result: ' + '<code>' + result + '</code>')
         if "msg" in result._result:
             msg_items.append('      stderr: ' + '<code>' + result._result["msg"] + '</code>')
         if "stderr" in result._result:
