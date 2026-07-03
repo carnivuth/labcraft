@@ -1,0 +1,198 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/align_services
+
+- name: Find all docker compose files
+  ansible.builtin.find:
+    paths: "roles/align_services/files/"
+    patterns: "docker-compose.yml"
+    recurse: true
+  register: compose_files
+  delegate_to: localhost
+
+- name: Set apps variable to all compose files when unset
+  ansible.builtin.set_fact:
+    align_services_apps: "{{ compose_files.files | map(attribute='path') | map('dirname') | map('basename') }}"
+  when: align_services_apps is not defined
+
+- name: Include compose file
+  ansible.builtin.include_vars:
+    hash_behaviour: merge
+    file: "files/{{ item }}/docker-compose.yml"
+  loop: "{{ align_services_apps }}"
+
+- name: Get Services volumes
+  ansible.builtin.set_fact:
+    volumes: "{{ services | dict2items | json_query('[*].value.volumes') | flatten }}"
+
+- name: Get Services users
+  ansible.builtin.set_fact:
+    users: "{{ services | dict2items | json_query('[*].value.container_name') }}"
+
+- name: Create compose dir
+  ansible.builtin.file:
+    path: "/usr/local/{{ item }}"
+    state: directory
+    mode: "644"
+  loop: "{{ align_services_apps }}"
+
+- name: Copy docker compose file
+  ansible.builtin.copy:
+    src: "{{ item }}/docker-compose.yml"
+    dest: "/usr/local/{{ item }}/docker-compose.yml"
+    mode: "644"
+  loop: "{{ align_services_apps }}"
+
+- name: Create application group and save GUID
+  ansible.builtin.group:
+    name: "services"
+  register: group_data
+
+- name: Create application users and save PUIDs and GUIDs
+  ansible.builtin.user:
+    name: "{{ item }}"
+    create_home: true
+    home: /usr/local/{{ item }}
+    groups: ["services"]
+  register: users_data
+  loop: "{{ users }}"
+
+- name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
+  ansible.builtin.stat:
+    path: "{{ item.split(':')[0] }}"
+  register: volumes_stats
+  loop: "{{ volumes }}"
+
+- name: Create docker compose volume dirs
+  when: (not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir) and item is regex('^/.*')
+  ansible.builtin.file:
+    path: "{{ item.split(':')[0] }}"
+    state: directory
+    mode: "775"
+    group: "services"
+  loop: "{{ volumes }}"
+  loop_control:
+    index_var: index
+
+- name: Save PUIDs in .env file
+  ansible.builtin.lineinfile:
+    path: /usr/local/{{ index }}/.env
+    line: PUID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].uid }}
+    create: true
+    state: present
+    mode: '600'
+  loop: "{{ users }}"
+  loop_control:
+    index_var: index
+
+- name: Save PGIDs in .env file
+  ansible.builtin.lineinfile:
+    path: /usr/local/{{ item }}/.env
+    line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
+    create: true
+    state: present
+    mode: '600'
+  loop: "{{ users }}"
+  loop_control:
+    index_var: index
+
+- name: Save services GUID in .env file
+  ansible.builtin.lineinfile:
+    path: /usr/local/{{ item }}/.env
+    line: PGID_SERVICES={{ group_data.gid }}
+    create: true
+    state: present
+    mode: '600'
+  loop: "{{ align_services_apps }}"
+
+- name: Create DNS records
+  community.general.cloudflare_dns:
+    zone: "{{ vault_cloudflare_domain }}"
+    type: "{{ align_services_dns_record_type }}"
+    record: "{{ item | regex_replace('_', '-') }}.{{ align_services_apps_domain }}"
+    value: "{{ align_services_dns_value }}"
+    api_token: "{{ vault_cloudflare_api_token }}"
+    state: present
+  loop: "{{ align_services_apps }}"
+
+- name: Add cloudflare account email in docker environment
+  ansible.builtin.lineinfile:
+    path: "/usr/local/traefik/.env"
+    create: true
+    line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_cloudflare_account_email }}"
+    state: present
+    mode: '600'
+
+- name: Add hostname as a paramenter in docker environment
+  ansible.builtin.lineinfile:
+    path: "/usr/local/{{ item }}/.env"
+    create: true
+    line: "HOST={{ item | regex_replace('_', '-') }}.{{ align_services_apps_domain }}"
+    state: present
+    mode: '600'
+  loop: "{{ align_services_apps }}"
+
+#- name: Find template files (.j2) under etc
+#  ansible.builtin.find:
+#    paths: "roles/align_services/files/{{ item }}/etc"
+#    patterns: "*.j2"
+#    recurse: true
+#  register: template_files
+#  delegate_to: localhost
+#  loop: "{{ align_services_apps }}"
+#
+#- name: Deploy template files (parsed)
+#  ansible.builtin.template:
+#    src: "{{ item.path }}"
+#    dest: "/mnt/containers/{{ item.item }}/etc/{{ item.path | basename | regex_replace('\\.j2$', '') }}"
+#    owner: "{{ app }}"
+#    group: "{{ app }}"
+#    mode: "0644"
+#  loop: "{{ template_files.results | flatten )}}"
+#
+#- name: Find config files (non-.j2) under files/etc
+#  ansible.builtin.find:
+#    paths: "files/{{ app }}/etc"
+#    patterns: "*"
+#    excludes: "*.j2"
+#    recurse: true
+#    file_type: file
+#  register: config_files
+#  delegate_to: localhost
+#
+#- name: Deploy config files (unparsed)
+#  ansible.builtin.copy:
+#    src: "{{ item.path }}"
+#    dest: "/mnt/containers/{{ app }}/etc/{{ item.path | basename }}"
+#    owner: "{{ app }}"
+#    group: "{{ app }}"
+#    mode: "0644"
+#  loop: "{{ config_files.files }}"
+
+- name: Start apps
+  community.docker.docker_compose_v2:
+    project_src: "/usr/local/{{ item }}"
+    state: present
+    pull: always
+  register: result
+  retries: 5
+  delay: 1
+  loop: "{{ align_services_apps }}"
+
+- name: Prune images
+  community.docker.docker_prune:
+    images: true
+
+- name: Send Telegram notification
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      parse_mode: "markdown"
+      text: |
+        successfully aligned apps in `{{ inventory_hostname }}`
+        {% for app in align_services_apps %}
+        - url: `{{ app | regex_replace('_', '-') }}.{{ align_services_apps_domain }}`
+        {% endfor%}
+      disable_web_page_preview: true
+      disable_notification: false
