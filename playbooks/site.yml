@@ -4,7 +4,6 @@
   roles:
     - roles/cronjobs
     - roles/graphite_exporter
-    - roles/proxmox_backup_server
 
 - name: Run global site configuration
   hosts: all
@@ -22,4 +21,4 @@
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
-    #- roles/align_services
+    - roles/align_services
