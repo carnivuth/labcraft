@@ -1,8 +1,8 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for playbooks/roles/align_services
-
 - name: Find all docker compose files
+  when: align_services_apps is not defined
   ansible.builtin.find:
     paths: "roles/align_services/files/"
     patterns: "docker-compose.yml"
@@ -132,42 +132,43 @@
     mode: '600'
   loop: "{{ align_services_apps }}"
 
-#- name: Find template files (.j2) under etc
-#  ansible.builtin.find:
-#    paths: "roles/align_services/files/{{ item }}/etc"
-#    patterns: "*.j2"
-#    recurse: true
-#  register: template_files
-#  delegate_to: localhost
-#  loop: "{{ align_services_apps }}"
-#
-#- name: Deploy template files (parsed)
-#  ansible.builtin.template:
-#    src: "{{ item.path }}"
-#    dest: "/mnt/containers/{{ item.item }}/etc/{{ item.path | basename | regex_replace('\\.j2$', '') }}"
-#    owner: "{{ app }}"
-#    group: "{{ app }}"
-#    mode: "0644"
-#  loop: "{{ template_files.results | flatten )}}"
-#
-#- name: Find config files (non-.j2) under files/etc
-#  ansible.builtin.find:
-#    paths: "files/{{ app }}/etc"
-#    patterns: "*"
-#    excludes: "*.j2"
-#    recurse: true
-#    file_type: file
-#  register: config_files
-#  delegate_to: localhost
-#
-#- name: Deploy config files (unparsed)
-#  ansible.builtin.copy:
-#    src: "{{ item.path }}"
-#    dest: "/mnt/containers/{{ app }}/etc/{{ item.path | basename }}"
-#    owner: "{{ app }}"
-#    group: "{{ app }}"
-#    mode: "0644"
-#  loop: "{{ config_files.files }}"
+- name: Find template files (.j2) under etc
+  ansible.builtin.find:
+    paths: "roles/align_services/files/{{ item }}/etc"
+    patterns: "*.j2"
+    recurse: true
+  register: template_files
+  delegate_to: localhost
+  loop: "{{ align_services_apps }}"
+
+- name: Deploy template files (parsed)
+  ansible.builtin.template:
+    src: "{{ item.1.path }}"
+    dest: "/mnt/containers/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
+    owner: "{{ item.0.item }}"
+    group: "{{ item.0.item }}"
+    mode: "0644"
+  loop: "{{ template_files.results | subelements('files') }}"
+
+- name: Find config files (non-.j2) under files/etc
+  ansible.builtin.find:
+    paths: "roles/align_services/files/{{ item }}/etc"
+    patterns: "*"
+    excludes: "*.j2"
+    recurse: true
+    file_type: file
+  register: config_files
+  loop: "{{ align_services_apps }}"
+  delegate_to: localhost
+
+- name: Deploy config files (unparsed)
+  ansible.builtin.copy:
+    src: "{{ item.1.path }}"
+    dest: "/mnt/containers/{{ item.0.item }}/etc/{{ item.1.path | basename }}"
+    owner: "{{ item.0.item }}"
+    group: "{{ item.0.item }}"
+    mode: "0644"
+  loop: "{{ config_files.results | subelements('files') }}"
 
 - name: Start apps
   community.docker.docker_compose_v2:
