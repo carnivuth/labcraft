@@ -18,7 +18,7 @@ ansible.cfg:
 	echo -e '[defaults]\nstdout_callback = telegram\ncallback_whitelist = telegram' > $@
 
 .git/hooks/post-merge:
-	echo -e '#!/bin/bash\nmake update' > $@
+	echo -e '#!/bin/bash\nmake install' > $@
 	chmod +x "$@"
 
 env: requirements.txt
@@ -37,17 +37,7 @@ playbooks/roles/%: env ~/.ansible/collections/ansible_collections/
 playbooks/*: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
 
-playbooks/files/services/*: env ~/.ansible/collections/ansible_collections/
-	source env/bin/activate && ansible-playbook $(inventory_opt) playbooks/service.yml  -e app=$$(basename $@) $(user_opt) $(key_opt) $(opts)
-
 /var/spool/cron/crontabs/$(USER):
 	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
 
-services: playbooks/files/services/*
-
-# run this on first install
-install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml services
-
-# this will run when git pull triggers a merge event
-update: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml
-	git diff-tree --name-only -r HEAD@{1} HEAD | grep files/services/ | cut -d'/' -f1,2,3,4 | parallel make {}
+install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml
