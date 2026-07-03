@@ -1,0 +1,11 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for playbooks/roles/ban_krawl_ips
+
+ban_krawl_ips_categories:
+  - attacker
+  - bad_crawler
+
+ban_krawl_ips_urls:
+  - "https://krawl.carnivuth.org/{{ vault_krawl_dashboard_path }}/api/export-ips?categories={{ ban_krawl_ips_categories | join(',') }}&fwtype=raw"
+  - "https://demo.krawlme.com/das_dashboard/api/export-ips?categories={{ ban_krawl_ips_categories | join(',') }}&fwtype=raw"

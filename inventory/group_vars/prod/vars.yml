@@ -1,5 +1,0 @@
-# host based domain
-dns_record_type: CNAME
-value: "{{ cloudflare_domain }}"
-domain: "{{ cloudflare_domain }}"
-record: "{{ app | regex_replace('_', '-') }}.{{ cloudflare_domain }}"

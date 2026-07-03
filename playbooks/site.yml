@@ -1,27 +1,24 @@
 ---
-- name: configure ssh
-  ansible.builtin.import_playbook: "ssh.yml"
+- name: Run pve configuration
+  hosts: pve
+  roles:
+    - roles/cronjobs
+    - roles/graphite_exporter
 
-- name: Install telegram script
-  ansible.builtin.import_playbook: "telegram_script.yml"
+- name: Run global site configuration
+  hosts: all
+  roles:
+    - roles/align_cloudflare_dns
+    - roles/enforce_policies
+    - roles/Ts_script
+    - roles/ban_krawl_ips
 
-- name: Install cronjobs
-  ansible.builtin.import_playbook: "cronjobs.yml"
-
-- name: Install grafite exporter for grafana cloud
-  ansible.builtin.import_playbook: "graphite_exporter.yml"
-
-- name: Install proxmox backup server
-  ansible.builtin.import_playbook: "proxmox_backup_server.yml"
-
-- name: align cloudflare dns
-  ansible.builtin.import_playbook: "cloudflare_dns.yml"
-
-- name: Run common configuration on guests
-  ansible.builtin.import_playbook: "common.yml"
-
-- name: Install docker on guest nodes
-  ansible.builtin.import_playbook: "docker.yml"
-
-- name: Configure postfix on guest nodes
-  ansible.builtin.import_playbook: "postfix.yml"
+- name: align all services in docker hosts
+  hosts: service_manager
+  roles:
+    - role: geerlingguy.docker
+      vars:
+        docker_install_compose_plugin: false
+        docker_compose_package: docker-compose-plugin
+        docker_compose_package_state: present
+    - roles/align_services
