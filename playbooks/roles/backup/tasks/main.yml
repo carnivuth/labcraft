@@ -2,7 +2,7 @@
 ---
 # tasks file for playbooks/roles/backup
 - name: Backup VMID 100 by stopping it and set an individual retention
-  delegate_to: localhost
+  delegate_to: pve
   run_once: true
   community.proxmox.proxmox_backup:
     api_host: "{{ vault_pve_host_address }}"
@@ -17,7 +17,6 @@
     storage: torterra-backup
     wait: true
     wait_timeout: 3600
-    vmids: [101]
   register: backup_status
 
 - name: Send telegram notification when data changes
