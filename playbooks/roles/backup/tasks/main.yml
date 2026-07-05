@@ -1,8 +1,8 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for playbooks/roles/backup
-- name: Backup VMID 100 by stopping it and set an individual retention
-  delegate_to: pve
+- name: "Backup pool {{ backup_pool }}"
+  delegate_to: localhost
   run_once: true
   community.proxmox.proxmox_backup:
     api_host: "{{ vault_pve_host_address }}"
@@ -10,9 +10,9 @@
     api_token_id: "{{ vault_proxmox_token_id }}"
     api_token_secret: "{{ vault_proxmox_token_secret }}"
     validate_certs: false
-    node: pve
+    node: "{{ backup_node }}"
     mode: pool
-    pool: prod
+    pool: "{{ backup_pool }}"
     retention: keep-all=1
     storage: torterra-backup
     wait: true

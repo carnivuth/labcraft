@@ -1,5 +1,5 @@
 ---
-- name: Backup VMID 100 by stopping it and set an individual retention
+- name: Run backup operations
   hosts: pve
   roles:
     - roles/backup
