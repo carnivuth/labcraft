@@ -30,6 +30,7 @@ pathspec==1.0.4
 platformdirs==4.9.6
 prettytable==3.17.0
 propcache==0.5.2
+proxmoxer==2.3.0
 pycparser==3.0
 pyTelegramBotAPI==4.34.0
 python-dotenv==1.2.2
