@@ -21,7 +21,8 @@
       nameserver {{ vault_cloudflare_secondary_dns }}
 
 - name: Update cloudflare public ip
-  when: "'proxmox_nodes' in group_names"
+  delegate_to: pve
+  run_once: true
   block:
     - name: Get public IP address
       ansible.builtin.uri:
@@ -29,7 +30,23 @@
         return_content: true
       register: public_ip
 
-    - name: Create a DNS record inside cloudflare
+    - name: Resolve current dns name
+      ansible.builtin.set_fact:
+        current_ip: "{{ lookup('community.dns.lookup', vault_cloudflare_domain) }}"
+
+    - name: Delete old DNS record inside cloudflare
+      when: current_ip != public_ip.content
+      register: cloudflare_record
+      community.general.cloudflare_dns:
+        zone: "{{ vault_cloudflare_domain }}"
+        type: A
+        record: "{{ vault_cloudflare_domain }}"
+        value: "{{ current_ip }}"
+        api_token: "{{ vault_cloudflare_api_token }}"
+        state: absent
+
+    - name: Create the new DNS record inside cloudflare
+      when: current_ip != public_ip.content
       register: cloudflare_record
       community.general.cloudflare_dns:
         zone: "{{ vault_cloudflare_domain }}"
@@ -40,7 +57,9 @@
         state: present
 
     - name: Send notification of the changed record via telegram api
-      when: cloudflare_record.changed
+      when:
+        - cloudflare_record.changed
+        - current_ip != public_ip.content
       community.general.telegram:
         token: "{{ vault_telegram_token }}"
         api_args:

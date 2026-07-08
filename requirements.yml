@@ -4,6 +4,7 @@ collections:
   - ansible.posix
   - ansible.utils
   - community.proxmox
+  - community.dns
 roles:
   - geerlingguy.docker
   - githubixx.ansible_role_wireguard
