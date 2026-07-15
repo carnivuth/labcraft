@@ -2,6 +2,9 @@
 
 Automations for my personal proxmox cluster
 
+![](./torterra.jpg)
+> The cluster 🙃
+
 ```mermaid
 flowchart LR
 A[laptop]
