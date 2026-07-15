@@ -1,0 +1,6 @@
+- name: Run updates
+  hosts:
+    - proxmox_all_running
+    - pve
+  roles:
+    - roles/update

@@ -1,0 +1,51 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/update
+- name: Run the equivalent of "apt-get update" as a separate step
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Get package facts before upgrade
+  become: true
+  ansible.builtin.package_facts:
+
+- name: Set facts before upgrade
+  ansible.builtin.set_fact:
+    packages_before_upgrade: "{{ ansible_facts.packages }}"
+
+- name: Run updates
+  become: true
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+  register: apt_upgrade_result
+
+- name: Get package facts after upgrade
+  become: true
+  ansible.builtin.package_facts:
+
+- name: Set facts before upgrade
+  ansible.builtin.set_fact:
+    packages_after_upgrade: "{{ ansible_facts.packages }}"
+
+- name: Notify about package status ips via telegram
+  when: apt_upgrade_result.changed
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      parse_mode: "markdown"
+      text: |
+          updated the following packages on {{ inventory_hostname }}:
+
+          {%- for package in packages_after_upgrade %}
+          {%- if
+            ( packages_after_upgrade[package] != packages_before_upgrade[package] ) or
+            ( packages_after_upgrade[package][0].version != packages_before_upgrade[package][0].version )
+          %}
+          - `{{ packages_after_upgrade[package][0].name }}`: `{{ packages_after_upgrade[package][0].version }}`
+          {%- endif %}
+          {%- endfor %}
+      disable_web_page_preview: true
+      disable_notification: false
