@@ -1,3 +1,4 @@
+---
 services:
   backup_3ds:
     container_name: backup_3ds
@@ -8,7 +9,7 @@ services:
     environment:
       - FTPD_3DS_ADDRESSES=${FTPD_3DS_ADDRESSES}
       - FTPD_3DS_PORTS=${FTPD_3DS_PORTS}
-      - BACKUP_DIRS=/3ds/Checkpoint/saves;/roms/nds/saves
+      - BACKUP_DIRS=/3ds/Checkpoint/saves;/roms/nds/saves;/PSP/SAVEDATA
       - ENABLE_DASHBOARD=true
     volumes:
       - "/mnt/containers/backup_3ds:/var/lib/backup_3ds/backups"
