@@ -40,7 +40,7 @@
   ansible.builtin.cron:
     name: "Backup job"
     minute: "0"
-    hour: "22"
+    hour: "02"
     job: cd /usr/local/labcraft && make playbooks/backup.yml > /dev/null 2>&1
 
 - name: Setup reboot site configuration
