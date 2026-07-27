@@ -2,7 +2,7 @@ services:
   navidrome:
     container_name: navidrome
     restart: unless-stopped
-    image: deluan/navidrome:0.60.3
+    image: deluan/navidrome:0.63.2
     networks:
       - services
     environment:
