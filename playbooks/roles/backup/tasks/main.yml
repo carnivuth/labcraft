@@ -14,9 +14,9 @@
     mode: pool
     pool: "{{ backup_pool }}"
     retention: keep-all=1
-    storage: torterra-backup
+    storage: backup
     wait: true
-    wait_timeout: 3600
+    wait_timeout: 10800
   register: backup_status
 
 - name: Send telegram notification when data changes
