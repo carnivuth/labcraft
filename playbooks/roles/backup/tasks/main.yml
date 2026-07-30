@@ -16,7 +16,7 @@
     retention: keep-all=1
     storage: backup
     wait: true
-    wait_timeout: 10800
+    wait_timeout: 36000
   register: backup_status
 
 - name: Send telegram notification when data changes
