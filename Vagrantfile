@@ -9,7 +9,7 @@
 #
 # Provider: VirtualBox
 
-VM_NAME   = "torterra"
+VM_NAME   = "avalug"
 BOX_IMAGE = "debian/bookworm64"
 
 DISKS = [
@@ -22,6 +22,7 @@ DISKS = [
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
   config.vm.hostname = VM_NAME
+  config.vm.network 'forwarded_port', id: 'ssh', host: 2221, guest: 22
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = VM_NAME
