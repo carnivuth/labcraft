@@ -1,5 +1,6 @@
 ---
 - name: Run backup operations
-  hosts: pve
+  hosts:
+    - torterra.local.carnivuth.org
   roles:
     - roles/backup

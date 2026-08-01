@@ -1,6 +1,5 @@
 - name: Align cloudflare dns
   hosts:
-    - proxmox_all_running
-    - proxmox_nodes
+    - torterra.local.carnivuth.org
   roles:
     - roles/align_cloudflare_dns

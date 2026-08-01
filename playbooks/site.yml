@@ -1,20 +1,21 @@
 ---
 - name: Run pve configuration
-  hosts: pve
+  hosts:
+    - torterra.local.carnivuth.org
   roles:
     - roles/cronjobs
     - roles/graphite_exporter
-
 - name: Run global site configuration
-  hosts: all
+  hosts:
+    - torterra.local.carnivuth.org
   roles:
     - roles/align_cloudflare_dns
     - roles/enforce_policies
     - roles/Ts_script
     - roles/ban_krawl_ips
-
 - name: align all services in docker hosts
-  hosts: service_manager
+  hosts:
+    - torterra.local.carnivuth.org
   roles:
     - role: geerlingguy.docker
       vars:

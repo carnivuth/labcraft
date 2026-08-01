@@ -1,7 +1,6 @@
 - name: block krawl classified ips
   hosts:
-    - pve
-    - proxmox_all_running
+    - torterra.local.carnivuth.org
   become: true
   roles:
     - roles/ban_krawl_ips

@@ -1,5 +1,6 @@
 ---
 - name: Install docker applications
-  hosts: service_manager
+  hosts:
+    - torterra.local.carnivuth.org
   roles:
     - roles/align_services

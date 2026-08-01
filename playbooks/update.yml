@@ -1,6 +1,5 @@
 - name: Run updates
   hosts:
-    - proxmox_all_running
-    - pve
+    - torterra.local.carnivuth.org
   roles:
     - roles/update
