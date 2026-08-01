@@ -9,7 +9,7 @@ services:
     networks:
       - nextcloud
     volumes:
-      - nextcloud-database:/var/lib/mysql
+      - /mnt/data/navidrome/database:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -113,9 +113,6 @@ services:
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
       - "diun.max_tags=3"
-
-volumes:
-  nextcloud-database:
 
 networks:
   services:
