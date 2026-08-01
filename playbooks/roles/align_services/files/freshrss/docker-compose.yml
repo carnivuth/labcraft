@@ -9,8 +9,8 @@ services:
       options:
         max-size: 10m
     volumes:
-      - /mnt/containers/freshrss/data:/var/www/FreshRSS/data
-      - /mnt/containers/freshrss/extensions:/var/www/FreshRSS/extensions
+      - /mnt/data/freshrss/data:/var/www/FreshRSS/data
+      - /mnt/data/freshrss/extensions:/var/www/FreshRSS/extensions
     environment:
       - TZ=Europe/Rome
       - CRON_MIN=3,33

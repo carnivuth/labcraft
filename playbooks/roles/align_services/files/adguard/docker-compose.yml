@@ -10,8 +10,8 @@ services:
     ports:
       - "53:53/udp"
     volumes:
-      - "/mnt/containers/adguard/work:/opt/adguardhome/work"
-      - "/mnt/containers/adguard/etc:/opt/adguardhome/conf"
+      - "/mnt/data/adguard/work:/opt/adguardhome/work"
+      - "/mnt/data/adguard/etc:/opt/adguardhome/conf"
     labels:
       - traefik.enable=true
       - traefik.http.routers.adguard.entrypoints=websecure

@@ -7,7 +7,7 @@ services:
       - TOKEN=${TOKEN}
       - ADMIN=${ADMIN}
     volumes:
-      - '/mnt/containers/curiel_bot/:/var/lib/curiel_bot/data'
+      - '/mnt/data/curiel_bot/:/var/lib/curiel_bot/data'
     labels:
       # diun labels
       - "diun.enable=true"

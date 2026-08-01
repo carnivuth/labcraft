@@ -31,7 +31,7 @@ services:
       - PUID=0
       - PGID=0
     volumes:
-      - /mnt/containers/ihatemoney:/database
+      - /mnt/data/ihatemoney:/database
     networks:
       - services
     labels:

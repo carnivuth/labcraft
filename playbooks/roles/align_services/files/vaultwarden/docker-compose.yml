@@ -10,7 +10,7 @@ services:
       - "DOMAIN=https://${HOST}"
       - "ADMIN_TOKEN=${ADMIN_TOKEN}"
     volumes:
-      - /mnt/containers/vaultwarden:/data/
+      - /mnt/data/vaultwarden:/data/
     labels:
       # traefik labels
       - "traefik.enable=true"

@@ -9,9 +9,9 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - /mnt/containers/jellyfin/cache:/cache
-      - /mnt/containers/jellyfin/media:/media
-      - /mnt/containers/jellyfin/etc:/config
+      - /mnt/data/jellyfin/cache:/cache
+      - /mnt/data/jellyfin/media:/media
+      - /mnt/data/jellyfin/etc:/config
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.entrypoints=websecure"

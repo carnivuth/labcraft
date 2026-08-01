@@ -7,9 +7,9 @@ services:
     networks:
       - services
     volumes:
-      - "/mnt/containers/navidrome/collection:/storage/collection"
-      - "/mnt/containers/metube/downloads:/storage/downloads"
-      - "/mnt/containers/picard/config:/config"
+      - "/mnt/data/navidrome/collection:/storage/collection"
+      - "/mnt/data/metube/downloads:/storage/downloads"
+      - "/mnt/data/picard/config:/config"
     environment:
       - USER_ID=${PUID_PICARD}
       - GROUP_ID=${PGID_SERVICES}

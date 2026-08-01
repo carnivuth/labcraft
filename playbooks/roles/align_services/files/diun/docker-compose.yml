@@ -5,7 +5,7 @@ services:
     container_name: diun
     command: serve
     volumes:
-      - "/mnt/containers/diun:/data"
+      - "/mnt/data/diun:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       - "TZ=Europe/Rome"
