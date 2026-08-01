@@ -29,7 +29,7 @@
   ansible.builtin.set_fact:
     packages_after_upgrade: "{{ ansible_facts.packages }}"
 
-- name: Notify about package status ips via telegram
+- name: Send update diff via telegram
   when: apt_upgrade_result.changed
   community.general.telegram:
     token: "{{ vault_telegram_token }}"
