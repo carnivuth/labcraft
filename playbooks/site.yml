@@ -1,7 +1,7 @@
 ---
 - name: Run torterra site configuration
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   roles:
     - roles/enforce_policies
     - roles/cronjobs

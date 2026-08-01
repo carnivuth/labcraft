@@ -1,5 +1,5 @@
 - name: Align cloudflare dns
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   roles:
     - roles/align_cloudflare_dns

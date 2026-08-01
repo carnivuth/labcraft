@@ -1,7 +1,7 @@
 ---
 - name: Setup dns on dns hosts
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   vars:
     # dns pb
     cloudflare_domain: '{{ vault_cloudflare_domain }}'
@@ -50,7 +50,7 @@
         enabled: true
 - name: Set nameserver in all other nodes
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   vars:
     # dns pb
     cloudflare_domain: '{{ vault_cloudflare_domain }}'

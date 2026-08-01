@@ -1,5 +1,5 @@
 - name: Run updates
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   roles:
     - roles/update

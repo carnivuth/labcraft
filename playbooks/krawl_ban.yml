@@ -1,6 +1,6 @@
 - name: block krawl classified ips
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   become: true
   roles:
     - roles/ban_krawl_ips

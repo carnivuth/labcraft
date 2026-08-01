@@ -1,7 +1,7 @@
 ---
 - name: Configure postfix in guest nodes
   hosts:
-    - torterra.local.carnivuth.org
+    - docker_clouds
   vars:
     # postfix pb
     admin_email: "{{ vault_admin_email }}"
