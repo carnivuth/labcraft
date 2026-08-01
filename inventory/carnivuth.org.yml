@@ -1,0 +1,7 @@
+prod:
+  hosts:
+    torterra.carnivuth.org:
+
+docker_clouds:
+  hosts:
+    torterra.carnivuth.org:
