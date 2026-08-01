@@ -10,7 +10,7 @@
 # Provider: VirtualBox
 
 VM_NAME   = "torterra"
-BOX_IMAGE = "debian/trixie64"
+BOX_IMAGE = "debian/bookworm64"
 
 DISKS = [
   { file: "disk_nvme.vdi", size_mb: 10 * 1024 },  # simulated NVMe 1TB -> 10G
@@ -60,7 +60,7 @@ Vagrant.configure("2") do |config|
     set -e
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg
+    apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg make
 
     # Install Docker CE
     if ! command -v docker >/dev/null 2>&1; then
@@ -68,12 +68,16 @@ Vagrant.configure("2") do |config|
       curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
       chmod a+r /etc/apt/keyrings/docker.asc
       echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian trixie stable" \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable" \
         > /etc/apt/sources.list.d/docker.list
       apt-get update
       apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       usermod -aG docker vagrant
     fi
+
+    echo Installing docker lvm plugin
+    curl -sL https://github.com/containers/docker-lvm-plugin/releases/download/v1.0/docker-lvm-plugin > /usr/local/bin/docker-lvm-plugin
+    chmod +x /usr/local/bin/docker-lvm-plugin
 
     echo "== Attached block devices =="
     lsblk -d -o NAME,SIZE,MODEL | grep -v loop
@@ -83,6 +87,17 @@ Vagrant.configure("2") do |config|
     echo "  /dev/sdb -> simulated NVMe (10G)  -> vg_nvme"
     echo "  /dev/sdc -> HDD 2TB (20G)         -> RAID1 member -> vg_data"
     echo "  /dev/sdd -> HDD 2TB (20G)         -> RAID1 member -> vg_data"
-    echo "  /dev/sde -> HDD 1TB (10G)         -> vg_bulk"
+    echo "  /dev/sde -> HDD 1TB (10G)         -> vg_backup"
+    test ! -f /dev/md/data && mdadm  --create /dev/md/data -R --level 1 --raid-devices 2 /dev/sdc /dev/sdd
+    vgcreate vg_data /dev/md/data
+    vgcreate vg_backup /dev/sde
+    lvcreate -L 10G -n lv_data vg_data
+    lvcreate -L 9G -n lv_backup vg_backup
+    mkfs.ext4 /dev/vg_data/lv_data
+    mkfs.ext4 /dev/vg_backup/lv_backup
+    mkdir -p /mnt/{data,backup}
+    mount /dev/vg_data/lv_data /mnt/data
+    mount /dev/vg_backup/lv_backup /mnt/backup
+
   SHELL
 end
