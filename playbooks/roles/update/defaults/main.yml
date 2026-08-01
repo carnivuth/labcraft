@@ -1,0 +1,8 @@
+update_packages:
+  - vim
+  - figlet
+  - tmux
+  - net-tools
+  - parallel
+  - curl
+  - gnupg

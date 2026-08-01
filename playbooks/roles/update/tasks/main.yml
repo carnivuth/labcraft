@@ -14,6 +14,30 @@
   ansible.builtin.set_fact:
     packages_before_upgrade: "{{ ansible_facts.packages }}"
 
+- name: Remove dependencies that are no longer required and purge their configuration files (apt distros)
+  when: ansible_facts.distribution == "Debian" or ansible_facts.distribution == "Ubuntu"
+  become: true
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true
+  register: apt_autoremove_result
+
+- name: Install some default packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ update_packages }}"
+    state: present
+  register: package_install_result
+
+- name: Install fail2ban package
+  become: true
+  ansible.builtin.apt:
+    name: fail2ban
+    state: present
+    update_cache: true
+  notify: Restart fail2ban
+  register: fail2ban_install_result
+
 - name: Run updates
   become: true
   ansible.builtin.apt:
@@ -30,7 +54,7 @@
     packages_after_upgrade: "{{ ansible_facts.packages }}"
 
 - name: Send update diff via telegram
-  when: apt_upgrade_result.changed
+  when: apt_upgrade_result.changed or package_install_result.changed or fail2ban_install_result.changed or apt_autoremove_result.changed
   community.general.telegram:
     token: "{{ vault_telegram_token }}"
     api_args:
