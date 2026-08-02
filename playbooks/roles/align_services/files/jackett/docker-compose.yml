@@ -13,8 +13,8 @@ services:
       - PGID=${PGID_JACKETT}
       - TZ=Europe/Rome
     volumes:
-      - /mnt/containers/jackett/config:/config
-      - /mnt/containers/jackett/downloads:/downloads
+      - /mnt/data/jackett/config:/config
+      - /mnt/data/jackett/downloads:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jackett.entrypoints=websecure"

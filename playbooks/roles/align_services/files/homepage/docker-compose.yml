@@ -7,8 +7,8 @@ services:
       - services
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
-      - /mnt/containers/homepage/images:/app/public/images
-      - /mnt/containers/homepage/etc:/app/config
+      - /mnt/data/homepage/images:/app/public/images
+      - /mnt/data/homepage/etc:/app/config
     environment:
       HOMEPAGE_ALLOWED_HOSTS: ${HOST} # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
     labels:

@@ -2,7 +2,7 @@
 services:
   vaultwarden:
     container_name: vaultwarden
-    image: vaultwarden/server:1.36.0-alpine
+    image: vaultwarden/server:1.37.1-alpine
     restart: unless-stopped
     networks:
       - services
@@ -10,7 +10,7 @@ services:
       - "DOMAIN=https://${HOST}"
       - "ADMIN_TOKEN=${ADMIN_TOKEN}"
     volumes:
-      - /mnt/containers/vaultwarden:/data/
+      - /mnt/data/vaultwarden:/data/
     labels:
       # traefik labels
       - "traefik.enable=true"

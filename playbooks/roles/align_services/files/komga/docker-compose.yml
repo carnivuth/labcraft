@@ -9,8 +9,8 @@ services:
     networks:
       - services
     volumes:
-      - /mnt/containers/komga/etc:/config
-      - /mnt/containers/komga/data:/data
+      - /mnt/data/komga/etc:/config
+      - /mnt/data/komga/data:/data
     labels:
 
       - "traefik.enable=true"

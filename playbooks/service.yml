@@ -1,5 +1,6 @@
 ---
 - name: Install docker applications
-  hosts: service_manager
+  hosts:
+    - docker_clouds
   roles:
     - roles/align_services

@@ -1,13 +1,11 @@
 - name: Generate report of apt package status
   hosts:
-    - proxmox_all_running
-    - pve
+    - docker_clouds
   become: true
   tasks:
     - name: Run the equivalent of "apt-get update" as a separate step
       ansible.builtin.apt:
         update_cache: true
-
     - name: Check package status
       ansible.builtin.apt:
         name: "*"
@@ -15,7 +13,6 @@
       check_mode: true
       register: package_status
     - debug: var=package_status
-
     - name: Notify about package status ips via telegram
       when: package_status.changed
       community.general.telegram:

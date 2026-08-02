@@ -1,5 +1,6 @@
 ---
 - name: Run backup operations
-  hosts: pve
+  hosts:
+    - docker_clouds
   roles:
     - roles/backup

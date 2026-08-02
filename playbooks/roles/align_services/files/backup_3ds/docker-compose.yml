@@ -12,7 +12,7 @@ services:
       - BACKUP_DIRS=/3ds/Checkpoint/saves;/roms/nds/saves;/PSP/SAVEDATA
       - ENABLE_DASHBOARD=true
     volumes:
-      - "/mnt/containers/backup_3ds:/var/lib/backup_3ds/backups"
+      - "/mnt/data/backup_3ds:/var/lib/backup_3ds/backups"
     labels:
 
       # traefik labels

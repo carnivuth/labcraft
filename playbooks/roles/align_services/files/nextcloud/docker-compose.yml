@@ -9,7 +9,7 @@ services:
     networks:
       - nextcloud
     volumes:
-      - nextcloud-database:/var/lib/mysql
+      - /mnt/data/navidrome/database:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -27,7 +27,7 @@ services:
       - nextcloud-cache
       - nextcloud
     volumes:
-      - /mnt/containers/nextcloud:/var/www/html
+      - /mnt/data/nextcloud:/var/www/html
     entrypoint: /cron.sh
     networks:
       - nextcloud
@@ -67,7 +67,7 @@ services:
     links:
       - nextcloud-database
     volumes:
-      - /mnt/containers/nextcloud:/var/www/html
+      - /mnt/data/nextcloud:/var/www/html
     environment:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=nextcloud
@@ -113,9 +113,6 @@ services:
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
       - "diun.max_tags=3"
-
-volumes:
-  nextcloud-database:
 
 networks:
   services:

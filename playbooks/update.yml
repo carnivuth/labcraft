@@ -1,6 +1,5 @@
 - name: Run updates
   hosts:
-    - proxmox_all_running
-    - pve
+    - docker_clouds
   roles:
     - roles/update

@@ -1,7 +1,6 @@
 - name: block krawl classified ips
   hosts:
-    - pve
-    - proxmox_all_running
+    - docker_clouds
   become: true
   roles:
     - roles/ban_krawl_ips

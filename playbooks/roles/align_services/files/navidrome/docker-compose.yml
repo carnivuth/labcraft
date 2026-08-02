@@ -27,9 +27,9 @@ services:
     expose:
       - 4533
     volumes:
-      - "/mnt/containers/navidrome/backup:/backup"
-      - "/mnt/containers/navidrome/data:/data"
-      - "/mnt/containers/navidrome/collection:/music:ro"
+      - "/mnt/data/navidrome/backup:/backup"
+      - "/mnt/data/navidrome/data:/data"
+      - "/mnt/data/navidrome/collection:/music:ro"
     labels:
       # traefik labels
       - "traefik.enable=true"

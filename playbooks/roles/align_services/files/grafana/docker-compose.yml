@@ -14,7 +14,7 @@ services:
       - monitoring
       - services
     volumes:
-      - /mnt/containers/grafana:/var/lib/grafana
+      - /mnt/data/grafana:/var/lib/grafana
 
     labels:
       # traefik labels

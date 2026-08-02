@@ -30,40 +30,46 @@
     users: "{{ services | dict2items | json_query('[*].value.container_name') }}"
 
 - name: Create compose dir
+  become: true
   ansible.builtin.file:
-    path: "/usr/local/{{ item }}"
+    path: "/usr/local/containers/{{ item }}"
     state: directory
     mode: "644"
   loop: "{{ align_services_apps }}"
 
 - name: Copy docker compose file
+  become: true
   ansible.builtin.copy:
     src: "{{ item }}/docker-compose.yml"
-    dest: "/usr/local/{{ item }}/docker-compose.yml"
+    dest: "/usr/local/containers/{{ item }}/docker-compose.yml"
     mode: "644"
   loop: "{{ align_services_apps }}"
 
 - name: Create application group and save GUID
+  become: true
   ansible.builtin.group:
     name: "services"
   register: group_data
 
 - name: Create application users and save PUIDs and GUIDs
+  become: true
   ansible.builtin.user:
     name: "{{ item }}"
     create_home: true
-    home: /usr/local/{{ item }}
+    home: /usr/local/containers/{{ item }}
     groups: ["services"]
   register: users_data
   loop: "{{ users }}"
 
 - name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
+  become: true
   ansible.builtin.stat:
     path: "{{ item.split(':')[0] }}"
   register: volumes_stats
   loop: "{{ volumes }}"
 
 - name: Create docker compose volume dirs
+  become: true
   when: (not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir) and item is regex('^/.*')
   ansible.builtin.file:
     path: "{{ item.split(':')[0] }}"
@@ -75,8 +81,9 @@
     index_var: index
 
 - name: Save PUIDs in .env file
+  become: true
   ansible.builtin.lineinfile:
-    path: /usr/local/{{ index }}/.env
+    path: /usr/local/containers/{{ index }}/.env
     line: PUID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].uid }}
     create: true
     state: present
@@ -86,8 +93,9 @@
     index_var: index
 
 - name: Save PGIDs in .env file
+  become: true
   ansible.builtin.lineinfile:
-    path: /usr/local/{{ item }}/.env
+    path: /usr/local/containers/{{ item }}/.env
     line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
     create: true
     state: present
@@ -97,8 +105,9 @@
     index_var: index
 
 - name: Save services GUID in .env file
+  become: true
   ansible.builtin.lineinfile:
-    path: /usr/local/{{ item }}/.env
+    path: /usr/local/containers/{{ item }}/.env
     line: PGID_SERVICES={{ group_data.gid }}
     create: true
     state: present
@@ -116,16 +125,18 @@
   loop: "{{ align_services_apps }}"
 
 - name: Add cloudflare account email in docker environment
+  become: true
   ansible.builtin.lineinfile:
-    path: "/usr/local/traefik/.env"
+    path: "/usr/local/containers/traefik/.env"
     create: true
     line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_cloudflare_account_email }}"
     state: present
     mode: '600'
 
 - name: Add hostname as a paramenter in docker environment
+  become: true
   ansible.builtin.lineinfile:
-    path: "/usr/local/{{ item }}/.env"
+    path: "/usr/local/containers/{{ item }}/.env"
     create: true
     line: "HOST={{ item | regex_replace('_', '-') }}.{{ align_services_apps_domain }}"
     state: present
@@ -141,7 +152,18 @@
   delegate_to: localhost
   loop: "{{ align_services_apps }}"
 
+- name: Create config directory
+  become: true
+  ansible.builtin.file:
+    path: "/mnt/containers/{{ item.0.item }}/etc"
+    owner: "{{ item.0.item }}"
+    group: "{{ item.0.item }}"
+    state: directory
+    mode: "0644"
+  loop: "{{ template_files.results | subelements('files') }}"
+
 - name: Deploy template files (parsed)
+  become: true
   ansible.builtin.template:
     src: "{{ item.1.path }}"
     dest: "/mnt/containers/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
@@ -161,7 +183,18 @@
   loop: "{{ align_services_apps }}"
   delegate_to: localhost
 
+- name: Create config directory
+  become: true
+  ansible.builtin.file:
+    path: "/mnt/containers/{{ item.0.item }}/etc"
+    owner: "{{ item.0.item }}"
+    group: "{{ item.0.item }}"
+    state: directory
+    mode: "0644"
+  loop: "{{ config_files.results | subelements('files') }}"
+
 - name: Deploy config files (unparsed)
+  become: true
   ansible.builtin.copy:
     src: "{{ item.1.path }}"
     dest: "/mnt/containers/{{ item.0.item }}/etc/{{ item.1.path | basename }}"
@@ -171,8 +204,9 @@
   loop: "{{ config_files.results | subelements('files') }}"
 
 - name: Start apps
+  become: true
   community.docker.docker_compose_v2:
-    project_src: "/usr/local/{{ item }}"
+    project_src: "/usr/local/containers/{{ item }}"
     state: present
     pull: always
   register: result
@@ -181,6 +215,7 @@
   loop: "{{ align_services_apps }}"
 
 - name: Prune images
+  become: true
   community.docker.docker_prune:
     images: true
 

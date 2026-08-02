@@ -20,7 +20,7 @@ services:
         - "DISPLAY_TIMEZONE=Europe/Rome"
         - "TZ=Europe/Rome"
     volumes:
-        - /mnt/containers/speedtest-tracker/:/config
+        - /mnt/data/speedtest-tracker/:/config
     labels:
       # traefik labels
       - "traefik.enable=true"

@@ -21,8 +21,6 @@
       nameserver {{ vault_cloudflare_secondary_dns }}
 
 - name: Update cloudflare public ip
-  delegate_to: pve
-  run_once: true
   block:
     - name: Get public IP address
       ansible.builtin.uri:

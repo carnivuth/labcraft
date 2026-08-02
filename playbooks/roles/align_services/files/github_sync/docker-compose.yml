@@ -9,6 +9,6 @@ services:
       - ACCOUNT="${ACCOUNT}"
       - TZ=Europe/Rome
     volumes:
-      - /mnt/containers/github_sync:/var/lib/github_sync
+      - /mnt/data/github_sync:/var/lib/github_sync
     labels:
       - "diun.enable=true"

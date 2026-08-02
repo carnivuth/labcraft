@@ -8,7 +8,7 @@ services:
     networks:
       - services
     volumes:
-      - /mnt/containers/wingfit:/app/storage
+      - /mnt/data/wingfit:/app/storage
     command: ["fastapi", "run", "/app/wingfit/main.py", "--host", "0.0.0.0"]
     labels:
       # traefik labels
