@@ -166,7 +166,7 @@
   become: true
   ansible.builtin.template:
     src: "{{ item.1.path }}"
-    dest: "/mnt/containers/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
+    dest: "/mnt/data/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
     owner: "{{ item.0.item }}"
     group: "{{ item.0.item }}"
     mode: "0644"
@@ -186,7 +186,7 @@
 - name: Create config directory
   become: true
   ansible.builtin.file:
-    path: "/mnt/containers/{{ item.0.item }}/etc"
+    path: "/mnt/data/{{ item.0.item }}/etc"
     owner: "{{ item.0.item }}"
     group: "{{ item.0.item }}"
     state: directory
@@ -197,7 +197,7 @@
   become: true
   ansible.builtin.copy:
     src: "{{ item.1.path }}"
-    dest: "/mnt/containers/{{ item.0.item }}/etc/{{ item.1.path | basename }}"
+    dest: "/mnt/data/{{ item.0.item }}/etc/{{ item.1.path | basename }}"
     owner: "{{ item.0.item }}"
     group: "{{ item.0.item }}"
     mode: "0644"

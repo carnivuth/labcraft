@@ -9,7 +9,7 @@ services:
     networks:
       - nextcloud
     volumes:
-      - /mnt/data/navidrome/database:/var/lib/mysql
+      - /mnt/data/nextcloud/database:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
