@@ -5,8 +5,9 @@
   roles:
     - roles/enforce_policies
     - roles/cronjobs
+    - roles/Ts_script
     - roles/align_cloudflare_dns
-    - roles/ban_krawl_ips
+    #- roles/ban_krawl_ips
     - role: geerlingguy.docker
       vars:
         docker_install_compose_plugin: false
