@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 .PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER) update playbooks/roles/*
 
-inventory_opt = -i inventory/inventory.proxmox.yml
+inventory_opt = -i inventory/carnivuth.org.yml
 ifdef inventory
 inventory_opt = -i $(inventory)
 endif
