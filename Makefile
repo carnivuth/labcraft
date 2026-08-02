@@ -24,7 +24,7 @@ ansible.cfg:
 env: requirements.txt
 	python -m venv env && source env/bin/activate && pip install -r requirements.txt
 
-~/.ansible/collections/ansible_collections/: requirements.yml
+~/.ansible/collections/ansible_collections/: requirements.yml env
 	source env/bin/activate && ansible-galaxy install -r requirements.yml
 
 inventory/group_vars/all/vault.yml:
