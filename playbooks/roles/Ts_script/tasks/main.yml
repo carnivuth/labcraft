@@ -20,14 +20,14 @@
   ansible.builtin.lineinfile:
     path: /root/.bashrc
     state: present
-    line: "TELEGRAM_CHAT_ID={{ vault_telegram_chat_id }}"
+    line: "export TELEGRAM_CHAT_ID={{ vault_telegram_chat_id }}"
 
 - name: Add TELEGRAM_TOKEN in bashrc
   become: true
   ansible.builtin.lineinfile:
     path: /root/.bashrc
     state: present
-    line: "TELEGRAM_TOKEN={{ vault_telegram_token }}"
+    line: "export TELEGRAM_TOKEN={{ vault_telegram_token }}"
 
 - name: Install Ts.sh script
   become: true
