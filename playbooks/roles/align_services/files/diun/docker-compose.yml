@@ -17,7 +17,7 @@ services:
       - "DIUN_PROVIDERS_DOCKER_WATCHSTOPPED=false"
       - "DIUN_NOTIF_TELEGRAM_TOKEN=${DIUN_NOTIF_TELEGRAM_TOKEN}"
       - "DIUN_NOTIF_TELEGRAM_CHATIDS=${DIUN_NOTIF_TELEGRAM_CHATIDS}"
-      - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY=${DIUN_NOTIF_TELEGRAM_TEMPLATEBODY}"
+      - "DIUN_NOTIF_TELEGRAM_TEMPLATEBODY='{{ .Entry.Image }} has been released.'"
     labels:
       # diun labels
       - "diun.enable=true"

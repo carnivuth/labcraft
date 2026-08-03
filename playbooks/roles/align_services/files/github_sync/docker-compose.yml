@@ -6,8 +6,8 @@ services:
     environment:
       - HEALTHCHECK="${HEALTHCHECK}"
       - NTFY="${NTFY}"
-      - ACCOUNT="${ACCOUNT}"
       - TZ=Europe/Rome
+      - ACCOUNT=carnivuth
     volumes:
       - /mnt/data/github_sync:/var/lib/github_sync
     labels:
