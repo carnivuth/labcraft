@@ -1,6 +1,0 @@
----
-- name: Run backup operations
-  hosts:
-    - docker_clouds
-  roles:
-    - roles/backup

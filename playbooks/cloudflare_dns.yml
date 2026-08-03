@@ -1,5 +1,0 @@
-- name: Align cloudflare dns
-  hosts:
-    - docker_clouds
-  roles:
-    - roles/align_cloudflare_dns

@@ -17,7 +17,7 @@
     user: root
     minute: "0"
     hour: "17"
-    job: cd /usr/local/labcraft && make playbooks/update.yml > /dev/null 2>&1
+    job: cd /usr/local/labcraft && make playbooks/update.yml opts=--tags=security > /dev/null 2>&1
 
 - name: Setup dynamic dns updates
   become: true
@@ -25,7 +25,7 @@
     name: "dynamic dns updates"
     minute: "*/2"
     hour: "*"
-    job: cd /usr/local/labcraft && export ANSIBLE_STDOUT_CALLBACK=default; make playbooks/cloudflare_dns.yml > /dev/null 2>&1
+    job: cd /usr/local/labcraft && export ANSIBLE_STDOUT_CALLBACK=default; make playbooks/site.yml opts=--tags=dns > /dev/null 2>&1
 
 - name: Setup krawl rule syncronization
   become: true
@@ -33,4 +33,4 @@
     name: "krawl rules sync with storagebox"
     minute: "10"
     hour: "17"
-    job: cd /usr/local/labcraft && make playbooks/krawl_ban.yml > /dev/null 2>&1
+    job: cd /usr/local/labcraft && make playbooks/site.yml opts=--tags=security > /dev/null 2>&1

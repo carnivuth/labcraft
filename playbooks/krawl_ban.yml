@@ -1,6 +1,0 @@
-- name: block krawl classified ips
-  hosts:
-    - docker_clouds
-  become: true
-  roles:
-    - roles/ban_krawl_ips

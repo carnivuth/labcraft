@@ -1,6 +1,0 @@
----
-- name: Install docker applications
-  hosts:
-    - docker_clouds
-  roles:
-    - roles/align_services
