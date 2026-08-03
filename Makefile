@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER) update playbooks/roles/*
+.PHONY: playbooks/* install /var/spool/cron/crontabs/$(USER) playbooks/roles/*
 
 inventory_opt = -i inventory/carnivuth.org.yml
 ifdef inventory
@@ -31,6 +31,12 @@ inventory/group_vars/all/vault.yml: playbooks inventory
 	mkdir -p $$(dirname $@)
 	touch  $@
 	grep -rho -e 'vault_[a-z_]*' inventory playbooks | sort -u | parallel 'grep -q {} $@ || echo {}:' >> $@
+
+playbooks/roles/align_services/files/%:
+	mkdir -p '$@'
+	touch '$@/docker-compose.yml'
+	echo -e "PUID_$$(echo $@ | awk -F'/' '{print $$5 }'| tr '[:lower:]' '[:upper:]')={{ container_puid }}\nPGID_$$(echo $@ | awk -F'/' '{print $$5 }' | tr '[:lower:]' '[:upper:]')={{ container_pgid }}\nPGID_SERVICES={{ services_pgid }}\nHOST={{ container_host }}" > '$@/env.j2'
+
 
 playbooks/roles/%: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-galaxy role init $@
