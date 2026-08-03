@@ -21,7 +21,7 @@ services:
       - "ND_DEFAULTSHAREEXPIRATION=24h"
       - "ND_DEFAULTDOWNLOADABLESHARE=true"
       - "ND_ENABLETRANSCODINGCONFIG=true"
-      - "ND_PROMETHEUS_METRICSPATH=${ND_PROMETHEUS_METRICSPATH}"
+      - "ND_PROMETHEUS_METRICSPATH=/metrics"
       # inserted cause authelia is configured
       - "ND_ENABLEUSEREDITING=false"
     expose:

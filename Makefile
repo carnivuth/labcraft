@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/* playbooks/files/services/* services install /var/spool/cron/crontabs/$(USER) update playbooks/roles/*
+.PHONY: playbooks/* install /var/spool/cron/crontabs/$(USER)
 
 inventory_opt = -i inventory/carnivuth.org.yml
 ifdef inventory
@@ -27,11 +27,18 @@ env: requirements.txt
 ~/.ansible/collections/ansible_collections/: requirements.yml env
 	source env/bin/activate && ansible-galaxy install -r requirements.yml
 
-inventory/group_vars/all/vault.yml:
+inventory/group_vars/all/vault.yml: playbooks inventory
 	mkdir -p $$(dirname $@)
-	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
+	touch  $@
+	grep -rho -e 'vault_[a-z_]*' inventory playbooks | sort -u | parallel 'grep -q {} $@ || echo {}:' >> $@
 
-playbooks/roles/%: env ~/.ansible/collections/ansible_collections/
+playbooks/roles/align_services/files/%:
+	mkdir -p '$@'
+	touch '$@/docker-compose.yml'
+	echo -e "PUID_$$(echo $@ | awk -F'/' '{print $$5 }'| tr '[:lower:]' '[:upper:]')={{ container_puid }}\nPGID_$$(echo $@ | awk -F'/' '{print $$5 }' | tr '[:lower:]' '[:upper:]')={{ container_pgid }}\nPGID_SERVICES={{ services_pgid }}\nHOST={{ container_host }}" > '$@/env.j2'
+
+
+playbooks/roles/*: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-galaxy role init $@
 
 playbooks/*: env ~/.ansible/collections/ansible_collections/
@@ -41,3 +48,10 @@ playbooks/*: env ~/.ansible/collections/ansible_collections/
 	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
 
 install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml
+
+roles_toc.md: playbooks/roles/**/README.md playbooks/roles/**/meta/main.yml
+	find playbooks/roles -type f -name README.md | sort -u | parallel 'echo -e "# [$$( basename $$( dirname {} ) )]({})\n\n- author: $$(yq .galaxy_info.author $$( dirname {} )/meta/main.yml)\n\n$$(yq .galaxy_info.description $$( dirname {} )/meta/main.yml)\n"' > $@
+
+.git/hooks/pre-commit:
+	echo -e "#!/bin/bash\nmake roles_toc.md" > $@
+	chmod +x $@

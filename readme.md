@@ -1,24 +1,23 @@
 # Labcraft
 
-Automations for my personal proxmox cluster
+Automations for my personal docker cloud
 
 ![](./torterra.jpg)
-> The cluster 🙃
+> The cloud 🙃
 
 ```mermaid
 flowchart LR
 A[laptop]
 B((github repo))
-subgraph proxmox_host
-C[vms]
+subgraph docker_cloud
 D[containers]
 end
-A -- push commits --> B ~~~ proxmox_host -- propagates changes --> C & D
+A -- push commits --> B ~~~ docker_cloud -- propagates changes --> C & D
 ```
 
 ## Why this
 
-The goal of this project is to manage my personal proxmox instance in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed:
+The goal of this project is to manage my personal docker cloud in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed:
 
 - [docker](https://www.docker.com/) to manage services for personal use
 - [ansible](docs.ansible.com/ansible/latest/index.html) to automate provisioning operations
@@ -26,9 +25,9 @@ The goal of this project is to manage my personal proxmox instance in a git ops 
 
 ## Installation
 
-Installation of the repository is done by cloning it inside the proxmox host and making an initial setup to allow the continuous integration pipeline to trigger itself when commits are made to the main branch
+Installation of the repository is done by cloning it inside the docker cloud and making an initial setup to allow the continuous integration pipeline to trigger itself when commits are made to the main branch
 
-- clone repository inside the proxmox host
+- clone repository inside the docker cloud
 
 ```bash
 git clone https://github.com/carnivuth/labcraft
@@ -46,11 +45,11 @@ make inventory/group_vars/all/vault.yml
 make install
 ```
 
-This will create a cronjob that runs git pull every minute and a git hook to run the `install` target, also the install targets runs a set of playbook to align proxmox guests and proxmox host
+This will create a cronjob that runs git pull every minute and a git hook to run the `install` target, also the install targets runs a set of playbook to align the cloud
 
 ### Automatic provisioning
 
-Every time a commit is pushed to remote cron will pull the updates and the git hook will run the `install` target to align the proxmox cluster
+Every time a commit is pushed to remote cron will pull the updates and the git hook will run the `install` target to align the cloud to the new configuration
 
 ```mermaid
 ---
@@ -59,24 +58,21 @@ title: UPDATE WORKFLOW
 sequenceDiagram
 participant dev_machine
 participant github_repo
-participant torterra
+participant docker_cloud
 
 dev_machine ->> github_repo: push chainges
 loop every x minutes
-torterra ->> github_repo: fetch changes
+docker_cloud ->> github_repo: fetch changes
 alt changes
-torterra ->> torterra: run middleware
-torterra ->> torterra: run workflow based on the file that was modified
+docker_cloud ->> docker_cloud: run middleware
+docker_cloud ->> docker_cloud: run workflow based on the file that was modified
 end
 end
 ```
 
 ## Monitoring
 
-Monitoring is done using [grafana](https://grafana.com/) (*both self hosted and cloud*) at 2 different levels:
-
-- infrastructure level: monitors infrastructural components like proxmox hosts status, machine and vms
-- service monitoring: monitors personal services information
+Monitoring is done using [grafana](https://grafana.com/) (*both self hosted and cloud*):
 
 ```mermaid
 flowchart LR
@@ -86,8 +82,8 @@ end
 subgraph self-hosted
 B@{shape: proc, label: grafana self hosted}
 C@{shape: docs, label: services}
-D@{shape: docs, label: proxmox hosts}
-E@{shape: docs, label: containers and vms}
+D@{shape: docs, label: docker cloud}
+E@{shape: docs, label: containers}
 end
 cloud ~~~ self-hosted
 
@@ -95,32 +91,9 @@ A -- monitors --> D & E
 B -- monitors --> C
 ```
 
-## Backup management
-
-Backups are managed at the infrastructure level using [pbs](https://www.proxmox.com/en/products/proxmox-backup-server/overview)
-
-```mermaid
-flowchart
-subgraph Proxmox host
-    A@{shape: proc, label: pbs}
-    B@{shape: db, label: backup-disk}
-
-    A -- write backups on disk --> B
-end
-```
-
-## Backup synchronization
-
-Backups are also saved in a remote Hetzner storagebox, that is synchronized using `rsync` in a cron job
-
-```bash
-# backup rsync to storagebox and send mail with report of the sync
-0 22 * * * rsync --exclude "lost+found" -Pavr --delete "/mnt/datastore" "storagebox:" >  /var/log/backup-sync-"$(date +%s)".log
-```
-
 ## Docker services management
 
-The project is used to manage my personal cloud services using `docker` containers, all services are hosted inside a vm managed trough the infrastructure layer.
+The project is used to manage my personal cloud services using `docker` containers
 
 ```mermaid
 flowchart TD
@@ -129,13 +102,20 @@ A((service 1))
 B((service 2))
 C((service 3))
 D[reverse proxy]
+E[OIDC]
 end
 D --exposes--> A & B & C
+D -- delegates auth --> E
 ```
 
 ## Add a new service
 
-Services are installed using a playbook and `docker compose` configuration file,  to add a service create a file as `service_name/docker-compose.yml` inside `services/files/` directory
+Services are installed using a playbook and `docker compose` configuration file,  to add a service run the following make target
+
+```bash
+SERVICE_NAME=my service
+make playbooks/roles/align_services/$SERVICE_NAME
+```
 
 ### Configure web interface
 
@@ -164,6 +144,10 @@ Then add `traefik` and `homepage labels` for reverse proxy configuration and hom
       - "homepage.href=https://${HOST}"
       - "homepage.description=Service description"
 ```
+
+### Adding env variables
+
+Environment variables can be added in the `playbooks/roles/align_services/files/$SERVICE_NAME/env.j2`
 
 ### Adding configuration files
 

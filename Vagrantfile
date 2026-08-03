@@ -23,11 +23,12 @@ Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
   config.vm.hostname = VM_NAME
   config.vm.network 'forwarded_port', id: 'ssh', host: 2221, guest: 22
+  config.vm.network 'forwarded_port', id: 'web', host: 443, guest: 443
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = VM_NAME
     vb.memory = 4096
-    vb.cpus = 2
+    vb.cpus = 4
 
     # SATA controller that ships with the box is usually "SATA Controller"
     controller = "SATA Controller"
@@ -61,7 +62,7 @@ Vagrant.configure("2") do |config|
     set -e
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg make
+    apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg make vim
 
     # Install Docker CE
     if ! command -v docker >/dev/null 2>&1; then
