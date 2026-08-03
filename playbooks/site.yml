@@ -3,14 +3,27 @@
   hosts:
     - docker_clouds
   roles:
-    - roles/enforce_policies
-    - roles/cronjobs
-    - roles/Ts_script
-    - roles/align_cloudflare_dns
-    #- roles/ban_krawl_ips
+    - role: enforce_policies
+      tags: system
+    - role: cronjobs
+      tags: system
+    - role: Ts_script
+      tags: system
+    - role: align_cloudflare_dns
+      tags:
+        - dns
+        - system
+
+    - role: ban_krawl_ips
+      tags:
+        - security
+        - system
+
     - role: geerlingguy.docker
+      tags: containers
       vars:
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
-    - roles/align_services
+    - role: align_services
+      tags: containers
