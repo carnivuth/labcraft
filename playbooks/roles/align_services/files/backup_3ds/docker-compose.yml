@@ -7,8 +7,8 @@ services:
     networks:
       - services
     environment:
-      - FTPD_3DS_ADDRESSES=${FTPD_3DS_ADDRESSES}
-      - FTPD_3DS_PORTS=${FTPD_3DS_PORTS}
+      - FTPD_3DS_ADDRESSES=192.168.1.99;riolu.local.carnivuth.org;zorua.local.carnivuth.org
+      - FTPD_3DS_PORTS=5000;5000
       - BACKUP_DIRS=/3ds/Checkpoint/saves;/roms/nds/saves;/PSP/SAVEDATA
       - ENABLE_DASHBOARD=true
     volumes:
