@@ -8,7 +8,7 @@
     user: root
     minute: "*"
     hour: "*"
-    job: "curl '{{ vault_healthchecks_proxmox_keepalive_signal }}' > /dev/null 2>&1"
+    job: "curl '{{ vault_torterra_keepalive_signal }}' > /dev/null 2>&1"
 
 - name: Install updates cronjob
   become: true
