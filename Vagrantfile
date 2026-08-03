@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
     set -e
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg make
+    apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg make vim
 
     # Install Docker CE
     if ! command -v docker >/dev/null 2>&1; then
