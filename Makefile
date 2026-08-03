@@ -51,3 +51,7 @@ install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/
 
 roles_toc.md: playbooks/roles/**/README.md playbooks/roles/**/meta/main.yml
 	find playbooks/roles -type f -name README.md | sort -u | parallel 'echo -e "# [$$( basename $$( dirname {} ) )]({})\n\n- author: $$(yq .galaxy_info.author $$( dirname {} )/meta/main.yml)\n\n$$(yq .galaxy_info.description $$( dirname {} )/meta/main.yml)\n"' > $@
+
+.git/hooks/pre-commit:
+	echo -e "#!/bin/bash\nmake roles_toc.md" > $@
+	chmod +x $@
