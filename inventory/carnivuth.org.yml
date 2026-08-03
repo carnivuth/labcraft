@@ -5,8 +5,8 @@ prod:
 docker_clouds:
   hosts:
     torterra.carnivuth.org:
+
 all:
   hosts:
     torterra.carnivuth.org:
-      ansible_connection: "{{ 'local' if lookup('ansible.builtin.env', 'HOSTNAME') == 'torterra' else 'ssh' }}"
-
+      ansible_connection: "{{ 'local' if lookup('ansible.builtin.pipe','hostname') == 'torterra' else 'ssh' }}"
