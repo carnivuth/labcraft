@@ -1,24 +1,23 @@
 # Labcraft
 
-Automations for my personal proxmox cluster
+Automations for my personal docker cloud
 
 ![](./torterra.jpg)
-> The cluster 🙃
+> The cloud 🙃
 
 ```mermaid
 flowchart LR
 A[laptop]
 B((github repo))
-subgraph proxmox_host
-C[vms]
+subgraph docker_cloud
 D[containers]
 end
-A -- push commits --> B ~~~ proxmox_host -- propagates changes --> C & D
+A -- push commits --> B ~~~ docker_cloud -- propagates changes --> C & D
 ```
 
 ## Why this
 
-The goal of this project is to manage my personal proxmox instance in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed:
+The goal of this project is to manage my personal docker cloud in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed:
 
 - [docker](https://www.docker.com/) to manage services for personal use
 - [ansible](docs.ansible.com/ansible/latest/index.html) to automate provisioning operations
