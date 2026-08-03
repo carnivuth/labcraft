@@ -27,9 +27,10 @@ env: requirements.txt
 ~/.ansible/collections/ansible_collections/: requirements.yml env
 	source env/bin/activate && ansible-galaxy install -r requirements.yml
 
-inventory/group_vars/all/vault.yml:
+inventory/group_vars/all/vault.yml: playbooks inventory
 	mkdir -p $$(dirname $@)
-	grep -ho -e 'vault_[a-z_]*' $$(find  inventory playbooks -name '*.yml' | grep -v vault.yml) | sort -u > $@
+	touch  $@
+	grep -rho -e 'vault_[a-z_]*' inventory playbooks | sort -u | parallel 'grep -q {} $@ || echo {}:' >> $@
 
 playbooks/roles/%: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-galaxy role init $@
