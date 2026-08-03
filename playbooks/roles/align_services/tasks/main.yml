@@ -82,14 +82,15 @@
 
 - name: generate env files based on templates
   become: true
+  when: "align_services_apps is contains(item)"
   ansible.builtin.template:
-    dest: /usr/local/containers/{{ index }}/.env
-    src: files/{{ index }}/env.j2
+    dest: /usr/local/containers/{{ item }}/.env
+    src: files/{{ item }}/env.j2
     mode: '600'
   vars:
     container_puid: "{{ users_data.results[index].uid }}"
     container_pgid: "{{ users_data.results[index].group }}"
-    services_pgid: "{{ groop_data.gid }}"
+    services_pgid: "{{ group_data.gid }}"
     container_host: "{{ item | regex_replace('_', '-') }}.{{ align_services_apps_domain }}"
   loop: "{{ users }}"
   loop_control:
