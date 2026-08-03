@@ -22,6 +22,7 @@ services:
       - "ND_DEFAULTDOWNLOADABLESHARE=true"
       - "ND_ENABLETRANSCODINGCONFIG=true"
       - "ND_PROMETHEUS_METRICSPATH=/metrics"
+      - "ND_JUKEBOX_ENABLED=true"
       # inserted cause authelia is configured
       - "ND_ENABLEUSEREDITING=false"
     expose:
