@@ -129,7 +129,7 @@
   ansible.builtin.lineinfile:
     path: "/usr/local/containers/traefik/.env"
     create: true
-    line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_cloudflare_account_email }}"
+    line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_admin_email }}"
     state: present
     mode: '600'
 
