@@ -70,26 +70,13 @@ end
 end
 ```
 
+## Backup
+
+TODO
+
 ## Monitoring
 
-Monitoring is done using [grafana](https://grafana.com/) (*both self hosted and cloud*):
-
-```mermaid
-flowchart LR
-subgraph cloud
-A@{shape: cloud, label: grafana cloud}
-end
-subgraph self-hosted
-B@{shape: proc, label: grafana self hosted}
-C@{shape: docs, label: services}
-D@{shape: docs, label: docker cloud}
-E@{shape: docs, label: containers}
-end
-cloud ~~~ self-hosted
-
-A -- monitors --> D & E
-B -- monitors --> C
-```
+TODO
 
 ## Docker services management
 
