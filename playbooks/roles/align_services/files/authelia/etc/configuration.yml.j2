@@ -144,7 +144,6 @@ telemetry:
       read: '6s'
       write: '6s'
       idle: '30s'
-      #
 
 ##
 ## Identity Validation Configuration
@@ -153,7 +152,7 @@ telemetry:
 identity_validation:
 
   ## Reset Password flow. Adjusts how the reset password flow operates.
-  #reset_password:
+  reset_password:
     ## Maximum allowed time before the JWT is generated and when the user uses it in the duration common syntax.
     # jwt_lifespan: '5 minutes'
 
@@ -161,7 +160,7 @@ identity_validation:
     # jwt_algorithm: 'HS256'
 
     ## The secret key used to sign and verify the JWT.
-    #jwt_secret: 'a_very_important_secret'
+    jwt_secret: '{{ vault_authelia_jwt_secret }}'
 
   ## Elevated Session flows. Adjusts the flow which require elevated sessions for example managing credentials, adding,
   ## removing, etc.
@@ -239,106 +238,12 @@ identity_validation:
 ##
 ## The available providers are: `file`, `ldap`. You must use only one of these providers.
 authentication_backend:
-  ## Password Change Options.
-  # password_change:
-    ## Disable both the HTML element and the API for password change functionality.
-    # disable: false
-  ## Password Reset Options.
   password_reset:
-    ## Disable both the HTML element and the API for reset password functionality.
     disable: true
-
-    ## External reset password url that redirects the user to an external reset portal. This disables the internal reset
-    ## functionality.
-    # custom_url: ''
-
-  ## The amount of time to wait before we refresh data from the authentication backend in the duration common syntax.
-  ## To disable this feature set it to 'disable', this will slightly reduce security because for Authelia, users will
-  ## always belong to groups they belonged to at the time of login even if they have been removed from them in LDAP.
-  ## To force update on every request you can set this to '0' or 'always', this will increase processor demand.
-  ## See the below documentation for more information.
-  ## Refresh Interval docs: https://www.authelia.com/c/1fa#refresh-interval
-  # refresh_interval: '5 minutes'
-
-  ##
-  ## File (Authentication Provider)
-  ##
-  ## With this backend, the users database is stored in a file which is updated when users reset their passwords.
-  ## Therefore, this backend is meant to be used in a dev environment and not in production since it prevents Authelia
-  ## to be scaled to more than one instance. The options under 'password' have sane defaults, and as it has security
-  ## implications it is highly recommended you leave the default values. Before considering changing these settings
-  ## please read the docs page below:
-  ## https://www.authelia.com/r/passwords#tuning
-  ##
-  ## Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
-  ##
   file:
     path: '/config/users_database.yml'
-    # watch: false
-    # search:
-      # email: false
-      # case_insensitive: false
-    # password:
-      # algorithm: 'argon2'
-      # argon2:
-        # variant: 'argon2id'
-        # iterations: 3
-        # memory: 65536
-        # parallelism: 4
-        # key_length: 32
-        # salt_length: 16
-      # scrypt:
-        # variant: 'scrypt'
-        # iterations: 16
-        # block_size: 8
-        # parallelism: 1
-        # key_length: 32
-        # salt_length: 16
-      # pbkdf2:
-        # variant: 'sha512'
-        # iterations: 310000
-        # salt_length: 16
-      # sha2crypt:
-        # variant: 'sha512'
-        # iterations: 50000
-        # salt_length: 16
-      # bcrypt:
-        # variant: 'standard'
-        # cost: 12
+    watch: true
 
-##
-## Password Policy Configuration.
-##
-# password_policy:
-
-  ## The standard policy allows you to tune individual settings manually.
-  # standard:
-    # enabled: false
-
-    ## Require a minimum length for passwords.
-    # min_length: 8
-
-    ## Require a maximum length for passwords.
-    # max_length: 0
-
-    ## Require uppercase characters.
-    # require_uppercase: true
-
-    ## Require lowercase characters.
-    # require_lowercase: true
-
-    ## Require numeric characters.
-    # require_number: true
-
-    ## Require special characters.
-    # require_special: true
-
-  ## zxcvbn is a well known and used password strength algorithm. It does not have tunable settings.
-  # zxcvbn:
-    # enabled: false
-
-    ## Configures the minimum score allowed.
-    # min_score: 3
 
 ##
 ## Privacy Policy Configuration
@@ -357,40 +262,10 @@ authentication_backend:
   ## If the privacy policy enabled option is true, this MUST be provided.
   # policy_url: ''
 
-##
-## Access Control Configuration
-##
-## Access control is a list of rules defining the authorizations applied for one resource to users or group of users.
-##
-## If 'access_control' is not defined, ACL rules are disabled and the 'deny' rule is applied, i.e., access is denied
-## to everyone. Otherwise restrictions follow the rules defined.
-##
-## Note: One can use the wildcard * to match any subdomain.
-## It must stand at the beginning of the pattern. (example: *.example.com)
-##
-## Note: You must put patterns containing wildcards between simple quotes for the YAML to be syntactically correct.
-##
-## Definition: A 'rule' is an object with the following keys: 'domain', 'subject', 'policy' and 'resources'.
-##
-## - 'domain' defines which domain or set of domains the rule applies to.
-##
-## - 'subject' defines the subject to apply authorizations to. This parameter is optional and matching any user if not
-##    provided. If provided, the parameter represents either a user or a group. It should be of the form
-##    'user:<username>' or 'group:<groupname>'.
-##
-## - 'policy' is the policy to apply to resources. It must be either 'bypass', 'one_factor', 'two_factor' or 'deny'.
-##
-## - 'resources' is a list of regular expressions that matches a set of resources to apply the policy to. This parameter
-##   is optional and matches any resource if not provided.
-##
-## Note: the order of the rules is important. The first policy matching (domain, resource, subject) applies.
 access_control:
-  ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
-  ## resource if there is no policy to be applied to the user.
   default_policy: 'deny'
 
   rules:
-    ## Rules applied to everyone
     - domain: 'navidrome.{{ align_services_apps_domain }}'
       policy: 'one_factor'
       subject: 'group:navidrome'
@@ -415,77 +290,6 @@ access_control:
       policy: 'one_factor'
       subject: 'group:admins'
 
-    ## Domain Regex examples. Generally we recommend just using a standard domain.
-    # - domain_regex: '^(?P<User>\w+)\.example\.com$'
-    #   policy: 'one_factor'
-    # - domain_regex: '^(?P<Group>\w+)\.example\.com$'
-    #   policy: 'one_factor'
-    # - domain_regex:
-      #  - '^appgroup-.*\.example\.com$'
-      #  - '^appgroup2-.*\.example\.com$'
-    #   policy: 'one_factor'
-    # - domain_regex: '^.*\.example\.com$'
-    #   policy: 'two_factor'
-
-    # - domain: 'secure.example.com'
-    #   policy: 'one_factor'
-    ## Network based rule, if not provided any network matches.
-    #   networks:
-        # - 'internal'
-        # - 'VPN'
-        # - '192.168.1.0/24'
-        # - '10.0.0.1'
-
-    # - domain:
-        # - 'secure.example.com'
-        # - 'private.example.com'
-    #   policy: 'two_factor'
-
-    # - domain: 'singlefactor.example.com'
-    #   policy: 'one_factor'
-
-    ## Rules applied to 'admins' group
-    # - domain: 'mx2.mail.example.com'
-    #   subject: 'group:admins'
-    #   policy: 'deny'
-
-    # - domain: '*.example.com'
-    #   subject:
-        # - 'group:admins'
-        # - 'group:moderators'
-    #   policy: 'two_factor'
-
-    ## Rules applied to 'dev' group
-    # - domain: 'dev.example.com'
-    #   resources:
-        # - '^/groups/dev/.*$'
-    #   subject: 'group:dev'
-    #   policy: 'two_factor'
-
-    ## Rules applied to user 'john'
-    # - domain: 'dev.example.com'
-    #   resources:
-        # - '^/users/john/.*$'
-    #   subject: 'user:john'
-    #   policy: 'two_factor'
-
-    ## Rules applied to user 'harry'
-    # - domain: 'dev.example.com'
-    #   resources:
-        # - '^/users/harry/.*$'
-    #   subject: 'user:harry'
-    #   policy: 'two_factor'
-
-    ## Rules applied to user 'bob'
-    # - domain: '*.mail.example.com'
-    #   subject: 'user:bob'
-    #   policy: 'two_factor'
-    # - domain: 'dev.example.com'
-    #   resources:
-    #     - '^/users/bob/.*$'
-    #   subject: 'user:bob'
-    #   policy: 'two_factor'
-
 ##
 ## Session Provider Configuration
 ##
@@ -494,7 +298,7 @@ access_control:
 session:
   ## The secret to encrypt the session data. This is only used with Redis / Redis Sentinel.
   ## Secret can also be set using a secret: https://www.authelia.com/c/secrets
-  #secret: 'insecure_session_secret'
+  secret: '{{ vault_authelia_session_secret }}'
 
   ## Cookies configures the list of allowed cookie domains for sessions to be created on.
   ## Undefined values will default to the values below.
@@ -566,102 +370,6 @@ session:
   ## Cookie Session Domain default 'remember_me' value.
   # remember_me: '1M'
 
-  ##
-  ## Redis Provider
-  ##
-  ## Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
-  ##
-  # redis:
-    # host: '127.0.0.1'
-    # port: 6379
-    ## Use a unix socket instead
-    # host: '/var/run/redis/redis.sock'
-
-    ## The connection timeout in the duration common syntax.
-    # timeout: '5 seconds'
-
-    ## The maximum number of retries on a failed command. Set it to 0 to disable retries.
-    # max_retries: 3
-
-    ## Username used for redis authentication. This is optional and a new feature in redis 6.0.
-    # username: 'authelia'
-
-    ## Password can also be set using a secret: https://www.authelia.com/c/secrets
-    # password: 'authelia'
-
-    ## This is the Redis DB Index https://redis.io/commands/select (sometimes referred to as database number, DB, etc).
-    # database_index: 0
-
-    ## The maximum number of concurrent active connections to Redis.
-    # maximum_active_connections: 8
-
-    ## The target number of idle connections to have open ready for work. Useful when opening connections is slow.
-    # minimum_idle_connections: 0
-
-    ## The Redis TLS configuration. If defined will require a TLS connection to the Redis instance(s).
-    # tls:
-      ## The server subject name to check the servers certificate against during the validation process.
-      ## This option is not required if the certificate has a SAN which matches the host option.
-      # server_name: 'myredis.example.com'
-
-      ## Skip verifying the server certificate entirely. In preference to setting this we strongly recommend you add the
-      ## certificate or the certificate of the authority signing the certificate to the certificates directory which is
-      ## defined by the `certificates_directory` option at the top of the configuration.
-      ## It's important to note the public key should be added to the directory, not the private key.
-      ## This option is strongly discouraged but may be useful in some self-signed situations where validation is not
-      ## important to the administrator.
-      # skip_verify: false
-
-      ## Minimum TLS version for the connection.
-      # minimum_version: 'TLS1.2'
-
-      ## Maximum TLS version for the connection.
-      # maximum_version: 'TLS1.3'
-
-      ## The certificate chain used with the private_key if the server requests TLS Client Authentication
-      ## i.e. Mutual TLS.
-      # certificate_chain: |
-        # -----BEGIN CERTIFICATE-----
-        # ...
-        # -----END CERTIFICATE-----
-        # -----BEGIN CERTIFICATE-----
-        # ...
-        # -----END CERTIFICATE-----
-
-      ## The private key used with the certificate_chain if the server requests TLS Client Authentication
-      ## i.e. Mutual TLS.
-      # private_key: |
-        # -----BEGIN PRIVATE KEY-----
-        # ...
-        # -----END PRIVATE KEY-----
-
-    ## The Redis HA configuration options.
-    ## This provides specific options to Redis Sentinel, sentinel_name must be defined (Master Name).
-    # high_availability:
-      ## Sentinel Name / Master Name.
-      # sentinel_name: 'mysentinel'
-
-      ## Specific username for Redis Sentinel. The node username and password is configured above.
-      # sentinel_username: 'sentinel_specific_user'
-
-      ## Specific password for Redis Sentinel. The node username and password is configured above.
-      # sentinel_password: 'sentinel_specific_pass'
-
-      ## The additional nodes to pre-seed the redis provider with (for sentinel).
-      ## If the host in the above section is defined, it will be combined with this list to connect to sentinel.
-      ## For high availability to be used you must have either defined; the host above or at least one node below.
-      # nodes:
-        # - host: 'sentinel-node1'
-        #   port: 6379
-        # - host: 'sentinel-node2'
-        #   port: 6379
-
-      ## Choose the host with the lowest latency.
-      # route_by_latency: false
-
-      ## Choose the host randomly.
-      # route_randomly: false
-
 ##
 ## Regulation Configuration
 ##
@@ -690,7 +398,7 @@ storage:
   ## The encryption key that is used to encrypt sensitive information in the database. Must be a string with a minimum
   ## length of 20. Please see the docs if you configure this with an undesirable key and need to change it, you MUST use
   ## the CLI to change this in the database if you want to change it from a previously configured value.
-  # encryption_key: 'you_must_generate_a_random_string_of_more_than_twenty_chars_and_configure_this'
+  encryption_key: '{{ vault_authelia_storage_encryption_key }}'
 
   ##
   ## Local (Storage Provider)
