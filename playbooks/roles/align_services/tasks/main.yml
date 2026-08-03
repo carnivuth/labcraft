@@ -80,39 +80,20 @@
   loop_control:
     index_var: index
 
-- name: Save PUIDs in .env file
+- name: generate env files based on templates
   become: true
-  ansible.builtin.lineinfile:
-    path: /usr/local/containers/{{ index }}/.env
-    line: PUID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].uid }}
-    create: true
-    state: present
+  ansible.builtin.template:
+    dest: /usr/local/containers/{{ index }}/.env
+    src: files/{{ index }}/env.j2
     mode: '600'
+  vars:
+    container_puid: "{{ users_data.results[index].uid }}"
+    container_pgid: "{{ users_data.results[index].group }}"
+    services_pgid: "{{ groop_data.gid }}"
+    container_host: "{{ item | regex_replace('_', '-') }}.{{ align_services_apps_domain }}"
   loop: "{{ users }}"
   loop_control:
     index_var: index
-
-- name: Save PGIDs in .env file
-  become: true
-  ansible.builtin.lineinfile:
-    path: /usr/local/containers/{{ item }}/.env
-    line: PGID_{{ users_data.results[index].name | regex_replace('-','_') | upper }}={{ users_data.results[index].group }}
-    create: true
-    state: present
-    mode: '600'
-  loop: "{{ users }}"
-  loop_control:
-    index_var: index
-
-- name: Save services GUID in .env file
-  become: true
-  ansible.builtin.lineinfile:
-    path: /usr/local/containers/{{ item }}/.env
-    line: PGID_SERVICES={{ group_data.gid }}
-    create: true
-    state: present
-    mode: '600'
-  loop: "{{ align_services_apps }}"
 
 - name: Create DNS records
   community.general.cloudflare_dns:
@@ -132,16 +113,6 @@
     line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_admin_email }}"
     state: present
     mode: '600'
-
-- name: Add hostname as a paramenter in docker environment
-  become: true
-  ansible.builtin.lineinfile:
-    path: "/usr/local/containers/{{ item }}/.env"
-    create: true
-    line: "HOST={{ item | regex_replace('_', '-') }}.{{ align_services_apps_domain }}"
-    state: present
-    mode: '600'
-  loop: "{{ align_services_apps }}"
 
 - name: Find template files (.j2) under etc
   ansible.builtin.find:
