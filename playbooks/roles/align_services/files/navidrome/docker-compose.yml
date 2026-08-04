@@ -51,7 +51,7 @@ services:
       - "traefik.http.routers.navidrome-subsonic.tls.certresolver=myresolver"
       - "traefik.http.routers.navidrome-subsonic.rule=Host(`${HOST}`) && !PathPrefix(`/share/`) && PathPrefix(`/rest/`) && !Query(`c`, `NavidromeUI`)"
       - "traefik.http.routers.navidrome-subsonic.entrypoints=websecure"
-      #- "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
+      - "traefik.http.routers.navidrome-subsonic.middlewares=authelia-basicauth@docker"
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Navidrome"
