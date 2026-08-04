@@ -31,10 +31,6 @@
       parse_mode: "markdown"
       text: |
         *Krawl attack detected and mitigated on {{ inventory_hostname }}*
-        The following IPs have been blocked:
-
-        {% for ip in (result.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list )%}
-          - `{{ ip }}`
-        {% endfor %}
+        check  {{ ban_krawl_ips_urls[0] }}
       disable_web_page_preview: true
       disable_notification: false
