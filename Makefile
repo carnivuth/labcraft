@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/* install /var/spool/cron/crontabs/$(USER)
+.PHONY: playbooks/*.yml install
 
 inventory_opt = -i inventory/carnivuth.org.yml
 ifdef inventory
@@ -51,7 +51,7 @@ playbooks/roles/align_services/files/%:
 playbooks/roles/*: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-galaxy role init $@
 
-playbooks/*: env ~/.ansible/collections/ansible_collections/
+playbooks/*.yml: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
 
 

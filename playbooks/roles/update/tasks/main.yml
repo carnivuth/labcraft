@@ -61,15 +61,6 @@
       chat_id: "{{ vault_telegram_chat_id }}"
       parse_mode: "markdown"
       text: |
-          updated the following packages on {{ inventory_hostname }}:
-
-          {%- for package in packages_after_upgrade %}
-          {%- if
-            ( packages_after_upgrade[package] != packages_before_upgrade[package] ) or
-            ( packages_after_upgrade[package][0].version != packages_before_upgrade[package][0].version )
-          %}
-          - `{{ packages_after_upgrade[package][0].name }}`: `{{ packages_after_upgrade[package][0].version }}`
-          {%- endif %}
-          {%- endfor %}
+          updated packages on {{ inventory_hostname }}
       disable_web_page_preview: true
       disable_notification: false
