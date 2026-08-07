@@ -21,9 +21,13 @@ None
 Example Playbook
 ----------------
 
-    - hosts: proxmox_nodes
-      roles:
-         - roles/cronjobs
+- Install cronjobs on servers
+
+```yaml
+- hosts: servers
+  roles:
+     - cronjobs
+```
 
 License
 -------
