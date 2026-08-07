@@ -15,6 +15,20 @@ end
 A -- push commits --> B ~~~ docker_cloud -- propagates changes --> C & D
 ```
 
+## Table of contents
+
+- [Why this](Why-this)
+- [Installation](Installation)
+- [Automatic provisioning](Automatic-provisioning)
+- [Backup](Backup)
+- [Monitoring](Monitoring)
+- [Docker services management](Docker-services-management)
+- [Add a new service](Add-a-new-service)
+- [Configure web interface](Configure-web-interface)
+- [Adding env variables](Adding-env-variables)
+- [Adding configuration files](Adding-configuration-files)
+- [Available roles](./roles_toc.md)
+
 ## Why this
 
 The goal of this project is to manage my personal docker cloud in a git ops way with declarative infrastructure and configurations, to achieve this goal the following tech stack is deployed:
@@ -88,11 +102,15 @@ subgraph docker host
 A((service 1))
 B((service 2))
 C((service 3))
-D[reverse proxy]
-E[OIDC]
+D[traefik]
+E[authelia]
+F[grafana]
+G[prometheus]
 end
 D --exposes--> A & B & C
 D -- delegates auth --> E
+G -- scrapes metrics --> A & B & C
+F -- visualizes metrics --> G
 ```
 
 ## Add a new service
