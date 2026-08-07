@@ -1,0 +1,27 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for playbooks/roles/align_permissions
+align_permissions_data_dir: /mnt/data
+align_permissions_files:
+  - path: "{{ align_permissions_data_dir }}/prometheus"
+    owner: prometheus
+    mode: '0755'
+    group: nogroup
+    recursive: true
+  - path: "{{ align_permissions_data_dir }}/navidrome/backup"
+    owner: navidrome
+    mode: '0700'
+  - path: "{{ align_permissions_data_dir }}/navidrome/data"
+    owner: navidrome
+    mode: '0700'
+    group: navidrome
+  - path: "{{ align_permissions_data_dir }}/navidrome/collection"
+    owner: navidrome
+    mode: '0750'
+    group: services
+    recursive: true
+  - path: "{{ align_permissions_data_dir }}/grafana"
+    owner: grafana
+    mode: '0700'
+    group: grafana
+    recursive: true

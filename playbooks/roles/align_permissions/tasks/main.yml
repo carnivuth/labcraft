@@ -1,0 +1,12 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/align_permissions
+- name: Set permissions for files and directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    recurse: "{{ item.recursive }}"
+  loop: "{{ allign_permissions_files }}"
