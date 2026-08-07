@@ -10,11 +10,14 @@ align_permissions_files:
     recursive: true
   - path: "{{ align_permissions_data_dir }}/navidrome/backup"
     owner: navidrome
-    mode: '0700'
+    mode: '0770'
+    group: services
+    recursive: true
   - path: "{{ align_permissions_data_dir }}/navidrome/data"
     owner: navidrome
     mode: '0700'
     group: navidrome
+    recursive: true
   - path: "{{ align_permissions_data_dir }}/navidrome/collection"
     owner: navidrome
     mode: '0770'

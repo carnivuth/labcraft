@@ -9,4 +9,20 @@
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
     recurse: "{{ item.recursive }}"
-  loop: "{{ allign_permissions_files }}"
+  loop: "{{ align_permissions_files }}"
+  register: align_permissions_result
+
+- name: Send telegram notification if permissions were changed
+  when: align_permissions_result.changed
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      text: |
+        "Permissions have been aligned on {{ inventory_hostname }}:"
+
+        {%- for item in align_permissions_result %}
+        {%- if item.changed %}
+        - {{ item.item.path }}: {{ item.item.mode }} (owner: {{ item.item.owner }}, group: {{ item.item.group }})
+        {%- endif %}
+        {%- endfor %}
