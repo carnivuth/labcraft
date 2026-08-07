@@ -23,7 +23,6 @@
     - role: ban_krawl_ips
       tags:
         - security
-        - system
 
     - role: geerlingguy.docker
       tags: containers
