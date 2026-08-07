@@ -1,7 +1,7 @@
 dependencies: []
 galaxy_info:
   author: carnivuth
-  description: your role description
+  description: Deploy docker services
   company: your company (optional)
   license: MIT
   min_ansible_version: "2.2"

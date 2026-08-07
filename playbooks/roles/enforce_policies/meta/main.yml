@@ -1,7 +1,7 @@
 dependencies: []
 galaxy_info:
   author: carnivuth
-  description: your role description
+  description: Run common configurations
   company: your company (optional)
   license: MIT
   min_ansible_version: "2.2"

@@ -1,7 +1,7 @@
 dependencies: []
 galaxy_info:
   author: carnivuth
-  description: your role description
+  description: align cloudflare dns configuration with local network
   company: your company (optional)
   license: MIT
   min_ansible_version: "2.2"
