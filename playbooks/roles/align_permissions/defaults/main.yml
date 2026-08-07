@@ -17,11 +17,16 @@ align_permissions_files:
     group: navidrome
   - path: "{{ align_permissions_data_dir }}/navidrome/collection"
     owner: navidrome
-    mode: '0750'
+    mode: '0770'
     group: services
     recursive: true
   - path: "{{ align_permissions_data_dir }}/grafana"
     owner: grafana
     mode: '0700'
     group: grafana
+    recursive: true
+  - path: "{{ align_permissions_data_dir }}/metube"
+    owner: metube
+    mode: '0770'
+    group: services
     recursive: true
