@@ -9,10 +9,11 @@
       tags: system
     - role: Ts_script
       tags: system
+
     - role: align_cloudflare_dns
       tags:
-        - dns
         - system
+        - dns
 
     - role: ban_krawl_ips
       tags:
@@ -25,5 +26,7 @@
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
+    - role: align_permissions
+      tags: containers
     - role: align_services
       tags: containers
