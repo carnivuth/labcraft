@@ -1,7 +1,7 @@
 align_services
 =========
 
-Installs services inside docker host
+Installs services inside a docker cloud and configure dns cname records
 
 Requirements
 ------------
@@ -21,15 +21,27 @@ None
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+- install only navidrome traefik authelia grafana and prometheus
 
 ```yaml
 - hosts: servers
   roles:
-    - roles/align_services
+    - align_services
   vars:
     align_services_apps:
         - "traefik"
+        - "authelia"
+        - "prometheus"
+        - "grafana"
+        - "navidrome"
+```
+
+- install all services
+
+```yaml
+- hosts: servers
+  roles:
+    - align_services
 ```
 
 License

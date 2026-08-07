@@ -21,11 +21,21 @@ ansible.cfg:
 	echo -e '#!/bin/bash\nmake install' > $@
 	chmod +x "$@"
 
+.git/hooks/pre-commit:
+	echo -e "#!/bin/bash\nmake roles_toc.md" > $@
+	chmod +x $@
+
 env: requirements.txt
 	python -m venv env && source env/bin/activate && pip install -r requirements.txt
 
 ~/.ansible/collections/ansible_collections/: requirements.yml env
 	source env/bin/activate && ansible-galaxy install -r requirements.yml
+
+/var/spool/cron/crontabs/$(USER):
+	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
+
+roles_toc.md: playbooks/roles/**/README.md playbooks/roles/**/meta/main.yml
+	find playbooks/roles -type f -name README.md | sort -u | parallel 'echo -e "# [$$( basename $$( dirname {} ) )]({})\n\n- author: $$(yq .galaxy_info.author $$( dirname {} )/meta/main.yml)\n\n$$(yq .galaxy_info.description $$( dirname {} )/meta/main.yml)\n"' > $@
 
 inventory/group_vars/all/vault.yml: playbooks inventory
 	mkdir -p $$(dirname $@)
@@ -44,14 +54,7 @@ playbooks/roles/*: env ~/.ansible/collections/ansible_collections/
 playbooks/*: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
 
-/var/spool/cron/crontabs/$(USER):
-	(crontab -l 2>/dev/null; crontab -l | grep -q "cd $$(pwd) && git pull > /dev/null 2>&1" || echo "* * * * * cd $$(pwd) && git pull > /dev/null 2>&1") | crontab -
 
 install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml
 
-roles_toc.md: playbooks/roles/**/README.md playbooks/roles/**/meta/main.yml
-	find playbooks/roles -type f -name README.md | sort -u | parallel 'echo -e "# [$$( basename $$( dirname {} ) )]({})\n\n- author: $$(yq .galaxy_info.author $$( dirname {} )/meta/main.yml)\n\n$$(yq .galaxy_info.description $$( dirname {} )/meta/main.yml)\n"' > $@
 
-.git/hooks/pre-commit:
-	echo -e "#!/bin/bash\nmake roles_toc.md" > $@
-	chmod +x $@

@@ -1,7 +1,7 @@
 align_cloudflare_dns
 =========
 
-Run cloudflare dns configuration
+Configure Cloudflare dns to the current state of the cluster, add a .local.domain record for each node inside the network pointing to local address and align ddns
 
 Requirements
 ------------
@@ -11,19 +11,24 @@ None
 Role Variables
 --------------
 
-Check default file
+Check default variables in `defaults/main.yml` for more information.
 
 Dependencies
 ------------
 
-Noen
+None
 
 Example Playbook
 ----------------
 
-    - hosts: servers
-      roles:
-         - roles/align_cloudflare_dns
+```yaml
+---
+- name: Run torterra site configuration
+  hosts:
+    - servers
+  roles:
+    - align_cloudflare_dns
+```
 
 License
 -------
