@@ -200,7 +200,7 @@
       text: |
         successfully aligned apps in `{{ inventory_hostname }}`
         {% for app in align_services_apps %}
-        - url: `{{ app | regex_replace('_', '-') }}.{{ align_services_apps_domain }}`
+        - [app]({{ app | regex_replace('_', '-') }}.{{ align_services_apps_domain }})
         {% endfor%}
       disable_web_page_preview: true
       disable_notification: false
