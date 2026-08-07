@@ -1,6 +1,10 @@
 #SPDX-License-Identifier: MIT-0
+dependencies: []
+# List your role dependencies here, one per line. Be sure to remove the '[]' above,
+# if you add dependencies to this list.
+
 galaxy_info:
-  author: Carnivuth
+  author: carnivuth
   description: your role description
   company: your company (optional)
   # If the issue tracker for your role is not on github, uncomment the
@@ -25,6 +29,3 @@ galaxy_info:
   #
   # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
   #       Maximum 20 tags per role.
-dependencies: []
-# List your role dependencies here, one per line. Be sure to remove the '[]' above,
-# if you add dependencies to this list.
