@@ -17,7 +17,7 @@
     user: root
     minute: "0"
     hour: "17"
-    job: cd /usr/local/labcraft && make playbooks/update.yml opts=--tags=security > /dev/null 2>&1
+    job: cd /usr/local/labcraft && make playbooks/update.yml opts=--tags=update > /dev/null 2>&1
 
 - name: Setup dynamic dns updates
   become: true

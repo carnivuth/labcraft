@@ -10,6 +10,11 @@
     - role: Ts_script
       tags: system
 
+    - role: update
+      tags:
+        - system
+        - update
+
     - role: align_cloudflare_dns
       tags:
         - system
