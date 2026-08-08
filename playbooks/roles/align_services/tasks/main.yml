@@ -175,6 +175,16 @@
     mode: "0644"
   loop: "{{ config_files.results | subelements('files') }}"
 
+- name: Create services network
+  become: true
+  community.docker.docker_network:
+    name: services
+
+- name: Create monitoring network
+  become: true
+  community.docker.docker_network:
+    name: monitoring
+
 - name: Start apps
   become: true
   community.docker.docker_compose_v2:
