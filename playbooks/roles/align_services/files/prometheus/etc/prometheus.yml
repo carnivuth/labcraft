@@ -41,4 +41,4 @@ scrape_configs:
       - targets: ['nextcloud-exporter:9205']
   - job_name: node-exporter
     static_configs:
-      - targets: ['node-exporter:9100']
+      - targets: ['node_exporter:9100']
