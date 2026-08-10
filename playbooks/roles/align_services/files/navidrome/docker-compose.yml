@@ -1,3 +1,4 @@
+---
 services:
   navidrome:
     container_name: navidrome
@@ -25,11 +26,15 @@ services:
       - "ND_JUKEBOX_ENABLED=true"
       # inserted cause authelia is configured
       - "ND_ENABLEUSEREDITING=false"
+      - "ND_CONFIGFILE=/etc/navidrome.toml"
+      - "ND_JUKEBOX_DEFAULT=alsa/default:CARD=Generic"
+
     expose:
       - 4533
     volumes:
       - "/mnt/data/navidrome/backup:/backup"
       - "/mnt/data/navidrome/data:/data"
+      - "/mnt/data/navidrome/etc:/etc"
       - "/mnt/data/navidrome/collection:/music:ro"
     labels:
       # traefik labels
@@ -63,6 +68,8 @@ services:
       - "diun.watch_repo=true"
       - "diun.sort_tags=semver"
       - "diun.max_tags=3"
+    devices:
+      - "/dev/snd:/dev/snd"
 networks:
   services:
     name: services

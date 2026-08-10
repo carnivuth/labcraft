@@ -1,0 +1,4 @@
+Jukebox.Devices = [
+    [   "alsa/default:CARD=Generic", "(HD-Audio Generic, ALC892 Analog/Default Audio Device)" ]
+]
+
