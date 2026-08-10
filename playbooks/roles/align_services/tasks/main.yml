@@ -75,7 +75,6 @@
     path: "{{ item.split(':')[0] }}"
     state: directory
     mode: "775"
-    group: "services"
   loop: "{{ volumes }}"
   loop_control:
     index_var: index
