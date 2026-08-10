@@ -16,6 +16,7 @@ services:
     volumes:
       - /mnt/data/grafana/data:/var/lib/grafana
       - /mnt/data/grafana/provisioning:/etc/grafana/provisioning
+      - /mnt/data/grafana/dashboards:/etc/dashboards
 
     labels:
       # traefik labels
