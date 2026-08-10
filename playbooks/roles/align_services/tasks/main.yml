@@ -105,15 +105,6 @@
     state: present
   loop: "{{ align_services_apps }}"
 
-- name: Add cloudflare account email in docker environment
-  become: true
-  ansible.builtin.lineinfile:
-    path: "/usr/local/containers/traefik/.env"
-    create: true
-    line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_admin_email }}"
-    state: present
-    mode: '600'
-
 - name: Find template files (.j2) under etc
   ansible.builtin.find:
     paths: "roles/align_services/files/{{ item }}/etc"
