@@ -1,0 +1,33 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/provision_grafana/
+- name: Create destination dirs
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ provision_grafana_configuration_dir }}/datasources"
+    - "{{ provision_grafana_configuration_dir }}/alerting"
+    - "{{ provision_grafana_configuration_dir }}/dashboards"
+
+- name:  Install datasources
+  notify: Restart grafana
+  become: true
+  ansible.builtin.copy:
+    src: "datasources.yml"
+    dest: "{{ provision_grafana_configuration_dir }}/datasources/datasources.yml"
+    mode: "644"
+#- name: Install dashboards
+#  notify: Restart grafana
+#  ansible.builtin.copy:
+#    src: "dashboards.yml"
+#    dest: "{{ provision_grafana_configuration_dir }}/dashboards/dashboards.yml"
+#    mode: "644"
+
+#- name: Install alerting
+#  notify: Restart grafana
+#  ansible.builtin.copy:
+#    src: "alerting.yml"
+#    dest: "{{ provision_grafana_configuration_dir }}/alerting/alerting.yml"
+#    mode: "644"
