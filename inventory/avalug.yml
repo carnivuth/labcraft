@@ -17,14 +17,13 @@ all:
       align_services_dns_record_type: A
       align_services_dns_value: "192.168.56.15"
       align_services_apps_domain: "{{ inventory_hostname }}.{{ vault_cloudflare_domain }}"
-      align_services_apps:
-        - traefik
-        - authelia
-        - prometheus
-        - node_exporter
-        - grafana
       align_permissions_data_dir: /mnt/data
       align_permissions_files:
+        - path: "{{ align_permissions_data_dir }}/grafana"
+          owner: grafana
+          mode: '0755'
+          group: nogroup
+          recursive: true
         - path: "{{ align_permissions_data_dir }}/prometheus"
           owner: prometheus
           mode: '0755'
