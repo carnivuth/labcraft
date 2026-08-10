@@ -3,3 +3,4 @@
 # defaults file for playbooks/roles/provision_grafana/
 provision_grafana_base_dir: /mnt/data/grafana
 provision_grafana_configuration_dir: "{{ provision_grafana_base_dir }}/provisioning"
+provision_grafana_dashboards_dir: "{{ provision_grafana_base_dir }}/dashboards"

@@ -18,12 +18,22 @@
     src: "datasources.yml"
     dest: "{{ provision_grafana_configuration_dir }}/datasources/datasources.yml"
     mode: "644"
-#- name: Install dashboards
-#  notify: Restart grafana
-#  ansible.builtin.copy:
-#    src: "dashboards.yml"
-#    dest: "{{ provision_grafana_configuration_dir }}/dashboards/dashboards.yml"
-#    mode: "644"
+
+- name: Copy dashboards
+  become: true
+  notify: Restart grafana
+  ansible.builtin.copy:
+    src: "dashboards/"
+    dest: "{{ provision_grafana_dashboards_dir }}/"
+    mode: "644"
+
+- name: Install dashboards
+  become: true
+  notify: Restart grafana
+  ansible.builtin.copy:
+    src: "dashboards.yml"
+    dest: "{{ provision_grafana_configuration_dir }}/dashboards/dashboards.yml"
+    mode: "644"
 
 #- name: Install alerting
 #  notify: Restart grafana
