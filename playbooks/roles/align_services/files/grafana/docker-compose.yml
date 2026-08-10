@@ -14,7 +14,8 @@ services:
       - monitoring
       - services
     volumes:
-      - /mnt/data/grafana:/var/lib/grafana
+      - /mnt/data/grafana/data:/var/lib/grafana
+      - /mnt/data/grafana/provisioning:/etc/grafana/provisioning
 
     labels:
       # traefik labels
@@ -42,4 +43,3 @@ networks:
   services:
     name: services
     external: true
-
