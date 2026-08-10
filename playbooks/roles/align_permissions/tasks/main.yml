@@ -1,8 +1,18 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for playbooks/roles/align_permissions
+- name: Check if file exists
+  ansible.builtin.stat:
+    path: "{{ item.path }}"
+  loop: "{{ align_permissions_files }}"
+  register: align_permissions_stat
+  when: align_permissions_files is defined and align_permissions_files | length > 0
+
 - name: Set permissions for files and directories
   become: true
+  when:
+    - align_permissions_files is defined and align_permissions_files | length > 0
+    - (align_permissions_stat.results | selectattr('item', 'equalto', item))[0].stat.exists
   ansible.builtin.file:
     path: "{{ item.path }}"
     mode: "{{ item.mode }}"
@@ -12,17 +22,24 @@
   loop: "{{ align_permissions_files }}"
   register: align_permissions_result
 
+- name: Debug permissions alignment result
+  debug:
+    var: align_permissions_result
+
 - name: Send telegram notification if permissions were changed
-  when: align_permissions_result.changed
+  when:
+    - align_permissions_result.changed
+    - align_permissions_files is defined and align_permissions_files | length > 0
   community.general.telegram:
     token: "{{ vault_telegram_token }}"
     api_args:
+      parse_mode: "markdown"
       chat_id: "{{ vault_telegram_chat_id }}"
       text: |
-        "Permissions have been aligned on {{ inventory_hostname }}:"
+        Permissions have been aligned on {{ inventory_hostname }}:
 
-        {%- for item in align_permissions_result %}
-        {%- if item.changed %}
+        {% for item in align_permissions_result.results %}
+        {% if item.changed %}
         - {{ item.item.path }}: {{ item.item.mode }} (owner: {{ item.item.owner }}, group: {{ item.item.group }})
-        {%- endif %}
-        {%- endfor %}
+        {% endif %}
+        {% endfor %}
