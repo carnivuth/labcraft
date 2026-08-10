@@ -22,8 +22,9 @@ DISKS = [
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
   config.vm.hostname = VM_NAME
-  config.vm.network 'forwarded_port', id: 'ssh', host: 2221, guest: 22
-  config.vm.network 'forwarded_port', id: 'web', host: 443, guest: 443
+  config.vm.network "private_network", ip: "192.168.56.15"
+  #config.vm.network 'forwarded_port', id: 'ssh', host: 2221, guest: 22
+  #config.vm.network 'forwarded_port', id: 'web', host: 8443, guest: 443
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = VM_NAME

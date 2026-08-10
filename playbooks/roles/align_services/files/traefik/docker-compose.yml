@@ -71,7 +71,7 @@ services:
 networks:
   services:
     name: services
-    driver: bridge
+    external: true
   monitoring:
     name: monitoring
     external: true

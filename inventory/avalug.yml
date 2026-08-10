@@ -12,8 +12,43 @@ all:
     avalug:
       ansible_user: vagrant
       ansible_ssh_private_key_file: .vagrant/machines/default/virtualbox/private_key
-      ansible_host: 127.0.0.1
-      ansible_port: 2221
+      ansible_host: 192.168.56.15
+      ansible_port: 22
       align_services_dns_record_type: A
-      align_services_dns_value: "{{ ansible_facts['default_ipv4']['address'] }}"
-      align_services_apps_domain: "{{ ansible_host }}.{{ vault_cloudflare_domain }}"
+      align_services_dns_value: "192.168.56.15"
+      align_services_apps_domain: "{{ inventory_hostname }}.{{ vault_cloudflare_domain }}"
+      align_services_apps:
+        - traefik
+      align_permissions_data_dir: /mnt/data
+      align_permissions_files:
+        - path: "{{ align_permissions_data_dir }}/prometheus"
+          owner: prometheus
+          mode: '0755'
+          group: nogroup
+          recursive: true
+        - path: "{{ align_permissions_data_dir }}/navidrome/backup"
+          owner: navidrome
+          mode: '0770'
+          group: services
+          recursive: true
+        - path: "{{ align_permissions_data_dir }}/navidrome/data"
+          owner: navidrome
+          mode: '0700'
+          group: navidrome
+          recursive: true
+        - path: "{{ align_permissions_data_dir }}/navidrome/collection"
+          owner: navidrome
+          mode: '0770'
+          group: services
+          recursive: true
+        - path: "{{ align_permissions_data_dir }}/grafana"
+          owner: grafana
+          mode: '0700'
+          group: grafana
+          recursive: true
+        - path: "{{ align_permissions_data_dir }}/metube"
+          owner: metube
+          mode: '0770'
+          group: services
+          recursive: true
+

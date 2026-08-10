@@ -25,14 +25,15 @@
         - security
 
     - role: geerlingguy.docker
+      become: true
       tags: containers
       vars:
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
+    - role: align_services
+      tags: containers
     - role: align_permissions
       tags:
         - system
         - containers
-    - role: align_services
-      tags: containers

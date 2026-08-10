@@ -40,7 +40,7 @@ services:
 networks:
   monitoring:
     name: monitoring
-    driver: bridge
+    external: true
   services:
     name: services
     external: true

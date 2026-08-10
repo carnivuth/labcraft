@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/*.yml install
+.PHONY: playbooks/*.yml playbooks/roles/**/tests/*.yml install
 
 inventory_opt = -i inventory/carnivuth.org.yml
 ifdef inventory
@@ -48,13 +48,10 @@ playbooks/roles/align_services/files/%:
 	echo -e "PUID_$$(echo $@ | awk -F'/' '{print $$5 }'| tr '[:lower:]' '[:upper:]')={{ container_puid }}\nPGID_$$(echo $@ | awk -F'/' '{print $$5 }' | tr '[:lower:]' '[:upper:]')={{ container_pgid }}\nPGID_SERVICES={{ services_pgid }}\nHOST={{ container_host }}" > '$@/env.j2'
 
 
-playbooks/roles/*: env ~/.ansible/collections/ansible_collections/
+playbooks/roles/*/: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-galaxy role init $@
 
-playbooks/*.yml: env ~/.ansible/collections/ansible_collections/
+playbooks/*.yml playbooks/roles/**/tests/*.yml: env ~/.ansible/collections/ansible_collections/
 	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
 
-
 install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml
-
-
