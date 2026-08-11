@@ -16,6 +16,7 @@ all:
           owner: grafana
           mode: '0755'
           group: services
+          recursive: true
         - path: "{{ align_permissions_data_dir }}/prometheus"
           owner: prometheus
           mode: '0755'
