@@ -18,7 +18,7 @@
     mode: "{{ item.mode }}"
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
-    recurse: "{{ item.recursive }}"
+    recurse: "{{ item.recursive | default(false) }}"
   loop: "{{ align_permissions_files }}"
   register: align_permissions_result
 
