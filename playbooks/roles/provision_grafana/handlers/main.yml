@@ -1,0 +1,12 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for playbooks/roles/provision_grafana/
+- name: Restart grafana
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/usr/local/containers/grafana"
+    state: restarted
+    pull: always
+  register: result
+  retries: 5
+  delay: 1

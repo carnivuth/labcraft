@@ -75,7 +75,6 @@
     path: "{{ item.split(':')[0] }}"
     state: directory
     mode: "775"
-    group: "services"
   loop: "{{ volumes }}"
   loop_control:
     index_var: index
@@ -105,15 +104,6 @@
     api_token: "{{ vault_cloudflare_api_token }}"
     state: present
   loop: "{{ align_services_apps }}"
-
-- name: Add cloudflare account email in docker environment
-  become: true
-  ansible.builtin.lineinfile:
-    path: "/usr/local/containers/traefik/.env"
-    create: true
-    line: "CLOUDFLARE_ACCOUNT_EMAIL={{ vault_admin_email }}"
-    state: present
-    mode: '600'
 
 - name: Find template files (.j2) under etc
   ansible.builtin.find:

@@ -29,7 +29,7 @@ scrape_configs:
     scrape_interval: '15s'
     scheme: 'http'
     static_configs:
-    - targets: ['authelia:9959']
+      - targets: ['authelia:9959']
 
   - job_name: 'adguard'
     static_configs:
@@ -39,3 +39,6 @@ scrape_configs:
     scrape_interval: 90s
     static_configs:
       - targets: ['nextcloud-exporter:9205']
+  - job_name: node-exporter
+    static_configs:
+      - targets: ['node_exporter:9100']

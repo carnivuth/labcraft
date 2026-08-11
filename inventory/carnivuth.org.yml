@@ -12,6 +12,10 @@ all:
       ansible_connection: "{{ 'local' if lookup('ansible.builtin.pipe','hostname') == 'torterra' else 'ssh' }}"
       align_permissions_data_dir: /mnt/data
       align_permissions_files:
+        - path: "{{ align_permissions_data_dir }}/grafana"
+          owner: grafana
+          mode: '0755'
+          group: services
         - path: "{{ align_permissions_data_dir }}/prometheus"
           owner: prometheus
           mode: '0755'
