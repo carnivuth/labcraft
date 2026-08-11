@@ -118,8 +118,6 @@
   become: true
   ansible.builtin.file:
     path: "/mnt/containers/{{ item.0.item }}/etc"
-    owner: "{{ item.0.item }}"
-    group: "{{ item.0.item }}"
     state: directory
     mode: "0644"
   loop: "{{ template_files.results | subelements('files') }}"
@@ -129,8 +127,6 @@
   ansible.builtin.template:
     src: "{{ item.1.path }}"
     dest: "/mnt/data/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
-    owner: "{{ item.0.item }}"
-    group: "{{ item.0.item }}"
     mode: "0644"
   loop: "{{ template_files.results | subelements('files') }}"
 
@@ -149,8 +145,6 @@
   become: true
   ansible.builtin.file:
     path: "/mnt/data/{{ item.0.item }}/etc"
-    owner: "{{ item.0.item }}"
-    group: "{{ item.0.item }}"
     state: directory
     mode: "0644"
   loop: "{{ config_files.results | subelements('files') }}"
@@ -160,8 +154,6 @@
   ansible.builtin.copy:
     src: "{{ item.1.path }}"
     dest: "/mnt/data/{{ item.0.item }}/etc/{{ item.1.path | basename }}"
-    owner: "{{ item.0.item }}"
-    group: "{{ item.0.item }}"
     mode: "0644"
   loop: "{{ config_files.results | subelements('files') }}"
 
