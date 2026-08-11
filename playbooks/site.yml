@@ -37,3 +37,7 @@
         - containers
     - role: align_services
       tags: containers
+    - role: provision_grafana
+      tags:
+        - containers
+        - security
