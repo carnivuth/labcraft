@@ -4,3 +4,4 @@
 align_services_dns_record_type: CNAME
 align_services_dns_value: "{{ vault_cloudflare_domain }}"
 align_services_apps_domain: "{{ vault_cloudflare_domain }}"
+align_services_docker_compose_base_dir: /usr/local/containers
