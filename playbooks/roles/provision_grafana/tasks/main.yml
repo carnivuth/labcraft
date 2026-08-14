@@ -18,6 +18,7 @@
     src: "datasources.yml"
     dest: "{{ provision_grafana_configuration_dir }}/datasources/datasources.yml"
     mode: "644"
+  register: datasource_result
 
 - name: Copy dashboards
   become: true
@@ -26,6 +27,7 @@
     src: "dashboards/"
     dest: "{{ provision_grafana_dashboards_dir }}/"
     mode: "644"
+  register: dashboard_result
 
 - name: Install dashboards
   become: true
@@ -34,6 +36,7 @@
     src: "dashboards.yml"
     dest: "{{ provision_grafana_configuration_dir }}/dashboards/dashboards.yml"
     mode: "644"
+  register: dashboards
 
 #- name: Install alerting
 #  notify: Restart grafana
@@ -41,3 +44,15 @@
 #    src: "alerting.yml"
 #    dest: "{{ provision_grafana_configuration_dir }}/alerting/alerting.yml"
 #    mode: "644"
+
+- name: Send Telegram notification
+  when: datasource_result.changed or dashboard_result.changed or dashboards.changed
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      parse_mode: "markdown"
+      text: |
+        Aligned grafana dashboards on `{{ inventory_hostname }}`
+      disable_web_page_preview: true
+      disable_notification: false
