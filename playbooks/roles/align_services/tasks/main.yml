@@ -21,10 +21,6 @@
     file: "files/{{ item }}/docker-compose.yml"
   loop: "{{ align_services_apps }}"
 
-- name: Get Services volumes
-  ansible.builtin.set_fact:
-    volumes: "{{ services | dict2items | json_query('[*].value.volumes') | flatten }}"
-
 - name: Get Services users
   ansible.builtin.set_fact:
     users: "{{ services | dict2items | json_query('[*].value.container_name') }}"
