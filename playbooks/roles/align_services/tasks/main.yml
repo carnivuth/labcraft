@@ -31,6 +31,7 @@
 
 - name: Create compose dir
   become: true
+  register: docker_compose_file_status
   ansible.builtin.file:
     path: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
     state: directory
@@ -60,24 +61,6 @@
     groups: ["services"]
   register: users_data
   loop: "{{ users }}"
-
-- name: Check if volumes are bindmounted files, (docker socket, timezone, ecc..)
-  become: true
-  ansible.builtin.stat:
-    path: "{{ item.split(':')[0] }}"
-  register: volumes_stats
-  loop: "{{ volumes }}"
-
-- name: Create docker compose volume dirs
-  become: true
-  when: (not volumes_stats.results[index].stat.exists or volumes_stats.results[index].stat.isdir) and item is regex('^/.*')
-  ansible.builtin.file:
-    path: "{{ item.split(':')[0] }}"
-    state: directory
-    mode: "775"
-  loop: "{{ volumes }}"
-  loop_control:
-    index_var: index
 
 - name: generate env files based on templates
   become: true
@@ -119,7 +102,7 @@
   ansible.builtin.file:
     path: "/mnt/containers/{{ item.0.item }}/etc"
     state: directory
-    mode: "0644"
+    mode: "0755"
   loop: "{{ template_files.results | subelements('files') }}"
 
 - name: Deploy template files (parsed)
@@ -146,7 +129,7 @@
   ansible.builtin.file:
     path: "/mnt/data/{{ item.0.item }}/etc"
     state: directory
-    mode: "0644"
+    mode: "0755"
   loop: "{{ config_files.results | subelements('files') }}"
 
 - name: Deploy config files (unparsed)
@@ -171,7 +154,7 @@
   become: true
   community.docker.docker_compose_v2:
     project_src: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
-    state: restarted
+    state: "{{ 'restarted' if  docker_compose_file_status.results | selectattr('item', 'equalto', item) | map(attribute='changed') | first else 'present' }}"
     pull: always
   register: result
   retries: 5
