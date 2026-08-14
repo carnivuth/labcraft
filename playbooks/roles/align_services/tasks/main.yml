@@ -32,7 +32,7 @@
 - name: Create compose dir
   become: true
   ansible.builtin.file:
-    path: "/usr/local/containers/{{ item }}"
+    path: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
     state: directory
     mode: "644"
   loop: "{{ align_services_apps }}"
@@ -41,7 +41,7 @@
   become: true
   ansible.builtin.copy:
     src: "{{ item }}/docker-compose.yml"
-    dest: "/usr/local/containers/{{ item }}/docker-compose.yml"
+    dest: "{{ align_services_docker_compose_base_dir }}/{{ item }}/docker-compose.yml"
     mode: "644"
   loop: "{{ align_services_apps }}"
 
@@ -56,7 +56,7 @@
   ansible.builtin.user:
     name: "{{ item }}"
     create_home: true
-    home: /usr/local/containers/{{ item }}
+    home: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
     groups: ["services"]
   register: users_data
   loop: "{{ users }}"
@@ -83,7 +83,7 @@
   become: true
   when: "align_services_apps is contains(item)"
   ansible.builtin.template:
-    dest: /usr/local/containers/{{ item }}/.env
+    dest: "{{ align_services_docker_compose_base_dir }}/{{ item }}/.env"
     src: files/{{ item }}/env.j2
     mode: '600'
   vars:
@@ -170,7 +170,7 @@
 - name: Start apps
   become: true
   community.docker.docker_compose_v2:
-    project_src: "/usr/local/containers/{{ item }}"
+    project_src: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
     state: restarted
     pull: always
   register: result
