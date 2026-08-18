@@ -45,10 +45,10 @@ services:
     networks:
       - nextcloud
       - monitoring
-    image: xperimental/nextcloud-exporter:0.9.0
+    image: xperimental/nextcloud-exporter:0.9.1
     restart: unless-stopped
     environment:
-      - 'NEXTCLOUD_SERVER=https://${HOST}'
+      - 'NEXTCLOUD_SERVER=http://nextcloud'
       - 'NEXTCLOUD_AUTH_TOKEN=${NEXTCLOUD_AUTH_TOKEN}'
     labels:
       # diun labels
