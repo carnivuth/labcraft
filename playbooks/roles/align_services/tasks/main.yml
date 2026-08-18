@@ -27,7 +27,6 @@
 
 - name: Create compose dir
   become: true
-  register: docker_compose_file_status
   ansible.builtin.file:
     path: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
     state: directory
@@ -36,6 +35,7 @@
 
 - name: Copy docker compose file
   become: true
+  register: docker_compose_file_status
   ansible.builtin.copy:
     src: "{{ item }}/docker-compose.yml"
     dest: "{{ align_services_docker_compose_base_dir }}/{{ item }}/docker-compose.yml"
