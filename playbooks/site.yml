@@ -7,8 +7,6 @@
       tags: system
     - role: cronjobs
       tags: system
-    - role: Ts_script
-      tags: system
 
     - role: update
       tags:
