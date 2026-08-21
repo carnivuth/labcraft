@@ -93,22 +93,6 @@
   delegate_to: localhost
   loop: "{{ align_services_apps }}"
 
-- name: Create config directory
-  become: true
-  ansible.builtin.file:
-    path: "/mnt/containers/{{ item.0.item }}/etc"
-    state: directory
-    mode: "0755"
-  loop: "{{ template_files.results | subelements('files') }}"
-
-- name: Deploy template files (parsed)
-  become: true
-  ansible.builtin.template:
-    src: "{{ item.1.path }}"
-    dest: "/mnt/data/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
-    mode: "0644"
-  loop: "{{ template_files.results | subelements('files') }}"
-
 - name: Find config files (non-.j2) under files/etc
   ansible.builtin.find:
     paths: "roles/align_services/files/{{ item }}/etc"
@@ -120,13 +104,21 @@
   loop: "{{ align_services_apps }}"
   delegate_to: localhost
 
-- name: Create config directory
+- name: Create configuration directory
   become: true
   ansible.builtin.file:
-    path: "/mnt/data/{{ item.0.item }}/etc"
+    path: "/mnt/data/{{ item[0].item }}/etc"
     state: directory
     mode: "0755"
-  loop: "{{ config_files.results | subelements('files') }}"
+  loop: "{{ ( template_files.results | subelements('files') ) + ( config_files.results | subelements('files') ) }}"
+
+- name: Deploy template files (parsed)
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.1.path }}"
+    dest: "/mnt/data/{{ item.0.item }}/etc/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
+    mode: "0644"
+  loop: "{{ template_files.results | subelements('files') }}"
 
 - name: Deploy config files (unparsed)
   become: true
