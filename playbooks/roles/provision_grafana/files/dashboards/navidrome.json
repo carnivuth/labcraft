@@ -2,9 +2,9 @@
   "apiVersion": "dashboard.grafana.app/v2",
   "kind": "Dashboard",
   "metadata": {
-    "name": "F32fd2rfb",
-    "generation": 6,
-    "creationTimestamp": "2025-12-16T15:03:03Z",
+    "name": "ca87hrr",
+    "generation": 7,
+    "creationTimestamp": "2026-08-22T10:12:12Z",
     "labels": {},
     "annotations": {}
   },
@@ -22,9 +22,6 @@
               "matchAny": false,
               "tags": [],
               "type": "dashboard"
-            },
-            "labels": {
-              "grafana.app/export-label": "grafana-1"
             }
           },
           "enable": true,
@@ -36,7 +33,7 @@
       }
     ],
     "cursorSync": "Crosshair",
-    "description": "Navidrome music server observability dashboard",
+    "description": "navidrome observability dashboard",
     "editable": true,
     "elements": {
       "panel-11": {
@@ -63,9 +60,6 @@
                         "instant": true,
                         "interval": "",
                         "legendFormat": "{{instance}}"
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1"
                       }
                     },
                     "refId": "A",
@@ -147,9 +141,6 @@
                         "expr": "sum(rate(\nprocess_cpu_seconds_total{job=\"$job\"}[1m]\n)) by (instance)",
                         "interval": "",
                         "legendFormat": "{{host}}"
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -273,9 +264,6 @@
                         "instant": true,
                         "interval": "",
                         "legendFormat": "__auto"
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -368,9 +356,6 @@
                         "interval": "",
                         "legendFormat": "{{instance}}",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -493,9 +478,6 @@
                         "interval": "",
                         "legendFormat": "{{instance}}",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -619,9 +601,6 @@
                         "interval": "",
                         "legendFormat": "{{instance}}",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -738,9 +717,6 @@
                         "instant": true,
                         "interval": "",
                         "legendFormat": "{{instance}}"
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -823,9 +799,6 @@
                         "instant": true,
                         "interval": "",
                         "legendFormat": "{{instance}}"
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -888,241 +861,6 @@
           }
         }
       },
-      "panel-37": {
-        "kind": "Panel",
-        "spec": {
-          "id": 37,
-          "title": "Songs",
-          "description": "",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "expr": "db_model_totals{job=\"$job\",model=\"media\"}",
-                        "legendFormat": "{{instance}}",
-                        "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.0.1",
-            "spec": {
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 0,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 1,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  }
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
-      "panel-39": {
-        "kind": "Panel",
-        "spec": {
-          "id": 39,
-          "title": "Albums",
-          "description": "",
-          "links": [],
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "spec": {
-                        "expr": "",
-                        "instant": false,
-                        "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1"
-                      }
-                    },
-                    "refId": "A",
-                    "hidden": false
-                  }
-                }
-              ],
-              "transformations": [],
-              "queryOptions": {}
-            }
-          },
-          "vizConfig": {
-            "kind": "VizConfig",
-            "group": "timeseries",
-            "version": "13.0.1",
-            "spec": {
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": false
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
-              "fieldConfig": {
-                "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 0,
-                    "gradientMode": "none",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "linear",
-                    "lineWidth": 1,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": false,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  }
-                },
-                "overrides": []
-              }
-            }
-          }
-        }
-      },
       "panel-4": {
         "kind": "Panel",
         "spec": {
@@ -1148,9 +886,6 @@
                         "interval": "",
                         "legendFormat": "RES@{{instance}}",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -1171,9 +906,6 @@
                         "interval": "",
                         "legendFormat": "VIRT@{{instance}}",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "B",
@@ -1290,9 +1022,6 @@
                         "expr": "db_model_totals{job=\"$job\", model=\"user\"}",
                         "legendFormat": "__auto",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -1376,9 +1105,6 @@
                         "instant": true,
                         "legendFormat": "__auto",
                         "range": false
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -1473,9 +1199,6 @@
                         "expr": "db_model_totals{job=\"$job\",model=\"media\"}",
                         "legendFormat": "__auto",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1"
                       }
                     },
                     "refId": "A",
@@ -1556,9 +1279,6 @@
                         "expr": "db_model_totals{job=\"$job\",model=\"album\"}",
                         "legendFormat": "__auto",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-1"
                       }
                     },
                     "refId": "A",
@@ -1639,9 +1359,6 @@
                         "expr": "db_model_totals{job=\"$job\", model=\"artist\"}",
                         "legendFormat": "__auto",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -1724,9 +1441,6 @@
                         "instant": false,
                         "legendFormat": "__auto",
                         "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
                       }
                     },
                     "refId": "A",
@@ -1819,11 +1533,11 @@
           }
         }
       },
-      "panel-48": {
+      "panel-49": {
         "kind": "Panel",
         "spec": {
-          "id": 48,
-          "title": "Artists",
+          "id": 49,
+          "title": "Shares visit count",
           "description": "",
           "links": [],
           "data": {
@@ -1839,15 +1553,118 @@
                       "version": "v0",
                       "spec": {
                         "editorMode": "code",
-                        "expr": "db_model_totals{job=\"$job\",model=\"artist\"}",
-                        "legendFormat": "{{instance}}",
+                        "expr": "navidrome_share_visitCount",
+                        "legendFormat": "{{description}}",
                         "range": true
                       },
                       "labels": {
-                        "grafana.app/export-label": "prometheus-2"
+                        "grafana.app/export-label": "prometheus-1"
                       }
                     },
                     "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.0.1",
+            "spec": {
+              "options": {
+                "colorMode": "background",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-5": {
+        "kind": "Panel",
+        "spec": {
+          "id": 5,
+          "title": "Threads",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "exemplar": true,
+                        "expr": "sum(go_threads{job=\"$job\"}) by (instance)",
+                        "interval": "",
+                        "legendFormat": "os threads@{{instance}}",
+                        "range": true
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "exemplar": true,
+                        "expr": "sum(go_goroutines{job=\"$job\"}) by (instance)",
+                        "interval": "",
+                        "legendFormat": "goroutines@{{instance}}",
+                        "range": true
+                      }
+                    },
+                    "refId": "B",
                     "hidden": false
                   }
                 }
@@ -1870,7 +1687,7 @@
                   "calcs": [],
                   "displayMode": "list",
                   "placement": "bottom",
-                  "showLegend": false
+                  "showLegend": true
                 },
                 "tooltip": {
                   "hideZeros": false,
@@ -1886,12 +1703,15 @@
                       {
                         "value": 0,
                         "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
                       }
                     ]
                   },
                   "color": {
-                    "mode": "palette-classic",
-                    "fixedColor": "light-blue"
+                    "mode": "palette-classic"
                   },
                   "custom": {
                     "axisBorderShow": false,
@@ -1934,12 +1754,12 @@
           }
         }
       },
-      "panel-5": {
+      "panel-50": {
         "kind": "Panel",
         "spec": {
-          "id": 5,
-          "title": "Threads",
-          "description": "",
+          "id": 50,
+          "title": "Media status",
+          "description": "Navidrome media object status",
           "links": [],
           "data": {
             "kind": "QueryGroup",
@@ -1953,41 +1773,16 @@
                       "group": "prometheus",
                       "version": "v0",
                       "spec": {
-                        "editorMode": "code",
-                        "exemplar": true,
-                        "expr": "sum(go_threads{job=\"$job\"}) by (instance)",
-                        "interval": "",
-                        "legendFormat": "os threads@{{instance}}",
+                        "editorMode": "builder",
+                        "expr": "db_model_totals",
+                        "legendFormat": "{{model}}",
                         "range": true
                       },
                       "labels": {
-                        "grafana.app/export-label": "prometheus-2"
+                        "grafana.app/export-label": "prometheus-1"
                       }
                     },
                     "refId": "A",
-                    "hidden": false
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "exemplar": true,
-                        "expr": "sum(go_goroutines{job=\"$job\"}) by (instance)",
-                        "interval": "",
-                        "legendFormat": "goroutines@{{instance}}",
-                        "range": true
-                      },
-                      "labels": {
-                        "grafana.app/export-label": "prometheus-2"
-                      }
-                    },
-                    "refId": "B",
                     "hidden": false
                   }
                 }
@@ -2189,37 +1984,24 @@
                       "spec": {
                         "x": 0,
                         "y": 0,
-                        "width": 8,
-                        "height": 8,
+                        "width": 24,
+                        "height": 9,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-37"
+                          "name": "panel-50"
                         }
                       }
                     },
                     {
                       "kind": "GridLayoutItem",
                       "spec": {
-                        "x": 8,
-                        "y": 0,
-                        "width": 8,
-                        "height": 8,
+                        "x": 0,
+                        "y": 9,
+                        "width": 24,
+                        "height": 9,
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-39"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "x": 16,
-                        "y": 0,
-                        "width": 8,
-                        "height": 8,
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-48"
+                          "name": "panel-49"
                         }
                       }
                     }
@@ -2426,7 +2208,7 @@
       "hideTimepicker": false,
       "fiscalYearStartMonth": 0
     },
-    "title": "navidrome",
+    "title": "navidrome test",
     "variables": [
       {
         "kind": "QueryVariable",
@@ -2447,9 +2229,6 @@
             "spec": {
               "query": "label_values(job)",
               "refId": "StandardVariableQuery"
-            },
-            "labels": {
-              "grafana.app/export-label": "prometheus-2"
             }
           },
           "regex": ".*navidrom.*",
