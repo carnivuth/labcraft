@@ -1,0 +1,14 @@
+---
+services:
+  telegraf:
+    container_name: telegraf
+    image: 'telegraf:1.39.3-alpine'
+    volumes:
+      - '/mnt/data/telegraf/etc/:/etc/telegraf'
+    restart: unless-stopped
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    name: monitoring
+    external: true
