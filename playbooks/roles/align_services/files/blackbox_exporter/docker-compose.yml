@@ -1,0 +1,15 @@
+---
+services:
+  blackbox_exporter:
+    container_name: blackbox_exporter
+    volumes:
+      - /mnt/data/blackbox_exporter/etc:/config
+    networks:
+      - monitoring
+    image: quay.io/prometheus/blackbox-exporter:0.28.0
+    command: --config.file=/config/blackbox.yml
+
+networks:
+  monitoring:
+    name: monitoring
+    external: true
