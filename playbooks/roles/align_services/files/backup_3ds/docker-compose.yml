@@ -3,16 +3,14 @@ services:
   backup_3ds:
     container_name: backup_3ds
     restart: unless-stopped
-    image: carnivuth/backup_3ds:2.2.4
+    image: carnivuth/backup_3ds:3.0.0
     networks:
       - services
     environment:
-      - FTPD_3DS_ADDRESSES=192.168.1.99;riolu.local.carnivuth.org;zorua.local.carnivuth.org
-      - FTPD_3DS_PORTS=5000;5000
-      - BACKUP_DIRS=/3ds/Checkpoint/saves;/roms/nds/saves;/PSP/SAVEDATA
       - ENABLE_DASHBOARD=true
     volumes:
-      - "/mnt/data/backup_3ds:/var/lib/backup_3ds/backups"
+      - "/mnt/data/backup_3ds/data:/var/lib/backup_3ds/backups"
+      - "/mnt/data/backup_3ds/etc/config.yml:/etc/backup_3ds/config.yml:ro"
     labels:
 
       # traefik labels

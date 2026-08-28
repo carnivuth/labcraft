@@ -1,0 +1,16 @@
+---
+consoles:
+  - name: zoroark.local.carnivuth.org
+    port: 1337
+    dirs:
+      - ux0:/pspemu/PSP/SAVEDATA
+  - name: riolu.local.carnivuth.org
+    port: 5000
+    dirs:
+      - /3ds/Checkpoint/saves
+      - /roms/nds/saves
+  - name: cubchoo.local.carnivuth.org
+    port: 5000
+    dirs:
+      - /3ds/Checkpoint/saves
+      - /roms/nds/saves
