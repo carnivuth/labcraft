@@ -41,7 +41,7 @@ scrape_configs:
       - targets: ['nextcloud-exporter:9205']
 
   - job_name: telegraf
-    scrape_interval: 1s
+    scrape_interval: 30s
     metrics_path: '/metrics'
     static_configs:
       - targets: ['telegraf:9273']

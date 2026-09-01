@@ -1,10 +1,10 @@
 [agent]
-  interval = "15s"
+  interval = "30s"
   round_interval = true
   metric_batch_size = 1000
   metric_buffer_limit = 10000
   collection_jitter = "10s"
-  flush_interval = "15s" flush_jitter = "5s"
+  flush_interval = "30s" flush_jitter = "5s"
   precision = "0s"
   omit_hostname = false
 
@@ -13,7 +13,7 @@
   "https://navidrome.carnivuth.org/rest/getShares.view?u={{ vault_navidrome_user }}&p={{ vault_navidrome_password }}&v=1.16.1&c=telegraf&f=json"
   ]
   method = "GET"
-  timeout = "15s"
+  timeout = "30s"
   data_format = "json_v2"
 
   [[inputs.http.json_v2]]
@@ -32,4 +32,4 @@
   listen              = ":9273"
   path                = "/metrics"
   metric_version      = 2
-  expiration_interval = "15s"
+  expiration_interval = "30s"
