@@ -3,9 +3,10 @@ services:
   backup_3ds:
     container_name: backup_3ds
     restart: unless-stopped
-    image: carnivuth/backup_3ds:3.0.0
+    image: carnivuth/backup_3ds:3.1.0
     networks:
       - services
+    env_file: .env
     environment:
       - ENABLE_DASHBOARD=true
     volumes:
