@@ -1,14 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-#
-# Simulated storage layout (scaled down from real hardware):
-#   sdb -> "NVMe" 1TB   -> 10G  -> LVM only
-#   sdc -> HDD 2TB      -> 20G  -> mdadm RAID1 (with sdd) + LVM
-#   sdd -> HDD 2TB      -> 20G  -> mdadm RAID1 (with sdc) + LVM
-#   sde -> HDD 1TB      -> 10G  -> LVM only
-#
-# Provider: VirtualBox
-
 VM_NAME   = "avalug"
 BOX_IMAGE = "debian/bookworm64"
 
@@ -23,8 +12,6 @@ Vagrant.configure("2") do |config|
   config.vm.box = BOX_IMAGE
   config.vm.hostname = VM_NAME
   config.vm.network "private_network", ip: "192.168.56.15"
-  #config.vm.network 'forwarded_port', id: 'ssh', host: 2221, guest: 22
-  #config.vm.network 'forwarded_port', id: 'web', host: 8443, guest: 443
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = VM_NAME
@@ -65,32 +52,6 @@ Vagrant.configure("2") do |config|
     apt-get update
     apt-get install -y lvm2 mdadm parted xfsprogs curl gnupg make vim
 
-    # Install Docker CE
-    if ! command -v docker >/dev/null 2>&1; then
-      install -m 0755 -d /etc/apt/keyrings
-      curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-      chmod a+r /etc/apt/keyrings/docker.asc
-      echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable" \
-        > /etc/apt/sources.list.d/docker.list
-      apt-get update
-      apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-      usermod -aG docker vagrant
-    fi
-
-    echo Installing docker lvm plugin
-    curl -sL https://github.com/containers/docker-lvm-plugin/releases/download/v1.0/docker-lvm-plugin > /usr/local/bin/docker-lvm-plugin
-    chmod +x /usr/local/bin/docker-lvm-plugin
-
-    echo "== Attached block devices =="
-    lsblk -d -o NAME,SIZE,MODEL | grep -v loop
-    echo
-    echo "Disks are attached but NOT partitioned/formatted yet."
-    echo "Expected mapping inside the VM (verify with lsblk, may vary):"
-    echo "  /dev/sdb -> simulated NVMe (10G)  -> vg_nvme"
-    echo "  /dev/sdc -> HDD 2TB (20G)         -> RAID1 member -> vg_data"
-    echo "  /dev/sdd -> HDD 2TB (20G)         -> RAID1 member -> vg_data"
-    echo "  /dev/sde -> HDD 1TB (10G)         -> vg_backup"
     test ! -f /dev/md/data && mdadm  --create /dev/md/data -R --level 1 --raid-devices 2 /dev/sdc /dev/sdd
     vgcreate vg_data /dev/md/data
     vgcreate vg_backup /dev/sde
