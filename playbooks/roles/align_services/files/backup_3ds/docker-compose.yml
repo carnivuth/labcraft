@@ -3,7 +3,7 @@ services:
   backup_3ds:
     container_name: backup_3ds
     restart: unless-stopped
-    image: carnivuth/backup_3ds:3.1.0
+    image: carnivuth/backup_3ds:3.1.1
     networks:
       - services
     env_file: .env
