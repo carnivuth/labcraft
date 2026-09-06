@@ -4,6 +4,7 @@ consoles:
     port: 1337
     dirs:
       - ux0:/pspemu/PSP/SAVEDATA
+      - ux0:/user/00/savedata
   - name: riolu.local.carnivuth.org
     port: 5000
     dirs:
