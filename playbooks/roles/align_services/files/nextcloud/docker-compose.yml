@@ -27,7 +27,7 @@ services:
       - nextcloud-cache
       - nextcloud
     volumes:
-      - /mnt/data/nextcloud:/var/www/html
+      - /mnt/data/nextcloud/data:/var/www/html
     entrypoint: /cron.sh
     networks:
       - nextcloud
@@ -67,7 +67,7 @@ services:
     links:
       - nextcloud-database
     volumes:
-      - /mnt/data/nextcloud:/var/www/html
+      - /mnt/data/nextcloud/data:/var/www/html
     environment:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=nextcloud
