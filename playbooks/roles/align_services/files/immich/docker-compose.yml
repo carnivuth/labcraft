@@ -3,16 +3,19 @@ services:
   immich:
     container_name: immich
     image: ghcr.io/immich-app/immich-server:v3.1.0
+    env_file: .env
     volumes:
       - /mnt/data/immich/data:/data
       - /etc/localtime:/etc/localtime:ro
     networks:
       - services
+      - immich
     environment:
       - TZ=Europe/Rome
       - DB_USERNAME=immich
       - DB_DATABASE_NAME=immich
       - DB_HOSTNAME=immich-database
+      - REDIS_HOSTNAME=immich-redis
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.immich.rule=Host(`${HOST}`)"
@@ -34,6 +37,8 @@ services:
       disable: false
 
   immich-machine-learning:
+    networks:
+      - immich
     container_name: immich-machine-learning
     image: ghcr.io/immich-app/immich-machine-learning:v3.1.0
     volumes:
@@ -43,6 +48,8 @@ services:
       disable: false
 
   immich-redis:
+    networks:
+      - immich
     container_name: immich-redis
     image: docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411
     healthcheck:
@@ -50,6 +57,8 @@ services:
     restart: always
 
   immich-database:
+    networks:
+      - immich
     container_name: immich-database
     image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
     env_file: .env
@@ -66,6 +75,9 @@ services:
       disable: false
 
 networks:
+  immich:
+    name: immich
+    driver: bridge
   services:
     name: services
     external: true
