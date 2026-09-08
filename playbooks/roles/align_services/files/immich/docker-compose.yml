@@ -6,10 +6,23 @@ services:
     volumes:
       - /mnt/data/immich/data:/data
       - /etc/localtime:/etc/localtime:ro
+    networks:
+      - services
     environment:
       TZ: Europe/Rome
-    ports:
-      - 2283:2283
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.immich.rule=Host(`${HOST}`)"
+      - "traefik.http.services.immich.loadbalancer.server.port=2283"
+      - "traefik.http.routers.immich.entrypoints=websecure"
+      - "traefik.http.routers.immich.tls=true"
+      - "traefik.http.routers.immich.tls.certresolver=myresolver"
+
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=Immich"
+      - "homepage.icon=immich.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Photo library"
     depends_on:
       - redis
       - database
@@ -36,6 +49,7 @@ services:
   immich-database:
     container_name: immich-database
     image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+    env_file: .env
     environment:
       POSTGRES_USER: immich
       POSTGRES_DB: immich
@@ -47,6 +61,11 @@ services:
     restart: always
     healthcheck:
       disable: false
+
+networks:
+  services:
+    name: services
+    external: true
 
 volumes:
   model-cache:
