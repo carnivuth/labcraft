@@ -12,6 +12,7 @@ services:
       - TZ=Europe/Rome
       - DB_USERNAME=immich
       - DB_DATABASE_NAME=immich
+      - DB_HOSTNAME=immich-database
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.immich.rule=Host(`${HOST}`)"
