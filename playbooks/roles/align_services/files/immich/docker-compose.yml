@@ -1,7 +1,7 @@
 ---
 services:
-  immich-server:
-    container_name: immich-server
+  immich:
+    container_name: immich
     image: ghcr.io/immich-app/immich-server:v3.1.0
     volumes:
       - /mnt/data/immich/data:/data
