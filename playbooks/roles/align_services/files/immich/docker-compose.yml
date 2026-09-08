@@ -9,7 +9,9 @@ services:
     networks:
       - services
     environment:
-      TZ: Europe/Rome
+      - TZ=Europe/Rome
+      - DB_USERNAME=immich
+      - DB_DATABASE_NAME=immich
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.immich.rule=Host(`${HOST}`)"
@@ -41,7 +43,7 @@ services:
 
   immich-redis:
     container_name: immich-redis
-    image: docker.io/redis:6.2-alpine@sha256:148bb5411c184abd288d9aaed139c98123eeb8824c5d3fce03cf721db58066d8
+    image: docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
