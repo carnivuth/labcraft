@@ -26,8 +26,8 @@ services:
       - "homepage.href=https://${HOST}"
       - "homepage.description=Photo library"
     depends_on:
-      - redis
-      - database
+      - immich-redis
+      - immich-database
     restart: always
     healthcheck:
       disable: false
