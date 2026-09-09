@@ -660,37 +660,34 @@ notifier:
 ##
 ## Identity Providers
 ##
-# identity_providers:
+identity_providers:
 
   ##
   ## OpenID Connect (Identity Provider)
   ##
   ## It's recommended you read the documentation before configuration of this section.
   ## See: https://www.authelia.com/c/oidc/provider
-  # oidc:
+  oidc:
     ## The hmac_secret is used to sign OAuth2 tokens (authorization code, access tokens and refresh tokens).
     ## HMAC Secret can also be set using a secret: https://www.authelia.com/c/secrets
-    # hmac_secret: 'this_is_a_secret_abc123abc123abc'
+    hmac_secret: '{{ vault_authelia_oidc_hmac_secret }}'
 
     ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
-    # jwks:
+    jwks:
     # -
       ## Key ID embedded into the JWT header for key matching. Must be an alphanumeric string with 7 or less characters.
       ## This value is automatically generated if not provided. It's recommended to not configure this.
       # key_id: 'example'
 
       ## The key algorithm used with this key.
-      # algorithm: 'RS256'
+      algorithm: 'RS256'
 
       ## The key use expected with this key. Currently only 'sig' is supported.
-      # use: 'sig'
+      use: 'sig'
 
       ## Required Private Key in PEM DER form.
-      # key: |
-        # -----BEGIN PRIVATE KEY-----
-        # ...
-        # -----END PRIVATE KEY-----
+      key: {{ vault_authelia_oidc_jwks_private_key }}
 
 
       ## Optional matching certificate chain in PEM DER form that matches the key. All certificates within the chain
@@ -727,14 +724,14 @@ notifier:
 
     ## Authorization Policies which can be utilized by clients. The 'policy_name' is an arbitrary value that you pick
     ## which is utilized as the value for the 'authorization_policy' on the client.
-    # authorization_policies:
-      # policy_name:
-        # default_policy: 'two_factor'
-        # rules:
-          # - policy: 'one_factor'
-          #   subject: 'group:services'
-          #   networks:
-              #  - '192.168.1.0/24'
+    authorization_policies:
+      immich:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject: 'group:admin'
+          - policy: 'one_factor'
+            subject: 'group:immich'
 
     ## The lifespans configure the expiration for these token types in the duration common syntax. In addition to this
     ## syntax the lifespans can be customized per-client.
@@ -770,14 +767,14 @@ notifier:
     ## Clients is a list of registered clients and their configuration.
     ## It's recommended you read the documentation before configuration of a registered client.
     ## See: https://www.authelia.com/c/oidc/registered-clients
-    # clients:
-      # -
+    clients:
+      -
         ## The Client ID is the OAuth 2.0 and OpenID Connect 1.0 Client ID which is used to link an application to a
         ## configuration.
-        # client_id: 'myapp'
+        client_id: {{ vault_authelia_oauth_immich_client_id }}
 
         ## The description to show to users when they end up on the consent screen. Defaults to the ID above.
-        # client_name: 'My Application'
+        client_name: 'immich'
 
         ## The client secret is a shared secret between Authelia and the consumer of this client.
         # yamllint disable-line rule:line-length
