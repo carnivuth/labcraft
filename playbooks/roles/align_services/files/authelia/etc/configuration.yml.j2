@@ -78,7 +78,8 @@ identity_providers:
 
       - algorithm: 'RS256'
         use: 'sig'
-        key: '{{ vault_authelia_oidc_jwks_private_key }}'
+        key: |
+          {{ vault_authelia_oidc_jwks_private_key }}
 
     authorization_policies:
       immich:
@@ -112,4 +113,4 @@ identity_providers:
           - 'authorization_code'
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_basic
+        token_endpoint_auth_method: 'client_secret_basic'
