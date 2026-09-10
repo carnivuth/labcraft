@@ -79,7 +79,7 @@ identity_providers:
       - algorithm: 'RS256'
         use: 'sig'
         key: |
-          {{ vault_authelia_oidc_jwks_private_key }}
+          {{ vault_authelia_oidc_jwks_private_key | indent( width=10) }}
 
     authorization_policies:
       immich:
