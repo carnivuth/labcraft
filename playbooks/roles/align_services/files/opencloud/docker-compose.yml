@@ -16,36 +16,17 @@ services:
     env_file: .env
     environment:
       - OC_URL=https://${HOST}
-      - OC_LOG_LEVEL=info
-      - OC_LOG_COLOR=false
-      - OC_LOG_PRETTY=false
         # do not use SSL between the reverse proxy and OpenCloud
       - PROXY_TLS=false
         # INSECURE: needed if OpenCloud / reverse proxy is using self generated certificates
       - OC_INSECURE=false
         # basic auth (not recommended, but needed for eg. WebDav clients that do not support OpenID Connect)
       - PROXY_ENABLE_BASIC_AUTH=false
-        # demo users
-      - IDM_CREATE_DEMO_USERS=false
-      - FRONTEND_ARCHIVER_MAX_SIZE=10000000000
-      - FRONTEND_CHECK_FOR_UPDATES=true
-      - PROXY_CSP_CONFIG_FILE_LOCATION=/etc/opencloud/csp.yaml
-        # control the password enforcement and policy for public shares
-      - OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD=true
-      - OC_SHARING_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD=false
-      - OC_PASSWORD_POLICY_DISABLED=false
-      - OC_PASSWORD_POLICY_MIN_CHARACTERS=8
-      - OC_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS=1
-      - OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS=1
-      - OC_PASSWORD_POLICY_MIN_DIGITS=1
-      - OC_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS=1
-       # default language for services/WebUI; defaults to English, language code (ISO 639-1, e.g. de, en, fr)
       - OC_DEFAULT_LANGUAGE=en
     volumes:
       # configure the .env file to use own paths instead of docker internal volumes
       - /mnt/data/opencloud/etc:/etc/opencloud
       - /mnt/data/opencloud/data:/var/lib/opencloud
-      - /mnt/data/opencloud/apps:/var/lib/opencloud/web/assets/apps
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.opencloud.rule=Host(`${HOST}`)"
@@ -59,9 +40,6 @@ services:
       - "homepage.icon=opencloud.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Personal fileshare"
-volumes:
-  opencloud-config:
-  opencloud-data:
 
 networks:
   services:
