@@ -10,12 +10,14 @@ services:
     networks:
       - services
       - immich
+      - monitoring
     environment:
       - TZ=Europe/Rome
       - DB_USERNAME=immich
       - DB_DATABASE_NAME=immich
       - DB_HOSTNAME=immich-database
       - REDIS_HOSTNAME=immich-redis
+      - IMMICH_TELEMETRY_INCLUDE=all
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.immich.rule=Host(`${HOST}`)"
@@ -78,6 +80,9 @@ networks:
   immich:
     name: immich
     driver: bridge
+  monitoring:
+    name: monitoring
+    external: true
   services:
     name: services
     external: true
