@@ -89,8 +89,36 @@ identity_providers:
             subject: 'group:admins'
           - policy: 'one_factor'
             subject: 'group:immich'
+      gaseous:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject: 'group:admins'
+          - policy: 'one_factor'
+            subject: 'group:gaseous'
 
     clients:
+
+      - client_id: '{{ vault_authelia_oauth_gaseous_client_id }}'
+        client_name: 'gaseous'
+        client_secret: '{{ vault_authelia_oauth_gaseous_client_secret }}'
+        public: false
+        authorization_policy: 'gaseous'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://gaseous.{{ align_services_apps_domain }}/signin-oidc'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: '{{ vault_authelia_oauth_immich_client_id }}'
         client_name: 'immich'
