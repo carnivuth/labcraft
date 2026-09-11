@@ -15,7 +15,7 @@ services:
     env_file: .env
     environment:
       - TZ=Europe/Rome
-      - dbhost=gsdb
+      - dbhost=gaseous-database
       - 'oidcauthority=authelia.{{ align_services_apps_domain }}'
     labels:
       # traefik labels
