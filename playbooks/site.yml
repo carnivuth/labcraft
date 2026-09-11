@@ -3,18 +3,26 @@
   hosts:
     - docker_clouds
   roles:
+
     - role: enforce_policies
-      tags: system
+      tags:
+        - system
+        - cd
+
     - role: cronjobs
-      tags: system
+      tags:
+        - system
+        - cd
 
     - role: update
       tags:
+        - cd
         - system
         - update
 
     - role: align_cloudflare_dns
       tags:
+        - cd
         - system
         - dns
 
@@ -24,22 +32,33 @@
 
     - role: geerlingguy.docker
       become: true
-      tags: containers
+      tags:
+        - cd
+        - containers
       vars:
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
         docker_compose_package_state: present
+
     - role: align_permissions
       tags:
+        - cd
         - system
         - containers
+
     - role: align_services
-      tags: containers
+      tags:
+        - containers
+        - cd
+
     - role: align_permissions
       tags:
+        - cd
         - system
         - containers
+
     - role: provision_grafana
       tags:
+        - cd
         - containers
         - security
