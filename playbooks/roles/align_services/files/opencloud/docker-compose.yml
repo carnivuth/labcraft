@@ -23,6 +23,10 @@ services:
         # basic auth (not recommended, but needed for eg. WebDav clients that do not support OpenID Connect)
       - PROXY_ENABLE_BASIC_AUTH=false
       - OC_DEFAULT_LANGUAGE=en
+      - OC_EXCLUDE_RUN_SERVICES=idp
+      - PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD=jwt
+      - PROXY_OIDC_REWRITE_WELLKNOWN=true
+      - PROXY_AUTOPROVISION_ACCOUNTS=true
     volumes:
       # configure the .env file to use own paths instead of docker internal volumes
       - /mnt/data/opencloud/etc:/etc/opencloud
