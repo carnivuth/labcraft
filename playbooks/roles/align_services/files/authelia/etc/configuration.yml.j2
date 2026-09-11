@@ -89,6 +89,7 @@ identity_providers:
             subject: 'group:admins'
           - policy: 'one_factor'
             subject: 'group:immich'
+
       gaseous:
         default_policy: 'deny'
         rules:
@@ -96,6 +97,14 @@ identity_providers:
             subject: 'group:admins'
           - policy: 'one_factor'
             subject: 'group:gaseous'
+
+      opencloud:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject: 'group:admins'
+          - policy: 'one_factor'
+            subject: 'group:opencloud'
 
     clients:
 
@@ -142,3 +151,28 @@ identity_providers:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: '{{ vault_authelia_oauth_opencloud_client_id }}'
+        client_name: '{{ vault_authelia_oauth_opencloud_client_secret }}'
+        public: true
+        authorization_policy: 'opencloud'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        scopes:
+          - 'openid'
+          - 'offline_access'
+          - 'groups'
+          - 'profile'
+          - 'email'
+        redirect_uris:
+          - 'https://opencloud.carnivuth.org/'
+          - 'https://opencloud.carnivuth.org/oidc-callback.html'
+          - 'https://opencloud.carnivuth.org/oidc-silent-redirect.html'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+          - 'refresh_token'
+        access_token_signed_response_alg: 'RS256'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'none'
