@@ -164,9 +164,7 @@
       text: |
         successfully aligned apps in `{{ inventory_hostname }}`
         {% for app in align_services_apps %}
-        {%- if (docker_compose_status.results | select(item == app))[0].changed -%}
         - [{{ app }}]({{ app | regex_replace('_', '-') }}.{{ align_services_apps_domain }})
-        {%- endif -%}
         {% endfor%}
       disable_web_page_preview: true
       disable_notification: false
