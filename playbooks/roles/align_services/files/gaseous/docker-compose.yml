@@ -16,7 +16,6 @@ services:
     environment:
       - TZ=Europe/Rome
       - dbhost=gaseous-database
-      - 'oidcauthority=https://authelia.{{ align_services_apps_domain }}'
     labels:
       # traefik labels
       - "traefik.enable=true"
