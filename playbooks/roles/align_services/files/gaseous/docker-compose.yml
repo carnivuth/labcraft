@@ -1,0 +1,56 @@
+---
+services:
+  gaseous:
+    container_name: gaseous
+    image: gaseousgames/gaseousserver:v2.0.0-rc.3
+    restart: unless-stopped
+    networks:
+      - gaseous
+      - monitoring
+      - services
+    depends_on:
+      - gaseous-database
+    volumes:
+      - /mnt/data/gaseous/data:/home/gaseous/.gaseous-server
+    env_file: .env
+    environment:
+      - TZ=Europe/Rome
+      - dbhost=gsdb
+      - 'oidcauthority=authelia.{{ align_services_apps_domain }}'
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.gaseous.entrypoints=websecure"
+      - "traefik.http.services.gaseous.loadbalancer.server.port=80"
+      - "traefik.http.routers.gaseous.tls.certresolver=myresolver"
+      - "traefik.http.routers.gaseous.rule=Host(`${HOST}`)"
+
+      # homepage labels
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=Gaseous"
+      - "homepage.icon=gaseous.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Game server"
+
+  gaseous-database:
+
+    container_name: gaseous-database
+    image: mariadb:11.8.9
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - gaseous
+    volumes:
+      - /mnt/data/gaseous/database:/var/lib/mysql
+    environment:
+      - MARIADB_USER=gaseous
+
+networks:
+  gaseous:
+    driver: bridge
+  monitoring:
+    name: monitoring
+    external: true
+  services:
+    name: services
+    external: true
