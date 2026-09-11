@@ -142,8 +142,9 @@
   become: true
   community.docker.docker_compose_v2:
     project_src: "{{ align_services_docker_compose_base_dir }}/{{ item }}"
-    state: "{{ 'restarted' if  docker_compose_file_status.results | selectattr('item', 'equalto', item) | map(attribute='changed') | first else 'present' }}"
-    pull: always
+    state: "present"
+    pull: missing
+    recreate: auto
   register: result
   retries: 5
   delay: 1

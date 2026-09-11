@@ -2,7 +2,7 @@
 services:
   immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:v3.1.0
+    image: ghcr.io/immich-app/immich-server:v3.2.0
     env_file: .env
     volumes:
       - /mnt/data/immich/data:/data
@@ -42,7 +42,7 @@ services:
     networks:
       - immich
     container_name: immich-machine-learning
-    image: ghcr.io/immich-app/immich-machine-learning:v3.1.0
+    image: ghcr.io/immich-app/immich-machine-learning:v3.2.0
     volumes:
       - model-cache:/cache
     restart: always
