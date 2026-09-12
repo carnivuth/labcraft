@@ -1,0 +1,58 @@
+services:
+  seafile-database:
+    image: mariadb:10.11
+    container_name: seafile-database
+    env_file: .env
+    environment:
+      - MYSQL_LOG_CONSOLE=true
+      - MARIADB_AUTO_UPGRADE=1
+    volumes:
+      - /mnt/data/seafile/database:/var/lib/mysql  # Required, specifies the path to MySQL data persistent store.
+    networks:
+      - seafile
+
+  seafile-memcached:
+    image: memcached:1.6.18
+    container_name: seafile-memcached
+    entrypoint: memcached -m 256
+    networks:
+      - seafile
+
+  seafile:
+    image: seafileltd/seafile-mc:13.0.25
+    container_name: seafile
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.seafile.entrypoints=websecure"
+      - "traefik.http.services.seafile.loadbalancer.server.port=80"
+      - "traefik.http.routers.seafile.tls.certresolver=myresolver"
+      - "traefik.http.routers.seafile.rule=Host(`${HOST}`)"
+
+      # homepage labels
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=Seafile"
+      - "homepage.icon=seafile.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=File sharing"
+    volumes:
+      - /mnt/data/seafile/data:/shared   # Required, specifies the path to Seafile data persistent store.
+    env_file: .env
+    environment:
+      - DB_HOST=seafile-database
+      - TIME_ZONE=Europe/Rome  # Optional, default is UTC. Should be uncomment and set to your local time zone.
+      - SEAFILE_SERVER_LETSENCRYPT=false   # Whether to use https or not.
+      - SEAFILE_SERVER_HOSTNAME=${HOST} # Specifies your host name if https is enabled.
+    depends_on:
+      - seafile-database
+      - seafile-memcached
+    networks:
+      - seafile
+      - services
+
+networks:
+  seafile:
+    driver: bridge
+  services:
+    name: services
+    external: true
