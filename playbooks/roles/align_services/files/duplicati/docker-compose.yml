@@ -1,0 +1,36 @@
+services:
+  duplicati:
+    image: duplicati/duplicati:2.4.0.0
+    container_name: duplicati
+    volumes:
+      - /mnt/data/duplicati/data:/data
+      - /mnt/data/:/mnt/data:ro
+      - /mnt/backup/:/mnt/backup
+    env_file: .env
+    environment:
+      - DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES=${HOST}
+    networks:
+      - monitoring
+      - services
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.duplicati.entrypoints=websecure"
+      - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
+      - "traefik.http.routers.duplicati.tls.certresolver=myresolver"
+      - "traefik.http.routers.duplicati.rule=Host(`${HOST}`)"
+
+      # homepage labels
+      - "homepage.group=Monitoring and access control"
+      - "homepage.name=Duplicati"
+      - "homepage.icon=duplicati.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Backup solution"
+
+networks:
+  monitoring:
+    name: monitoring
+    external: true
+  services:
+    name: services
+    external: true
