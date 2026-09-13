@@ -7,6 +7,8 @@ services:
       - /mnt/data/:/mnt/data:ro
       - /mnt/backup/:/mnt/backup
     env_file: .env
+    environment:
+      - DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES=${HOST}
     networks:
       - monitoring
       - services
@@ -14,7 +16,7 @@ services:
       # traefik labels
       - "traefik.enable=true"
       - "traefik.http.routers.duplicati.entrypoints=websecure"
-      - "traefik.http.services.duplicati.loadbalancer.server.port=80"
+      - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
       - "traefik.http.routers.duplicati.tls.certresolver=myresolver"
       - "traefik.http.routers.duplicati.rule=Host(`${HOST}`)"
 
