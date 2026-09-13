@@ -27,6 +27,12 @@ services:
       - PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD=jwt
       - PROXY_OIDC_REWRITE_WELLKNOWN=true
       - PROXY_AUTOPROVISION_ACCOUNTS=true
+
+      - PROXY_AUTOPROVISION_CLAIM_USERNAME=preferred_username
+      - PROXY_AUTOPROVISION_CLAIM_EMAIL=email
+      - PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME=name
+      - PROXY_AUTOPROVISION_CLAIM_GROUPS=groups
+      - 'WEBFINGER_WEB_OIDC_CLIENT_SCOPES=openid profile email groups offline_access'
     volumes:
       # configure the .env file to use own paths instead of docker internal volumes
       - /mnt/data/opencloud/etc:/etc/opencloud
