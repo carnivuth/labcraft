@@ -154,7 +154,6 @@ identity_providers:
 
       - client_id: '{{ vault_authelia_oauth_opencloud_client_id }}'
       - client_name: 'opencloud'
-        client_secret: '{{ vault_authelia_oauth_opencloud_client_secret }}'
         public: true
         authorization_policy: 'opencloud'
         require_pkce: true
