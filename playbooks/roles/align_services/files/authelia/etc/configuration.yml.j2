@@ -153,7 +153,7 @@ identity_providers:
         token_endpoint_auth_method: 'client_secret_basic'
 
       - client_id: '{{ vault_authelia_oauth_opencloud_client_id }}'
-      - client_name: 'opencloud'
+        client_name: 'opencloud'
         public: true
         authorization_policy: 'opencloud'
         require_pkce: true
