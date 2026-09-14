@@ -1,0 +1,54 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/provision_duplicati/
+- name: Request initial session (gets XSRF cookie)
+  ansible.builtin.uri:
+    url: "{{ provision_duplicati_url }}/login.cgi"
+    method: GET
+    status_code: [200, 302]
+    return_content: true
+  register: duplicati_initial_login
+
+- name: Extract XSRF token from session cookie
+  ansible.builtin.set_fact:
+    duplicati_xsrf_token: "{{ duplicati_initial_login.cookies['xsrf-token'] }}"
+    duplicati_cookie_header: "{{ duplicati_initial_login.cookies_string }}"
+
+- name: Authenticate with Duplicati password
+  ansible.builtin.uri:
+    url: "{{ duplicati_url }}/login.cgi"
+    method: POST
+    headers:
+      X-XSRF-Token: "{{ duplicati_xsrf_token }}"
+      Cookie: "{{ duplicati_cookie_header }}"
+    body_format: form-urlencoded
+    body:
+      password: "{{ provision_duplicati_password }}"
+    status_code: [200, 302]
+    return_content: true
+  register: duplicati_auth
+
+- name: Update cookie jar after authentication
+  ansible.builtin.set_fact:
+    duplicati_cookie_header: "{{ duplicati_auth.cookies_string | default(duplicati_cookie_header) }}"
+
+- name: Import backup configuration file
+  ansible.builtin.uri:
+    url: "{{ duplicati_url }}/api/v1/backups/import"
+    method: POST
+    headers:
+      X-XSRF-Token: "{{ duplicati_xsrf_token }}"
+      Cookie: "{{ duplicati_cookie_header }}"
+    body_format: form-multipart
+    body:
+      config:
+        filename: "{{ duplicati_config_file }}"
+        mime_type: application/json
+    status_code: 200
+    return_content: true
+  loop: "{{ provision_duplicati_apps | dict2items }}"
+  register: duplicati_import_result
+
+- name: Show import result
+  ansible.builtin.debug:
+    var: duplicati_import_result.json

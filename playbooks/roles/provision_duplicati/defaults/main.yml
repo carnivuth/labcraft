@@ -1,0 +1,8 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for playbooks/roles/provision_duplicati/
+provision_duplicati_url: "https://duplicati.carnivuth.org"
+provision_duplicati_password: "{{ vault_duplicati_webservice_password }}"
+provision_duplicati_apps:
+  actual:
+  recipya:

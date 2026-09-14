@@ -1,0 +1,75 @@
+{
+  "CreatedByVersion": "2.4.0.0",
+  "Schedule": {
+    "ID": 1,
+    "Tags": [
+      "ID=2"
+    ],
+    "Time": "2026-09-13T23:00:00Z",
+    "Repeat": "1D",
+    "LastRun": "2026-09-13T19:32:12Z",
+    "Rule": "AllowedWeekDays=Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",
+    "AllowedDays": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
+  },
+  "Backup": {
+    "ID": "2",
+    "ExternalID": null,
+    "Name": "{{ item.key }}",
+    "Description": "{{ item.key }}",
+    "Tags": [],
+    "TargetURL": "file:///mnt/backup/{{ item.key }}/",
+    "DBPath": "ZKPROJQUGY.sqlite",
+    "ConnectionStringID": -1,
+    "OperationType": "Backup",
+    "Sources": [
+      "/mnt/data/{{ item.key }}/"
+    ],
+    "Settings": [
+      {
+        "Filter": "",
+        "Name": "--no-encryption",
+        "Value": "True",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "keep-time",
+        "Value": "7D",
+        "Argument": null
+      }
+    ],
+    "Filters": [],
+    "Metadata": {
+      "LastErrorDate": "20260913T195737Z",
+      "LastErrorMessage": "No files were found at the remote location, perhaps the target url is incorrect?",
+      "LastBackupDate": "20260914T102334Z",
+      "BackupListCount": "3",
+      "TotalQuotaSpace": "983349346304",
+      "FreeQuotaSpace": "720467349504",
+      "AssignedQuotaSpace": "-1",
+      "TargetFilesSize": "65980758589",
+      "TargetFilesCount": "2549",
+      "TargetFilesetsCount": "3",
+      "TargetSizeString": "61.45 GiB",
+      "SourceFilesSize": "67610943951",
+      "SourceFilesCount": "5702",
+      "SourceSizeString": "62.97 GiB",
+      "LastBackupStarted": "20260914T102334Z",
+      "LastBackupFinished": "20260914T102414Z",
+      "LastBackupDuration": "00:00:40.0178944"
+    },
+    "AdditionalTargetURLs": [],
+    "IsTemporary": false
+  },
+  "DisplayNames": {
+    "/mnt/data/{{ item.key }}/": "{{ item.key }}"
+  }
+}
