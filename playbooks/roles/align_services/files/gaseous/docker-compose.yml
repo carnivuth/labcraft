@@ -26,7 +26,7 @@ services:
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Gaseous"
-      - "homepage.icon=gaseous.png"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/gaseous.png"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Game server"
 
