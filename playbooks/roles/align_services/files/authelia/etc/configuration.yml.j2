@@ -73,6 +73,16 @@ notifier:
 
 identity_providers:
   oidc:
+
+    cors:
+      endpoints:
+        - authorization
+        - token
+        - revocation
+        - introspection
+        - userinfo
+      allowed_origins_from_client_redirect_uris: true
+
     hmac_secret: '{{ vault_authelia_oidc_hmac_secret }}'
     jwks:
 
