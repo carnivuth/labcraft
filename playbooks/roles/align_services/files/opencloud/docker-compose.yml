@@ -50,7 +50,7 @@ services:
 
       - "homepage.group=Personal Cloud"
       - "homepage.name=Opencloud"
-      - "homepage.icon=opencloud.svg"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/svg/opencloud.svg"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Personal fileshare"
 
