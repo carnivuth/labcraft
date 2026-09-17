@@ -1,0 +1,67 @@
+services:
+  romm:
+    image: rommapp/romm:5.2.0
+    container_name: romm
+    networks:
+      - services
+      - romm
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - DB_HOST=romm-database
+      - DB_NAME=romm
+      - DB_USER=romm
+
+    volumes:
+      - /mnt/data/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
+      - /mnt/data/romm/redis:/redis-data # Cached data for background tasks
+      - /mnt/data/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
+      - /mnt/data/romm/assets:/romm/assets # Uploaded saves, states, etc.
+      - /mnt/data/romm/config:/romm/config # Path where config.yml is stored
+
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.romm.entrypoints=websecure"
+      - "traefik.http.services.romm.loadbalancer.server.port=8080"
+      - "traefik.http.routers.romm.tls.certresolver=myresolver"
+      - "traefik.http.routers.romm.rule=Host(`${HOST}`)"
+      # homepage labels
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=Romm"
+      - "homepage.icon=romm.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Personal rom storage"
+    depends_on:
+      romm-database:
+        condition: service_healthy
+        restart: true
+
+  romm-database:
+
+    networks:
+      - romm
+    image: mariadb:latest
+    container_name: romm-database
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MARIADB_DATABASE=romm
+      - MARIADB_USER=romm
+    volumes:
+      - /mnt/data/romm/database:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      start_period: 30s
+      start_interval: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  romm:
+    name: romm
+    driver: bridge
+  services:
+    name: services
+    external: true
