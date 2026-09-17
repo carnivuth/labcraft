@@ -11,6 +11,8 @@ services:
       - DB_HOST=romm-database
       - DB_NAME=romm
       - DB_USER=romm
+      - ROMM_DB_DRIVER=postgresql
+      - DB_PORT=5432
       - OIDC_ENABLED=true
       - OIDC_PROVIDER=authelia
       - OIDC_REDIRECT_URI=https://${HOST}/api/oauth/openid
