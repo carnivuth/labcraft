@@ -15,15 +15,12 @@ services:
       - OIDC_PROVIDER=authelia
       - OIDC_REDIRECT_URI=https://${HOST}/api/oauth/openid
       - ROMM_BASE_URL=https://${HOST}
-
-
     volumes:
       - /mnt/data/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
       - /mnt/data/romm/redis:/redis-data # Cached data for background tasks
       - /mnt/data/romm/library:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
       - /mnt/data/romm/assets:/romm/assets # Uploaded saves, states, etc.
       - /mnt/data/romm/config:/romm/config # Path where config.yml is stored
-
     labels:
       # traefik labels
       - "traefik.enable=true"
@@ -43,25 +40,24 @@ services:
         restart: true
 
   romm-database:
-
     networks:
       - romm
-    image: mariadb:latest
+    image: postgres:17.11-alpine3.24
+    security_opt:
+      - no-new-privileges:true
     container_name: romm-database
     restart: unless-stopped
     env_file: .env
     environment:
-      - MARIADB_DATABASE=romm
-      - MARIADB_USER=romm
+      - POSTGRES_DB=romm
+      - POSTGRES_USER=romm
     volumes:
-      - /mnt/data/romm/database:/var/lib/mysql
+      - /mnt/data/romm/database:/var/lib/postgresql/data
     healthcheck:
-      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
-      start_period: 30s
-      start_interval: 10s
+      test: ["CMD", "pg_isready", "-q", "-d", "romm", "-U", "romm"]
+      timeout: 45s
       interval: 10s
-      timeout: 5s
-      retries: 5
+      retries: 10
 
 networks:
   romm:
