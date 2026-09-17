@@ -11,6 +11,11 @@ services:
       - DB_HOST=romm-database
       - DB_NAME=romm
       - DB_USER=romm
+      - OIDC_ENABLED=true
+      - OIDC_PROVIDER=authelia
+      - OIDC_REDIRECT_URI=https://${HOST}/api/oauth/openid
+      - ROMM_BASE_URL=https://${HOST}
+
 
     volumes:
       - /mnt/data/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
