@@ -1,9 +1,3 @@
-# [cronjobs](playbooks/roles/cronjobs/README.md)
-
-- author: carnivuth
-
-Install cronjobs
-
 # [ban_krawl_ips](playbooks/roles/ban_krawl_ips/README.md)
 
 - author: carnivuth
@@ -22,17 +16,23 @@ Align folder permissions
 
 align cloudflare dns configuration with local network
 
+# [cronjobs](playbooks/roles/cronjobs/README.md)
+
+- author: carnivuth
+
+Install cronjobs
+
+# [provision_duplicati](playbooks/roles/provision_duplicati/README.md)
+
+- author: your name
+
+your role description
+
 # [align_services](playbooks/roles/align_services/README.md)
 
 - author: carnivuth
 
 Deploy docker services
-
-# [provision_grafana](playbooks/roles/provision_grafana/README.md)
-
-- author: Carnivuth
-
-Provision grafana with my custom monitoring
 
 # [enforce_policies](playbooks/roles/enforce_policies/README.md)
 
@@ -40,11 +40,11 @@ Provision grafana with my custom monitoring
 
 Run common configurations
 
-# [Ts_script](playbooks/roles/Ts_script/README.md)
+# [provision_grafana](playbooks/roles/provision_grafana/README.md)
 
-- author: carnivuth
+- author: Carnivuth
 
-Install a telegram utility
+Provision grafana with my custom monitoring
 
 # [update](playbooks/roles/update/README.md)
 
