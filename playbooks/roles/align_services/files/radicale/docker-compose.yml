@@ -19,7 +19,7 @@ services:
     mem_limit: 256m
     volumes:
       - /mnt/data/radicale/data:/data
-      - /mnt/data/radicale/config:/config:ro
+      - /mnt/data/radicale/etc:/config:ro
     networks:
       - services
     labels:
