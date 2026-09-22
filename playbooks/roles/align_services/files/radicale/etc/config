@@ -9,4 +9,4 @@ filesystem_folder = /data/collections
 # forward-auth middleware) before it reaches Radicale, and forwards the
 # username in the Remote-User header. Radicale trusts that header here
 # instead of asking for a second login.
-type = remote_user
+type = http_remote_user
