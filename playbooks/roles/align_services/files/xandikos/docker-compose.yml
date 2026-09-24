@@ -4,6 +4,7 @@ services:
     container_name: xandikos
     image: ghcr.io/jelmer/xandikos:v0.4.7
     restart: unless-stopped
+    user: ${PUID_XANDIKOS}
     networks:
       - services
     labels:
@@ -18,7 +19,7 @@ services:
       # homepage labels
       - "homepage.group=Personal Cloud"
       - "homepage.name=Xandikos"
-      - "homepage.icon=xandikos.svg"
+      - "homepage.icon=https://github.com/jelmer/xandikos/blob/master/logo.png?raw=true"
       - "homepage.href=https://${HOST}"
       - "homepage.description=Contacts and calendar"
 
