@@ -27,7 +27,7 @@ services:
       - "traefik.http.routers.radicale.rule=Host(`${HOST}`)"
       - "traefik.http.routers.radicale.entrypoints=websecure"
       - "traefik.http.routers.radicale.tls.certresolver=myresolver"
-      - "traefik.http.routers.radicale.middlewares=authelia@docker"
+      - "traefik.http.routers.radicale.middlewares=authelia-basicauth@docker"
       - "traefik.http.services.radicale.loadbalancer.server.port=5232"
 
 networks:
