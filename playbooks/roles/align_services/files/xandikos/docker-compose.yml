@@ -1,0 +1,56 @@
+---
+services:
+  xandikos:
+    container_name: xandikos
+    image: ghcr.io/jelmer/xandikos:v0.4.7
+    restart: unless-stopped
+    networks:
+      - services
+    labels:
+      # traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.xandikos.entrypoints=websecure"
+      - "traefik.http.services.xandikos.loadbalancer.server.port=8000"
+      - "traefik.http.routers.xandikos.tls.certresolver=myresolver"
+      - "traefik.http.routers.xandikos.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.xandikos.middlewares=authelia-basicauth@docker"
+
+      # homepage labels
+      - "homepage.group=Personal Cloud"
+      - "homepage.name=Xandikos"
+      - "homepage.icon=xandikos.svg"
+      - "homepage.href=https://${HOST}"
+      - "homepage.description=Contacts and calendar"
+
+    volumes:
+      - /mnt/data/xandikos/data:/data
+    environment:
+      # Core settings (all optional - defaults shown)
+      # - PORT=8000
+      # - METRICS_PORT=8001
+      # - LISTEN_ADDRESS=0.0.0.0
+      # - DATA_DIR=/data
+      # - CURRENT_USER_PRINCIPAL=/user/
+      # - ROUTE_PREFIX=/
+
+      # Auto-create directories and default calendar/addressbook
+      - AUTOCREATE=true
+      - DEFAULTS=false
+
+      # Debug options
+      # - DEBUG=false
+      # - DUMP_DAV_XML=false
+
+      # Compatibility mode for buggy clients
+      # - NO_STRICT=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+
+networks:
+  services:
+    name: services
+    external: true
