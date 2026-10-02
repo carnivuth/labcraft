@@ -50,6 +50,10 @@ access_control:
       policy: 'one_factor'
       subject: 'group:xandikos'
 
+    - domain: 'console-backupper.{{ align_services_apps_domain }}'
+      policy: 'one_factor'
+      subject: 'group:admins'
+
     - domain: 'backup-3ds.{{ align_services_apps_domain }}'
       policy: 'one_factor'
       subject: 'group:admins'
