@@ -1,5 +1,9 @@
 ---
 consoles:
+  - name: darkrai.local.carnivuth.org
+    port: 21
+    dirs:
+      - /dev_hdd0/home/00000004/savedata
   - name: zoroark.local.carnivuth.org
     port: 1337
     dirs:
