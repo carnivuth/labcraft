@@ -3,7 +3,7 @@ services:
   console_backupper:
     container_name: console_backupper
     restart: unless-stopped
-    image: carnivuth/console_backupper:4.0.0
+    image: carnivuth/console_backupper:4.0.1
     networks:
       - services
     env_file: .env
