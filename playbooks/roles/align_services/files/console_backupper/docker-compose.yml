@@ -3,7 +3,7 @@ services:
   console_backupper:
     container_name: console_backupper
     restart: unless-stopped
-    image: carnivuth/console_backupper:4.0.1
+    image: carnivuth/console_backupper:4.1.1-dev.1
     networks:
       - services
     env_file: .env
@@ -18,8 +18,11 @@ services:
       - "traefik.http.routers.console_backupper.entrypoints=websecure"
       - "traefik.http.services.console_backupper.loadbalancer.server.port=8080"
       - "traefik.http.routers.console_backupper.tls.certresolver=myresolver"
-      - "traefik.http.routers.console_backupper.rule=Host(`${HOST}`)"
+      - "traefik.http.routers.console_backupper.rule=Host(`${HOST}`) && !PathPrefix(`/metrics`)"
       - "traefik.http.routers.console_backupper.middlewares=authelia-basicauth@docker"
+      # deny access from internet for the metrics endpoint
+      - "traefik.http.routers.console_backupper-metrics.rule=Host(`${HOST}`) && PathPrefix(`/metrics`)"
+      - "traefik.http.routers.console_backupper-metrics.middlewares=deny@docker"
 
       # homepage labels
       - "homepage.group=Personal Cloud"
