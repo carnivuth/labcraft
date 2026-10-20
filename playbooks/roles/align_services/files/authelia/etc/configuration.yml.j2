@@ -218,9 +218,56 @@ identity_providers:
           - 'profile'
           - 'email'
         redirect_uris:
-          - 'https://opencloud.carnivuth.org/'
-          - 'https://opencloud.carnivuth.org/oidc-callback.html'
-          - 'https://opencloud.carnivuth.org/oidc-silent-redirect.html'
+          - 'https://opencloud.{{ align_services_apps_domain }}/'
+          - 'https://opencloud.{{ align_services_apps_domain }}/oidc-callback.html'
+          - 'https://opencloud.{{ align_services_apps_domain }}/oidc-silent-redirect.html'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+          - 'refresh_token'
+        access_token_signed_response_alg: 'RS256'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'none'
+
+      - client_id: '{{ vault_authelia_oauth_opencloud_android_client_id }}'
+        client_name: 'opencloud'
+        public: true
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'oc://android.opencloud.eu'
+        scopes:
+          - 'openid'
+          - 'offline_access'
+          - 'groups'
+          - 'profile'
+          - 'email'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+          - 'refresh_token'
+        access_token_signed_response_alg: 'RS256'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'none'
+
+      - client_id: '{{ vault_authelia_oauth_opencloud_desktop_client_id }}'
+        client_name: 'openCloud'
+        public: true
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        scopes:
+          - 'openid'
+          - 'offline_access'
+          - 'groups'
+          - 'profile'
+          - 'email'
+        redirect_uris:
+          - 'http://127.0.0.1'
+          - 'http://localhost'
         response_types:
           - 'code'
         grant_types:
