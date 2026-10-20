@@ -233,7 +233,7 @@ identity_providers:
       - client_id: '{{ vault_authelia_oauth_opencloud_android_client_id }}'
         client_name: 'opencloud'
         public: true
-        authorization_policy: 'two_factor'
+        authorization_policy: 'opencloud'
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
@@ -256,7 +256,7 @@ identity_providers:
       - client_id: '{{ vault_authelia_oauth_opencloud_desktop_client_id }}'
         client_name: 'openCloud'
         public: true
-        authorization_policy: 'two_factor'
+        authorization_policy: 'opencloud'
         require_pkce: true
         pkce_challenge_method: 'S256'
         scopes:
