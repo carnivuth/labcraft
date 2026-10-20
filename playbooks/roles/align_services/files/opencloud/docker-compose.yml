@@ -34,6 +34,8 @@ services:
       - PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME=name
       - PROXY_AUTOPROVISION_CLAIM_GROUPS=groups
       - 'WEBFINGER_WEB_OIDC_CLIENT_SCOPES=openid profile email groups offline_access'
+      - 'WEBFINGER_ANDROID_OIDC_CLIENT_SCOPES=openid profile email groups offline_access'
+      - 'WEBFINGER_DESKTOP_OIDC_CLIENT_SCOPES=openid profile email groups offline_access'
       - PROXY_ROLE_ASSIGNMENT_DRIVER=oidc
       - GRAPH_ASSIGN_DEFAULT_USER_ROLE=false
     volumes:
