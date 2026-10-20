@@ -16,7 +16,7 @@ services:
       - "ND_BACKUP_PATH=/backup"
       - "ND_BACKUP_SCHEDULE=0 18 * * *"
       - "ND_BACKUP_COUNT=7"
-      - "ND_REVERSEPROXYWHITELIST=0.0.0.0/0"
+      - "ND_EXTAUTH_TRUSTEDSOURCES=0.0.0.0/0"
       - "ND_PROMETHEUS_ENABLED=true"
       - "ND_DEFAULTSHAREEXPIRATION=24h"
       - "ND_DEFAULTDOWNLOADABLESHARE=true"
@@ -29,7 +29,7 @@ services:
       - 4533
     volumes:
       - "/mnt/data/navidrome/backup:/backup"
-      - "/mnt/data/navidrome/data:/data"
+      - "/mnt/cache/navidrome/data:/data"
       - "/mnt/data/navidrome/collection:/music:ro"
     labels:
       # traefik labels
