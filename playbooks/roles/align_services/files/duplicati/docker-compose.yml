@@ -5,6 +5,7 @@ services:
     volumes:
       - /mnt/data/duplicati/data:/data
       - /mnt/data/:/mnt/data:ro
+      - /mnt/cache/:/mnt/cache:ro
       - /mnt/backup/:/mnt/backup
     env_file: .env
     environment:
