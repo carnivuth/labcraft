@@ -1,0 +1,12 @@
+---
+services:
+  ollama:
+    container_name: ollama
+    image: ollama/ollama:0.40.7-rocm
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    volumes:
+      - /mnt/cache/ollama:/root/.ollama
+    ports:
+      - "11434:11434"
