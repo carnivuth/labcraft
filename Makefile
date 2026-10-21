@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-.PHONY: playbooks/*.yml playbooks/roles/**/tests/*.yml install
+.PHONY: playbooks/*.yml playbooks/roles/**/tests/*.yml install update
 
 inventory_opt = -i inventory/carnivuth.org.yml
 ifdef inventory
@@ -18,7 +18,7 @@ ansible.cfg:
 	echo -e '[defaults]\nstdout_callback = telegram\ncallback_whitelist = telegram' > $@
 
 .git/hooks/post-merge:
-	echo -e '#!/bin/bash\nmake install' > $@
+	echo -e '#!/bin/bash\nmake update' > $@
 	chmod +x "$@"
 
 .git/hooks/pre-commit:
@@ -55,3 +55,6 @@ playbooks/*.yml playbooks/roles/**/tests/*.yml: env ~/.ansible/collections/ansib
 	source env/bin/activate && ansible-playbook $(inventory_opt) $@ $(user_opt) $(key_opt) $(opts)
 
 install: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge playbooks/site.yml
+
+update: env ansible.cfg ~/.ansible/collections/ansible_collections/ .git/hooks/post-merge
+	make playbooks/site.yml opts='--tags=cd'

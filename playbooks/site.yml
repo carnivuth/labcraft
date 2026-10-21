@@ -6,24 +6,20 @@
 
     - role: enforce_policies
       tags:
-        - system
         - cd
 
     - role: cronjobs
       tags:
-        - system
         - cd
 
     - role: update
       tags:
         - cd
-        - system
         - update
 
     - role: align_cloudflare_dns
       tags:
         - cd
-        - system
         - dns
 
     - role: ban_krawl_ips
@@ -34,7 +30,6 @@
       become: true
       tags:
         - cd
-        - containers
       vars:
         docker_install_compose_plugin: false
         docker_compose_package: docker-compose-plugin
@@ -44,21 +39,16 @@
       tags:
         - cd
         - system
-        - containers
 
     - role: align_services
       tags:
-        - containers
         - cd
 
     - role: align_permissions
       tags:
         - cd
-        - system
-        - containers
 
     - role: provision_grafana
       tags:
         - cd
-        - containers
         - security
