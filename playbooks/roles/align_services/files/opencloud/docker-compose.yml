@@ -3,7 +3,7 @@ services:
   opencloud:
     container_name: opencloud
     restart: unless-stopped
-    image: opencloudeu/opencloud:7.2.4
+    image: opencloudeu/opencloud:8.1.0
     user: ${PUID_OPENCLOUD}
     networks:
       - services
