@@ -2,7 +2,7 @@
 services:
   xandikos:
     container_name: xandikos
-    image: ghcr.io/jelmer/xandikos:v0.4.7
+    image: ghcr.io/jelmer/xandikos:v0.4.10
     restart: unless-stopped
     user: ${PUID_XANDIKOS}
     networks:
