@@ -1,5 +1,6 @@
 update_packages:
   - vim
+  - ncdu
   - figlet
   - tmux
   - net-tools
