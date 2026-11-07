@@ -1,16 +1,10 @@
 services:
   curiel_bot:
     container_name: curiel_bot
-    image: carnivuth/curiel_bot:v1.0.3
+    image: carnivuth/curiel_bot:1.1.0
     restart: unless-stopped
     environment:
       - TOKEN=${TOKEN}
       - ADMIN=${ADMIN}
     volumes:
       - '/mnt/data/curiel_bot/:/var/lib/curiel_bot/data'
-    labels:
-      # diun labels
-      - "diun.enable=true"
-      - "diun.watch_repo=true"
-      - "diun.sort_tags=semver"
-      - "diun.max_tags=3"
