@@ -1,10 +1,10 @@
 services:
   curiel_bot:
     container_name: curiel_bot
-    image: carnivuth/curiel_bot:2.0.0
+    image: carnivuth/curiel_bot:2.1.0
     restart: unless-stopped
+    env_file: .env
     environment:
-      - TOKEN=${TOKEN}
-      - ADMIN=${ADMIN}
+      - CURIEL_BOT_SUBSCRIBERS_CHAT_IDS=172157767,-4035224116
     volumes:
       - '/mnt/data/curiel_bot/:/var/lib/curiel_bot/data'
