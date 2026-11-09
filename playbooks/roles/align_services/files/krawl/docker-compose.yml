@@ -1,7 +1,7 @@
 ---
 services:
   krawl:
-    image: ghcr.io/blessedrebus/krawl:2.1.0
+    image: ghcr.io/blessedrebus/krawl:3.0.0
     container_name: krawl
     restart: unless-stopped
 
