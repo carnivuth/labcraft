@@ -1,7 +1,7 @@
 services:
   curiel_bot:
     container_name: curiel_bot
-    image: carnivuth/curiel_bot:2.1.0
+    image: carnivuth/curiel_bot:2.1.1
     restart: unless-stopped
     env_file: .env
     environment:
