@@ -19,6 +19,7 @@
     chain: INPUT
     source: "{{ item }}"
     jump: DROP
+    ip_version: "{{ 'ipv6' if item is ansible.utils.ipv6 else 'ipv4' }}"
   register: result
   loop: "{{ krawl_classified_ips }}"
 
