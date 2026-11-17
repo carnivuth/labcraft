@@ -39,7 +39,7 @@
   become: true
   ansible.builtin.cron:
     name: "raid scrub"
-    minute: "o"
+    minute: "0"
     hour: "02"
     day: 1
     job: cd /usr/local/labcraft && make playbooks/site.yml opts=--tags=storage > /dev/null 2>&1
