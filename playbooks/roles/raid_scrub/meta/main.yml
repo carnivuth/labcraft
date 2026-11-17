@@ -1,0 +1,8 @@
+galaxy_info:
+  author: carnivuth
+  description: run raid scrubs
+  company:
+  license: MIT
+  min_ansible_version: 2.2
+  galaxy_tags: []
+dependencies: []

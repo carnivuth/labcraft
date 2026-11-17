@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for playbooks/roles/raid_scrub/
+- name: Run raid scrub
+  become: true
+  changed_when: true
+  ansible.builtin.command:
+    cmd: echo check > /sys/block/{{ item }}/md/sync_action
+  loop: "{{ ansible_facts.devices | dict2items | selectattr('key', 'contains', 'md') | map(attribute='key') | list }}"
+
+- name: Notify about blocked ips via telegram
+  community.general.telegram:
+    token: "{{ vault_telegram_token }}"
+    api_args:
+      chat_id: "{{ vault_telegram_chat_id }}"
+      parse_mode: "markdown"
+      text: |
+        *Started raid scrub of  {{ item }} in {{ inventory_hostname }}*
+      disable_web_page_preview: true
+  loop: "{{ ansible_facts.devices | dict2items | selectattr('key', 'contains', 'md') | map(attribute='key') | list }}"
