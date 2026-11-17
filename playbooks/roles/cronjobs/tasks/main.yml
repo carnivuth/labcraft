@@ -34,3 +34,12 @@
     minute: "10"
     hour: "17"
     job: cd /usr/local/labcraft && make playbooks/site.yml opts=--tags=security > /dev/null 2>&1
+
+- name: Setup raid scrub
+  become: true
+  ansible.builtin.cron:
+    name: "raid scrub"
+    minute: "o"
+    hour: "02"
+    day: 1
+    job: cd /usr/local/labcraft && make playbooks/site.yml opts=--tags=storage > /dev/null 2>&1
