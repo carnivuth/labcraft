@@ -52,3 +52,7 @@
       tags:
         - cd
         - security
+
+    - role: raid_scrub
+      tags:
+        - storage
