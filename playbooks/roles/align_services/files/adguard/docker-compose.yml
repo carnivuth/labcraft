@@ -3,7 +3,7 @@ services:
   adguard:
     restart: unless-stopped
     container_name: adguard
-    image: adguard/adguardhome:v0.107.65
+    image: adguard/adguardhome:v0.107.80
     networks:
       - services
       - adguard
