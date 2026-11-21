@@ -3,7 +3,7 @@ services:
   authelia:
     container_name: authelia
     restart: unless-stopped
-    image: authelia/authelia:4.39.15
+    image: authelia/authelia:4.39.28
     networks:
       - services
     volumes:
