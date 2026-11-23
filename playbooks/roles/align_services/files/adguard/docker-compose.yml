@@ -34,7 +34,7 @@ services:
   adguard-exporter:
     container_name: adguard-exporter
     restart: unless-stopped
-    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.1
+    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.3
 
     environment:
       - "ADGUARD_SERVERS=http://adguard"
