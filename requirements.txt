@@ -34,7 +34,7 @@ prettytable==3.18.0
 propcache==0.5.2
 pycparser==3.0
 pyTelegramBotAPI==4.34.0
-python-dotenv==1.2.2
+python-dotenv==1.2.4
 pytokens==0.4.1
 PyYAML==6.0.3
 referencing==0.37.0
