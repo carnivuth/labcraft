@@ -1,9 +1,3 @@
-# [ban_krawl_ips](playbooks/roles/ban_krawl_ips/README.md)
-
-- author: carnivuth
-
-Ban ips detected by krawl
-
 # [align_permissions](playbooks/roles/align_permissions/README.md)
 
 - author: carnivuth
@@ -16,23 +10,23 @@ Align folder permissions
 
 align cloudflare dns configuration with local network
 
-# [cronjobs](playbooks/roles/cronjobs/README.md)
+# [ban_krawl_ips](playbooks/roles/ban_krawl_ips/README.md)
 
 - author: carnivuth
 
-Install cronjobs
-
-# [provision_duplicati](playbooks/roles/provision_duplicati/README.md)
-
-- author: your name
-
-your role description
+Ban ips detected by krawl
 
 # [align_services](playbooks/roles/align_services/README.md)
 
 - author: carnivuth
 
 Deploy docker services
+
+# [cronjobs](playbooks/roles/cronjobs/README.md)
+
+- author: carnivuth
+
+Install cronjobs
 
 # [enforce_policies](playbooks/roles/enforce_policies/README.md)
 
@@ -45,6 +39,12 @@ Run common configurations
 - author: Carnivuth
 
 Provision grafana with my custom monitoring
+
+# [raid_scrub](playbooks/roles/raid_scrub/README.md)
+
+- author: carnivuth
+
+run raid scrubs
 
 # [update](playbooks/roles/update/README.md)
 
