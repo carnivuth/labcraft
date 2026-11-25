@@ -1,6 +1,6 @@
 services:
   duplicati:
-    image: duplicati/duplicati:2.4.0.0
+    image: duplicati/duplicati:2.4.1.1
     container_name: duplicati
     volumes:
       - /mnt/data/duplicati/data:/data
