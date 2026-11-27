@@ -25,7 +25,7 @@ jmespath==1.1.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 MarkupSafe==3.0.3
-multidict==6.7.1
+multidict==6.9.1
 mypy_extensions==1.1.0
 packaging==26.2
 pathspec==1.1.1
