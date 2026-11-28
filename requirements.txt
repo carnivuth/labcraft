@@ -29,7 +29,7 @@ multidict==6.7.1
 mypy_extensions==1.1.0
 packaging==26.2
 pathspec==1.1.1
-platformdirs==4.10.0
+platformdirs==4.14.9
 prettytable==3.18.0
 propcache==0.5.2
 pycparser==3.0
