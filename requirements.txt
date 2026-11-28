@@ -33,7 +33,7 @@ platformdirs==4.10.0
 prettytable==3.18.0
 propcache==0.5.2
 pycparser==3.0
-pyTelegramBotAPI==4.34.0
+pyTelegramBotAPI==4.37.1
 python-dotenv==1.2.2
 pytokens==0.4.1
 PyYAML==6.0.3
